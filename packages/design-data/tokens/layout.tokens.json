@@ -3095,7 +3095,8 @@
     "name": {
       "property": "padding",
       "structure": "container",
-      "size": "s"
+      "size": "s",
+      "legacyKey": "container-padding-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "79fca32b-214b-4760-9d3a-28f4d1bdf86f",
