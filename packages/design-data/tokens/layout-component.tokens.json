@@ -2206,6 +2206,7 @@
       "structure": "base",
       "property": "size",
       "size": "m",
+      "legacyKey": "base-visual-size-medium",
       "anatomy": "visual",
       "scale": "mobile"
     },
