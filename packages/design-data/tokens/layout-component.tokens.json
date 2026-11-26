@@ -2297,6 +2297,7 @@
     "name": {
       "property": "size",
       "size": "s",
+      "legacyKey": "control-size-small",
       "anatomy": "control",
       "scale": "desktop"
     },
@@ -2314,6 +2315,7 @@
     "name": {
       "property": "size",
       "size": "s",
+      "legacyKey": "control-size-small",
       "anatomy": "control",
       "scale": "mobile"
     },
@@ -2367,6 +2369,7 @@
     "name": {
       "property": "size",
       "size": "l",
+      "legacyKey": "control-size-large",
       "anatomy": "control",
       "scale": "desktop"
     },
@@ -2384,6 +2387,7 @@
     "name": {
       "property": "size",
       "size": "l",
+      "legacyKey": "control-size-large",
       "anatomy": "control",
       "scale": "mobile"
     },
@@ -2401,6 +2405,7 @@
     "name": {
       "property": "size",
       "size": "xl",
+      "legacyKey": "control-size-extra-large",
       "anatomy": "control",
       "scale": "desktop"
     },
@@ -2418,6 +2423,7 @@
     "name": {
       "property": "size",
       "size": "xl",
+      "legacyKey": "control-size-extra-large",
       "anatomy": "control",
       "scale": "mobile"
     },
@@ -2435,6 +2441,7 @@
     "name": {
       "property": "width",
       "size": "s",
+      "legacyKey": "field-width-small",
       "anatomy": "field",
       "scale": "desktop"
     },
@@ -2452,6 +2459,7 @@
     "name": {
       "property": "width",
       "size": "s",
+      "legacyKey": "field-width-small",
       "anatomy": "field",
       "scale": "mobile"
     },
@@ -2559,6 +2567,7 @@
     "name": {
       "property": "width",
       "size": "xl",
+      "legacyKey": "field-width-extra-large",
       "anatomy": "field",
       "scale": "mobile"
     },
@@ -3161,6 +3170,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
+      "legacyKey": "visual-size-50",
       "anatomy": "visual",
       "scaleIndex": 50,
       "scale": "desktop"
@@ -3178,6 +3188,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "name": {
       "property": "size",
+      "legacyKey": "visual-size-50",
       "anatomy": "visual",
       "scaleIndex": 50,
       "scale": "mobile"
@@ -3230,6 +3241,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
+      "legacyKey": "visual-size-100",
       "anatomy": "visual",
       "scaleIndex": 100,
       "scale": "desktop"
@@ -3247,6 +3259,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "name": {
       "property": "size",
+      "legacyKey": "visual-size-100",
       "anatomy": "visual",
       "scaleIndex": 100,
       "scale": "mobile"
@@ -3472,6 +3485,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
+      "legacyKey": "visual-size-800",
       "anatomy": "visual",
       "scaleIndex": 800,
       "scale": "desktop"
@@ -3489,6 +3503,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "name": {
       "property": "size",
+      "legacyKey": "visual-size-800",
       "anatomy": "visual",
       "scaleIndex": 800,
       "scale": "mobile"
@@ -3605,6 +3620,7 @@
     "name": {
       "property": "thickness",
       "size": "s",
+      "legacyKey": "bar-thickness-small",
       "anatomy": "bar",
       "scale": "desktop"
     },
@@ -3622,6 +3638,7 @@
     "name": {
       "property": "thickness",
       "size": "s",
+      "legacyKey": "bar-thickness-small",
       "anatomy": "bar",
       "scale": "mobile"
     },
@@ -3675,6 +3692,7 @@
     "name": {
       "property": "thickness",
       "size": "l",
+      "legacyKey": "bar-thickness-large",
       "anatomy": "bar",
       "scale": "desktop"
     },
@@ -3692,6 +3710,7 @@
     "name": {
       "property": "thickness",
       "size": "l",
+      "legacyKey": "bar-thickness-large",
       "anatomy": "bar",
       "scale": "mobile"
     },
@@ -3709,6 +3728,7 @@
     "name": {
       "property": "thickness",
       "size": "xl",
+      "legacyKey": "bar-thickness-extra-large",
       "anatomy": "bar",
       "scale": "desktop"
     },
@@ -3726,6 +3746,7 @@
     "name": {
       "property": "thickness",
       "size": "xl",
+      "legacyKey": "bar-thickness-extra-large",
       "anatomy": "bar",
       "scale": "mobile"
     },

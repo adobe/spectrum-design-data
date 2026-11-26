@@ -369,7 +369,8 @@
     "name": {
       "property": "gap",
       "size": "xxl",
-      "structure": "base"
+      "structure": "base",
+      "legacyKey": "base-gap-2x-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
@@ -431,7 +432,8 @@
     "name": {
       "property": "gap",
       "structure": "base",
-      "size": "l"
+      "size": "l",
+      "legacyKey": "base-gap-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "6px",
@@ -456,7 +458,8 @@
     "name": {
       "property": "gap",
       "structure": "base",
-      "size": "s"
+      "size": "s",
+      "legacyKey": "base-gap-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "4px",
@@ -512,7 +515,8 @@
       "property": "padding-horizontal",
       "scale": "mobile",
       "size": "xl",
-      "structure": "base"
+      "structure": "base",
+      "legacyKey": "base-padding-horizontal-extra-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
@@ -525,7 +529,8 @@
     "name": {
       "property": "padding-horizontal",
       "size": "xs",
-      "structure": "base"
+      "structure": "base",
+      "legacyKey": "base-padding-horizontal-extra-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
@@ -553,7 +558,8 @@
       "property": "padding-horizontal",
       "scale": "mobile",
       "structure": "base",
-      "size": "l"
+      "size": "l",
+      "legacyKey": "base-padding-horizontal-large"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "12px",
@@ -7857,6 +7863,7 @@
       "structure": "base",
       "property": "height",
       "size": "l",
+      "legacyKey": "base-height-large",
       "scale": "desktop"
     },
     "value": "40px",
@@ -7874,6 +7881,7 @@
       "structure": "base",
       "property": "height",
       "size": "l",
+      "legacyKey": "base-height-large",
       "scale": "mobile"
     },
     "value": "50px",
@@ -7927,6 +7935,7 @@
       "structure": "base",
       "property": "height",
       "size": "xxl",
+      "legacyKey": "base-height-2x-large",
       "scale": "desktop"
     },
     "value": "56px",
@@ -7944,6 +7953,7 @@
       "structure": "base",
       "property": "height",
       "size": "xxl",
+      "legacyKey": "base-height-2x-large",
       "scale": "mobile"
     },
     "value": "70px",
@@ -7961,6 +7971,7 @@
       "structure": "base",
       "property": "height",
       "size": "xxxl",
+      "legacyKey": "base-height-3x-large",
       "scale": "desktop"
     },
     "value": "64px",
@@ -7978,6 +7989,7 @@
       "structure": "base",
       "property": "height",
       "size": "xxxl",
+      "legacyKey": "base-height-3x-large",
       "scale": "mobile"
     },
     "value": "80px",
@@ -8375,7 +8387,8 @@
     "name": {
       "structure": "container",
       "property": "maximum-width",
-      "size": "xl"
+      "size": "xl",
+      "legacyKey": "container-maximum-width-extra-large"
     },
     "value": "416px",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
@@ -8404,7 +8417,8 @@
     "name": {
       "structure": "container",
       "property": "maximum-width",
-      "size": "xxxl"
+      "size": "xxxl",
+      "legacyKey": "container-maximum-width-3x-large"
     },
     "value": "608px",
     "rationale": "Pin legacyKey / attach NOTES description from refine-from-sheets",
@@ -8708,6 +8722,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "name": {
       "property": "size",
+      "legacyKey": "size-300",
       "scaleIndex": 300
     },
     "value": "16px",
