@@ -417,6 +417,32 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.8.0",
+      "version": "3.0.1",
+      "bump": "patch",
+      "date": "2026-11-26",
+      "commit": "1818e9c1035fd38f361a0698fb3453477b702552",
+      "commits": [
+        {
+          "commit": "a5c38722cd696272eeff263af75efa8c0b0aa1d8",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2190,"title":"chore(design-data): remove redundant token legacyKey pins","url":"https://github.com/adobe/spectrum-design-data/pull/2190"},
+          "entries": [
+            {"id":"a5c38722-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Height (minimum)"],"record":"f4fc40ed-a3f5-4fa9-848a-b203c7b49b6c","name":"minimum-height[anatomy=field,scale=desktop,size=l]","fields":[{"path":"name.legacyKey","before":"field-minimum-height-large"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"a5c38722-1","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Height (minimum)"],"record":"6c798793-070a-442d-804f-198c583fcab3","name":"minimum-height[anatomy=field,scale=desktop,size=m]","fields":[{"path":"name.legacyKey","before":"field-minimum-height-medium"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"a5c38722-2","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Height (minimum)"],"record":"a4f7e555-c980-4164-ae1f-6a19d680b24a","name":"minimum-height[anatomy=field,scale=desktop,size=xl]","fields":[{"path":"name.legacyKey","before":"field-minimum-height-extra-large"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"a5c38722-3","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Height (minimum)"],"record":"c869329b-29d9-5b91-8999-abbda5059bb8","name":"minimum-height[anatomy=field,scale=mobile,size=l]","fields":[{"path":"name.legacyKey","before":"field-minimum-height-large"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"a5c38722-4","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Height (minimum)"],"record":"c9cb4038-b9ae-58a6-b6b8-f64fe4b57343","name":"minimum-height[anatomy=field,scale=mobile,size=m]","fields":[{"path":"name.legacyKey","before":"field-minimum-height-medium"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"a5c38722-5","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Height (minimum)"],"record":"0511e5cb-9bf3-5365-a460-316a1b7f4ff2","name":"minimum-height[anatomy=field,scale=mobile,size=xl]","fields":[{"path":"name.legacyKey","before":"field-minimum-height-extra-large"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"a5c38722-6","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Width (minimum)"],"record":"b7ec8b9b-92bd-4770-becf-31948d8b00b5","name":"minimum-width[anatomy=field,scale=desktop,size=l]","fields":[{"path":"name.legacyKey","before":"field-minimum-width-large"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"a5c38722-7","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Width (minimum)"],"record":"3d423e2d-8087-59cd-aa1b-25b42b9b5d82","name":"minimum-width[anatomy=field,scale=mobile,size=l]","fields":[{"path":"name.legacyKey","before":"field-minimum-width-large"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"a5c38722-8","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Width (default)"],"record":"fc046594-4492-4613-9202-5331be3f0c10","name":"width[anatomy=field,scale=desktop,size=xxl]","fields":[{"path":"name.legacyKey","before":"field-width-2x-large"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"a5c38722-9","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Width (default)"],"record":"a0f9bdf9-571b-54a9-b43a-09328c82eadd","name":"width[anatomy=field,scale=mobile,size=xxl]","fields":[{"path":"name.legacyKey","before":"field-width-2x-large"}],"rationale":"Mobile value hand-set to the previous S2 mobile value instead of desktop x 1.25 (Matt Davey, size tokens thread)."}
+          ]
+        }
+      ]
     }
   ]
 }

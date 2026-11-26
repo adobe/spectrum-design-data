@@ -1,5 +1,123 @@
 # @adobe/design-data-wasm
 
+## 0.40.1
+
+### Patch Changes
+
+- [#2181](https://github.com/adobe/spectrum-design-data/pull/2181) [`33a62fc`](https://github.com/adobe/spectrum-design-data/commit/33a62fc9e19a840655b6a07320a399645c4dfa48) Thanks [@GarthDB](https://github.com/GarthDB)! - Remove 17 misfiled `Step text` and `Step visual` records from the action-bar
+  relationships. Each `$ref` already has a record in `steplist.json` with the
+  proper `label`, `visual` or `track` part. The records had no legacy key and
+  nothing referenced them, so the legacy `@adobe/spectrum-tokens` output is
+  byte-identical. Action-bar now reads L2 (was L1). The embedded relationships
+  change, hence the wasm patch.
+
+- [#2191](https://github.com/adobe/spectrum-design-data/pull/2191) [`36b0fcb`](https://github.com/adobe/spectrum-design-data/commit/36b0fcb5be3f5a56fc6823d87b5f2f801f71a968) Thanks [@GarthDB](https://github.com/GarthDB)! - Collection items can carry accessibility state, key steps can address an item, and a group with no
+  `traversal` ignores `navigate-*`.
+  - An inline collection item takes `semantics` (same shape as a contract's). A vector reads them with
+    the new `expect.itemAria` (per item).
+  - An `input` step takes `item`: the key resolves through the role of that item's part and the
+    intents run on that item.
+  - A collection with no `traversal` declares no navigation; `navigate-*` on its group does nothing.
+  - Accordion headers expose `aria-expanded` from the `expanded` facet; three vectors pin it and the
+    no-navigation rule.
+
+- [#2184](https://github.com/adobe/spectrum-design-data/pull/2184) [`a302bb1`](https://github.com/adobe/spectrum-design-data/commit/a302bb18a4c62e28bcf2225cd1982565fa3b2e7c) Thanks [@GarthDB](https://github.com/GarthDB)! - Fix the focus states of text-field, number-field, text-area, search-field and picker.
+  Keyboard-focus and focus + hover borders now match Figma.
+  - The focus records pinned the composite states `focus-+-hover` and `focus-+-not-hover`,
+    which no render ever activates. They now pin `["focus", "hover"]` and `["focus"]`
+    (AND-state pins), and the components declare `focus` instead of the composite states.
+  - Keyboard focus draws the gray-800 border (was gray-300); keyboard focus + hover draws
+    gray-900 (was gray-400); error + keyboard focus + hover draws negative/focus-hover
+    (was negative/hover). Default, hover, error, error + hover and disabled are unchanged.
+  - The unpinned `key-focus` border and value records that duplicated the focus records are
+    removed, so keyboard-focus renders no longer report `ambiguous: 2 candidates remain`.
+  - The legacy `@adobe/spectrum-tokens` output is unchanged.
+
+- [#2193](https://github.com/adobe/spectrum-design-data/pull/2193) [`19c3c5f`](https://github.com/adobe/spectrum-design-data/commit/19c3c5fc821ebc02a3d0da2ebf576cb0c0351b4d) Thanks [@GarthDB](https://github.com/GarthDB)! - A key suite can run against the item parts of a collection.
+  - A suite in `conformance/behavior/bindings/<platform>/<role>.item.json` sets `"item": true`. The
+    runner then selects every component whose collection item contract has a part with that role,
+    not the group's own part, so Accordion (a group with no role) runs the `button` key vectors.
+  - The Accordion key vectors (Enter, Space, an arrow) moved from a Rust-only test into
+    `bindings/web/button.item.json`.
+
+- [#2180](https://github.com/adobe/spectrum-design-data/pull/2180) [`7f72fe6`](https://github.com/adobe/spectrum-design-data/commit/7f72fe60e6d08a50cdc0f1c20091b09161fb7391) Thanks [@GarthDB](https://github.com/GarthDB)! - Migrate accordion relationship records and recipe to structured identity. Accordion moves from
+  status level 1 to level 3. The legacy `@adobe/spectrum-tokens` output is unchanged.
+  - Fused names decompose: `component-height-75..300` becomes `height` with a `size` pin,
+    `font-size-100..400` becomes `font-size` with a `size` pin, `line-height-100` becomes
+    `line-height`, `accordion-focus-indicator-gap` becomes `gap`, and `content-color` becomes `color`.
+  - 30 header and content `space-between` records get a `between`, and the three header `Paddings`
+    records use `padding`, so each context has its own identity. The `Disabled` title color moves to
+    part `accordion-item`; the recipe's title, chevron and content colors read it when `isDisabled`.
+  - The recipe binds by part and identity instead of by `context` (context selectors 17 to 0).
+  - Renders are unchanged except one case: an open item with `content` text in the `down` state now
+    draws the content in the neutral text color; before, an accidental solver pick drew it in
+    disabled grey.
+  - The accordion spec sheet regroups size rows (the size moves into a row condition); every row
+    still appears once. The recipe snapshots now set `content` text for accordion.
+
+- [#2182](https://github.com/adobe/spectrum-design-data/pull/2182) [`142e355`](https://github.com/adobe/spectrum-design-data/commit/142e3551826885603e908c9a0c0fb6c5ae6ee9fd) Thanks [@GarthDB](https://github.com/GarthDB)! - Migrate list-view and table relationship records to structured identity. Both components move from
+  status level 1 to level 2 (neither has a recipe, so level 3 does not apply). The legacy
+  `@adobe/spectrum-tokens` output and every rendered SVG are unchanged.
+  - 149 live records get a `scope.part` from the components' anatomy, and fused names decompose:
+    `component-edge-to-text-100`, `component-top-to-text-100` and similar become `space-between`
+    with a `between`; `font-size-100` becomes `font-size` (with a `size` pin in table);
+    `row-height` becomes `height` on its part.
+  - Identity collisions (6 in list-view, 8 in table) are cleared by giving each colliding identity
+    one context and, in table, by a `density` pin on three checkbox spacing records. No uuid,
+    `legacyKey`, `$ref` or `contextRole` change; deprecated records are untouched.
+  - The list-view and table spec sheets regroup, and three duplicate `base-padding-vertical-medium`
+    rows (same token and value) collapse; the other 90 sheets are unchanged.
+
+- [#2183](https://github.com/adobe/spectrum-design-data/pull/2183) [`07569f2`](https://github.com/adobe/spectrum-design-data/commit/07569f2b0925208188b1b835236763abbec42a61) Thanks [@GarthDB](https://github.com/GarthDB)! - Migrate checkbox, switch and radio-button relationship records and recipes toward structured
+  identity. The legacy `@adobe/spectrum-tokens` output and every rendered SVG are unchanged.
+  - Checkbox, switch and radio-button move from status level 1 to level 3. The two switch
+    `line-height-100` records get `contextRole` `["label"]` and `context` `Label` (the `size` role was
+    an authoring slip). The 7 radio-button `background-color` records gain `scope.part` `control`;
+    the other 29 `background-color` and `border-color` records are left as they are.
+  - Fused names decompose: `component-height-*` becomes `minimum-height`, `font-size-*` and
+    `line-height-font-size-*` become `font-size` and `line-height`, and
+    `component-top|bottom-to-text-*` becomes `space-between` between `top-edge` or `bottom-edge` and
+    `label`, each with a `size` pin.
+  - Radio-button records get a `scope.part` and `between` from the anatomy. The recipes bind by
+    property, part and `between` instead of `context` (radio-button context selectors 24 to 0).
+  - 25 `legacyKey` records get the `context` of their alias record, which clears the identity
+    collisions. No uuid, `legacyKey` or `$ref` change; deprecated records are untouched.
+  - The switch, checkbox and radio-button spec sheets lose four duplicate bottom-edge rows each, and
+    the legacy-pinned switch rows split by scale.
+
+- [#2192](https://github.com/adobe/spectrum-design-data/pull/2192) [`f9f6c7b`](https://github.com/adobe/spectrum-design-data/commit/f9f6c7b7fef02225ed6df7d5cb45237f6e6d6622) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the `value`, `minValue`, `maxValue` and `step` options to the number-field component.
+  - `value` is a number and `step` is a number that defaults to 1. `minValue` and `maxValue`
+    are numbers with no default, because a number field has no built-in bounds (slider defaults
+    them to 0 and 100).
+  - The options match the slider declarations, and the number-field recipe lists the four in
+    `notVisual`, so renders are unchanged. The spec sheet options table gains four rows.
+  - `isReadOnly` is not added here; it follows later for the text-entry components and slider.
+  - The legacy `@adobe/spectrum-tokens` output is unchanged.
+
+- [#2188](https://github.com/adobe/spectrum-design-data/pull/2188) [`849bd9a`](https://github.com/adobe/spectrum-design-data/commit/849bd9a1845e7257e4db1dd89e46e4e5891378bd) Thanks [@GarthDB](https://github.com/GarthDB)! - Relationships can carry an ordinal in their identity.
+  - **relationship-format.md, relationship.schema.json**: new `scope.ordinal` (integer, 1 or
+    more). Records that differ only by it are distinct identities, so the stops of one gradient
+    need no digit in the property name. A record without it is unchanged.
+  - **Rule SPEC-125** (`relationship-ordinal-valid`, error): the ordinal is a positive integer.
+  - **component-visual.schema.json**: a structured selector may name `ordinal`.
+  - **Engine**: the identity line, the status collision check, the changelog identity class
+    (an ordinal change is an API change) and the record diff label read the ordinal.
+  - No data uses the field yet; the avatar gradient stops migrate in a follow-up.
+
+- [#2190](https://github.com/adobe/spectrum-design-data/pull/2190) [`a5c3872`](https://github.com/adobe/spectrum-design-data/commit/a5c38722cd696272eeff263af75efa8c0b0aa1d8) Thanks [@GarthDB](https://github.com/GarthDB)! - Remove 194 redundant `name.legacyKey` pins from live tokens (color-aliases 7,
+  layout 133, layout-component 54). Each name is rebuilt from the name object,
+  so the legacy `@adobe/spectrum-tokens` output is byte-identical and the
+  spec-sheet, render and site output are unchanged. Deprecated tokens and
+  relationship record pins are untouched. The embedded tokens change, hence the
+  wasm patch.
+
+  For MCP users: `design-data-query` now returns the cascade-derived `name` for
+  these tokens (for example `property=key-color emphasis=emphasized
+structure=drop-shadow colorScheme=light` instead of
+  `drop-shadow-emphasized-key-color`), and `design-data-token-usage` no longer
+  finds up to 129 of them by their legacy name. Look them up by uuid or the
+  cascade label.
+
 ## 0.40.0
 
 ### Minor Changes

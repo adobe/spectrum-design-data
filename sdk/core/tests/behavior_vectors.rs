@@ -1581,3 +1581,272 @@ fn item_aria_on_a_vector_with_no_items_fails() {
         r[0].status
     );
 }
+
+fn range_fixture() -> (Value, Vec<Value>) {
+    let f: Value = serde_json::from_str(
+        &std::fs::read_to_string(
+            PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/behavior-range.json"),
+        )
+        .unwrap(),
+    )
+    .unwrap();
+    (
+        f["contract"].clone(),
+        f["vectors"].as_array().unwrap().clone(),
+    )
+}
+
+/// The results of `vectors` on a range contract, with the web key bindings.
+fn run_range(
+    contract: &Value,
+    vectors: &[Value],
+    patterns: &[design_data_core::graph::BehaviorPatternRecord],
+) -> Vec<design_data_core::behavior::VectorResult> {
+    run_vectors(
+        contract,
+        patterns,
+        vectors,
+        RegistryData::embedded(),
+        &all_capabilities(),
+        Some(&web_bindings()),
+    )
+}
+
+fn range_patterns() -> Vec<design_data_core::graph::BehaviorPatternRecord> {
+    TokenGraph::load_spec_behavior_patterns(&dirs().0.join("patterns")).unwrap()
+}
+
+fn range_failures(
+    contract: &Value,
+    vectors: &[Value],
+    patterns: &[design_data_core::graph::BehaviorPatternRecord],
+) -> usize {
+    run_range(contract, vectors, patterns)
+        .iter()
+        .filter(|r| matches!(r.status, Status::Fail(_)))
+        .count()
+}
+
+#[test]
+fn the_range_vectors_pass_with_the_web_slider_bindings() {
+    let (contract, vectors) = range_fixture();
+    let results = run_range(&contract, &vectors, &range_patterns());
+    assert_eq!(results.len(), vectors.len());
+    let bad: Vec<_> = results
+        .iter()
+        .filter(|r| r.status != Status::Pass)
+        .collect();
+    assert!(bad.is_empty(), "{bad:?}");
+}
+
+/// Each break of the `range` block, of the range pattern or of the slider bindings must fail a
+/// vector, or the vectors prove nothing. A pointer starting `range:` edits the pattern.
+#[test]
+fn a_broken_range_rule_fails_a_vector() {
+    let (contract, vectors) = range_fixture();
+    let patterns = range_patterns();
+    let off = json!({ "facet": "disabled", "is": "true" });
+    let edits = [
+        (
+            "/range/mirror",
+            json!({ "facet": "arrowOrder", "is": "natural" }),
+        ),
+        ("/range/page", json!({ "fraction": 0.5 })),
+        ("/range/page", json!({ "size": 7 })),
+        ("/range/step", json!("ghost")),
+        ("/range/min", json!("ghost")),
+        ("/range/max", json!("ghost")),
+        ("/range/value", json!("ghost")),
+        (
+            "range:/transitions/0/do",
+            json!({ "set": { "pressed": true } }),
+        ),
+        ("range:/transitions/1/do/adjust/by", json!(-1)),
+        ("range:/transitions/2/do/adjust/by", json!(1)),
+        ("range:/transitions/3/do/adjust/unit", json!("step")),
+        ("range:/transitions/4/do/adjust/unit", json!("step")),
+        ("range:/transitions/5/do/adjust/to", json!("max")),
+        ("range:/transitions/6/do/adjust/to", json!("min")),
+        ("range:/transitions/7/do/adjust/to", json!("min")),
+        ("range:/transitions/1/guard", off.clone()),
+        ("range:/transitions/7/guard", off),
+        ("range:/transitions/1/emit", json!("changed")),
+    ];
+    assert_eq!(range_failures(&contract, &vectors, &patterns), 0);
+    for (pointer, value) in edits {
+        let (mut broken, mut broken_patterns) = (contract.clone(), patterns.clone());
+        match pointer.strip_prefix("range:") {
+            Some(p) => {
+                let r = broken_patterns
+                    .iter_mut()
+                    .find(|p| p.pattern == "range")
+                    .unwrap();
+                *r.raw.pointer_mut(p).unwrap() = value;
+            }
+            None => *broken.pointer_mut(pointer).unwrap() = value,
+        }
+        assert!(
+            range_failures(&broken, &vectors, &broken_patterns) > 0,
+            "breaking {pointer} failed no vector"
+        );
+    }
+    let mut bindings = web_bindings();
+    bindings["roles"]["slider"]["keyboard"][0]["down"] = json!("decrement");
+    let results = run_vectors(
+        &contract,
+        &patterns,
+        &vectors,
+        RegistryData::embedded(),
+        &all_capabilities(),
+        Some(&bindings),
+    );
+    assert!(results.iter().any(|r| matches!(r.status, Status::Fail(_))));
+}
+
+#[test]
+fn a_fixed_page_size_and_a_bad_range_are_pinned() {
+    let (mut contract, _) = range_fixture();
+    let patterns = range_patterns();
+    let key = |k: &str| json!({ "input": { "key": k, "phase": "down" } });
+    let vector = |start: Value, steps: Vec<Value>, expect: Value| json!([{ "name": "v", "start": start, "steps": steps, "expect": expect }]);
+    contract["range"]["page"] = json!({ "size": 7 });
+    let paged = vector(
+        json!({ "value": 0 }),
+        vec![key("PageUp")],
+        json!([{ "after": 1, "emit": [{ "change": { "value": 7 } }] }]),
+    );
+    assert_eq!(
+        range_failures(&contract, paged.as_array().unwrap(), &patterns),
+        0
+    );
+
+    let (contract, _) = range_fixture();
+    let reason = |contract: &Value, v: &Value| -> String {
+        let r = run_range(contract, v.as_array().unwrap(), &patterns);
+        match &r[0].status {
+            Status::Fail(f) => f.join("; "),
+            other => format!("not a failure: {other:?}"),
+        }
+    };
+    let expect_none = json!([{ "after": 1, "emit": [] }]);
+    let cases = [
+        (
+            vector(
+                json!({ "value": 0 }),
+                vec![json!({ "intent": "move", "position": 1.5 })],
+                expect_none.clone(),
+            ),
+            "needs a step `position` from 0 to 1",
+        ),
+        (
+            vector(
+                json!({ "value": 0 }),
+                vec![json!({ "intent": "move" })],
+                expect_none.clone(),
+            ),
+            "needs a step `position` from 0 to 1",
+        ),
+        (
+            vector(
+                json!({ "value": 0, "step": 0 }),
+                vec![key("ArrowRight")],
+                expect_none.clone(),
+            ),
+            "the step must be above 0",
+        ),
+        (
+            vector(
+                json!({ "value": 0, "minValue": 9, "maxValue": 3 }),
+                vec![key("ArrowRight")],
+                expect_none.clone(),
+            ),
+            "min at most max",
+        ),
+        (
+            vector(
+                json!({ "value": "50" }),
+                vec![key("ArrowRight")],
+                expect_none.clone(),
+            ),
+            "option 'value' is \"50\", which is not a number",
+        ),
+        (
+            vector(
+                json!({ "value": 0, "step": "5" }),
+                vec![key("ArrowRight")],
+                expect_none.clone(),
+            ),
+            "option 'step' is \"5\"",
+        ),
+        (
+            vector(
+                json!({ "value": 0, "minValue": true }),
+                vec![key("ArrowRight")],
+                expect_none.clone(),
+            ),
+            "option 'minValue' is true",
+        ),
+        (
+            // A position does not carry over to a later step that has none.
+            vector(
+                json!({ "value": 0 }),
+                vec![
+                    json!({ "intent": "move", "position": 0.5 }),
+                    json!({ "intent": "move" }),
+                ],
+                json!([{ "after": 1, "emit": [{ "change": { "value": 50 } }] }, { "after": 2, "emit": [] }]),
+            ),
+            "needs a step `position` from 0 to 1",
+        ),
+    ];
+    for (v, why) in cases {
+        let got = reason(&contract, &v);
+        assert!(got.contains(why), "want {why}: {got}");
+    }
+    let mut no_range = contract.clone();
+    no_range.as_object_mut().unwrap().remove("range");
+    let any = vector(
+        json!({ "value": 0 }),
+        vec![key("ArrowRight")],
+        expect_none.clone(),
+    );
+    assert!(reason(&no_range, &any).contains("has no `range`"));
+
+    // Defaults: only `value` and `min` are named, so max (100), step (1), the page (a tenth of
+    // the span) and an unset value (reads the minimum) all come from the runner.
+    let mut bare = contract.clone();
+    bare["range"] = json!({ "value": "value", "min": "minValue" });
+    let defaults = vector(
+        json!({ "minValue": 10 }),
+        vec![key("PageUp"), key("End"), key("Home"), key("ArrowRight")],
+        json!([
+            { "after": 1, "emit": [{ "change": { "value": 19 } }] },
+            { "after": 2, "emit": [{ "change": { "value": 100 } }] },
+            { "after": 3, "emit": [{ "change": { "value": 10 } }] },
+            { "after": 4, "emit": [{ "change": { "value": 11 } }] },
+        ]),
+    );
+    assert_eq!(
+        range_failures(&bare, defaults.as_array().unwrap(), &patterns),
+        0
+    );
+    let unset = vector(
+        json!({ "minValue": 10 }),
+        vec![key("ArrowRight")],
+        json!([{ "after": 1, "emit": [{ "change": { "value": 11 } }] }]),
+    );
+    assert_eq!(
+        range_failures(&bare, unset.as_array().unwrap(), &patterns),
+        0
+    );
+
+    let mut unlisted = contract.clone();
+    unlisted["state"] = json!(["isDisabled", "value", "minValue", "step", "direction"]);
+    let issues = design_data_core::behavior::check_contract(&unlisted, &patterns, None);
+    assert!(
+        issues
+            .iter()
+            .any(|i| i.contains("`range.max` names 'maxValue'")),
+        "{issues:?}"
+    );
+}

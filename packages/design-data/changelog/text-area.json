@@ -836,6 +836,48 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.8.0",
+      "version": "4.0.0",
+      "bump": "major",
+      "date": "2026-11-26",
+      "commit": "1818e9c1035fd38f361a0698fb3453477b702552",
+      "commits": [
+        {
+          "commit": "a302bb18a4c62e28bcf2225cd1982565fa3b2e7c",
+          "date": "2026-11-25",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2184,"title":"fix(design-data): pin the field focus states to focus and focus + hover","url":"https://github.com/adobe/spectrum-design-data/pull/2184"},
+          "entries": [
+            {"id":"a302bb18-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"state":["focus","hover"]}},"record":"d500aff7-2754-583f-9cc4-3d4099bf0f39","name":"color[state=?]","fields":[{"path":"scope.options.state","before":["focus-+-hover"],"after":["focus","hover"]}]},
+            {"id":"a302bb18-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"state":["focus","hover"]}},"record":"e6a3104f-d0a4-55f0-90bd-9e0c641668d8","name":"color[state=?]","fields":[{"path":"scope.options.state","before":["focus-+-hover"],"after":["focus","hover"]}]},
+            {"id":"a302bb18-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"state":["focus","hover"]}},"record":"08fc9f21-b32b-51b3-9459-d726b544df6e","name":"color[state=?]","fields":[{"path":"scope.options.state","before":["focus-+-hover"],"after":["focus","hover"]}]},
+            {"id":"a302bb18-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"state":["focus"]}},"record":"1bc19ada-a867-53d1-b791-30579b84e033","name":"color[state=?]","fields":[{"path":"scope.options.state","before":["focus-+-not-hover"],"after":["focus"]}]},
+            {"id":"a302bb18-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"state":["focus"]}},"record":"e5d36ffd-0fb4-51c8-8401-1868e01844e0","name":"color[state=?]","fields":[{"path":"scope.options.state","before":["focus-+-not-hover"],"after":["focus"]}]},
+            {"id":"a302bb18-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"state":["focus"]}},"record":"195ce23a-34a1-56da-91b9-482d6457aee9","name":"color[state=?]","fields":[{"path":"scope.options.state","before":["focus-+-not-hover"],"after":["focus"]}]},
+            {"id":"a302bb18-6","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"isError":true,"state":["focus","hover"]}},"record":"b15254bd-48ba-51f5-b1fd-c30704b3a2b8","name":"color[isError=?,state=?]","fields":[{"path":"scope.options.state","before":["focus-+-hover"],"after":["focus","hover"]}]},
+            {"id":"a302bb18-7","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"isError":true,"state":["focus"]}},"record":"55d41384-f0e0-584e-966f-fb52a2794e4e","name":"color[isError=?,state=?]","fields":[{"path":"scope.options.state","before":["focus-+-not-hover"],"after":["focus"]}]},
+            {"id":"a302bb18-8","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Value"],"scope":{"property":"content-color","options":{"state":["focus","hover"]}},"record":"03aa1c16-656c-5a5e-bcfe-180193d0fe3c","name":"content-color[state=?]","fields":[{"path":"scope.options.state","before":["focus-+-hover"],"after":["focus","hover"]}]},
+            {"id":"a302bb18-9","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Value"],"scope":{"property":"content-color","options":{"state":["focus"]}},"record":"0e047e70-6f13-5a31-a4f2-a6d57c501cf9","name":"content-color[state=?]","fields":[{"path":"scope.options.state","before":["focus-+-not-hover"],"after":["focus"]}]},
+            {"id":"a302bb18-10","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"isError":true,"state":["keyboard-focus"]}},"record":"2b9f1be5-efec-5ea5-8786-9ec4dc40ac28","name":"color[isError=?,state=?]","fields":[],"before":"393cb93a-3d0a-4118-a2ee-451fdc871b0f"},
+            {"id":"a302bb18-11","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Value"],"scope":{"property":"content-color","options":null},"record":"3481bf42-7f55-567d-b2bd-53ffc0e78915","name":"content-color","fields":[],"before":"c2c538e0-6f8d-4586-953a-b98ef40c9eca"},
+            {"id":"a302bb18-12","kind":"state","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"text-area/states/focus-+-hover","name":"focus-+-hover","fields":[],"before":{"name":"focus-+-hover","trigger":"prop"}},
+            {"id":"a302bb18-13","kind":"state","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"text-area/states/focus-+-not-hover","name":"focus-+-not-hover","fields":[],"before":{"name":"focus-+-not-hover","trigger":"prop"}},
+            {"id":"a302bb18-14","kind":"state","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"text-area/states/focus","name":"focus","fields":[],"after":{"name":"focus","trigger":"interaction"}}
+          ]
+        },
+        {
+          "commit": "a5c38722cd696272eeff263af75efa8c0b0aa1d8",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2190,"title":"chore(design-data): remove redundant token legacyKey pins","url":"https://github.com/adobe/spectrum-design-data/pull/2190"},
+          "entries": [
+            {"id":"a5c38722-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Height"],"record":"f4fc40ed-a3f5-4fa9-848a-b203c7b49b6c","name":"minimum-height[anatomy=field,scale=desktop,size=l]","fields":[{"path":"name.legacyKey","before":"field-minimum-height-large"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"a5c38722-1","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Height"],"record":"c869329b-29d9-5b91-8999-abbda5059bb8","name":"minimum-height[anatomy=field,scale=mobile,size=l]","fields":[{"path":"name.legacyKey","before":"field-minimum-height-large"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"a5c38722-2","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Width (minimum)"],"record":"83b01fb3-ddcd-4421-8b28-5240a2a1ab54","name":"minimum-width[anatomy=field,scale=desktop,size=s]","fields":[{"path":"name.legacyKey","before":"field-minimum-width-small"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"a5c38722-3","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Width (minimum)"],"record":"26f09b9c-a7ff-5cd6-8cf5-260b0fd5467a","name":"minimum-width[anatomy=field,scale=mobile,size=s]","fields":[{"path":"name.legacyKey","before":"field-minimum-width-small"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."}
+          ]
+        }
+      ]
     }
   ]
 }

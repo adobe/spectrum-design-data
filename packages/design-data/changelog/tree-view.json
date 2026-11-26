@@ -666,6 +666,30 @@
           "metadata": {"count":4,"fields":["scope.part","scope.property"]}
         }
       ]
+    },
+    {
+      "release": "4.8.0",
+      "version": "2.0.3",
+      "bump": "patch",
+      "date": "2026-11-26",
+      "commit": "1818e9c1035fd38f361a0698fb3453477b702552",
+      "commits": [
+        {
+          "commit": "a5c38722cd696272eeff263af75efa8c0b0aa1d8",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2190,"title":"chore(design-data): remove redundant token legacyKey pins","url":"https://github.com/adobe/spectrum-design-data/pull/2190"},
+          "entries": [
+            {"id":"a5c38722-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (label to action area)"],"record":"3cd1e483-969b-492c-8d44-d29348c981a5","name":"gap[anatomy=item,size=m,structure=list]","fields":[{"path":"name.legacyKey","before":"list-item-gap-medium"}]},
+            {"id":"a5c38722-1","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (indentation)"],"record":"9af302c3-7cf8-4b03-b6d1-4af5e641d67f","name":"indent[size=m,structure=list]","fields":[{"path":"name.legacyKey","before":"list-indent-medium"}]},
+            {"id":"a5c38722-2","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Height (minimum)"],"record":"f94c5322-654a-4dc2-8c2f-c77bbf2a0826","name":"minimum-height[anatomy=list-item,scale=desktop]","fields":[{"path":"name.legacyKey","before":"list-item-minimum-height"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"a5c38722-3","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Height (minimum)"],"record":"cdd8d437-60db-57be-9663-86d8cd8809e9","name":"minimum-height[anatomy=list-item,scale=mobile]","fields":[{"path":"name.legacyKey","before":"list-item-minimum-height"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"a5c38722-4","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Width (minimum)"],"record":"cf6d396e-e889-4269-9c0f-d97fe977939f","name":"minimum-width[anatomy=list-item,scale=desktop,size=m]","fields":[{"path":"name.legacyKey","before":"list-item-minimum-width-medium"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"a5c38722-5","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Width (minimum)"],"record":"a03f4dfd-723b-527d-8c0f-ec812d470684","name":"minimum-width[anatomy=list-item,scale=mobile,size=m]","fields":[{"path":"name.legacyKey","before":"list-item-minimum-width-medium"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"a5c38722-6","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (edge to action area, action button 1 + action button 2)","Spacing (edge to checkbox)"],"record":"2147f873-8f42-4821-9654-9db2b1adc2f9","name":"padding-horizontal[anatomy=item,structure=list]","fields":[{"path":"name.legacyKey","before":"list-item-padding-horizontal"}]},
+            {"id":"a5c38722-7","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (vertical)"],"record":"b2f48da9-58a4-4e86-8340-78e0f52c67ba","name":"vertical-align-items","fields":[{"path":"name.legacyKey","before":"vertical-align-items"}]}
+          ]
+        }
+      ]
     }
   ]
 }

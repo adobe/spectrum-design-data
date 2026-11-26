@@ -11,17 +11,17 @@
 class DesignData < Formula
   desc "CLI for Adobe Spectrum design data and token tooling"
   homepage "https://github.com/adobe/spectrum-design-data"
-  version "0.63.7"
+  version "0.63.8"
   license "Apache-2.0"
 
   on_macos do
     on_arm do
-      url "https://github.com/adobe/spectrum-design-data/releases/download/design-data-cli%400.63.7/design-data-darwin-arm64"
-      sha256 "2cf2307e32ecde04e54ca196a965f16d2761739c594bc4b235c29d7c814709af"
+      url "https://github.com/adobe/spectrum-design-data/releases/download/design-data-cli%400.63.8/design-data-darwin-arm64"
+      sha256 "8b053076d6b5fcc0be89c83f7364634504d36b2390098d7652220299de7b840a"
     end
     on_intel do
-      url "https://github.com/adobe/spectrum-design-data/releases/download/design-data-cli%400.63.7/design-data-darwin-x64"
-      sha256 "01efcc6feda21174bab8f079cbb72b1aa1bed4bfc8f3dc3e60004699c40cf016"
+      url "https://github.com/adobe/spectrum-design-data/releases/download/design-data-cli%400.63.8/design-data-darwin-x64"
+      sha256 "99ae81f5ba8695ba78a9af9937f2431455202ab83086244392ee28ddbad93d54"
     end
   end
 

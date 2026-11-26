@@ -1,5 +1,12 @@
 # @adobe/design-system-registry
 
+## 5.0.95
+
+### Patch Changes
+
+- Updated dependencies [[`33a62fc`](https://github.com/adobe/spectrum-design-data/commit/33a62fc9e19a840655b6a07320a399645c4dfa48), [`36b0fcb`](https://github.com/adobe/spectrum-design-data/commit/36b0fcb5be3f5a56fc6823d87b5f2f801f71a968), [`a302bb1`](https://github.com/adobe/spectrum-design-data/commit/a302bb18a4c62e28bcf2225cd1982565fa3b2e7c), [`7f72fe6`](https://github.com/adobe/spectrum-design-data/commit/7f72fe60e6d08a50cdc0f1c20091b09161fb7391), [`142e355`](https://github.com/adobe/spectrum-design-data/commit/142e3551826885603e908c9a0c0fb6c5ae6ee9fd), [`07569f2`](https://github.com/adobe/spectrum-design-data/commit/07569f2b0925208188b1b835236763abbec42a61), [`f9f6c7b`](https://github.com/adobe/spectrum-design-data/commit/f9f6c7b7fef02225ed6df7d5cb45237f6e6d6622), [`849bd9a`](https://github.com/adobe/spectrum-design-data/commit/849bd9a1845e7257e4db1dd89e46e4e5891378bd), [`a5c3872`](https://github.com/adobe/spectrum-design-data/commit/a5c38722cd696272eeff263af75efa8c0b0aa1d8), [`13bcdc5`](https://github.com/adobe/spectrum-design-data/commit/13bcdc59c1425704da0ec63bf7d480c5f66472a0)]:
+  - @adobe/spectrum-design-data@4.8.0
+
 ## 5.0.94
 
 ### Patch Changes
