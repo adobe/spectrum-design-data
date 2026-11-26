@@ -115,6 +115,18 @@
       "type": "number",
       "default": 1
     },
+    "orientation": {
+      "type": "string",
+      "default": "horizontal",
+      "values": [
+        {
+          "value": "horizontal"
+        },
+        {
+          "value": "vertical"
+        }
+      ]
+    },
     "valueFormat": {
       "type": "string",
       "description": "This will vary depending on implementation."

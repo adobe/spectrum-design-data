@@ -68,6 +68,11 @@
       "multipleOf": 0.5,
       "description": "From 0 to 5, can be a decimal to represent half stars"
     },
+    "maxValue": {
+      "type": "number",
+      "default": 5,
+      "description": "The highest rating, and the number of stars."
+    },
     "isEmphasized": {
       "type": "boolean",
       "default": false

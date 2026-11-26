@@ -1,0 +1,627 @@
+{
+  "platform": "web",
+  "role": "slider",
+  "vectors": [
+    {
+      "name": "ArrowRight sets the value to 51",
+      "needs": ["keyboard"],
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowRight",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 51
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ArrowUp sets the value to 51",
+      "needs": ["keyboard"],
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowUp",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 51
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ArrowLeft sets the value to 49",
+      "needs": ["keyboard"],
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowLeft",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 49
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ArrowDown sets the value to 49",
+      "needs": ["keyboard"],
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowDown",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 49
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "PageUp sets the value to 60",
+      "needs": ["keyboard"],
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "PageUp",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 60
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "PageDown sets the value to 40",
+      "needs": ["keyboard"],
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "PageDown",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 40
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Home sets the value to 0",
+      "needs": ["keyboard"],
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Home",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "End sets the value to 100",
+      "needs": ["keyboard"],
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "End",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 100
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a key up changes nothing",
+      "needs": ["keyboard"],
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowRight",
+            "phase": "up"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "an unbound key changes nothing",
+      "needs": ["keyboard"],
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Enter",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "ArrowRight at the maximum raises no change",
+      "needs": ["keyboard"],
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 100
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowRight",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "ArrowLeft at the minimum raises no change",
+      "needs": ["keyboard"],
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 0
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowLeft",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "PageUp near the maximum clamps",
+      "needs": ["keyboard"],
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 95
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "PageUp",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 100
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "right to left swaps ArrowRight and ArrowLeft",
+      "needs": ["keyboard"],
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50,
+        "direction": "rtl"
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowRight",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "ArrowLeft",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 49
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 50
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "right to left keeps ArrowUp and ArrowDown",
+      "needs": ["keyboard"],
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50,
+        "direction": "rtl"
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowUp",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "ArrowDown",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 51
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 50
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "right to left keeps Home, End and the page keys",
+      "needs": ["keyboard"],
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50,
+        "direction": "rtl"
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Home",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "End",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "PageDown",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 100
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "value": 90
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "left to right keeps the arrows",
+      "needs": ["keyboard"],
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50,
+        "direction": "ltr"
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowRight",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 51
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a disabled slider ignores every key",
+      "needs": ["keyboard"],
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50,
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowRight",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "ArrowLeft",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "ArrowUp",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "ArrowDown",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "PageUp",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "PageDown",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Home",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "End",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 8,
+          "emit": []
+        }
+      ]
+    }
+  ]
+}

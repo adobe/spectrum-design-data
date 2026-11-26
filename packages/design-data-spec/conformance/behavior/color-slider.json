@@ -1,0 +1,857 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
+  "component": "color-slider",
+  "pins": {
+    "state": [
+      "isDisabled",
+      "value",
+      "minValue",
+      "maxValue",
+      "step",
+      "orientation",
+      "direction"
+    ],
+    "wcag": [
+      {
+        "criterion": "1.3.1",
+        "level": "A",
+        "title": "Info and Relationships"
+      },
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ],
+    "parts": {
+      "thumb": {
+        "role": "slider",
+        "focus": "tab-stop"
+      }
+    }
+  },
+  "vectors": [
+    {
+      "name": "a disabled control reads as disabled",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50,
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "disabled": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "an enabled control reads as enabled",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50,
+        "isDisabled": false
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "disabled": false
+          }
+        }
+      ]
+    },
+    {
+      "name": "left to right keeps the arrow order",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50,
+        "direction": "ltr"
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "arrowOrder": "natural"
+          }
+        }
+      ]
+    },
+    {
+      "name": "right to left mirrors the arrow order",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50,
+        "direction": "rtl"
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "arrowOrder": "mirrored"
+          }
+        }
+      ]
+    },
+    {
+      "name": "increment and decrement step by one",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        },
+        {
+          "intent": "decrement"
+        },
+        {
+          "intent": "decrement"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 51
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 50
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "value": 49
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a page is a tenth of the span",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "intent": "increment-page"
+        },
+        {
+          "intent": "decrement-page"
+        },
+        {
+          "intent": "decrement-page"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 60
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 50
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "value": 40
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "set-min and set-max go to the bounds",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "intent": "set-min"
+        },
+        {
+          "intent": "set-max"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 100
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "increment at the maximum clamps without a change",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 100
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        },
+        {
+          "intent": "increment-page"
+        },
+        {
+          "intent": "set-max"
+        }
+      ],
+      "expect": [
+        {
+          "after": 3,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "decrement at the minimum clamps without a change",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 0
+      },
+      "steps": [
+        {
+          "intent": "decrement"
+        },
+        {
+          "intent": "decrement-page"
+        },
+        {
+          "intent": "set-min"
+        }
+      ],
+      "expect": [
+        {
+          "after": 3,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "a drag to the middle raises one change",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 0
+      },
+      "steps": [
+        {
+          "intent": "press-start"
+        },
+        {
+          "intent": "move",
+          "position": 0.5
+        },
+        {
+          "intent": "press-end"
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 50
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "a drag to the end and to the start follows the position",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "intent": "move",
+          "position": 1
+        },
+        {
+          "intent": "move",
+          "position": 0
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 100
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a move to where the value is raises nothing",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "intent": "move",
+          "position": 0.5
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "a drag raises no press",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "intent": "press-start"
+        },
+        {
+          "intent": "move",
+          "position": 0.25
+        },
+        {
+          "intent": "press-end"
+        }
+      ],
+      "expect": [
+        {
+          "after": 3,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "every value intent is ignored while disabled",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50,
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        },
+        {
+          "intent": "decrement"
+        },
+        {
+          "intent": "increment-page"
+        },
+        {
+          "intent": "decrement-page"
+        },
+        {
+          "intent": "set-min"
+        },
+        {
+          "intent": "set-max"
+        },
+        {
+          "intent": "move",
+          "position": 1
+        }
+      ],
+      "expect": [
+        {
+          "after": 7,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "focus follows the keyboard and loses the ring on blur",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        },
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "focusVisible": true
+          }
+        },
+        {
+          "after": 2,
+          "facets": {
+            "focusVisible": false
+          }
+        }
+      ]
+    },
+    {
+      "name": "the value, bounds and orientation are exposed",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 40,
+        "orientation": "horizontal"
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-valuenow": "40",
+            "aria-valuemin": "0",
+            "aria-valuemax": "100",
+            "aria-orientation": "horizontal"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a vertical color slider exposes aria-orientation vertical",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50,
+        "orientation": "vertical"
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-orientation": "vertical"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a vertical color slider in right to left keeps the mirrored arrow order (direction only)",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50,
+        "orientation": "vertical",
+        "direction": "rtl"
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "arrowOrder": "mirrored"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a hue runs from 0 to 360 and a page is 36 degrees",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1,
+        "value": 0
+      },
+      "steps": [
+        {
+          "intent": "increment-page"
+        },
+        {
+          "intent": "set-max"
+        },
+        {
+          "intent": "decrement-page"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 36
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 360
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "value": 324
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a hue move to the middle is 180",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1,
+        "value": 0
+      },
+      "steps": [
+        {
+          "intent": "move",
+          "position": 0.5
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 180
+              }
+            }
+          ],
+          "aria": {
+            "aria-valuenow": "180",
+            "aria-valuemin": "0",
+            "aria-valuemax": "360"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a hue arrow at 360 clamps",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1,
+        "value": 360
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "an alpha runs from 0 to 1 in hundredths",
+      "start": {
+        "minValue": 0,
+        "maxValue": 1,
+        "step": 0.01,
+        "value": 0.5
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        },
+        {
+          "intent": "decrement"
+        },
+        {
+          "intent": "decrement"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0.51
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 0.5
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "value": 0.49
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "an alpha page is a tenth",
+      "start": {
+        "minValue": 0,
+        "maxValue": 1,
+        "step": 0.01,
+        "value": 0.5
+      },
+      "steps": [
+        {
+          "intent": "increment-page"
+        },
+        {
+          "intent": "set-max"
+        },
+        {
+          "intent": "set-min"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0.6
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 1
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "value": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "an alpha move snaps to a hundredth",
+      "start": {
+        "minValue": 0,
+        "maxValue": 1,
+        "step": 0.01,
+        "value": 0
+      },
+      "steps": [
+        {
+          "intent": "move",
+          "position": 0.333
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0.33
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "the alpha value is exposed",
+      "start": {
+        "minValue": 0,
+        "maxValue": 1,
+        "step": 0.01,
+        "value": 0.25
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-valuenow": "0.25",
+            "aria-valuemin": "0",
+            "aria-valuemax": "1"
+          }
+        }
+      ]
+    }
+  ]
+}
