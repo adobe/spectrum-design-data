@@ -14,13 +14,13 @@
   "derived": [
     {
       "context": "Spacing (top edge to icon)",
-      "property": "component-top-to-workflow-icon-{sizeIndex}",
+      "property": "space-between",
       "part": "icon",
       "from": "(height - label.lineHeight) / 2"
     },
     {
       "context": "Spacing (top edge to label)",
-      "property": "component-top-to-text-{sizeIndex}",
+      "property": "space-between",
       "part": "label",
       "from": "(height - label.lineHeight) / 2"
     }
@@ -41,15 +41,19 @@
         },
         "height": {
           "relationship": {
-            "property": "component-height-{sizeIndex}",
-            "context": "Height"
+            "property": "height",
+            "part": "container"
           }
         },
         "paddingInlineStart": [
           {
             "relationship": {
-              "property": "component-edge-to-visual-{sizeIndex}",
-              "context": "Spacing (start/end edges)"
+              "property": "space-between",
+              "part": "container",
+              "between": {
+                "from": "start-edge",
+                "to": "icon"
+              }
             }
           },
           {
@@ -59,16 +63,24 @@
               }
             },
             "relationship": {
-              "property": "component-edge-to-visual-only-{sizeIndex}",
-              "context": "Spacing (start/end edges, icon only)"
+              "property": "space-between",
+              "part": "container",
+              "between": {
+                "from": "start-edge",
+                "to": "icon"
+              }
             }
           }
         ],
         "paddingInlineEnd": [
           {
             "relationship": {
-              "property": "component-edge-to-visual-{sizeIndex}",
-              "context": "Spacing (start/end edges)"
+              "property": "space-between",
+              "part": "container",
+              "between": {
+                "from": "start-edge",
+                "to": "icon"
+              }
             }
           },
           {
@@ -78,21 +90,29 @@
               }
             },
             "relationship": {
-              "property": "component-edge-to-visual-only-{sizeIndex}",
-              "context": "Spacing (start/end edges, icon only)"
+              "property": "space-between",
+              "part": "container",
+              "between": {
+                "from": "start-edge",
+                "to": "icon"
+              }
             }
           }
         ],
         "gap": {
           "relationship": {
             "property": "space-between",
-            "context": "Spacing (icon to label)"
+            "part": "container",
+            "between": {
+              "from": "icon",
+              "to": "label"
+            }
           }
         },
         "cornerRadius": {
           "relationship": {
             "property": "corner-radius",
-            "context": "Rounding"
+            "part": "container"
           }
         },
         "fill": [
@@ -122,7 +142,8 @@
             },
             "relationship": {
               "property": "color",
-              "context": "Background"
+              "attribute": "background",
+              "part": "container"
             }
           },
           {
@@ -134,7 +155,8 @@
             },
             "relationship": {
               "property": "color",
-              "context": "Background"
+              "attribute": "background",
+              "part": "container"
             }
           },
           {
@@ -146,7 +168,8 @@
             },
             "relationship": {
               "property": "color",
-              "context": "Background"
+              "attribute": "background",
+              "part": "container"
             }
           },
           {
@@ -158,7 +181,8 @@
             },
             "relationship": {
               "property": "color",
-              "context": "Background"
+              "attribute": "background",
+              "part": "container"
             }
           },
           {
@@ -173,7 +197,8 @@
             },
             "relationship": {
               "property": "color",
-              "context": "Background"
+              "attribute": "background",
+              "part": "container"
             }
           },
           {
@@ -188,7 +213,8 @@
             },
             "relationship": {
               "property": "color",
-              "context": "Background"
+              "attribute": "background",
+              "part": "container"
             }
           }
         ],
@@ -198,7 +224,7 @@
           },
           "relationship": {
             "property": "component-size-difference",
-            "context": "Component size (down)"
+            "part": "container"
           }
         },
         "pressWidthRatio": {
@@ -207,7 +233,7 @@
           },
           "relationship": {
             "property": "component-size-width-ratio",
-            "context": "Component size (down)"
+            "part": "container"
           }
         },
         "pressMinPerspective": {
@@ -216,7 +242,7 @@
           },
           "relationship": {
             "property": "component-size-minimum-perspective",
-            "context": "Component size (down)"
+            "part": "container"
           }
         },
         "pressMaxPerspective": {
@@ -225,7 +251,7 @@
           },
           "relationship": {
             "property": "component-size-maximum-perspective",
-            "context": "Component size (down)"
+            "part": "container"
           }
         }
       }
@@ -241,14 +267,14 @@
       "props": {
         "width": {
           "relationship": {
-            "property": "workflow-icon-size-{sizeIndex}",
-            "context": "Icon"
+            "property": "size",
+            "part": "icon"
           }
         },
         "height": {
           "relationship": {
-            "property": "workflow-icon-size-{sizeIndex}",
-            "context": "Icon"
+            "property": "size",
+            "part": "icon"
           }
         },
         "color": [
@@ -260,7 +286,7 @@
             },
             "relationship": {
               "property": "color",
-              "context": "Icon"
+              "part": "icon"
             }
           }
         ]
@@ -271,20 +297,20 @@
       "props": {
         "fontSize": {
           "relationship": {
-            "property": "font-size-{sizeIndex}",
-            "context": "Label"
+            "property": "font-size",
+            "part": "label"
           }
         },
         "lineHeight": {
           "relationship": {
-            "property": "line-height-font-size-{sizeIndex}",
-            "context": "Label"
+            "property": "line-height",
+            "part": "label"
           }
         },
         "fontWeight": {
           "relationship": {
             "property": "font-weight",
-            "context": "Label"
+            "part": "label"
           }
         },
         "color": [
@@ -297,7 +323,7 @@
             },
             "relationship": {
               "property": "color",
-              "context": "Label"
+              "part": "label"
             }
           }
         ]
@@ -314,7 +340,11 @@
         "inset": {
           "relationship": {
             "property": "space-between",
-            "context": "Spacing (edge to hold icon)"
+            "part": "container",
+            "between": {
+              "from": "end-edge",
+              "to": "hold-icon"
+            }
           }
         }
       },
@@ -329,7 +359,7 @@
             },
             "relationship": {
               "property": "color",
-              "context": "Hold icon"
+              "part": "hold-icon"
             }
           }
         ]
@@ -341,19 +371,19 @@
         "stroke": {
           "relationship": {
             "property": "color",
-            "context": "Focus ring"
+            "part": "focus-indicator"
           }
         },
         "strokeWidth": {
           "relationship": {
             "property": "thickness",
-            "context": "Focus ring"
+            "part": "focus-indicator"
           }
         },
         "gapToParent": {
           "relationship": {
             "property": "gap",
-            "context": "Focus ring"
+            "part": "focus-indicator"
           }
         }
       }
@@ -363,26 +393,26 @@
       "props": {
         "width": {
           "relationship": {
-            "property": "workflow-icon-size-{sizeIndex}",
-            "context": "Icon"
+            "property": "size",
+            "part": "icon"
           }
         },
         "height": {
           "relationship": {
-            "property": "workflow-icon-size-{sizeIndex}",
-            "context": "Icon"
+            "property": "size",
+            "part": "icon"
           }
         },
         "trackColor": {
           "relationship": {
             "property": "color",
-            "context": "Progress track"
+            "part": "progress"
           }
         },
         "color": {
           "relationship": {
-            "property": "color",
-            "context": "Progress"
+            "property": "content-color",
+            "part": "progress"
           }
         }
       }
