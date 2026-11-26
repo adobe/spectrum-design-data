@@ -680,6 +680,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "control",
       "property": "background-color",
       "options": {
         "isSelected": true
@@ -693,6 +694,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "control",
       "property": "background-color",
       "options": {
         "isSelected": true
@@ -706,6 +708,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "control",
       "property": "background-color",
       "options": {
         "isSelected": true
@@ -777,6 +780,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "control",
       "property": "background-color",
       "options": {
         "isSelected": true,
@@ -791,6 +795,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "control",
       "property": "background-color",
       "options": {
         "isSelected": true,
@@ -805,6 +810,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "control",
       "property": "background-color",
       "options": {
         "isSelected": true,
@@ -819,6 +825,7 @@
   {
     "scope": {
       "component": "radio-button",
+      "part": "control",
       "property": "background-color",
       "options": {
         "isSelected": true,

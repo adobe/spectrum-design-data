@@ -144,7 +144,7 @@
             },
             "relationship": {
               "property": "background-color",
-              "context": "Control"
+              "part": "control"
             }
           },
           {
