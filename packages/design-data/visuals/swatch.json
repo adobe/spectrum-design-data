@@ -89,8 +89,8 @@
           },
           {
             "when": {
-              "options": {
-                "isSelected": true
+              "facets": {
+                "selected": "selected"
               }
             },
             "value": 1
@@ -105,8 +105,8 @@
           },
           {
             "when": {
-              "options": {
-                "isSelected": true
+              "facets": {
+                "selected": "selected"
               }
             },
             "relationship": {
@@ -120,8 +120,8 @@
         },
         "innerStroke": {
           "when": {
-            "options": {
-              "isSelected": true
+            "facets": {
+              "selected": "selected"
             }
           },
           "relationship": {
@@ -133,8 +133,8 @@
         },
         "innerStrokeWidth": {
           "when": {
-            "options": {
-              "isSelected": true
+            "facets": {
+              "selected": "selected"
             }
           },
           "relationship": {

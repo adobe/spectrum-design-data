@@ -41,7 +41,9 @@ fn actual_counts() -> BTreeMap<String, usize> {
     .expect("tokens")
     .with_relationships(
         TokenGraph::load_spec_relationships(&d.join("relationships")).expect("relationships"),
-    );
+    )
+    .with_behaviors_dir(&d.join("behaviors"))
+    .expect("behaviors");
     graph.visuals = TokenGraph::load_spec_visuals(&d.join("visuals")).expect("visuals");
     status_report(&graph)
         .into_iter()

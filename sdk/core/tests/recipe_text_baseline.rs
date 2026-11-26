@@ -82,6 +82,8 @@ fn graph() -> TokenGraph {
     )
     .with_icons(TokenGraph::load_spec_icons(&d.join("icons")).expect("icons"))
     .with_visuals(TokenGraph::load_spec_visuals(&d.join("visuals")).expect("visuals"))
+    .with_behaviors_dir(&d.join("behaviors"))
+    .expect("behaviors")
 }
 
 fn nested_label(label: &str, option: Option<Value>) -> String {
@@ -173,7 +175,9 @@ fn text_parts_that_take_the_label_draw_it() {
         TokenGraph::load_spec_relationships(&d.join("relationships")).expect("rels"),
     )
     .with_icons(TokenGraph::load_spec_icons(&d.join("icons")).expect("icons"))
-    .with_visuals(TokenGraph::load_spec_visuals(&d.join("visuals")).expect("visuals"));
+    .with_visuals(TokenGraph::load_spec_visuals(&d.join("visuals")).expect("visuals"))
+    .with_behaviors_dir(&d.join("behaviors"))
+    .expect("behaviors");
 
     let mut actual = Flags::new();
     for entry in std::fs::read_dir(d.join("visuals"))

@@ -59,7 +59,9 @@
         },
         "pressDifference": {
           "when": {
-            "states": ["down"]
+            "facets": {
+              "pressed": "true"
+            }
           },
           "relationship": {
             "property": "component-size-difference",
@@ -68,7 +70,9 @@
         },
         "pressWidthRatio": {
           "when": {
-            "states": ["down"]
+            "facets": {
+              "pressed": "true"
+            }
           },
           "relationship": {
             "property": "component-size-width-ratio",
@@ -77,7 +81,9 @@
         },
         "pressMinPerspective": {
           "when": {
-            "states": ["down"]
+            "facets": {
+              "pressed": "true"
+            }
           },
           "relationship": {
             "property": "component-size-minimum-perspective",
@@ -115,8 +121,8 @@
           },
           {
             "when": {
-              "options": {
-                "isIndeterminate": true
+              "facets": {
+                "checked": "indeterminate"
               }
             },
             "value": 0,
@@ -137,8 +143,8 @@
           },
           {
             "when": {
-              "options": {
-                "isIndeterminate": true
+              "facets": {
+                "checked": "indeterminate"
               }
             },
             "relationship": { "property": "background-color", "part": "box" }

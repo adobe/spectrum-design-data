@@ -69,6 +69,8 @@ fn load_graph() -> TokenGraph {
     )
     .with_icons(TokenGraph::load_spec_icons(&d.join("icons")).expect("icons"))
     .with_visuals(TokenGraph::load_spec_visuals(&d.join("visuals")).expect("visuals"))
+    .with_behaviors_dir(&d.join("behaviors"))
+    .expect("behaviors")
 }
 
 fn composite_uuid(graph: &TokenGraph, legacy_key: &str) -> String {

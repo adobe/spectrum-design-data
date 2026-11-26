@@ -38,7 +38,9 @@ fn actual_levels() -> BTreeMap<String, u8> {
     .expect("tokens")
     .with_relationships(
         TokenGraph::load_spec_relationships(&d.join("relationships")).expect("relationships"),
-    );
+    )
+    .with_behaviors_dir(&d.join("behaviors"))
+    .expect("behaviors");
     let mut graph = graph;
     graph.visuals = TokenGraph::load_spec_visuals(&d.join("visuals")).expect("visuals");
     levels(&status_report(&graph))

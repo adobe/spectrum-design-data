@@ -48,21 +48,21 @@
           }
         },
         "pressDifference": {
-          "when": { "states": ["down"] },
+          "when": { "facets": { "pressed": "true" } },
           "relationship": {
             "property": "component-size-difference",
             "part": "container"
           }
         },
         "pressWidthRatio": {
-          "when": { "states": ["down"] },
+          "when": { "facets": { "pressed": "true" } },
           "relationship": {
             "property": "component-size-width-ratio",
             "part": "container"
           }
         },
         "pressMinPerspective": {
-          "when": { "states": ["down"] },
+          "when": { "facets": { "pressed": "true" } },
           "relationship": {
             "property": "component-size-minimum-perspective",
             "part": "container"
@@ -92,15 +92,18 @@
             "relationship": { "property": "color", "part": "track" }
           },
           {
-            "when": { "options": { "isSelected": true } },
+            "when": { "facets": { "checked": "checked" } },
             "relationship": { "property": "background-color", "part": "track" }
           },
           {
-            "when": { "options": { "isSelected": true, "isEmphasized": true } },
+            "when": {
+              "options": { "isEmphasized": true },
+              "facets": { "checked": "checked" }
+            },
             "relationship": { "property": "content-color", "part": "track" }
           },
           {
-            "when": { "options": { "isSelected": true, "isDisabled": true } },
+            "when": { "facets": { "checked": "checked", "disabled": "true" } },
             "relationship": { "property": "background-color", "part": "track" },
             "priority": 10
           }
@@ -110,15 +113,18 @@
             "relationship": { "property": "border-color", "part": "track" }
           },
           {
-            "when": { "options": { "isSelected": true } },
+            "when": { "facets": { "checked": "checked" } },
             "relationship": { "property": "background-color", "part": "track" }
           },
           {
-            "when": { "options": { "isSelected": true, "isEmphasized": true } },
+            "when": {
+              "options": { "isEmphasized": true },
+              "facets": { "checked": "checked" }
+            },
             "relationship": { "property": "content-color", "part": "track" }
           },
           {
-            "when": { "options": { "isSelected": true, "isDisabled": true } },
+            "when": { "facets": { "checked": "checked", "disabled": "true" } },
             "relationship": { "property": "background-color", "part": "track" },
             "priority": 11
           }
@@ -144,18 +150,18 @@
         },
         "justify": [
           { "value": "start" },
-          { "when": { "options": { "isSelected": true } }, "value": "end" }
+          { "when": { "facets": { "checked": "checked" } }, "value": "end" }
         ],
         "fill": [
           {
             "relationship": { "property": "background-color", "part": "handle" }
           },
           {
-            "when": { "options": { "isSelected": true } },
+            "when": { "facets": { "checked": "checked" } },
             "relationship": { "property": "color", "part": "track" }
           },
           {
-            "when": { "options": { "isSelected": true, "isDisabled": true } },
+            "when": { "facets": { "checked": "checked", "disabled": "true" } },
             "relationship": { "property": "color", "part": "track" },
             "priority": 11
           }
