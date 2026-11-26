@@ -7860,6 +7860,33 @@ pub fn layout_revision_warning(root: &std::path::Path) -> Option<String> {
 mod tests {
     use super::*;
 
+    fn named(name: Value) -> crate::graph::TokenRecord {
+        crate::graph::TokenRecord {
+            name: "t".into(),
+            file: PathBuf::from("tokens.json"),
+            index: 0,
+            schema_url: None,
+            uuid: None,
+            alias_target: None,
+            raw: serde_json::json!({ "name": name, "value": "1px" }),
+            layer: Default::default(),
+        }
+    }
+
+    #[test]
+    fn a_token_label_is_its_derived_legacy_name_and_the_pin_is_not_a_name_field() {
+        let plain = named(serde_json::json!({"component": "gadget", "property": "width"}));
+        let pinned = named(serde_json::json!({
+            "component": "gadget", "property": "width", "legacyKey": "gadget-width"}));
+        assert_eq!(token_label(&plain), "gadget-width");
+        let ramp = named(serde_json::json!({
+            "property": "color", "colorFamily": "gray", "scaleIndex": 100}));
+        assert_eq!(token_label(&ramp), "gray-100");
+        assert_eq!(token_label(&pinned), "gadget-width");
+        let ctx = std::collections::HashMap::new();
+        assert_eq!(rank_key(&plain.raw, &ctx), rank_key(&pinned.raw, &ctx));
+    }
+
     #[test]
     fn layout_revision_matches_the_data() {
         let root =
