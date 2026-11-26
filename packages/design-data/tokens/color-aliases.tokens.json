@@ -1912,8 +1912,7 @@
       "property": "key-color",
       "emphasis": "emphasized",
       "structure": "drop-shadow",
-      "colorScheme": "light",
-      "legacyKey": "drop-shadow-emphasized-key-color"
+      "colorScheme": "light"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.08)",
@@ -1926,8 +1925,7 @@
       "property": "key-color",
       "emphasis": "emphasized",
       "structure": "drop-shadow",
-      "colorScheme": "dark",
-      "legacyKey": "drop-shadow-emphasized-key-color"
+      "colorScheme": "dark"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.24)",
@@ -1940,8 +1938,7 @@
       "property": "key-color",
       "emphasis": "emphasized",
       "structure": "drop-shadow",
-      "colorScheme": "wireframe",
-      "legacyKey": "drop-shadow-emphasized-key-color"
+      "colorScheme": "wireframe"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/color.json",
     "value": "rgba(0, 0, 0, 0.08)",
@@ -4041,8 +4038,7 @@
   {
     "name": {
       "anatomy": "overlay",
-      "property": "color",
-      "legacyKey": "overlay-color"
+      "property": "color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "28dea8b0-4e9a-46f9-babb-c8910e6ae783",
@@ -4053,8 +4049,7 @@
     "name": {
       "anatomy": "overlay",
       "property": "opacity",
-      "colorScheme": "light",
-      "legacyKey": "overlay-opacity"
+      "colorScheme": "light"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.4",
@@ -4066,8 +4061,7 @@
     "name": {
       "anatomy": "overlay",
       "property": "opacity",
-      "colorScheme": "dark",
-      "legacyKey": "overlay-opacity"
+      "colorScheme": "dark"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.6",
@@ -4079,8 +4073,7 @@
     "name": {
       "anatomy": "overlay",
       "property": "opacity",
-      "colorScheme": "wireframe",
-      "legacyKey": "overlay-opacity"
+      "colorScheme": "wireframe"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/opacity.json",
     "value": "0.4",

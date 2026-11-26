@@ -1962,7 +1962,6 @@
     "name": {
       "property": "width",
       "size": "s",
-      "legacyKey": "bar-width-small",
       "anatomy": "bar"
     },
     "value": "120px",
@@ -1977,7 +1976,6 @@
     "name": {
       "property": "width",
       "size": "m",
-      "legacyKey": "bar-width-medium",
       "anatomy": "bar"
     },
     "value": "144px",
@@ -2028,7 +2026,6 @@
     "name": {
       "property": "width",
       "size": "xl",
-      "legacyKey": "bar-width-extra-large",
       "anatomy": "bar"
     },
     "value": "240px",
@@ -2043,7 +2040,6 @@
     "name": {
       "property": "minimum-width",
       "size": "xs",
-      "legacyKey": "bar-minimum-width-extra-small",
       "anatomy": "bar"
     },
     "value": "20px",
@@ -2058,7 +2054,6 @@
     "name": {
       "property": "minimum-width",
       "size": "s",
-      "legacyKey": "bar-minimum-width-small",
       "anatomy": "bar"
     },
     "value": "24px",
@@ -2073,7 +2068,6 @@
     "name": {
       "property": "minimum-width",
       "size": "m",
-      "legacyKey": "bar-minimum-width-medium",
       "anatomy": "bar"
     },
     "value": "32px",
@@ -2088,7 +2082,6 @@
     "name": {
       "property": "minimum-width",
       "size": "l",
-      "legacyKey": "bar-minimum-width-large",
       "anatomy": "bar"
     },
     "value": "40px",
@@ -2134,7 +2127,6 @@
       "structure": "base",
       "property": "size",
       "size": "xxxs",
-      "legacyKey": "base-visual-size-3x-small",
       "anatomy": "visual"
     },
     "value": "10px",
@@ -2150,7 +2142,6 @@
       "structure": "base",
       "property": "size",
       "size": "xxs",
-      "legacyKey": "base-visual-size-2x-small",
       "anatomy": "visual"
     },
     "value": "12px",
@@ -2166,7 +2157,6 @@
       "structure": "base",
       "property": "size",
       "size": "xs",
-      "legacyKey": "base-visual-size-extra-small",
       "anatomy": "visual"
     },
     "value": "14px",
@@ -2182,7 +2172,6 @@
       "structure": "base",
       "property": "size",
       "size": "s",
-      "legacyKey": "base-visual-size-small",
       "anatomy": "visual"
     },
     "value": "16px",
@@ -2236,7 +2225,6 @@
       "structure": "base",
       "property": "size",
       "size": "l",
-      "legacyKey": "base-visual-size-large",
       "anatomy": "visual"
     },
     "value": "20px",
@@ -2252,7 +2240,6 @@
       "structure": "base",
       "property": "size",
       "size": "xl",
-      "legacyKey": "base-visual-size-extra-large",
       "anatomy": "visual"
     },
     "value": "22px",
@@ -2268,7 +2255,6 @@
       "structure": "base",
       "property": "size",
       "size": "xxl",
-      "legacyKey": "base-visual-size-2x-large",
       "anatomy": "visual"
     },
     "value": "24px",
@@ -2284,7 +2270,6 @@
       "structure": "base",
       "property": "size",
       "size": "xxxl",
-      "legacyKey": "base-visual-size-3x-large",
       "anatomy": "visual"
     },
     "value": "32px",
@@ -2299,7 +2284,6 @@
     "name": {
       "property": "size",
       "size": "xs",
-      "legacyKey": "control-size-extra-small",
       "anatomy": "control"
     },
     "value": "12px",
@@ -2602,7 +2586,6 @@
     "name": {
       "property": "width",
       "size": "xxl",
-      "legacyKey": "field-width-2x-large",
       "anatomy": "field",
       "scale": "desktop"
     },
@@ -2620,7 +2603,6 @@
     "name": {
       "property": "width",
       "size": "xxl",
-      "legacyKey": "field-width-2x-large",
       "anatomy": "field",
       "scale": "mobile"
     },
@@ -2638,7 +2620,6 @@
     "name": {
       "property": "width",
       "size": "xxxl",
-      "legacyKey": "field-width-3x-large",
       "anatomy": "field"
     },
     "value": "416px",
@@ -2653,7 +2634,6 @@
     "name": {
       "property": "minimum-width",
       "size": "s",
-      "legacyKey": "field-minimum-width-small",
       "anatomy": "field",
       "scale": "desktop"
     },
@@ -2671,7 +2651,6 @@
     "name": {
       "property": "minimum-width",
       "size": "s",
-      "legacyKey": "field-minimum-width-small",
       "anatomy": "field",
       "scale": "mobile"
     },
@@ -2689,7 +2668,6 @@
     "name": {
       "property": "minimum-width",
       "size": "m",
-      "legacyKey": "field-minimum-width-medium",
       "anatomy": "field"
     },
     "value": "144px",
@@ -2704,7 +2682,6 @@
     "name": {
       "property": "minimum-width",
       "size": "l",
-      "legacyKey": "field-minimum-width-large",
       "anatomy": "field",
       "scale": "desktop"
     },
@@ -2722,7 +2699,6 @@
     "name": {
       "property": "minimum-width",
       "size": "l",
-      "legacyKey": "field-minimum-width-large",
       "anatomy": "field",
       "scale": "mobile"
     },
@@ -2740,7 +2716,6 @@
     "name": {
       "property": "minimum-width",
       "size": "xl",
-      "legacyKey": "field-minimum-width-extra-large",
       "anatomy": "field"
     },
     "value": "240px",
@@ -2755,7 +2730,6 @@
     "name": {
       "property": "minimum-height",
       "size": "s",
-      "legacyKey": "field-minimum-height-small",
       "anatomy": "field"
     },
     "value": "32px",
@@ -2770,7 +2744,6 @@
     "name": {
       "property": "minimum-height",
       "size": "m",
-      "legacyKey": "field-minimum-height-medium",
       "anatomy": "field",
       "scale": "desktop"
     },
@@ -2788,7 +2761,6 @@
     "name": {
       "property": "minimum-height",
       "size": "m",
-      "legacyKey": "field-minimum-height-medium",
       "anatomy": "field",
       "scale": "mobile"
     },
@@ -2806,7 +2778,6 @@
     "name": {
       "property": "minimum-height",
       "size": "l",
-      "legacyKey": "field-minimum-height-large",
       "anatomy": "field",
       "scale": "desktop"
     },
@@ -2824,7 +2795,6 @@
     "name": {
       "property": "minimum-height",
       "size": "l",
-      "legacyKey": "field-minimum-height-large",
       "anatomy": "field",
       "scale": "mobile"
     },
@@ -2842,7 +2812,6 @@
     "name": {
       "property": "minimum-height",
       "size": "xl",
-      "legacyKey": "field-minimum-height-extra-large",
       "anatomy": "field",
       "scale": "desktop"
     },
@@ -2860,7 +2829,6 @@
     "name": {
       "property": "minimum-height",
       "size": "xl",
-      "legacyKey": "field-minimum-height-extra-large",
       "anatomy": "field",
       "scale": "mobile"
     },
@@ -2878,7 +2846,6 @@
     "name": {
       "property": "minimum-width",
       "size": "s",
-      "legacyKey": "list-item-minimum-width-small",
       "anatomy": "list-item",
       "scale": "desktop"
     },
@@ -2896,7 +2863,6 @@
     "name": {
       "property": "minimum-width",
       "size": "s",
-      "legacyKey": "list-item-minimum-width-small",
       "anatomy": "list-item",
       "scale": "mobile"
     },
@@ -2914,7 +2880,6 @@
     "name": {
       "property": "minimum-width",
       "size": "m",
-      "legacyKey": "list-item-minimum-width-medium",
       "anatomy": "list-item",
       "scale": "desktop"
     },
@@ -2932,7 +2897,6 @@
     "name": {
       "property": "minimum-width",
       "size": "m",
-      "legacyKey": "list-item-minimum-width-medium",
       "anatomy": "list-item",
       "scale": "mobile"
     },
@@ -2950,7 +2914,6 @@
     "name": {
       "property": "width",
       "size": "s",
-      "legacyKey": "list-item-width-small",
       "anatomy": "list-item"
     },
     "value": "120px",
@@ -2965,7 +2928,6 @@
     "name": {
       "property": "width",
       "size": "m",
-      "legacyKey": "list-item-width-medium",
       "anatomy": "list-item"
     },
     "value": "144px",
@@ -2980,7 +2942,6 @@
     "name": {
       "property": "width",
       "size": "l",
-      "legacyKey": "list-item-width-large",
       "anatomy": "list-item"
     },
     "value": "192px",
@@ -2995,7 +2956,6 @@
     "name": {
       "property": "width",
       "size": "xl",
-      "legacyKey": "list-item-width-extra-large",
       "anatomy": "list-item"
     },
     "value": "240px",
@@ -3010,7 +2970,6 @@
     "name": {
       "property": "height",
       "size": "xs",
-      "legacyKey": "list-item-height-extra-small",
       "anatomy": "list-item",
       "scale": "desktop"
     },
@@ -3028,7 +2987,6 @@
     "name": {
       "property": "height",
       "size": "xs",
-      "legacyKey": "list-item-height-extra-small",
       "anatomy": "list-item",
       "scale": "mobile"
     },
@@ -3046,7 +3004,6 @@
     "name": {
       "property": "height",
       "size": "s",
-      "legacyKey": "list-item-height-small",
       "anatomy": "list-item",
       "scale": "desktop"
     },
@@ -3064,7 +3021,6 @@
     "name": {
       "property": "height",
       "size": "s",
-      "legacyKey": "list-item-height-small",
       "anatomy": "list-item",
       "scale": "mobile"
     },
@@ -3082,7 +3038,6 @@
     "name": {
       "property": "height",
       "size": "m",
-      "legacyKey": "list-item-height-medium",
       "anatomy": "list-item",
       "scale": "desktop"
     },
@@ -3100,7 +3055,6 @@
     "name": {
       "property": "height",
       "size": "m",
-      "legacyKey": "list-item-height-medium",
       "anatomy": "list-item",
       "scale": "mobile"
     },
@@ -3118,7 +3072,6 @@
     "name": {
       "property": "height",
       "size": "l",
-      "legacyKey": "list-item-height-large",
       "anatomy": "list-item",
       "scale": "desktop"
     },
@@ -3136,7 +3089,6 @@
     "name": {
       "property": "height",
       "size": "l",
-      "legacyKey": "list-item-height-large",
       "anatomy": "list-item",
       "scale": "mobile"
     },
@@ -3154,7 +3106,6 @@
     "name": {
       "property": "height",
       "size": "xl",
-      "legacyKey": "list-item-height-extra-large",
       "anatomy": "list-item",
       "scale": "desktop"
     },
@@ -3172,7 +3123,6 @@
     "name": {
       "property": "height",
       "size": "xl",
-      "legacyKey": "list-item-height-extra-large",
       "anatomy": "list-item",
       "scale": "mobile"
     },
@@ -3189,7 +3139,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "minimum-height",
-      "legacyKey": "list-item-minimum-height",
       "anatomy": "list-item",
       "scale": "desktop"
     },
@@ -3206,7 +3155,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "name": {
       "property": "minimum-height",
-      "legacyKey": "list-item-minimum-height",
       "anatomy": "list-item",
       "scale": "mobile"
     },
@@ -3830,7 +3778,6 @@
     "name": {
       "property": "thickness",
       "size": "xxl",
-      "legacyKey": "bar-thickness-2x-large",
       "anatomy": "bar"
     },
     "value": "12px",
@@ -3845,7 +3792,6 @@
     "name": {
       "property": "thickness",
       "size": "xxxl",
-      "legacyKey": "bar-thickness-3x-large",
       "anatomy": "bar"
     },
     "value": "16px",
