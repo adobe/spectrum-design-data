@@ -92,7 +92,7 @@ Rank tokens against a natural-language intent. Required: `intent` (string), e.g.
 ### `design-data-refinements`
 
 A token's specificity and its same-property neighbors (see Semantic specificity below).
-Required: `token` (name, uuid or conceptId; for a token without a name, the `property=… scaleIndex=…` text that query shows). Optional: `limit` (integer, default 10, max 50, for
+Required: `token` (name, uuid or conceptId; the older `property=… scaleIndex=…` field text is also accepted). Optional: `limit` (integer, default 10, max 50, for
 each of `narrower` and `broader`). Returns `{ token, specificity: { tier, purposeFields },
 narrower, narrowerTotal, broader, broaderTotal }`; each neighbor has `name`, `fields`,
 `specificity`, `valueMatch` and `differingModes`.

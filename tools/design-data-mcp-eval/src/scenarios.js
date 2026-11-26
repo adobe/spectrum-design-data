@@ -234,13 +234,13 @@ export const scenarios = [
       {
         tool: "design-data-query",
         arguments: { filter: "property=spacing", limit: 200 },
-        facts: ['"value":"16px"', "scaleindex=300"],
+        facts: ['"value":"16px"', '"name":"spacing-300"'],
       },
     ],
     answerFacts: ["spacing-300", "16", "(example|medium)"],
     citations: [`${layout}containers`],
     review:
-      "Actually queries spacing tokens and selects the token named property=spacing scaleIndex=300; cites the card example and avoids a universal padding rule. Neither property-only resolve nor the query filter supports the legacy spacing-300 name or scaleIndex filtering.",
+      "Actually queries spacing tokens and selects the token named spacing-300; cites the card example and avoids a universal padding rule. The query filter does not support scaleIndex filtering.",
   },
   {
     id: "component-token-by-state",

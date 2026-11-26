@@ -3,6 +3,8 @@
 "@adobe/design-data-wasm": minor
 "@adobe/design-data-mcp": minor
 "@adobe/design-data-visual": patch
+"@adobe/design-data-agent-mcp": patch
+"@adobe/design-data-skill": patch
 ---
 
 Every place that shows or matches a token name now uses the legacy name the engine

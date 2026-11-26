@@ -70,7 +70,7 @@ for (const scenario of scenarios) {
         item.tool === "design-data-query"
       ) {
         const matches = result.tokens.filter(
-          (token) => token.name === "property=spacing scaleIndex=300",
+          (token) => token.name === "spacing-300",
         );
         t.is(matches.length, 1);
         t.is(matches[0].value, "16px");
