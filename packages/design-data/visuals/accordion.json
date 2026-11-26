@@ -322,7 +322,14 @@
             "referenceScaleIndex": "{sizeIndex}"
           }
         },
-        "color": [{ "relationship": { "property": "color", "part": "title" } }]
+        "color": [
+          { "relationship": { "property": "color", "part": "title" } },
+          {
+            "when": { "options": { "isDisabled": true } },
+            "relationship": { "property": "color", "part": "accordion-item" },
+            "priority": 10
+          }
+        ]
       }
     },
     "divider": {
