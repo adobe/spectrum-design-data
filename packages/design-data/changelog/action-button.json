@@ -660,6 +660,27 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.8.0",
+      "version": "3.0.3",
+      "bump": "patch",
+      "date": "2026-11-26",
+      "commit": "1818e9c1035fd38f361a0698fb3453477b702552",
+      "commits": [
+        {
+          "commit": "a5c38722cd696272eeff263af75efa8c0b0aa1d8",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2190,"title":"chore(design-data): remove redundant token legacyKey pins","url":"https://github.com/adobe/spectrum-design-data/pull/2190"},
+          "entries": [
+            {"id":"a5c38722-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (edge to hold icon)"],"record":"31fe1f21-a95a-4354-b6d1-e40dc66990fb","name":"gap[position=affixed,size=l,structure=accessory]","fields":[{"path":"name.legacyKey","before":"accessory-gap-affixed-large"}]},
+            {"id":"a5c38722-1","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (edge to hold icon)"],"record":"32bdfee6-cc93-4d53-9d08-2591646d38e9","name":"gap[position=affixed,size=m,structure=accessory]","fields":[{"path":"name.legacyKey","before":"accessory-gap-affixed-medium"}]},
+            {"id":"a5c38722-2","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (edge to hold icon)"],"record":"7789a1e5-3bc8-494d-91c2-1309b4697da9","name":"gap[position=affixed,size=s,structure=accessory]","fields":[{"path":"name.legacyKey","before":"accessory-gap-affixed-small"}]},
+            {"id":"a5c38722-3","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (edge to hold icon)"],"record":"5ddb3980-2cbd-41cb-9b60-2139c5ce9544","name":"gap[position=affixed,size=xl,structure=accessory]","fields":[{"path":"name.legacyKey","before":"accessory-gap-affixed-extra-large"}]},
+            {"id":"a5c38722-4","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (edge to hold icon)"],"record":"b4d6b11b-240b-4daf-8c24-3661888730d1","name":"gap[position=affixed,size=xs,structure=accessory]","fields":[{"path":"name.legacyKey","before":"accessory-gap-affixed-extra-small"}]}
+          ]
+        }
+      ]
     }
   ]
 }

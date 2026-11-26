@@ -721,6 +721,42 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.8.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-26",
+      "commit": "1818e9c1035fd38f361a0698fb3453477b702552",
+      "commits": [
+        {
+          "commit": "a302bb18a4c62e28bcf2225cd1982565fa3b2e7c",
+          "date": "2026-11-25",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2184,"title":"fix(design-data): pin the field focus states to focus and focus + hover","url":"https://github.com/adobe/spectrum-design-data/pull/2184"},
+          "entries": [
+            {"id":"a302bb18-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"state":["focus","hover"]}},"record":"dbe95477-e126-5b07-b28d-1323393787f6","name":"color[state=?]","fields":[{"path":"scope.options.state","before":["focus-+-hover"],"after":["focus","hover"]}]},
+            {"id":"a302bb18-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"state":["focus","hover"]}},"record":"8ee43554-be10-5dbc-80c3-25fb4b674876","name":"color[state=?]","fields":[{"path":"scope.options.state","before":["focus-+-hover"],"after":["focus","hover"]}]},
+            {"id":"a302bb18-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"state":["focus","hover"]}},"record":"9bbf9ab4-2bc3-5c90-9c25-c87fcb5e5828","name":"color[state=?]","fields":[{"path":"scope.options.state","before":["focus-+-hover"],"after":["focus","hover"]}]},
+            {"id":"a302bb18-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"state":["focus"]}},"record":"e15bd1e1-100d-5b30-b3b7-549c7d6aca6c","name":"color[state=?]","fields":[{"path":"scope.options.state","before":["focus-+-not-hover"],"after":["focus"]}]},
+            {"id":"a302bb18-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"state":["focus"]}},"record":"73cde741-91cf-5f57-8ca4-b4665ae92bf4","name":"color[state=?]","fields":[{"path":"scope.options.state","before":["focus-+-not-hover"],"after":["focus"]}]},
+            {"id":"a302bb18-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"state":["focus"]}},"record":"8e03ac39-706a-55e4-83a5-e511cefb68a7","name":"color[state=?]","fields":[{"path":"scope.options.state","before":["focus-+-not-hover"],"after":["focus"]}]},
+            {"id":"a302bb18-6","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Value, label and icon"],"scope":{"property":"content-color","options":{"state":["focus","hover"]}},"record":"0a2b571c-869c-54ed-b4f0-238945d0ff2b","name":"content-color[state=?]","fields":[{"path":"scope.options.state","before":["focus-+-hover"],"after":["focus","hover"]}]},
+            {"id":"a302bb18-7","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Value, label and icon"],"scope":{"property":"content-color","options":{"state":["focus"]}},"record":"1a9e1f0b-01fe-512b-b08e-cbc79e2e4d31","name":"content-color[state=?]","fields":[{"path":"scope.options.state","before":["focus-+-not-hover"],"after":["focus"]}]},
+            {"id":"a302bb18-8","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Value, label and icon"],"scope":{"property":"content-color","options":null},"record":"16df6d1f-fa49-5f7e-859c-f585f5d65fa2","name":"content-color","fields":[],"before":"c2c538e0-6f8d-4586-953a-b98ef40c9eca"},
+            {"id":"a302bb18-9","kind":"state","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"search-field/states/focus-+-hover","name":"focus-+-hover","fields":[],"before":{"name":"focus-+-hover","trigger":"prop"}},
+            {"id":"a302bb18-10","kind":"state","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"search-field/states/focus-+-not-hover","name":"focus-+-not-hover","fields":[],"before":{"name":"focus-+-not-hover","trigger":"prop"}},
+            {"id":"a302bb18-11","kind":"state","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"search-field/states/focus","name":"focus","fields":[],"after":{"name":"focus","trigger":"interaction"}}
+          ]
+        },
+        {
+          "commit": "a5c38722cd696272eeff263af75efa8c0b0aa1d8",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2190,"title":"chore(design-data): remove redundant token legacyKey pins","url":"https://github.com/adobe/spectrum-design-data/pull/2190"},
+          "entries": [
+            {"id":"a5c38722-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Rounding"],"record":"4853520b-bda3-45d1-bd20-8508cac08847","name":"corner-radius[shape=full]","fields":[{"path":"name.legacyKey","before":"corner-radius-full"}]}
+          ]
+        }
+      ]
     }
   ]
 }
