@@ -85,6 +85,10 @@
         "$schema": { "type": "string" },
         "platform": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
         "role": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+        "item": {
+          "type": "boolean",
+          "description": "`true` runs the suite against the part with `role` inside a collection's item contract (`<role>.item.json`), not against the part of the component itself."
+        },
         "vectors": {
           "type": "array",
           "minItems": 1,
@@ -94,7 +98,7 @@
         }
       },
       "additionalProperties": false,
-      "description": "Key vectors for one platform and role (`conformance/behavior/bindings/<platform>/<role>.json`), run against every component whose role-carrying part has that role."
+      "description": "Key vectors for one platform and role (`conformance/behavior/bindings/<platform>/<role>.json`), run against every component whose role-carrying part has that role (or, with `item`, whose collection item has it)."
     }
   }
 }

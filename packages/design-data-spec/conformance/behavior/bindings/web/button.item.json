@@ -1,0 +1,107 @@
+{
+  "platform": "web",
+  "role": "button",
+  "item": true,
+  "vectors": [
+    {
+      "name": "Enter on an item header presses on key down",
+      "needs": ["keyboard"],
+      "start": {
+        "items": [{}, {}]
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Enter",
+            "phase": "down",
+            "item": 1
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "expanded": "collapsed"
+            },
+            {
+              "expanded": "expanded"
+            }
+          ],
+          "itemAria": [
+            {
+              "aria-expanded": "false"
+            },
+            {
+              "aria-expanded": "true"
+            }
+          ],
+          "emit": [
+            {
+              "change": {
+                "isExpanded": [1]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Space on an item header acts on key up, an arrow does nothing",
+      "needs": ["keyboard"],
+      "start": {
+        "items": [{}, {}],
+        "focused": 0
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Space",
+            "phase": "down",
+            "item": 0
+          }
+        },
+        {
+          "input": {
+            "key": "Space",
+            "phase": "up",
+            "item": 0
+          }
+        },
+        {
+          "input": {
+            "key": "ArrowDown",
+            "phase": "down",
+            "item": 0
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "expanded": "collapsed"
+            },
+            null
+          ]
+        },
+        {
+          "after": 2,
+          "items": [
+            {
+              "expanded": "expanded"
+            },
+            null
+          ]
+        },
+        {
+          "after": 3,
+          "focused": 0,
+          "emit": []
+        }
+      ]
+    }
+  ]
+}
