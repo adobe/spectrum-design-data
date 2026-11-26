@@ -82,8 +82,17 @@ target that actually exist:
   the ids in that list, so a plugin is added in one place. The TUI preview and
   `sdk/wasm` (`renderPng`, `describeFont`, `chooseFont`) call the PNG crate's
   functions directly; `sdk/wasm` turns `fallback-font` off because the MCP server
-  hands it the fonts it reads. `sdk/wasm-visual` does not depend on it. The
-  spec-sheet renderer follows in p6ga.36.3.
+  hands it the fonts it reads. `sdk/wasm-visual` does not depend on it.
+
+* **Spec-sheet generator** — `design-data-spec-sheet` builds the component
+  spec-sheet model (pages of blocks with scenes, token rows, change markers and
+  the filled template sections) from a loaded `TokenGraph`. It is a library with a
+  function API (`build_sheet`, `components_with_relationships`, `index_entry`),
+  not a `SceneRenderer`: its output is a JSON document that the Figma spec plugin
+  (`tools/figma-spec-plugin`, payloads) and the hub explorer (web SVG with `--svg`)
+  read. The CLI's `design-data spec-sheet` (`cli/src/spec_sheet.rs`) loads the
+  dataset and the text metrics, calls the plugin and writes the files. Only the
+  CLI depends on it; `sdk/wasm`, `sdk/wasm-visual` and core do not.
 
 **Adding a new in-monorepo plugin**: create `sdk/plugins/<name>/`, depend on
 `design-data-core` by path, implement `TokenExporter` if it accepts resolved

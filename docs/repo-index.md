@@ -21,6 +21,7 @@ Products and libraries for people building with Spectrum. Active and incubating 
 | [`sdk/plugins/dtcg`](../sdk/plugins/dtcg/) | `design-data-dtcg` | active | no | no | DTCG import and export plugin. |
 | [`sdk/plugins/figma`](../sdk/plugins/figma/) | `design-data-figma` | active | no | no | Figma variables import, export, and diff plugin. |
 | [`sdk/plugins/png`](../sdk/plugins/png/) | `design-data-png` | active | no | no | PNG scene renderer: pure-Rust rasterizer, font discovery and the bundled fallback font. |
+| [`sdk/plugins/spec-sheet`](../sdk/plugins/spec-sheet/) | `design-data-spec-sheet` | active | no | no | Component spec-sheet generator: the sheet model behind the Figma payloads and the web SVG. |
 | [`sdk/plugins/shadcn`](../sdk/plugins/shadcn/) | `design-data-shadcn` | active | no | no | shadcn theme and component registry export plugin. |
 | [`sdk/plugins/site`](../sdk/plugins/site/) | `design-data-site` | active | no | no | Static component explorer site generator. |
 | [`sdk/plugins/site/assets`](../sdk/plugins/site/assets/) | — | active | no | no | Browser assets (HTML and visual runtime) embedded by the site generator. |

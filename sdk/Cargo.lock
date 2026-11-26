@@ -644,7 +644,7 @@ dependencies = [
 
 [[package]]
 name = "design-data-cli"
-version = "0.63.7"
+version = "0.63.8"
 dependencies = [
  "assert_cmd",
  "chrono",
@@ -655,6 +655,7 @@ dependencies = [
  "design-data-png",
  "design-data-shadcn",
  "design-data-site",
+ "design-data-spec-sheet",
  "design-data-tui",
  "jsonschema",
  "miette",
@@ -742,6 +743,14 @@ version = "0.1.0"
 dependencies = [
  "design-data-core",
  "design-data-figma",
+ "serde_json",
+]
+
+[[package]]
+name = "design-data-spec-sheet"
+version = "0.1.0"
+dependencies = [
+ "design-data-core",
  "serde_json",
 ]
 

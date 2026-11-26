@@ -92,6 +92,11 @@
           "enum": ["first", "middle", "last", "only"],
           "description": "The place of one drawn copy of a repeated part (a collection slot's part) among the copies drawn: first, middle, last, or only (a single copy; neither first nor last). Valid only when scope.part is that repeated part or a part inside it (SPEC-107). Counts as one satisfied condition when the renderer resolves the record per copy. Unlike scope.position, which names a side or corner."
         },
+        "ordinal": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "The place of this record among records that share one identity and differ only by order, such as the stops of one gradient (1 is the first). Part of the relationship's identity (SPEC-125). Not a count of copies; see scope.itemPosition for that."
+        },
         "structure": {
           "type": "string",
           "minLength": 1,

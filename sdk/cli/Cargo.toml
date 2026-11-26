@@ -1,6 +1,6 @@
 [package]
 name = "design-data-cli"
-version = "0.63.7"
+version = "0.63.8"
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
@@ -14,6 +14,7 @@ path = "src/main.rs"
 clap = { version = "4.5", features = ["derive", "env"] }
 design-data-core = { path = "../core", features = ["fetch"] }
 design-data-png = { path = "../plugins/png" }
+design-data-spec-sheet = { path = "../plugins/spec-sheet" }
 design-data-dtcg = { path = "../plugins/dtcg" }
 design-data-figma = { path = "../plugins/figma" }
 design-data-shadcn = { path = "../plugins/shadcn" }
