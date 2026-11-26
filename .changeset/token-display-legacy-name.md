@@ -17,3 +17,5 @@ derives (`extract_legacy_key`), pinned or not (proposal 023, slice 1).
   mode-dependent aliases through it, and still accept the old `field=value` text.
 - Removes 164 token `legacyKey` pins that now equal the derived name. Legacy output
   (`@adobe/spectrum-tokens`) is byte-identical.
+- Raises the dataset `requires.cli` to 0.63.8: an older CLI draws the same pixels but
+  labels unpinned tokens with their field names.
