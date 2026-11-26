@@ -922,6 +922,265 @@
           "emit": []
         }
       ]
+    },
+    {
+      "name": "a decimal half rounds away from the minimum on a move",
+      "start": {
+        "minValue": 0,
+        "maxValue": 1,
+        "step": 0.1,
+        "value": 0
+      },
+      "steps": [
+        {
+          "intent": "move",
+          "position": 0.35
+        },
+        {
+          "intent": "move",
+          "position": 0.15
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0.4
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 0.2
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a decimal half rounds away from the minimum on a key",
+      "start": {
+        "minValue": 0,
+        "maxValue": 1,
+        "step": 0.1,
+        "value": 0.35
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowRight",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0.5
+              }
+            }
+          ],
+          "aria": {
+            "aria-valuenow": "0.5"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a 0.05 step rounds halves and keeps no float noise",
+      "start": {
+        "minValue": 0,
+        "maxValue": 1,
+        "step": 0.05,
+        "value": 0.1
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowRight",
+            "phase": "down"
+          }
+        },
+        {
+          "intent": "move",
+          "position": 0.125
+        },
+        {
+          "intent": "move",
+          "position": 0.175
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0.15
+              }
+            }
+          ],
+          "aria": {
+            "aria-valuenow": "0.15"
+          }
+        },
+        {
+          "after": 2,
+          "emit": []
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "value": 0.2
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "0.1 plus 0.2 reads 0.3",
+      "start": {
+        "minValue": 0,
+        "maxValue": 1,
+        "step": 0.1,
+        "value": 0.1
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "ArrowRight",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "ArrowRight",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0.2
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 0.3
+              }
+            }
+          ],
+          "aria": {
+            "aria-valuenow": "0.3"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a move counts from a non-zero minimum",
+      "start": {
+        "minValue": 50,
+        "maxValue": 150,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "intent": "move",
+          "position": 0.5
+        },
+        {
+          "intent": "move",
+          "position": 0
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 100
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 50
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a drag to the end gives the last lattice point, End the maximum",
+      "start": {
+        "minValue": 0,
+        "maxValue": 10,
+        "step": 3,
+        "value": 0
+      },
+      "steps": [
+        {
+          "intent": "move",
+          "position": 1
+        },
+        {
+          "input": {
+            "key": "End",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 9
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 10
+              }
+            }
+          ]
+        }
+      ]
     }
   ]
 }

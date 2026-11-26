@@ -1721,38 +1721,123 @@ fn a_fixed_page_size_and_a_bad_range_are_pinned() {
     );
 
     let (contract, _) = range_fixture();
-    let bad_position = vector(
-        json!({ "value": 0 }),
-        vec![json!({ "intent": "move", "position": 1.5 })],
-        json!([{ "after": 1, "emit": [] }]),
-    );
-    let bad_step = vector(
-        json!({ "value": 0, "step": 0 }),
-        vec![key("ArrowRight")],
-        json!([{ "after": 1, "emit": [] }]),
-    );
-    let no_position = vector(
-        json!({ "value": 0 }),
-        vec![json!({ "intent": "move" })],
-        json!([{ "after": 1, "emit": [] }]),
-    );
-    for v in [bad_position, bad_step, no_position] {
-        assert_eq!(
-            range_failures(&contract, v.as_array().unwrap(), &patterns),
-            1,
-            "{v}"
-        );
+    let reason = |contract: &Value, v: &Value| -> String {
+        let r = run_range(contract, v.as_array().unwrap(), &patterns);
+        match &r[0].status {
+            Status::Fail(f) => f.join("; "),
+            other => format!("not a failure: {other:?}"),
+        }
+    };
+    let expect_none = json!([{ "after": 1, "emit": [] }]);
+    let cases = [
+        (
+            vector(
+                json!({ "value": 0 }),
+                vec![json!({ "intent": "move", "position": 1.5 })],
+                expect_none.clone(),
+            ),
+            "needs a step `position` from 0 to 1",
+        ),
+        (
+            vector(
+                json!({ "value": 0 }),
+                vec![json!({ "intent": "move" })],
+                expect_none.clone(),
+            ),
+            "needs a step `position` from 0 to 1",
+        ),
+        (
+            vector(
+                json!({ "value": 0, "step": 0 }),
+                vec![key("ArrowRight")],
+                expect_none.clone(),
+            ),
+            "the step must be above 0",
+        ),
+        (
+            vector(
+                json!({ "value": 0, "minValue": 9, "maxValue": 3 }),
+                vec![key("ArrowRight")],
+                expect_none.clone(),
+            ),
+            "min at most max",
+        ),
+        (
+            vector(
+                json!({ "value": "50" }),
+                vec![key("ArrowRight")],
+                expect_none.clone(),
+            ),
+            "option 'value' is \"50\", which is not a number",
+        ),
+        (
+            vector(
+                json!({ "value": 0, "step": "5" }),
+                vec![key("ArrowRight")],
+                expect_none.clone(),
+            ),
+            "option 'step' is \"5\"",
+        ),
+        (
+            vector(
+                json!({ "value": 0, "minValue": true }),
+                vec![key("ArrowRight")],
+                expect_none.clone(),
+            ),
+            "option 'minValue' is true",
+        ),
+        (
+            // A position does not carry over to a later step that has none.
+            vector(
+                json!({ "value": 0 }),
+                vec![
+                    json!({ "intent": "move", "position": 0.5 }),
+                    json!({ "intent": "move" }),
+                ],
+                json!([{ "after": 1, "emit": [{ "change": { "value": 50 } }] }, { "after": 2, "emit": [] }]),
+            ),
+            "needs a step `position` from 0 to 1",
+        ),
+    ];
+    for (v, why) in cases {
+        let got = reason(&contract, &v);
+        assert!(got.contains(why), "want {why}: {got}");
     }
     let mut no_range = contract.clone();
     no_range.as_object_mut().unwrap().remove("range");
     let any = vector(
         json!({ "value": 0 }),
         vec![key("ArrowRight")],
-        json!([{ "after": 1, "emit": [] }]),
+        expect_none.clone(),
+    );
+    assert!(reason(&no_range, &any).contains("has no `range`"));
+
+    // Defaults: only `value` and `min` are named, so max (100), step (1), the page (a tenth of
+    // the span) and an unset value (reads the minimum) all come from the runner.
+    let mut bare = contract.clone();
+    bare["range"] = json!({ "value": "value", "min": "minValue" });
+    let defaults = vector(
+        json!({ "minValue": 10 }),
+        vec![key("PageUp"), key("End"), key("Home"), key("ArrowRight")],
+        json!([
+            { "after": 1, "emit": [{ "change": { "value": 19 } }] },
+            { "after": 2, "emit": [{ "change": { "value": 100 } }] },
+            { "after": 3, "emit": [{ "change": { "value": 10 } }] },
+            { "after": 4, "emit": [{ "change": { "value": 11 } }] },
+        ]),
     );
     assert_eq!(
-        range_failures(&no_range, any.as_array().unwrap(), &patterns),
-        1
+        range_failures(&bare, defaults.as_array().unwrap(), &patterns),
+        0
+    );
+    let unset = vector(
+        json!({ "minValue": 10 }),
+        vec![key("ArrowRight")],
+        json!([{ "after": 1, "emit": [{ "change": { "value": 11 } }] }]),
+    );
+    assert_eq!(
+        range_failures(&bare, unset.as_array().unwrap(), &patterns),
+        0
     );
 
     let mut unlisted = contract.clone();

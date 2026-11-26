@@ -342,28 +342,32 @@ impl Run<'_> {
             .get("value")
             .and_then(Value::as_str)
             .ok_or("the `range` names no `value` option")?;
-        let num = |k: &str, default: f64| {
-            r.get(k)
-                .and_then(Value::as_str)
-                .and_then(|o| self.options.get(o))
-                .and_then(Value::as_f64)
-                .unwrap_or(default)
+        // An unset option reads the default; one that is set but not a number is an error.
+        let read = |name: &str, default: f64| match self.options.get(name) {
+            None | Some(Value::Null) => Ok(default),
+            Some(v) => v
+                .as_f64()
+                .ok_or_else(|| format!("option '{name}' is {v}, which is not a number")),
         };
-        let (min, max, step) = (num("min", 0.0), num("max", 100.0), num("step", 1.0));
+        let num = |k: &str, default: f64| match r.get(k).and_then(Value::as_str) {
+            Some(o) => read(o, default),
+            None => Ok(default),
+        };
+        let (min, max, step) = (num("min", 0.0)?, num("max", 100.0)?, num("step", 1.0)?);
         if step <= 0.0 || min > max {
             return Err(format!(
                 "the range is min {min}, max {max}, step {step}: the step must be above 0 and min at most max"
             ));
         }
+        // The quotient is rounded to 9 decimals first, so an exact decimal half (0.35 / 0.1) is
+        // not pushed below .5 by float noise.
+        // shortcut: values above 1e298 overflow and steps below 1e-10 never move; upgrade with a decimal type.
         let snap = |x: f64| {
-            let s = min + ((x - min) / step).round() * step;
+            let q = (((x - min) / step) * 1e9).round() / 1e9;
+            let s = min + q.round() * step;
             ((s * 1e10).round() / 1e10).clamp(min, max)
         };
-        let now = self
-            .options
-            .get(name)
-            .and_then(Value::as_f64)
-            .unwrap_or(min);
+        let now = read(name, min)?;
         let next = match a.get("to").and_then(Value::as_str) {
             Some("min") => min,
             Some("max") => max,

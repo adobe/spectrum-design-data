@@ -14,3 +14,4 @@ The behavior runner supports single-thumb value ranges (slider), decisions A658 
   (a step carries `position`, 0 to 1); a new `range` pattern; web binds the `slider` role.
 - SPEC-119 warns on a `range` option missing from `state` and on `do.adjust` with no `range`.
 - No component has a range contract yet.
+- A decimal half snaps away from the minimum despite float noise; a non-numeric option fails.
