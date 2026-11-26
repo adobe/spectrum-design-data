@@ -239,6 +239,32 @@
       "type": "object",
       "minProperties": 1,
       "properties": {
+        "adjust": {
+          "type": "object",
+          "minProperties": 1,
+          "properties": {
+            "by": {
+              "enum": [-1, 1],
+              "description": "Moves the value one `unit` down or up, then snaps and clamps."
+            },
+            "unit": { "enum": ["step", "page"] },
+            "to": {
+              "enum": ["min", "max", "position"],
+              "description": "`min` and `max` set the bound exactly; `position` sets the value at the step's logical `position` (0 to 1 from the minimum), snapped and clamped."
+            }
+          },
+          "oneOf": [
+            { "required": ["by", "unit"], "not": { "required": ["to"] } },
+            {
+              "required": ["to"],
+              "not": {
+                "anyOf": [{ "required": ["by"] }, { "required": ["unit"] }]
+              }
+            }
+          ],
+          "additionalProperties": false,
+          "description": "Moves the value of the contract's `range` block. The runner snaps, clamps and normalizes numbers; a transition that raises an event emits it only when the value changed."
+        },
         "toggle": {
           "$ref": "#/$defs/name"
         },

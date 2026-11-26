@@ -29,6 +29,18 @@
         { "key": "ArrowLeft", "down": "navigate-previous" }
       ]
     },
+    "slider": {
+      "keyboard": [
+        { "key": "ArrowRight", "down": "increment" },
+        { "key": "ArrowUp", "down": "increment" },
+        { "key": "ArrowLeft", "down": "decrement" },
+        { "key": "ArrowDown", "down": "decrement" },
+        { "key": "PageUp", "down": "increment-page" },
+        { "key": "PageDown", "down": "decrement-page" },
+        { "key": "Home", "down": "set-min" },
+        { "key": "End", "down": "set-max" }
+      ]
+    },
     "tooltip": {
       "keyboard": [{ "key": "Escape", "down": "dismiss" }]
     }

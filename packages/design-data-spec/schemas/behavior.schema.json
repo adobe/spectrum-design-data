@@ -54,6 +54,59 @@
       "description": "Per anatomy part, facet id to the accessibility state it exposes."
     },
     "collection": { "$ref": "#/$defs/collection" },
+    "range": {
+      "type": "object",
+      "required": ["value"],
+      "properties": {
+        "value": {
+          "$ref": "#/$defs/name",
+          "description": "The option that holds the value (a number)."
+        },
+        "min": {
+          "$ref": "#/$defs/name",
+          "description": "Option holding the minimum (default 0 while unset)."
+        },
+        "max": {
+          "$ref": "#/$defs/name",
+          "description": "Option holding the maximum (default 100 while unset)."
+        },
+        "step": {
+          "$ref": "#/$defs/name",
+          "description": "Option holding the step (default 1 while unset); must be above 0."
+        },
+        "page": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": ["fraction"],
+              "properties": {
+                "fraction": {
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "maximum": 1
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": ["size"],
+              "properties": {
+                "size": { "type": "number", "exclusiveMinimum": 0 }
+              },
+              "additionalProperties": false
+            }
+          ],
+          "description": "The page: a fraction of the span rounded to the step (never below one step), or a fixed size. Default: fraction 0.1."
+        },
+        "mirror": {
+          "$ref": "#/$defs/guard",
+          "description": "A guard over the contract's facets: while it holds, the runner swaps ArrowLeft and ArrowRight before it looks the key up in the bindings. A `move` position is logical and is not mirrored."
+        }
+      },
+      "additionalProperties": false,
+      "description": "A single-thumb value range (decision A658): the options `do.adjust` reads and writes. The runner snaps to the step from the minimum (half away from the minimum), then clamps, and keeps whole numbers whole (41, not 41.0)."
+    },
     "wcag": { "$ref": "#/$defs/wcag" },
     "vectors": {
       "type": "array",
@@ -336,6 +389,32 @@
           "$ref": "#/$defs/name",
           "description": "An item option the enclosing group's `collection.choose` decides (single: on, others off; multiple: toggle; never the last off unless `allowsEmpty`). The group raises one event with the indices that are on. Outside a group it toggles the option."
         },
+        "adjust": {
+          "type": "object",
+          "minProperties": 1,
+          "properties": {
+            "by": {
+              "enum": [-1, 1],
+              "description": "Moves the value one `unit` down or up, then snaps and clamps."
+            },
+            "unit": { "enum": ["step", "page"] },
+            "to": {
+              "enum": ["min", "max", "position"],
+              "description": "`min` and `max` set the bound exactly; `position` sets the value at the step's logical `position` (0 to 1 from the minimum), snapped and clamped."
+            }
+          },
+          "oneOf": [
+            { "required": ["by", "unit"], "not": { "required": ["to"] } },
+            {
+              "required": ["to"],
+              "not": {
+                "anyOf": [{ "required": ["by"] }, { "required": ["unit"] }]
+              }
+            }
+          ],
+          "additionalProperties": false,
+          "description": "Moves the value of the contract's `range` block. The runner snaps, clamps and normalizes numbers; a transition that raises an event emits it only when the value changed."
+        },
         "toggle": { "$ref": "#/$defs/name" },
         "raise": {
           "const": "press",
@@ -445,6 +524,12 @@
                     "type": "integer",
                     "minimum": 0,
                     "description": "A group contract: run the intent on this item (by index) instead of on the group."
+                  },
+                  "position": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "A `move` intent: the logical position, 0 at the minimum to 1 at the maximum (the adapter resolves geometry and direction)."
                   }
                 },
                 "additionalProperties": false
