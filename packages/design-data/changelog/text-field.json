@@ -869,6 +869,37 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.8.0",
+      "version": "4.0.0",
+      "bump": "major",
+      "date": "2026-11-26",
+      "commit": "1818e9c1035fd38f361a0698fb3453477b702552",
+      "commits": [
+        {
+          "commit": "a302bb18a4c62e28bcf2225cd1982565fa3b2e7c",
+          "date": "2026-11-25",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2184,"title":"fix(design-data): pin the field focus states to focus and focus + hover","url":"https://github.com/adobe/spectrum-design-data/pull/2184"},
+          "entries": [
+            {"id":"a302bb18-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"state":["focus","hover"]}},"record":"ae063689-b36d-5512-ae2e-7e7a9dc21440","name":"color[state=?]","fields":[{"path":"scope.options.state","before":["focus-+-hover"],"after":["focus","hover"]}]},
+            {"id":"a302bb18-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"state":["focus","hover"]}},"record":"6edbca33-3431-55bf-89d7-437248ca0cb1","name":"color[state=?]","fields":[{"path":"scope.options.state","before":["focus-+-hover"],"after":["focus","hover"]}]},
+            {"id":"a302bb18-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"state":["focus","hover"]}},"record":"18049d57-1cf7-528e-b1b6-761c7511039d","name":"color[state=?]","fields":[{"path":"scope.options.state","before":["focus-+-hover"],"after":["focus","hover"]}]},
+            {"id":"a302bb18-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"state":["focus"]}},"record":"e3427871-b75f-5d73-bf29-dca40be80b1d","name":"color[state=?]","fields":[{"path":"scope.options.state","before":["focus-+-not-hover"],"after":["focus"]}]},
+            {"id":"a302bb18-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"state":["focus"]}},"record":"31d983d1-887d-5681-bd8a-6090b94a9d4c","name":"color[state=?]","fields":[{"path":"scope.options.state","before":["focus-+-not-hover"],"after":["focus"]}]},
+            {"id":"a302bb18-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"state":["focus"]}},"record":"f00e18ef-59e4-5e5d-9856-bf9291c2fb50","name":"color[state=?]","fields":[{"path":"scope.options.state","before":["focus-+-not-hover"],"after":["focus"]}]},
+            {"id":"a302bb18-6","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"isError":true,"state":["focus","hover"]}},"record":"d77a4831-dd1f-5f31-93b8-0cbc1b941e21","name":"color[isError=?,state=?]","fields":[{"path":"scope.options.state","before":["focus-+-hover"],"after":["focus","hover"]}]},
+            {"id":"a302bb18-7","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"isError":true,"state":["focus"]}},"record":"ab159fd9-ba46-5540-ac2c-8f26919ad89b","name":"color[isError=?,state=?]","fields":[{"path":"scope.options.state","before":["focus-+-not-hover"],"after":["focus"]}]},
+            {"id":"a302bb18-8","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Value"],"scope":{"property":"content-color","options":{"state":["focus","hover"]}},"record":"ce4a3827-81e6-5713-89d6-c436e12f696a","name":"content-color[state=?]","fields":[{"path":"scope.options.state","before":["focus-+-hover"],"after":["focus","hover"]}]},
+            {"id":"a302bb18-9","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Value"],"scope":{"property":"content-color","options":{"state":["focus"]}},"record":"3a99a586-4baa-5d47-9792-7a90ebdc296c","name":"content-color[state=?]","fields":[{"path":"scope.options.state","before":["focus-+-not-hover"],"after":["focus"]}]},
+            {"id":"a302bb18-10","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Border"],"scope":{"property":"color","options":{"isError":true,"state":["keyboard-focus"]}},"record":"15cf2278-5762-54da-89b7-b5c86f922d42","name":"color[isError=?,state=?]","fields":[],"before":"393cb93a-3d0a-4118-a2ee-451fdc871b0f"},
+            {"id":"a302bb18-11","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Value"],"scope":{"property":"content-color","options":null},"record":"7a935bad-a8a3-5b54-b752-208684b24dff","name":"content-color","fields":[],"before":"c2c538e0-6f8d-4586-953a-b98ef40c9eca"},
+            {"id":"a302bb18-12","kind":"state","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"text-field/states/focus-+-hover","name":"focus-+-hover","fields":[],"before":{"name":"focus-+-hover","trigger":"prop"}},
+            {"id":"a302bb18-13","kind":"state","change":"removed","class":"api","bump":"major","indirect":false,"contexts":[],"record":"text-field/states/focus-+-not-hover","name":"focus-+-not-hover","fields":[],"before":{"name":"focus-+-not-hover","trigger":"prop"}},
+            {"id":"a302bb18-14","kind":"state","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"text-field/states/focus","name":"focus","fields":[],"after":{"name":"focus","trigger":"interaction"}}
+          ]
+        }
+      ]
     }
   ]
 }

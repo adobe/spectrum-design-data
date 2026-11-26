@@ -292,6 +292,24 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.8.0",
+      "version": "3.0.2",
+      "bump": "patch",
+      "date": "2026-11-26",
+      "commit": "1818e9c1035fd38f361a0698fb3453477b702552",
+      "commits": [
+        {
+          "commit": "a5c38722cd696272eeff263af75efa8c0b0aa1d8",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2190,"title":"chore(design-data): remove redundant token legacyKey pins","url":"https://github.com/adobe/spectrum-design-data/pull/2190"},
+          "entries": [
+            {"id":"a5c38722-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Width"],"record":"0a7df7ff-20ca-4d71-a5d7-4ea71d5314fa","name":"maximum-width[scale=desktop,size=l,structure=container]","fields":[{"path":"name.legacyKey","before":"container-maximum-width-large"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"a5c38722-1","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Width"],"record":"a44e6674-a29c-50a6-aacf-189e380d87e2","name":"maximum-width[scale=mobile,size=l,structure=container]","fields":[{"path":"name.legacyKey","before":"container-maximum-width-large"}],"rationale":"Mobile value hand-set to the previous S2 mobile value instead of desktop x 1.25 (Matt Davey, size tokens thread)."}
+          ]
+        }
+      ]
     }
   ]
 }
