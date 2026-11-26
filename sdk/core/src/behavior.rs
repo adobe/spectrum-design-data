@@ -567,7 +567,7 @@ fn run_vector(
     let expects = v.get("expect").and_then(Value::as_array);
     if group.is_none() {
         for e in expects.into_iter().flatten() {
-            if let Some(k) = ["items", "focused"]
+            if let Some(k) = ["items", "focused", "itemAria"]
                 .into_iter()
                 .find(|k| e.get(k).is_some())
             {
@@ -584,8 +584,20 @@ fn run_vector(
             let bindings = bindings.ok_or_else(|| {
                 format!("step {n} is an `input` step, but the run has no key bindings")
             })?;
-            let role = part_role(&m.parts)
-                .ok_or_else(|| format!("step {n} is an `input` step, but no part has a role"))?;
+            let at = input
+                .get("item")
+                .and_then(Value::as_u64)
+                .map(|a| a as usize);
+            let role = match (at, &group) {
+                (Some(_), None) => {
+                    return Err(format!(
+                        "step {n} addresses an item, but the vector has no `items`"
+                    ))
+                }
+                (Some(_), Some(g)) => part_role(&g.item_machine().parts),
+                (None, _) => part_role(&m.parts),
+            }
+            .ok_or_else(|| format!("step {n} is an `input` step, but no part has a role"))?;
             if bindings.get("roles").and_then(|r| r.get(role)).is_none() {
                 return Err(format!(
                     "step {n} is an `input` step, but the key bindings have no entry for role '{role}' (a mistyped role, or a role with no binding)"
@@ -604,10 +616,11 @@ fn run_vector(
             }
             let mut raised = Vec::new();
             for i in binding_intents(bindings, role, key, field("phase")) {
-                raised.extend(
-                    dispatch(&mut run, &mut group, &i, Some("keyboard"))
-                        .map_err(|e| format!("step {n}: {e}"))?,
-                );
+                let out = match (at, group.as_mut()) {
+                    (Some(at), Some(g)) => g.item_step(&run.facets(), at, &i, Some("keyboard")),
+                    _ => dispatch(&mut run, &mut group, &i, Some("keyboard")),
+                };
+                raised.extend(out.map_err(|e| format!("step {n}: {e}"))?);
             }
             raised
         } else if let Some(at) = s.get("item").and_then(Value::as_u64) {

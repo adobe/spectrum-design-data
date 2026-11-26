@@ -481,6 +481,127 @@
           ]
         }
       ]
+    },
+    {
+      "name": "a header exposes aria-expanded from its item's state",
+      "start": {
+        "items": [
+          {
+            "isExpanded": true
+          },
+          {}
+        ]
+      },
+      "steps": [
+        {
+          "item": 1,
+          "intent": "activate"
+        },
+        {
+          "item": 0,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "itemAria": [
+            {
+              "aria-expanded": "false"
+            },
+            {
+              "aria-expanded": "true"
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "itemAria": [
+            {
+              "aria-expanded": "true"
+            },
+            {
+              "aria-expanded": "false"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a disabled item still exposes aria-expanded as it was",
+      "start": {
+        "items": [
+          {
+            "isDisabled": true
+          },
+          {
+            "isExpanded": true,
+            "isDisabled": true
+          }
+        ]
+      },
+      "steps": [
+        {
+          "item": 0,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "itemAria": [
+            {
+              "aria-expanded": "false"
+            },
+            {
+              "aria-expanded": "true"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a collection with no traversal ignores navigate intents",
+      "start": {
+        "items": [{}, {}, {}],
+        "focused": 1
+      },
+      "steps": [
+        {
+          "intent": "navigate-next"
+        },
+        {
+          "intent": "navigate-previous"
+        },
+        {
+          "intent": "navigate-first"
+        },
+        {
+          "intent": "navigate-last"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "focused": 1,
+          "emit": []
+        },
+        {
+          "after": 2,
+          "focused": 1,
+          "emit": []
+        },
+        {
+          "after": 3,
+          "focused": 1,
+          "emit": []
+        },
+        {
+          "after": 4,
+          "focused": 1,
+          "emit": []
+        }
+      ]
     }
   ]
 }

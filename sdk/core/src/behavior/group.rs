@@ -18,7 +18,7 @@ use std::collections::BTreeMap;
 
 use serde_json::{json, Map, Value};
 
-use super::{holds, init_options, option, show, Machine, Run};
+use super::{aria_state, holds, init_options, option, show, Machine, Run};
 use crate::registry::RegistryData;
 
 /// Intents a group with a `collection` resolves itself instead of running a transition.
@@ -114,6 +114,10 @@ impl<'a> Group<'a> {
         }
     }
 
+    pub(super) fn item_machine(&self) -> &Machine {
+        self.item_m
+    }
+
     fn on_set(&self, opt: &str) -> Vec<usize> {
         (0..self.items.len())
             .filter(|i| option(&self.items[*i].options, opt) == Value::Bool(true))
@@ -192,6 +196,10 @@ impl<'a> Group<'a> {
         registry: &RegistryData,
         intent: &str,
     ) -> Result<Vec<Value>, String> {
+        // A collection with no `traversal` declares no navigation: `navigate-*` does nothing.
+        if self.col.get("traversal").is_none() {
+            return Ok(vec![]);
+        }
         if group_facets.iter().any(|(name, value)| {
             value == "true"
                 && registry
@@ -295,6 +303,38 @@ impl<'a> Group<'a> {
                     Some(got) if *got != show(want) => failures.push(format!(
                         "after step {n}: item {i} facet '{f}' want {} got {got}",
                         show(want)
+                    )),
+                    _ => {}
+                }
+            }
+        }
+        for (i, want) in e
+            .get("itemAria")
+            .and_then(Value::as_array)
+            .into_iter()
+            .flatten()
+            .enumerate()
+        {
+            let Some(want) = want.as_object() else {
+                continue;
+            };
+            let Some(item) = self.items.get(i) else {
+                failures.push(format!(
+                    "after step {n}: expects item {i}, which does not exist"
+                ));
+                continue;
+            };
+            let aria = aria_state(self.item_m, &item.options, &item.facets());
+            for (attr, want) in want {
+                let want = want.as_str();
+                match aria.get(attr) {
+                    None => failures.push(format!(
+                        "after step {n}: item {i}'s semantics expose no attribute '{attr}'"
+                    )),
+                    Some(got) if got.as_deref() != want => failures.push(format!(
+                        "after step {n}: item {i} '{attr}' want {} got {}",
+                        want.unwrap_or("absent"),
+                        got.as_deref().unwrap_or("absent")
                     )),
                     _ => {}
                 }
