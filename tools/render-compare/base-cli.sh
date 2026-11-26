@@ -45,12 +45,19 @@ ensure() {
   lock="$dir.lock"
   if ready; then echo "$dir"; return; fi
   until mkdir "$lock" 2>/dev/null; do
-    # A lock older than the wait limit belongs to a dead builder.
-    if [ "$waited" -ge "$LOCK_WAIT" ]; then fail "lock $lock held for ${LOCK_WAIT}s; remove it if no build is running."; fi
-    echo "base-cli: another build of $sha is running, waiting..." >&2
+    # A lock whose builder died (SIGKILL leaves it) is taken over: the pid is stored in it.
+    local owner; owner="$(cat "$lock/pid" 2>/dev/null || true)"
+    if { [ -n "$owner" ] && ! kill -0 "$owner" 2>/dev/null; } ||
+       { [ -z "$owner" ] && [ -n "$(find "$lock" -maxdepth 0 -mmin +2 2>/dev/null)" ]; }; then
+      echo "base-cli: removing the stale lock $lock (builder ${owner:-unknown} is gone)" >&2
+      rm -rf "$lock"; continue
+    fi
+    if [ "$waited" -ge "$LOCK_WAIT" ]; then fail "lock $lock held by a live process ($owner) for ${LOCK_WAIT}s."; fi
+    echo "base-cli: another build of $sha is running (pid $owner), waiting..." >&2
     sleep 10; waited=$((waited + 10))
     if ready; then echo "$dir"; return; fi
   done
+  echo $$ >"$lock/pid"
   trap "rm -rf '$lock'" EXIT
   if ready; then echo "$dir"; return; fi
   if [ "$want_bin" = 1 ]; then

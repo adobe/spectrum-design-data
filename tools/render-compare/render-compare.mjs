@@ -26,7 +26,14 @@ import { cpus, tmpdir } from "node:os";
 import { basename, dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
-import { matrixFor, readComponent, renderArgs, sample } from "./matrix.mjs";
+import {
+  matrixFor,
+  pairCoverage,
+  readComponent,
+  renderArgs,
+  sample,
+  spread,
+} from "./matrix.mjs";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const NORMALIZE = join(HERE, "../cli-minimum-gate/normalize.jq");
@@ -34,7 +41,8 @@ const BINDING_WARNING = /no relationship|does not resolve|not resolve/i;
 
 const { values: opt } = parseArgs({
   options: {
-    "base-ref": { type: "string", default: "origin/main" },
+    "base-ref": { type: "string" },
+    "no-fetch": { type: "boolean", default: false },
     "base-root": { type: "string" },
     "base-cli": { type: "string" },
     "pr-root": { type: "string" },
@@ -143,13 +151,39 @@ if (!existsSync(prCli))
     `no PR CLI at ${prCli}; build it (cd sdk && cargo build -p design-data-cli) or pass --pr-cli.`,
   );
 
+// BASE is origin/main, or its merge base with the PR when the PR is behind: main's own newer
+// changes are not the PR's. An explicit --base-ref wins.
+let baseRef = opt["base-ref"];
+const notes = [];
+if (!baseRef) {
+  baseRef = "origin/main";
+  const git = (...a) =>
+    execFileSync("git", a, { cwd: prRoot, stdio: ["ignore", "pipe", "ignore"] })
+      .toString()
+      .trim();
+  try {
+    if (!opt["no-fetch"]) git("fetch", "-q", "origin", "main");
+    const tip = git("rev-parse", "origin/main");
+    const mb = git("merge-base", "origin/main", "HEAD");
+    if (mb !== tip) {
+      baseRef = mb;
+      notes.push(
+        `PR is ${git("rev-list", "--count", "HEAD..origin/main")} commit(s) behind origin/main: BASE is the merge base ${mb.slice(0, 12)}, not the main tip, so main's own changes do not show as PR diffs.`,
+      );
+    }
+  } catch {
+    notes.push(
+      "could not fetch or resolve origin/main in the PR root; using the local origin/main ref as is.",
+    );
+  }
+}
 let baseRoot = opt["base-root"] && resolve(opt["base-root"]);
 let baseCli = opt["base-cli"] && resolve(opt["base-cli"]);
 let baseSha = null;
 if (!baseRoot || (!baseCli && !opt["same-cli"])) {
   const sub = opt["same-cli"] ? "src" : "ensure";
-  console.error(`render-compare: base-cli.sh ${sub} ${opt["base-ref"]}`);
-  const r = await run(join(HERE, "base-cli.sh"), [sub, opt["base-ref"]], {
+  console.error(`render-compare: base-cli.sh ${sub} ${baseRef}`);
+  const r = await run(join(HERE, "base-cli.sh"), [sub, baseRef], {
     cwd: prRoot,
   });
   process.stderr.write(r.stderr);
@@ -220,7 +254,7 @@ if (opt.components) {
   if (bad.length) setup(`no visual recipe for: ${bad.join(", ")}`);
   selection = "--components";
 } else if (opt.changed) {
-  const ref = baseSha ?? opt["base-ref"];
+  const ref = baseSha ?? baseRef;
   const base = execFileSync("git", ["merge-base", ref, "HEAD"], { cwd: prRoot })
     .toString()
     .trim();
@@ -230,6 +264,14 @@ if (opt.components) {
     .toString()
     .split("\n")
     .filter(Boolean);
+  files.push(
+    ...execFileSync("git", ["ls-files", "--others", "--exclude-standard"], {
+      cwd: prRoot,
+    })
+      .toString()
+      .split("\n")
+      .filter(Boolean),
+  );
   const picked = new Set();
   let unmapped = 0;
   for (const f of files) {
@@ -258,12 +300,22 @@ comps.sort();
 const out = resolve(opt.out ?? mkdtempSync(join(tmpdir(), "render-compare-")));
 mkdirSync(out, { recursive: true });
 const plans = comps.map((name) => {
-  const all = matrixFor(name, [
+  const { cases: all, params } = matrixFor(name, [
     readComponent(join(baseRoot, DATA), name),
     readComponent(join(prRoot, DATA), name),
   ]);
-  return { name, total: all.length, cases: sample(all, STEP, SEED) };
+  const cases = sample(all, STEP, SEED);
+  return {
+    name,
+    total: all.length,
+    cases,
+    params,
+    pairsAll: pairCoverage(params, all),
+    pairs: pairCoverage(params, cases),
+  };
 });
+const pairTotal = plans.reduce((n, p) => n + p.pairs.total, 0);
+const pairCovered = plans.reduce((n, p) => n + p.pairs.covered, 0);
 const totalCases = plans.reduce((n, p) => n + p.total, 0);
 const sampled = plans.reduce((n, p) => n + p.cases.length, 0);
 console.log(
@@ -274,10 +326,19 @@ console.log(
 );
 console.log(`components: ${comps.length} (${selection})`);
 console.log(
-  `matrix: ${totalCases} cases total, ${sampled} run${STEP > 1 ? ` (--sample ${STEP}, seed ${SEED})` : ""}`,
+  `matrix: ${totalCases} cases total, ${sampled} run${STEP > 1 ? ` (--sample ${STEP}, seed ${SEED})` : ""}; option-pair cover: ${pairCovered} of ${pairTotal} value pairs covered by the cases run`,
 );
+for (const n of notes) console.log(`NOTE: ${n}`);
 for (const w of warnings) console.log(`WARNING: ${w}`);
-if (sampled === 0) setup("the matrix is empty: nothing to compare.");
+if (sampled === 0) {
+  if (opt.changed && !opt.components) {
+    console.log(
+      "render-compare: --changed found no changed component, nothing to compare.",
+    );
+    process.exit(0);
+  }
+  setup("the matrix is empty: nothing to compare.");
+}
 
 // ---- render both sides -----------------------------------------------------------------
 
@@ -561,14 +622,15 @@ timings.compare = (Date.now() - t1) / 1000;
 
 const png = { n: 0, diff: 0, examples: [] };
 if (PNG_N > 0) {
-  const pool_ = plans.flatMap((p) =>
-    p.cases.filter((cs) => {
-      const x = renders[`base/${p.name}`].index?.find((e) => e.id === cs.id);
-      return x && !x.error;
-    }),
-  );
-  const step = Math.max(1, Math.floor(pool_.length / PNG_N));
-  const picked = sample(pool_, step, SEED).slice(0, PNG_N);
+  const pool_ = plans.flatMap((p) => {
+    const ok = new Set(
+      (renders[`base/${p.name}`].index ?? [])
+        .filter((e) => !e.error)
+        .map((e) => e.id),
+    );
+    return p.cases.filter((cs) => ok.has(cs.id));
+  });
+  const picked = spread(pool_, PNG_N);
   const t2 = Date.now();
   await pool(picked, JOBS, async (cs) => {
     const fs = {};
@@ -788,7 +850,7 @@ for (const e of rep.examples)
     `\nexample [${e.kind}] ${e.component} ${e.id}${e.case?.options ? " " + JSON.stringify({ size: e.case.size, states: e.case.states, options: e.case.options, mode: [e.case.colorScheme, e.case.scale], label: e.case.label, icon: e.case.icon }) : ""}\n  ${String(e.detail).split("\n").join("\n  ")}`,
   );
 for (const v of rep.vacuous) console.log(`\nVACUOUS RUN: ${v}`);
-for (const w of warnings) console.log(`WARNING: ${w}`);
+
 const total =
   timings.render +
   timings.compare +
@@ -797,10 +859,12 @@ const total =
 console.log(
   `\ntimings (s): render ${timings.render.toFixed(1)}, compare ${timings.compare.toFixed(1)}${PNG_N ? `, png ${timings.png?.toFixed(1)}` : ""}${sheets.run ? `, spec-sheet ${timings.specSheet.toFixed(1)}` : ""}, total ${total.toFixed(1)}`,
 );
-console.log(`\nrender-compare: ${fail ? "FAIL" : "PASS"}`);
+console.log(
+  `\nrender-compare: ${rep.vacuous.length ? "VACUOUS (exit 2)" : fail ? "FAIL" : "PASS"}`,
+);
 
 const summary = {
-  result: fail ? "FAIL" : "PASS",
+  result: rep.vacuous.length ? "VACUOUS" : fail ? "FAIL" : "PASS",
   baseSha,
   totals: T,
   distinct: { base: distinct.base.size, pr: distinct.pr.size },
@@ -818,4 +882,4 @@ if (opt.report)
 if (!fail && !opt.keep && !opt.out)
   rmSync(out, { recursive: true, force: true });
 else console.log(`outputs kept in ${out}`);
-process.exit(fail ? 1 : 0);
+process.exit(rep.vacuous.length ? 2 : fail ? 1 : 0);
