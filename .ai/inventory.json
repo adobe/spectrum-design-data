@@ -118,6 +118,15 @@
       "summary": "PNG scene renderer: pure-Rust rasterizer, font discovery and the bundled fallback font."
     },
     {
+      "path": "sdk/plugins/spec-sheet",
+      "kind": "crate",
+      "audience": "consumer",
+      "lifecycle": "active",
+      "published": false,
+      "llms": false,
+      "summary": "Component spec-sheet generator: the sheet model behind the Figma payloads and the web SVG."
+    },
+    {
       "path": "sdk/plugins/shadcn",
       "kind": "crate",
       "audience": "consumer",
