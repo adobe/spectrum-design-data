@@ -833,6 +833,27 @@
           ]
         }
       ]
+    },
+    {
+      "name": "an unset value exposes no aria-valuenow",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-valuenow": null
+          }
+        }
+      ]
     }
   ]
 }

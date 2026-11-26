@@ -551,6 +551,142 @@
           }
         }
       ]
+    },
+    {
+      "name": "an unset maxValue reads the runner default of 100: the caller applies the component default of 5",
+      "start": {
+        "value": 5
+      },
+      "steps": [
+        {
+          "intent": "set-max"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 100
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "set-max with maxValue 5 is five stars",
+      "start": {
+        "maxValue": 5,
+        "value": 1
+      },
+      "steps": [
+        {
+          "intent": "set-max"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 5
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "another maxValue sets the star count",
+      "start": {
+        "maxValue": 10,
+        "value": 4
+      },
+      "steps": [
+        {
+          "intent": "set-max"
+        },
+        {
+          "intent": "increment"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 10
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "a move is a slider position, not a star hit test: 0.41 lands on star 2 though it is over star 3",
+      "start": {
+        "maxValue": 5,
+        "value": 0
+      },
+      "steps": [
+        {
+          "intent": "move",
+          "position": 0.41
+        },
+        {
+          "intent": "move",
+          "position": 0.5
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 2
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 3
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "an unset value exposes no aria-valuenow",
+      "start": {
+        "maxValue": 5
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-valuenow": null
+          }
+        }
+      ]
     }
   ]
 }
