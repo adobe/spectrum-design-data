@@ -644,6 +644,25 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.8.0",
+      "version": "2.1.2",
+      "bump": "patch",
+      "date": "2026-11-26",
+      "commit": "1818e9c1035fd38f361a0698fb3453477b702552",
+      "commits": [
+        {
+          "commit": "a5c38722cd696272eeff263af75efa8c0b0aa1d8",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2190,"title":"chore(design-data): remove redundant token legacyKey pins","url":"https://github.com/adobe/spectrum-design-data/pull/2190"},
+          "entries": [
+            {"id":"a5c38722-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (field label to slider control)","Spacing (slider to field)"],"record":"236385bb-9e50-484c-912d-a71fe33924f4","name":"gap[size=l,structure=container]","fields":[{"path":"name.legacyKey","before":"container-gap-large"}]},
+            {"id":"a5c38722-1","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (field label to slider control)","Spacing (slider to field)"],"record":"06d1563b-7d67-400a-bcfa-bc320c2b7a28","name":"gap[size=m,structure=container]","fields":[{"path":"name.legacyKey","before":"container-gap-medium"}]},
+            {"id":"a5c38722-2","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (field label to slider control)","Spacing (slider to field)"],"record":"c9c7652f-0332-417f-8520-e2202d7a08dc","name":"gap[size=xl,structure=container]","fields":[{"path":"name.legacyKey","before":"container-gap-extra-large"}]}
+          ]
+        }
+      ]
     }
   ]
 }
