@@ -5,6 +5,7 @@
   "description": "Layer 1 structural schema for a platform-agnostic behavior contract, `behaviors/<component>.json` (spec/behavior-contract.md, proposal 022). Semantic rules (options, facets, parts, intents and capabilities resolve) are Layer 2 (SPEC-118..120).",
   "type": "object",
   "required": ["component"],
+  "not": { "required": ["range", "ranges"] },
   "properties": {
     "$schema": { "type": "string" },
     "$id": { "type": "string" },
@@ -74,6 +75,10 @@
           "$ref": "#/$defs/name",
           "description": "Option holding the step (default 1 while unset); must be above 0."
         },
+        "wrap": {
+          "type": "boolean",
+          "description": "A cycle (color-wheel hue 0 to 360): max is min again. A step or page step reduces into [min, max): a step up from the last lattice point below max lands on min, a step down from min on that point. `to: max` and a `move` to position 1 still reach max exactly. Needs `min` and `max` options and a span that is a multiple of the step."
+        },
         "page": {
           "oneOf": [
             {
@@ -106,6 +111,13 @@
       },
       "additionalProperties": false,
       "description": "A single-thumb value range (decision A658): the options `do.adjust` reads and writes. The runner snaps to the step from the minimum (half away from the minimum), then clamps, and keeps whole numbers whole (41, not 41.0)."
+    },
+    "ranges": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": { "$ref": "#/$defs/name" },
+      "additionalProperties": { "$ref": "#/properties/range" },
+      "description": "One `range` block per axis (color-area `x` and `y`), keyed by axis name; an alternative to `range`, not an addition. Each axis holds its value in its own option. A `do.adjust` names its `axis`, or takes the `axis` of the vector step that runs it."
     },
     "wcag": { "$ref": "#/$defs/wcag" },
     "vectors": {
@@ -401,6 +413,10 @@
             "to": {
               "enum": ["min", "max", "position"],
               "description": "`min` and `max` set the bound exactly; `position` sets the value at the step's logical `position` (0 to 1 from the minimum), snapped and clamped."
+            },
+            "axis": {
+              "$ref": "#/$defs/name",
+              "description": "The key of the contract's `ranges` this action addresses; without it the step's `axis` is used. Not allowed with a single `range`."
             }
           },
           "oneOf": [
@@ -530,6 +546,10 @@
                     "minimum": 0,
                     "maximum": 1,
                     "description": "A `move` intent: the logical position, 0 at the minimum to 1 at the maximum (the adapter resolves geometry and direction)."
+                  },
+                  "axis": {
+                    "$ref": "#/$defs/name",
+                    "description": "A `ranges` contract: the axis this step's `move` or value intent addresses (an `adjust` without its own `axis` takes it)."
                   }
                 },
                 "additionalProperties": false

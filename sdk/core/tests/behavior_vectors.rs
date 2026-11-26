@@ -1583,9 +1583,15 @@ fn item_aria_on_a_vector_with_no_items_fails() {
 }
 
 fn range_fixture() -> (Value, Vec<Value>) {
+    fixture("behavior-range.json")
+}
+
+fn fixture(name: &str) -> (Value, Vec<Value>) {
     let f: Value = serde_json::from_str(
         &std::fs::read_to_string(
-            PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/behavior-range.json"),
+            PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+                .join("tests/fixtures")
+                .join(name),
         )
         .unwrap(),
     )
@@ -1952,4 +1958,151 @@ fn a_broken_range_contract_or_slider_binding_fails_a_vector() {
             assert!(run(&b) > 0, "{component}: binding {i} is not pinned");
         }
     }
+}
+
+#[test]
+fn the_axis_and_wrap_vectors_pass() {
+    let (contract, vectors) = fixture("behavior-axes.json");
+    let results = run_range(&contract, &vectors, &range_patterns());
+    assert_eq!(results.len(), vectors.len());
+    let bad: Vec<_> = results
+        .iter()
+        .filter(|r| r.status != Status::Pass)
+        .collect();
+    assert!(bad.is_empty(), "{bad:?}");
+}
+
+/// Each break of the axes contract, of the range pattern or of the wrap rule must fail a vector.
+#[test]
+fn a_broken_axis_or_wrap_rule_fails_a_vector() {
+    let (contract, vectors) = fixture("behavior-axes.json");
+    let patterns = range_patterns();
+    let edits = [
+        ("/ranges/x/wrap", json!(false)),
+        (
+            "/ranges/y",
+            json!({ "value": "yValue", "min": "yMin", "max": "yMax", "step": "step", "wrap": true }),
+        ),
+        ("/ranges/x/value", json!("yValue")),
+        ("/ranges/y/value", json!("xValue")),
+        ("/ranges/x/min", json!("yMin")),
+        ("/ranges/x/max", json!("yMax")),
+        ("/ranges/y/min", json!("xMin")),
+        ("/ranges/y/max", json!("xMax")),
+        ("/ranges/x/page", json!({ "fraction": 0.5 })),
+        ("/ranges/x/page", json!({ "size": 7 })),
+        ("/ranges/y/page", json!({ "fraction": 0.5 })),
+        ("range:/transitions/1/do/adjust/by", json!(-1)),
+        ("range:/transitions/2/do/adjust/by", json!(1)),
+        ("range:/transitions/3/do/adjust/unit", json!("step")),
+        ("range:/transitions/5/do/adjust/to", json!("max")),
+        ("range:/transitions/6/do/adjust/to", json!("min")),
+        ("range:/transitions/7/do/adjust/to", json!("min")),
+        ("range:/transitions/1/emit", json!("changed")),
+        (
+            "range:/transitions/1/guard",
+            json!({ "facet": "disabled", "is": "true" }),
+        ),
+    ];
+    assert_eq!(range_failures(&contract, &vectors, &patterns), 0);
+    for (pointer, value) in edits {
+        let (mut broken, mut broken_patterns) = (contract.clone(), patterns.clone());
+        match pointer.strip_prefix("range:") {
+            Some(p) => {
+                let r = broken_patterns
+                    .iter_mut()
+                    .find(|p| p.pattern == "range")
+                    .unwrap();
+                *r.raw.pointer_mut(p).unwrap() = value;
+            }
+            None => *broken.pointer_mut(pointer).unwrap() = value,
+        }
+        assert!(
+            range_failures(&broken, &vectors, &broken_patterns) > 0,
+            "breaking {pointer} failed no vector"
+        );
+    }
+}
+
+#[test]
+fn axis_and_wrap_mistakes_fail_with_a_reason() {
+    let (contract, _) = fixture("behavior-axes.json");
+    let patterns = range_patterns();
+    let reason = |contract: &Value, start: Value, step: Value| -> String {
+        let v = json!([{ "name": "v", "start": start, "steps": [step],
+            "expect": [{ "after": 1, "emit": [] }] }]);
+        let r = run_range(contract, v.as_array().unwrap(), &patterns);
+        match &r[0].status {
+            Status::Fail(f) => f.join("; "),
+            other => format!("not a failure: {other:?}"),
+        }
+    };
+    let start = json!({ "xValue": 5, "xMin": 0, "xMax": 360, "step": 1 });
+    let cases = [
+        (
+            &contract,
+            json!({ "intent": "increment", "axis": "z" }),
+            "unknown axis 'z' (the `ranges` have x, y)",
+        ),
+        (
+            &contract,
+            json!({ "intent": "increment" }),
+            "must name an `axis`",
+        ),
+    ];
+    for (c, step, why) in cases {
+        let got = reason(c, start.clone(), step);
+        assert!(got.contains(why), "{why}: {got}");
+    }
+    let mut single = contract.clone();
+    single["range"] = single["ranges"]["x"].clone();
+    single.as_object_mut().unwrap().remove("ranges");
+    let got = reason(
+        &single,
+        start.clone(),
+        json!({ "intent": "increment", "axis": "x" }),
+    );
+    assert!(got.contains("single `range`, not `ranges`"), "{got}");
+    let mut both = contract.clone();
+    both["range"] = contract["ranges"]["x"].clone();
+    let got = reason(&both, start.clone(), json!({ "intent": "increment" }));
+    assert!(got.contains("both `range` and `ranges`"), "{got}");
+    assert!(
+        design_data_core::behavior::check_contract(&both, &patterns, None)
+            .iter()
+            .any(|m| m.contains("both `range` and `ranges`"))
+    );
+    let mut fixed = patterns.clone();
+    fixed.iter_mut().find(|p| p.pattern == "range").unwrap().raw["transitions"][1]["do"]
+        ["adjust"]["axis"] = json!("y");
+    let v = json!([{ "name": "v", "start": start,
+        "steps": [{ "intent": "increment", "axis": "x" }], "expect": [{ "after": 1, "emit": [] }] }]);
+    let r = run_range(&contract, v.as_array().unwrap(), &fixed);
+    assert!(
+        matches!(&r[0].status, Status::Fail(f) if f[0].contains("addresses axis 'y', but the step names axis 'x'")),
+        "{:?}",
+        r[0].status
+    );
+    let got = reason(
+        &contract,
+        json!({ "xValue": 1, "xMin": 0, "xMax": 10, "step": 3 }),
+        json!({ "intent": "increment", "axis": "x" }),
+    );
+    assert!(
+        got.contains("span 10 must be above 0 and a multiple of the step 3"),
+        "{got}"
+    );
+    let got = reason(
+        &contract,
+        json!({ "xValue": 1, "xMin": 5, "xMax": 5, "step": 1 }),
+        json!({ "intent": "increment", "axis": "x" }),
+    );
+    assert!(got.contains("span 0 must be above 0"), "{got}");
+    let mut ghost = contract.clone();
+    ghost["ranges"]["y"]["max"] = json!("isGhost");
+    assert!(
+        design_data_core::behavior::check_contract(&ghost, &patterns, None)
+            .iter()
+            .any(|m| m.contains("`ranges.y.max` names 'isGhost'"))
+    );
 }

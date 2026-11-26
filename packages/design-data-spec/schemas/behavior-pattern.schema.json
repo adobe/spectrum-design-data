@@ -251,6 +251,10 @@
             "to": {
               "enum": ["min", "max", "position"],
               "description": "`min` and `max` set the bound exactly; `position` sets the value at the step's logical `position` (0 to 1 from the minimum), snapped and clamped."
+            },
+            "axis": {
+              "$ref": "#/$defs/name",
+              "description": "The key of the contract's `ranges` this action addresses; without it the step's `axis` is used. Not allowed with a single `range`."
             }
           },
           "oneOf": [
