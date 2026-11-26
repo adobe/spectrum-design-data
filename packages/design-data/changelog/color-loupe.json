@@ -249,6 +249,24 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.8.0",
+      "version": "3.0.1",
+      "bump": "patch",
+      "date": "2026-11-26",
+      "commit": "1818e9c1035fd38f361a0698fb3453477b702552",
+      "commits": [
+        {
+          "commit": "a5c38722cd696272eeff263af75efa8c0b0aa1d8",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2190,"title":"chore(design-data): remove redundant token legacyKey pins","url":"https://github.com/adobe/spectrum-design-data/pull/2190"},
+          "entries": [
+            {"id":"a5c38722-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Width"],"record":"03042116-4c2d-4a29-b17f-47da76f5e103","name":"size[scaleIndex=?]","fields":[{"path":"name.legacyKey","before":"size-700"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"a5c38722-1","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Height"],"record":"67cafee2-a871-4689-a2d7-985eabe8c0b3","name":"size[scaleIndex=?]","fields":[{"path":"name.legacyKey","before":"size-800"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"}
+          ]
+        }
+      ]
     }
   ]
 }

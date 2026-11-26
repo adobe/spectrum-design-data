@@ -484,6 +484,23 @@
           "metadata": {"count":2,"fields":["contextQualifier"]}
         }
       ]
+    },
+    {
+      "release": "4.8.0",
+      "version": "3.1.1",
+      "bump": "patch",
+      "date": "2026-11-26",
+      "commit": "1818e9c1035fd38f361a0698fb3453477b702552",
+      "commits": [
+        {
+          "commit": "a5c38722cd696272eeff263af75efa8c0b0aa1d8",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2190,"title":"chore(design-data): remove redundant token legacyKey pins","url":"https://github.com/adobe/spectrum-design-data/pull/2190"},
+          "entries": [
+            {"id":"a5c38722-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (bottom edge to label)","Spacing (top/bottom to edge, workflow icon only)"],"record":"71a2a059-e5d7-4965-a4c0-5ed1fee74c6a","name":"padding-vertical[anatomy=item,density=spacious,structure=list]","fields":[{"path":"name.legacyKey","before":"list-item-padding-vertical-spacious"}]}
+          ]
+        }
+      ]
     }
   ]
 }

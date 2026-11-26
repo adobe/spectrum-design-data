@@ -478,6 +478,29 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.8.0",
+      "version": "2.1.1",
+      "bump": "patch",
+      "date": "2026-11-26",
+      "commit": "1818e9c1035fd38f361a0698fb3453477b702552",
+      "commits": [
+        {
+          "commit": "a5c38722cd696272eeff263af75efa8c0b0aa1d8",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2190,"title":"chore(design-data): remove redundant token legacyKey pins","url":"https://github.com/adobe/spectrum-design-data/pull/2190"},
+          "entries": [
+            {"id":"a5c38722-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (single-level, start/end to content)","Spacing (text to trailing accessory area)"],"record":"3cd1e483-969b-492c-8d44-d29348c981a5","name":"gap[anatomy=item,size=m,structure=list]","fields":[{"path":"name.legacyKey","before":"list-item-gap-medium"}]},
+            {"id":"a5c38722-1","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (vertically between side-nav item and side-nav title)"],"record":"c9c7652f-0332-417f-8520-e2202d7a08dc","name":"gap[size=xl,structure=container]","fields":[{"path":"name.legacyKey","before":"container-gap-extra-large"}]},
+            {"id":"a5c38722-2","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (multi-level, no icon, start edge to content)"],"record":"c5c94124-c16d-46f1-a22a-acf1378846bc","name":"indent[size=l,structure=list]","fields":[{"path":"name.legacyKey","before":"list-indent-large"}]},
+            {"id":"a5c38722-3","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (multi-level, no icon, start edge to content)"],"record":"9af302c3-7cf8-4b03-b6d1-4af5e641d67f","name":"indent[size=m,structure=list]","fields":[{"path":"name.legacyKey","before":"list-indent-medium"}]},
+            {"id":"a5c38722-4","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Width (minimum)"],"record":"d2eb3062-0839-435a-aad6-309ece18ca25","name":"minimum-width[anatomy=list-item,scale=desktop,size=s]","fields":[{"path":"name.legacyKey","before":"list-item-minimum-width-small"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"a5c38722-5","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Width (minimum)"],"record":"c3ead1a1-5501-56a5-a67b-a219cf2738b8","name":"minimum-width[anatomy=list-item,scale=mobile,size=s]","fields":[{"path":"name.legacyKey","before":"list-item-minimum-width-small"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"a5c38722-6","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (single-level, end to content)"],"record":"6207cc71-4b5d-4ada-ad9d-07ec0d51487c","name":"padding-vertical[anatomy=item,density=regular,structure=list]","fields":[{"path":"name.legacyKey","before":"list-item-padding-vertical-regular"}]}
+          ]
+        }
+      ]
     }
   ]
 }

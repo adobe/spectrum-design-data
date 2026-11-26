@@ -285,6 +285,50 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.8.0",
+      "version": "3.0.0",
+      "bump": "major",
+      "date": "2026-11-26",
+      "commit": "1818e9c1035fd38f361a0698fb3453477b702552",
+      "commits": [
+        {
+          "commit": "33a62fc9e19a840655b6a07320a399645c4dfa48",
+          "date": "2026-11-25",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2181,"title":"fix(design-data): remove 17 misfiled steplist records from action-bar","url":"https://github.com/adobe/spectrum-design-data/pull/2181"},
+          "entries": [
+            {"id":"33a62fc9-0","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Step text"],"scope":{"property":"content-color","options":null},"record":"a88d9bf1-1d25-52d7-8c94-0677f9bb2483","name":"content-color","fields":[],"before":"7a058b23-341c-4dd3-83d8-358917277836"},
+            {"id":"33a62fc9-1","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Step text"],"scope":{"property":"content-color","options":null},"record":"16cdb11d-3149-5afb-af97-e640ad61bab7","name":"content-color","fields":[],"before":"a6d8a177-3e5c-4d28-a675-c21c2695d2f6"},
+            {"id":"33a62fc9-2","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Step text"],"scope":{"property":"content-color","options":null},"record":"2944686e-0a71-5871-b939-5f00405e3939","name":"content-color","fields":[],"before":"4e79877b-254d-4226-a28f-4c80d2d8b2f3"},
+            {"id":"33a62fc9-3","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Step visual"],"scope":{"property":"color","options":null},"record":"e6240e4e-1d93-5a47-b2d3-4c40741b813c","name":"color","fields":[],"before":"3b09b2fd-cbf9-4933-9655-27a75d984f06"},
+            {"id":"33a62fc9-4","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Step visual"],"scope":{"property":"color","options":null},"record":"aec26f4f-6abe-5126-b422-52a1234e9386","name":"color","fields":[],"before":"bc9979cb-e7c6-45b2-be4d-0ba3c817e2ef"},
+            {"id":"33a62fc9-5","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Step visual"],"scope":{"property":"color","options":null},"record":"ad6dff79-842b-54d6-9126-d38cd24c911d","name":"color","fields":[],"before":"fdcab585-e3a9-4026-bf40-e7fdd01bf05b"},
+            {"id":"33a62fc9-6","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Step visual"],"scope":{"property":"color","options":null},"record":"d1c737d2-48de-5d7e-baf1-82aae5853b19","name":"color","fields":[],"before":"a1ab50d5-1aa1-4198-9510-7ea8458cc62f"},
+            {"id":"33a62fc9-7","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Step visual"],"scope":{"property":"color","options":null},"record":"23eabe97-7023-5d95-ad0f-55aa7e888aa2","name":"color","fields":[],"before":"2d72c9fc-22d0-4e4d-9b00-fae4b30a47b5"},
+            {"id":"33a62fc9-8","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Step visual"],"scope":{"property":"color","options":null},"record":"0a160338-0740-5b27-bb46-fa46e68ecf07","name":"color","fields":[],"before":"81fb8734-c8c3-4f6e-8a14-177ce1d7db02"},
+            {"id":"33a62fc9-9","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Step visual"],"scope":{"property":"color","options":null},"record":"18dc56c7-f240-5feb-b285-e3f7f168158b","name":"color","fields":[],"before":"eece165c-743c-4d7a-b770-3ee50e1951cf"},
+            {"id":"33a62fc9-10","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Step visual"],"scope":{"property":"color","options":null},"record":"479a1ff4-44fb-5fd7-bf96-b042cac60b57","name":"color","fields":[],"before":"a1e08db6-3a72-4b8e-9475-b54a7b9be506"},
+            {"id":"33a62fc9-11","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Step visual"],"scope":{"property":"color","options":null},"record":"27c39147-d807-5cae-b10c-32792a46a178","name":"color","fields":[],"before":"ee7dec87-de8b-4145-9985-f5ba78bc3a3b"},
+            {"id":"33a62fc9-12","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Step visual"],"scope":{"property":"color","options":null},"record":"f3d84ecb-dfa2-511f-be65-bcb412608632","name":"color","fields":[],"before":"95cf1481-f476-47ce-a45a-54da64b44255"},
+            {"id":"33a62fc9-13","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Step visual"],"scope":{"property":"color","options":null},"record":"ef2128f3-942b-577c-9706-789412fde2ab","name":"color","fields":[],"before":"f52c6bfb-2d62-4fc8-a1cd-6c8d7420eeb4"},
+            {"id":"33a62fc9-14","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Step visual"],"scope":{"property":"color","options":null},"record":"b48cc0b4-2284-5eb2-8a6b-a54844cf3370","name":"color","fields":[],"before":"0dc6ed4d-17d5-4878-8ac3-bd99549b4f42"},
+            {"id":"33a62fc9-15","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Step visual"],"scope":{"property":"color","options":null},"record":"6b505725-4433-5889-9f71-0455764bdd6b","name":"color","fields":[],"before":"35ef6675-7e66-4ef5-8c8d-e8e70939b224"},
+            {"id":"33a62fc9-16","kind":"relationship","change":"removed","class":"visual","bump":"major","indirect":false,"contexts":["Step visual"],"scope":{"property":"color","options":null},"record":"eaae1936-126b-5032-a86b-8f8aa60f95fc","name":"color","fields":[],"before":"57233b29-bbc6-4f9e-83c1-9325fd6f964c"}
+          ]
+        },
+        {
+          "commit": "a5c38722cd696272eeff263af75efa8c0b0aa1d8",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2190,"title":"chore(design-data): remove redundant token legacyKey pins","url":"https://github.com/adobe/spectrum-design-data/pull/2190"},
+          "entries": [
+            {"id":"a5c38722-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (label to action button group)"],"record":"c0571c46-5946-4896-bcbf-270560de5385","name":"gap[orientation=horizontal,structure=banner]","fields":[{"path":"name.legacyKey","before":"banner-gap-horizontal"}]},
+            {"id":"a5c38722-1","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (item-counter)"],"record":"c3ada312-da94-4779-bbf0-0fde3beb8121","name":"gap[size=xs,structure=group]","fields":[{"path":"name.legacyKey","before":"group-gap-extra-small"}]},
+            {"id":"a5c38722-2","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Width (minimum)"],"record":"20d5b444-a329-4d64-b237-a9652437f0e1","name":"minimum-width[size=m,structure=banner]","fields":[{"path":"name.legacyKey","before":"banner-minimum-width-medium"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"a5c38722-3","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (padding)"],"record":"7f237198-3842-49bc-aa79-e723fbe6c78e","name":"padding-horizontal[density=compact,structure=banner]","fields":[{"path":"name.legacyKey","before":"banner-padding-horizontal-compact"}]}
+          ]
+        }
+      ]
     }
   ]
 }
