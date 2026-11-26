@@ -167,8 +167,9 @@ function modeSets(ds) {
 function tokenValue(ds, token) {
   if (token.raw.value !== undefined) return { value: token.raw.value };
   const name = token.raw.name ?? {};
-  if (name.legacyKey) {
-    const ref = `{${name.legacyKey}}`;
+  const legacy = token.legacyName ?? name.legacyKey;
+  if (legacy) {
+    const ref = `{${legacy}}`;
     const pinned = {};
     for (const mode of MODE_FIELDS) if (name[mode]) pinned[mode] = name[mode];
     const base = ds.resolveReference(ref, pinned);
@@ -234,8 +235,12 @@ function findTokenRows(ds, text) {
     (conceptRows(ds).has(name) ? name : undefined) ??
     ds
       .query("")
-      .find((t) => t.raw.name?.legacyKey === name || tokenLabel(t) === name)
-      ?.raw.conceptId;
+      .find(
+        (t) =>
+          t.legacyName === name ||
+          t.raw.name?.legacyKey === name ||
+          fieldsLabel(t) === name,
+      )?.raw.conceptId;
   if (concept) return conceptRows(ds).get(concept) ?? [];
   return byUuid ? [byUuid] : [];
 }
@@ -278,14 +283,18 @@ function luminance({ r, g, b }) {
   return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
 }
 
-/** A token's name without its mode fields, e.g. `property=color colorFamily=gray scaleIndex=300`. */
-function tokenLabel(token) {
+/** A token's name fields without its mode fields, e.g. `property=color colorFamily=gray scaleIndex=300`. */
+function fieldsLabel(token) {
   const { legacyKey, ...fields } = token.raw.name ?? {};
-  if (legacyKey) return legacyKey;
   return Object.entries(fields)
     .filter(([key]) => !MODE_FIELDS.includes(key))
     .map(([key, value]) => `${key}=${[value].flat().join("+")}`)
     .join(" ");
+}
+
+/** The legacy name the engine derives (or the pin), else the field text. Queries still accept either. */
+function tokenLabel(token) {
+  return token.legacyName ?? token.raw.name?.legacyKey ?? fieldsLabel(token);
 }
 
 /** The rows a relationship `$ref` points at: every mode row of the token, or just that row. */
@@ -542,6 +551,7 @@ function compactToken(ds, token) {
   const { legacyKey, ...fields } = token.raw.name ?? {};
   const out = {
     name:
+      token.legacyName ??
       legacyKey ??
       Object.entries(fields)
         .map(([key, value]) => `${key}=${[value].flat().join("+")}`)

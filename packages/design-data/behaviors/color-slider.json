@@ -1,0 +1,89 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
+  "component": "color-slider",
+  "extends": ["range"],
+  "state": [
+    "isDisabled",
+    "value",
+    "minValue",
+    "maxValue",
+    "step",
+    "orientation",
+    "direction"
+  ],
+  "range": {
+    "value": "value",
+    "min": "minValue",
+    "max": "maxValue",
+    "step": "step",
+    "page": {
+      "fraction": 0.1
+    },
+    "mirror": {
+      "facet": "arrowOrder",
+      "is": "mirrored"
+    }
+  },
+  "facets": {
+    "arrowOrder": {
+      "from": "direction",
+      "values": {
+        "mirrored": "rtl",
+        "natural": "ltr"
+      }
+    },
+    "orientation": {
+      "from": "orientation",
+      "values": {
+        "horizontal": "horizontal",
+        "vertical": "vertical"
+      }
+    }
+  },
+  "parts": {
+    "thumb": {
+      "role": "slider",
+      "focus": "tab-stop"
+    }
+  },
+  "semantics": {
+    "thumb": {
+      "value": {
+        "ariaState": "aria-valuenow",
+        "copy": true
+      },
+      "minValue": {
+        "ariaState": "aria-valuemin",
+        "copy": true
+      },
+      "maxValue": {
+        "ariaState": "aria-valuemax",
+        "copy": true
+      },
+      "orientation": {
+        "ariaState": "aria-orientation",
+        "map": {
+          "horizontal": "horizontal",
+          "vertical": "vertical"
+        }
+      }
+    }
+  },
+  "wcag": [
+    {
+      "criterion": "1.3.1",
+      "level": "A",
+      "title": "Info and Relationships"
+    },
+    {
+      "criterion": "2.1.1",
+      "level": "A",
+      "title": "Keyboard"
+    },
+    {
+      "criterion": "4.1.2",
+      "level": "A",
+      "title": "Name, Role, Value"
+    }
+  ]
+}

@@ -148,6 +148,11 @@
     "isDisabled": { "type": "boolean", "default": false },
     "isPending": { "type": "boolean", "default": false },
     "isLabelHidden": { "type": "boolean", "default": false },
+    "isLabelWrapped": {
+      "type": "boolean",
+      "default": false,
+      "description": "The label wraps onto more than one line."
+    },
     "icon": {
       "$ref": "https://opensource.adobe.com/spectrum-design-data/schemas/types/workflow-icon.json",
       "description": "Icon placed at the start of the button. Required when isLabelHidden is true."

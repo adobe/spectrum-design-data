@@ -2,7 +2,11 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-height-75"
+      "part": "container",
+      "property": "minimum-height",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -12,7 +16,11 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-height-75"
+      "part": "container",
+      "property": "minimum-height",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -22,7 +30,11 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-height-100"
+      "part": "container",
+      "property": "minimum-height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -32,7 +44,11 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-height-100"
+      "part": "container",
+      "property": "minimum-height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -42,7 +58,11 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-height-200"
+      "part": "container",
+      "property": "minimum-height",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -52,7 +72,11 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-height-200"
+      "part": "container",
+      "property": "minimum-height",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -62,7 +86,11 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-height-300"
+      "part": "container",
+      "property": "minimum-height",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -72,7 +100,11 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-height-300"
+      "part": "container",
+      "property": "minimum-height",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -82,6 +114,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "corner-radius"
     },
     "context": "Rounding",
@@ -92,62 +125,67 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "corner-radius",
       "options": {
-        "size": "m"
+        "size": "m",
+        "isLabelWrapped": true
       }
     },
-    "context": "Rounding (with wrapping)",
+    "context": "Rounding",
     "contextRole": ["rounding"],
-    "contextQualifier": "with wrapping",
     "$ref": "d639a0b5-16b4-4d75-ab37-d87815c7b500",
     "uuid": "fd0ff5ea-037f-5c2c-afe2-005c1d6c40b3"
   },
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "corner-radius",
       "options": {
-        "size": "s"
+        "size": "s",
+        "isLabelWrapped": true
       }
     },
-    "context": "Rounding (with wrapping)",
+    "context": "Rounding",
     "contextRole": ["rounding"],
-    "contextQualifier": "with wrapping",
     "$ref": "6c0a6608-4b6b-4f40-b24d-f1d121165638",
     "uuid": "cdc133f2-cbee-593d-bc2d-d32f09c31261"
   },
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "corner-radius",
       "options": {
-        "size": "l"
+        "size": "l",
+        "isLabelWrapped": true
       }
     },
-    "context": "Rounding (with wrapping)",
+    "context": "Rounding",
     "contextRole": ["rounding"],
-    "contextQualifier": "with wrapping",
     "$ref": "e9940242-95ec-460f-a701-b734ae55f877",
     "uuid": "b4728022-6b6e-5f04-811c-7ffd69b44d9c"
   },
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "corner-radius",
       "options": {
-        "size": "xl"
+        "size": "xl",
+        "isLabelWrapped": true
       }
     },
-    "context": "Rounding (with wrapping)",
+    "context": "Rounding",
     "contextRole": ["rounding"],
-    "contextQualifier": "with wrapping",
     "$ref": "bcc60e9b-aa1f-4989-b17f-0aed21a30db7",
     "uuid": "cf1889db-a95a-5f00-9b86-2f73f183c7b5"
   },
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "minimum-width-multiplier"
     },
     "context": "Minimum width (with label)",
@@ -159,6 +197,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "component-size-difference"
     },
     "context": "Component size (down)",
@@ -170,6 +209,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "component-size-width-ratio"
     },
     "context": "Component size (down)",
@@ -181,6 +221,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "component-size-minimum-perspective"
     },
     "context": "Component size (down)",
@@ -192,6 +233,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "component-size-maximum-perspective"
     },
     "context": "Component size (down)",
@@ -203,7 +245,11 @@
   {
     "scope": {
       "component": "button",
-      "property": "workflow-icon-size-75"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Icon",
     "contextRole": ["icon"],
@@ -213,7 +259,11 @@
   {
     "scope": {
       "component": "button",
-      "property": "workflow-icon-size-75"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Icon",
     "contextRole": ["icon"],
@@ -223,7 +273,11 @@
   {
     "scope": {
       "component": "button",
-      "property": "workflow-icon-size-100"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Icon",
     "contextRole": ["icon"],
@@ -233,7 +287,11 @@
   {
     "scope": {
       "component": "button",
-      "property": "workflow-icon-size-100"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Icon",
     "contextRole": ["icon"],
@@ -243,7 +301,11 @@
   {
     "scope": {
       "component": "button",
-      "property": "workflow-icon-size-200"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Icon",
     "contextRole": ["icon"],
@@ -253,7 +315,11 @@
   {
     "scope": {
       "component": "button",
-      "property": "workflow-icon-size-200"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Icon",
     "contextRole": ["icon"],
@@ -263,7 +329,11 @@
   {
     "scope": {
       "component": "button",
-      "property": "workflow-icon-size-300"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Icon",
     "contextRole": ["icon"],
@@ -273,7 +343,11 @@
   {
     "scope": {
       "component": "button",
-      "property": "workflow-icon-size-300"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Icon",
     "contextRole": ["icon"],
@@ -283,7 +357,15 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-pill-edge-to-visual-75"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -294,7 +376,15 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-pill-edge-to-visual-75"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -305,7 +395,15 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-pill-edge-to-visual-100"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -316,7 +414,15 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-pill-edge-to-visual-100"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -327,7 +433,15 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-pill-edge-to-visual-200"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -338,7 +452,15 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-pill-edge-to-visual-200"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -349,7 +471,15 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-pill-edge-to-visual-300"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -360,7 +490,15 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-pill-edge-to-visual-300"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -371,7 +509,15 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-pill-edge-to-text-75"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -382,7 +528,15 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-pill-edge-to-text-75"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -393,7 +547,15 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-pill-edge-to-text-100"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -404,7 +566,15 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-pill-edge-to-text-100"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -415,7 +585,15 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-pill-edge-to-text-200"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -426,7 +604,15 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-pill-edge-to-text-200"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -437,7 +623,15 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-pill-edge-to-text-300"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -448,7 +642,15 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-pill-edge-to-text-300"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -459,51 +661,95 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-pill-edge-to-visual-only-75"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "s",
+        "isLabelHidden": true
+      }
     },
-    "context": "Spacing (start/end edges, icon only)",
+    "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
-    "contextQualifier": "start/end edges, icon only",
+    "contextQualifier": "start/end edges",
     "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
     "uuid": "d243f729-1e5e-532f-b027-e089c2f74102"
   },
   {
     "scope": {
       "component": "button",
-      "property": "component-pill-edge-to-visual-only-100"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "m",
+        "isLabelHidden": true
+      }
     },
-    "context": "Spacing (start/end edges, icon only)",
+    "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
-    "contextQualifier": "start/end edges, icon only",
+    "contextQualifier": "start/end edges",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "628d02db-65a5-5ca0-967d-722f4e851373"
   },
   {
     "scope": {
       "component": "button",
-      "property": "component-pill-edge-to-visual-only-200"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "l",
+        "isLabelHidden": true
+      }
     },
-    "context": "Spacing (start/end edges, icon only)",
+    "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
-    "contextQualifier": "start/end edges, icon only",
+    "contextQualifier": "start/end edges",
     "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
     "uuid": "1a7347be-3233-5d0e-a7ed-039add59b08a"
   },
   {
     "scope": {
       "component": "button",
-      "property": "component-pill-edge-to-visual-only-300"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "xl",
+        "isLabelHidden": true
+      }
     },
-    "context": "Spacing (start/end edges, icon only)",
+    "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
-    "contextQualifier": "start/end edges, icon only",
+    "contextQualifier": "start/end edges",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
     "uuid": "9be8ffb7-7b65-5f8f-b023-eafc71b7b0da"
   },
   {
     "scope": {
       "component": "button",
-      "property": "space-between"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "icon",
+        "to": "label"
+      },
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Spacing (icon to label)",
     "contextRole": ["spacing"],
@@ -514,7 +760,15 @@
   {
     "scope": {
       "component": "button",
-      "property": "space-between"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "icon",
+        "to": "label"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (icon to label)",
     "contextRole": ["spacing"],
@@ -525,7 +779,15 @@
   {
     "scope": {
       "component": "button",
-      "property": "space-between"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "icon",
+        "to": "label"
+      },
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Spacing (icon to label)",
     "contextRole": ["spacing"],
@@ -536,7 +798,15 @@
   {
     "scope": {
       "component": "button",
-      "property": "space-between"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "icon",
+        "to": "label"
+      },
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Spacing (icon to label)",
     "contextRole": ["spacing"],
@@ -547,7 +817,15 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-top-to-workflow-icon-75"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Spacing (top edge to icon)",
     "contextRole": ["spacing"],
@@ -558,7 +836,15 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-top-to-workflow-icon-100"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (top edge to icon)",
     "contextRole": ["spacing"],
@@ -569,7 +855,15 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-top-to-workflow-icon-200"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Spacing (top edge to icon)",
     "contextRole": ["spacing"],
@@ -580,7 +874,15 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-top-to-workflow-icon-300"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Spacing (top edge to icon)",
     "contextRole": ["spacing"],
@@ -591,7 +893,15 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-top-to-text-75"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -602,7 +912,15 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-top-to-text-100"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -613,7 +931,15 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-top-to-text-200"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -624,7 +950,15 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-top-to-text-300"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -635,7 +969,15 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-bottom-to-text-75"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -646,7 +988,15 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-bottom-to-text-100"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -657,7 +1007,15 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-bottom-to-text-200"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -668,7 +1026,15 @@
   {
     "scope": {
       "component": "button",
-      "property": "component-bottom-to-text-300"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -679,6 +1045,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "border-width"
     },
     "context": "Border",
@@ -689,6 +1056,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "focus-indicator",
       "property": "thickness"
     },
     "context": "Focus indicator",
@@ -699,6 +1067,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "focus-indicator",
       "property": "gap"
     },
     "context": "Focus indicator",
@@ -709,6 +1078,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "font-family"
     },
     "context": "Label",
@@ -719,6 +1089,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "font-weight"
     },
     "context": "Label",
@@ -729,6 +1100,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "font-style"
     },
     "context": "Label",
@@ -739,7 +1111,11 @@
   {
     "scope": {
       "component": "button",
-      "property": "font-size-75"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -749,7 +1125,11 @@
   {
     "scope": {
       "component": "button",
-      "property": "font-size-75"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -759,7 +1139,11 @@
   {
     "scope": {
       "component": "button",
-      "property": "font-size-100"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -769,7 +1153,11 @@
   {
     "scope": {
       "component": "button",
-      "property": "font-size-100"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -779,7 +1167,11 @@
   {
     "scope": {
       "component": "button",
-      "property": "font-size-200"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -789,7 +1181,11 @@
   {
     "scope": {
       "component": "button",
-      "property": "font-size-200"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -799,7 +1195,11 @@
   {
     "scope": {
       "component": "button",
-      "property": "font-size-300"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -809,7 +1209,11 @@
   {
     "scope": {
       "component": "button",
-      "property": "font-size-300"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -819,7 +1223,8 @@
   {
     "scope": {
       "component": "button",
-      "property": "line-height-100"
+      "part": "label",
+      "property": "line-height"
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -829,7 +1234,8 @@
   {
     "scope": {
       "component": "button",
-      "property": "line-height-100"
+      "part": "label",
+      "property": "line-height"
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -839,7 +1245,11 @@
   {
     "scope": {
       "component": "button",
-      "property": "line-height-font-size-75"
+      "part": "label",
+      "property": "line-height",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -849,7 +1259,11 @@
   {
     "scope": {
       "component": "button",
-      "property": "line-height-font-size-75"
+      "part": "label",
+      "property": "line-height",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -859,7 +1273,11 @@
   {
     "scope": {
       "component": "button",
-      "property": "line-height-font-size-100"
+      "part": "label",
+      "property": "line-height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -869,7 +1287,11 @@
   {
     "scope": {
       "component": "button",
-      "property": "line-height-font-size-100"
+      "part": "label",
+      "property": "line-height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -879,7 +1301,11 @@
   {
     "scope": {
       "component": "button",
-      "property": "line-height-font-size-200"
+      "part": "label",
+      "property": "line-height",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -889,7 +1315,11 @@
   {
     "scope": {
       "component": "button",
-      "property": "line-height-font-size-200"
+      "part": "label",
+      "property": "line-height",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -899,7 +1329,11 @@
   {
     "scope": {
       "component": "button",
-      "property": "line-height-font-size-300"
+      "part": "label",
+      "property": "line-height",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -909,7 +1343,11 @@
   {
     "scope": {
       "component": "button",
-      "property": "line-height-font-size-300"
+      "part": "label",
+      "property": "line-height",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -919,7 +1357,9 @@
   {
     "scope": {
       "component": "button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -929,7 +1369,9 @@
   {
     "scope": {
       "component": "button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -939,7 +1381,9 @@
   {
     "scope": {
       "component": "button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -949,6 +1393,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color"
     },
     "context": "Icon",
@@ -959,7 +1404,9 @@
   {
     "scope": {
       "component": "button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -969,7 +1416,9 @@
   {
     "scope": {
       "component": "button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -979,7 +1428,9 @@
   {
     "scope": {
       "component": "button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -989,7 +1440,9 @@
   {
     "scope": {
       "component": "button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -999,7 +1452,9 @@
   {
     "scope": {
       "component": "button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1009,7 +1464,9 @@
   {
     "scope": {
       "component": "button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1019,7 +1476,9 @@
   {
     "scope": {
       "component": "button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1029,6 +1488,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "content-color"
     },
     "context": "Icon",
@@ -1039,6 +1499,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "content-color"
     },
     "context": "Icon",
@@ -1049,6 +1510,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "content-color"
     },
     "context": "Icon",
@@ -1059,6 +1521,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "content-color"
     },
     "context": "Icon",
@@ -1069,19 +1532,23 @@
   {
     "scope": {
       "component": "button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
-    "context": "Fill",
-    "contextRole": ["track"],
+    "context": "Background",
+    "contextRole": ["background"],
     "$ref": "a46de9d2-5c68-4a1e-97cd-7cbaf4038303",
     "uuid": "9c42181a-4ae3-5c74-ad5c-ba65a88d3f9c"
   },
   {
     "scope": {
       "component": "button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "border"
     },
-    "context": "Outline",
+    "context": "Border",
     "contextRole": ["border"],
     "$ref": "474ae56c-709a-4f5a-a56b-62d01093f412",
     "uuid": "d79fffc7-071c-5ced-b7c7-e7948203da0c"
@@ -1089,6 +1556,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "content-color"
     },
     "context": "Icon",
@@ -1099,6 +1567,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "focus-indicator",
       "property": "color"
     },
     "context": "Focus indicator",
@@ -1109,7 +1578,9 @@
   {
     "scope": {
       "component": "button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1119,7 +1590,9 @@
   {
     "scope": {
       "component": "button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1129,6 +1602,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color"
     },
     "context": "Icon",
@@ -1139,7 +1613,9 @@
   {
     "scope": {
       "component": "button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1149,7 +1625,9 @@
   {
     "scope": {
       "component": "button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1159,7 +1637,9 @@
   {
     "scope": {
       "component": "button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "border"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -1169,7 +1649,9 @@
   {
     "scope": {
       "component": "button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1179,6 +1661,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "content-color"
     },
     "context": "Icon and label",
@@ -1189,7 +1672,9 @@
   {
     "scope": {
       "component": "button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "border"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -1199,16 +1684,23 @@
   {
     "scope": {
       "component": "button",
-      "property": "color"
+      "part": "focus-indicator",
+      "property": "color",
+      "options": {
+        "staticColor": "white",
+        "variant": ["primary", "secondary"]
+      }
     },
-    "context": "Static white – Focus indicator",
+    "context": "Focus indicator",
     "$ref": "1dd6dc5b-47a2-41eb-80fc-f06293ae8e13",
     "uuid": "122412a3-06aa-5dcb-b115-cf1841285a47"
   },
   {
     "scope": {
       "component": "button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1218,7 +1710,9 @@
   {
     "scope": {
       "component": "button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1228,7 +1722,9 @@
   {
     "scope": {
       "component": "button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1238,7 +1734,9 @@
   {
     "scope": {
       "component": "button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1248,7 +1746,9 @@
   {
     "scope": {
       "component": "button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "border"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -1258,7 +1758,9 @@
   {
     "scope": {
       "component": "button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1268,6 +1770,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "content-color"
     },
     "context": "Icon and label",
@@ -1278,7 +1781,9 @@
   {
     "scope": {
       "component": "button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "border"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -1288,9 +1793,14 @@
   {
     "scope": {
       "component": "button",
-      "property": "color"
+      "part": "focus-indicator",
+      "property": "color",
+      "options": {
+        "staticColor": "black",
+        "variant": ["primary", "secondary"]
+      }
     },
-    "context": "Static black – Focus indicator",
+    "context": "Focus indicator",
     "$ref": "c6b8275b-f44e-43b4-b763-82dda94d963c",
     "uuid": "43edde5f-c764-56ce-930b-9c580f70346e"
   },
@@ -1312,7 +1822,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -1329,7 +1841,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -1346,7 +1860,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -1363,7 +1879,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -1381,7 +1899,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -1399,7 +1919,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -1417,7 +1939,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -1435,7 +1959,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -1453,7 +1979,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -1471,7 +1999,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -1489,7 +2019,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -1507,7 +2039,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -1525,7 +2059,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -1542,7 +2078,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -1559,7 +2097,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -1576,7 +2116,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -1594,7 +2136,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -1612,7 +2156,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -1630,7 +2176,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -1648,7 +2196,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -1666,7 +2216,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -1684,7 +2236,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -1702,7 +2256,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -1720,7 +2276,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -1738,7 +2296,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -1756,7 +2316,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": [false, true],
         "isLabelHidden": [false, true],
@@ -1774,7 +2336,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": true,
         "isLabelHidden": [false, true],
@@ -1792,7 +2356,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -1810,7 +2376,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -1828,7 +2396,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": [false, true],
         "isLabelHidden": [false, true],
@@ -1846,7 +2416,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": true,
         "isLabelHidden": [false, true],
@@ -1864,7 +2436,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -1882,7 +2456,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -1899,7 +2475,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -1916,7 +2494,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -1933,7 +2513,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -1951,7 +2533,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -1969,7 +2553,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -1987,7 +2573,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2005,7 +2593,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2023,7 +2613,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2041,7 +2633,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2059,7 +2653,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2076,7 +2672,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2093,7 +2691,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2110,7 +2710,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2128,7 +2730,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2146,7 +2750,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2164,7 +2770,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2182,7 +2790,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2200,7 +2810,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2218,7 +2830,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2236,7 +2850,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2254,7 +2870,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2272,7 +2890,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2290,7 +2910,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2308,7 +2930,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2326,7 +2950,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2344,7 +2970,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2362,7 +2990,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2380,7 +3010,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2398,7 +3030,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2416,7 +3050,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2434,7 +3070,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": true,
         "isLabelHidden": [false, true],
@@ -2451,7 +3089,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": true,
         "isLabelHidden": [false, true],
@@ -2468,7 +3108,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": true,
         "isLabelHidden": [false, true],
@@ -2485,7 +3127,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2503,7 +3147,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isDisabled": [false, true],
         "isLabelHidden": [false, true],
@@ -2521,7 +3167,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isDisabled": true,
         "isLabelHidden": [false, true],
@@ -2539,7 +3187,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2557,7 +3207,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isDisabled": [false, true],
         "isLabelHidden": [false, true],
@@ -2575,7 +3227,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isDisabled": true,
         "isLabelHidden": [false, true],
@@ -2593,7 +3247,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2610,7 +3266,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2627,7 +3285,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2644,7 +3304,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2662,7 +3324,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2680,7 +3344,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2698,7 +3364,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2716,7 +3384,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2734,7 +3404,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2752,7 +3424,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2770,7 +3444,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2788,7 +3464,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2806,7 +3484,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2823,7 +3503,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2840,7 +3522,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2857,7 +3541,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2875,7 +3561,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2893,7 +3581,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2911,7 +3601,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2929,7 +3621,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2947,7 +3641,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2965,7 +3661,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -2983,7 +3681,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -3001,7 +3701,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isDisabled": false,
         "isLabelHidden": [false, true],
@@ -3019,7 +3721,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isDisabled": true,
         "isLabelHidden": [false, true],
@@ -3036,7 +3740,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isDisabled": true,
         "isLabelHidden": [false, true],
@@ -3053,7 +3759,9 @@
   {
     "scope": {
       "component": "button",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "isDisabled": true,
         "isLabelHidden": [false, true],
@@ -3070,6 +3778,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3087,6 +3796,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3104,6 +3814,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3121,6 +3832,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3138,6 +3850,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3156,6 +3869,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3174,6 +3888,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3192,6 +3907,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3210,6 +3926,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3228,6 +3945,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3246,6 +3964,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3263,6 +3982,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3280,6 +4000,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3297,6 +4018,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3315,6 +4037,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3333,6 +4056,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3351,6 +4075,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3369,6 +4094,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3387,6 +4113,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3405,6 +4132,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3423,6 +4151,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3441,6 +4170,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3459,6 +4189,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3476,6 +4207,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3493,6 +4225,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3510,6 +4243,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3528,6 +4262,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3546,6 +4281,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3564,6 +4300,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3582,6 +4319,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3600,6 +4338,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3618,6 +4357,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3636,6 +4376,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3654,6 +4395,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3672,6 +4414,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": true,
@@ -3689,6 +4432,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": true,
@@ -3706,6 +4450,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": true,
@@ -3723,6 +4468,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": true,
@@ -3741,6 +4487,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "icon",
       "property": "color",
       "options": {
         "isDisabled": true,
@@ -3759,6 +4506,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3776,6 +4524,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3793,6 +4542,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3810,6 +4560,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3827,6 +4578,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3845,6 +4597,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3863,6 +4616,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3881,6 +4635,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3899,6 +4654,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3917,6 +4673,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3935,6 +4692,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3952,6 +4710,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3969,6 +4728,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -3986,6 +4746,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -4004,6 +4765,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -4022,6 +4784,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -4040,6 +4803,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -4058,6 +4822,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -4076,6 +4841,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -4094,6 +4860,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -4112,6 +4879,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -4130,6 +4898,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -4148,6 +4917,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -4165,6 +4935,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -4182,6 +4953,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -4199,6 +4971,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -4217,6 +4990,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -4235,6 +5009,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -4253,6 +5028,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -4271,6 +5047,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -4289,6 +5066,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -4307,6 +5085,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -4325,6 +5104,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -4343,6 +5123,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": false,
@@ -4361,6 +5142,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": true,
@@ -4378,6 +5160,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": true,
@@ -4395,6 +5178,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": true,
@@ -4412,6 +5196,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": true,
@@ -4430,6 +5215,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "label",
       "property": "color",
       "options": {
         "isDisabled": true,
@@ -4448,6 +5234,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "progress",
       "property": "color"
     },
     "context": "Progress track",
@@ -4458,6 +5245,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "progress",
       "property": "color"
     },
     "context": "Progress track",
@@ -4468,6 +5256,7 @@
   {
     "scope": {
       "component": "button",
+      "part": "progress",
       "property": "color"
     },
     "context": "Progress track",
@@ -4478,7 +5267,8 @@
   {
     "scope": {
       "component": "button",
-      "property": "color"
+      "part": "progress",
+      "property": "content-color"
     },
     "context": "Progress",
     "contextRole": ["track"],
@@ -4488,7 +5278,8 @@
   {
     "scope": {
       "component": "button",
-      "property": "color"
+      "part": "progress",
+      "property": "content-color"
     },
     "context": "Progress",
     "contextRole": ["track"],
@@ -4498,7 +5289,8 @@
   {
     "scope": {
       "component": "button",
-      "property": "color"
+      "part": "progress",
+      "property": "content-color"
     },
     "context": "Progress",
     "contextRole": ["track"],

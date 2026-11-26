@@ -1709,7 +1709,7 @@ fn a_broken_range_rule_fails_a_vector() {
         ("/range/page", json!({ "fraction": 0.5 })),
         ("/range/page", json!({ "size": 7 })),
         ("/range/step", json!("ghost")),
-        ("/range/min", json!("ghost")),
+        ("/range/min", json!("step")),
         ("/range/max", json!("ghost")),
         ("/range/value", json!("ghost")),
         (
@@ -1904,4 +1904,107 @@ fn a_fixed_page_size_and_a_bad_range_are_pinned() {
             .any(|i| i.contains("`range.max` names 'maxValue'")),
         "{issues:?}"
     );
+}
+
+/// Each slider, color slider and rating rule (the range block, the facets, the semantics, the
+/// web key bindings) must be pinned by a component or key vector.
+#[test]
+fn a_broken_range_contract_or_slider_binding_fails_a_vector() {
+    let edits = [
+        (
+            "slider",
+            vec![
+                ("/range/page", json!({ "fraction": 0.5 })),
+                ("/range/max", json!("step")),
+                ("/range/step", json!("minValue")),
+                (
+                    "/facets/arrowOrder/values",
+                    json!({ "mirrored": "ltr", "natural": "rtl" }),
+                ),
+                (
+                    "/facets/orientation/values",
+                    json!({ "horizontal": "vertical", "vertical": "horizontal" }),
+                ),
+                (
+                    "/semantics/thumb/orientation/ariaState",
+                    json!("aria-label"),
+                ),
+                (
+                    "/semantics/thumb/minValue/ariaState",
+                    json!("aria-valuemax"),
+                ),
+                ("/semantics/thumb/value/ariaState", json!("aria-valuemin")),
+            ],
+        ),
+        (
+            "color-slider",
+            vec![
+                ("/range/page", json!({ "fraction": 0.5 })),
+                ("/range/min", json!("step")),
+                (
+                    "/facets/arrowOrder/values",
+                    json!({ "mirrored": "ltr", "natural": "rtl" }),
+                ),
+                (
+                    "/semantics/thumb/orientation/map",
+                    json!({ "horizontal": "vertical", "vertical": "horizontal" }),
+                ),
+                (
+                    "/semantics/thumb/maxValue/ariaState",
+                    json!("aria-valuemin"),
+                ),
+            ],
+        ),
+        (
+            "rating",
+            vec![
+                ("/range/max", json!("ghost")),
+                ("/range/page", json!({ "fraction": 0.5 })),
+                (
+                    "/facets/arrowOrder/values",
+                    json!({ "mirrored": "ltr", "natural": "rtl" }),
+                ),
+                (
+                    "/semantics/container/maxValue/ariaState",
+                    json!("aria-valuemin"),
+                ),
+            ],
+        ),
+    ];
+    for (component, list) in edits {
+        let (contract, vectors, patterns) = load(component);
+        assert_eq!(failures(&contract, &vectors, &patterns), 0, "{component}");
+        for (pointer, value) in list {
+            let mut m = contract.clone();
+            *m.pointer_mut(pointer).unwrap() = value;
+            assert!(
+                failures(&m, &vectors, &patterns) > 0,
+                "{component}: breaking {pointer} failed no vector"
+            );
+        }
+    }
+    // The key suite runs on all three contracts; each web binding must be pinned.
+    let keys = key_suite("slider");
+    for component in ["slider", "color-slider", "rating"] {
+        let (contract, _, patterns) = load(component);
+        let run = |bindings: &Value| {
+            run_vectors(
+                &contract,
+                &patterns,
+                &keys,
+                RegistryData::embedded(),
+                &all_capabilities(),
+                Some(bindings),
+            )
+            .iter()
+            .filter(|r| matches!(r.status, Status::Fail(_)))
+            .count()
+        };
+        assert_eq!(run(&web_bindings()), 0, "{component}");
+        for i in 0..8 {
+            let mut b = web_bindings();
+            b["roles"]["slider"]["keyboard"][i]["down"] = json!("blur");
+            assert!(run(&b) > 0, "{component}: binding {i} is not pinned");
+        }
+    }
 }

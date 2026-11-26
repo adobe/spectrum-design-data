@@ -1990,7 +1990,6 @@
     "name": {
       "property": "width",
       "size": "l",
-      "legacyKey": "bar-width-large",
       "anatomy": "bar",
       "scale": "desktop"
     },
@@ -2008,7 +2007,6 @@
     "name": {
       "property": "width",
       "size": "l",
-      "legacyKey": "bar-width-large",
       "anatomy": "bar",
       "scale": "mobile"
     },
@@ -2096,7 +2094,6 @@
     "name": {
       "property": "minimum-width",
       "size": "xl",
-      "legacyKey": "bar-minimum-width-extra-large",
       "anatomy": "bar"
     },
     "value": "48px",
@@ -2111,7 +2108,6 @@
     "name": {
       "property": "minimum-width",
       "size": "xxs",
-      "legacyKey": "bar-minimum-width-2x-small",
       "anatomy": "bar"
     },
     "value": "16px",
@@ -2187,7 +2183,6 @@
       "structure": "base",
       "property": "size",
       "size": "m",
-      "legacyKey": "base-visual-size-medium",
       "anatomy": "visual",
       "scale": "desktop"
     },
@@ -2206,7 +2201,6 @@
       "structure": "base",
       "property": "size",
       "size": "m",
-      "legacyKey": "base-visual-size-medium",
       "anatomy": "visual",
       "scale": "mobile"
     },
@@ -2298,7 +2292,6 @@
     "name": {
       "property": "size",
       "size": "s",
-      "legacyKey": "control-size-small",
       "anatomy": "control",
       "scale": "desktop"
     },
@@ -2316,7 +2309,6 @@
     "name": {
       "property": "size",
       "size": "s",
-      "legacyKey": "control-size-small",
       "anatomy": "control",
       "scale": "mobile"
     },
@@ -2334,7 +2326,6 @@
     "name": {
       "property": "size",
       "size": "m",
-      "legacyKey": "control-size-medium",
       "anatomy": "control",
       "scale": "desktop"
     },
@@ -2352,7 +2343,6 @@
     "name": {
       "property": "size",
       "size": "m",
-      "legacyKey": "control-size-medium",
       "anatomy": "control",
       "scale": "mobile"
     },
@@ -2370,7 +2360,6 @@
     "name": {
       "property": "size",
       "size": "l",
-      "legacyKey": "control-size-large",
       "anatomy": "control",
       "scale": "desktop"
     },
@@ -2388,7 +2377,6 @@
     "name": {
       "property": "size",
       "size": "l",
-      "legacyKey": "control-size-large",
       "anatomy": "control",
       "scale": "mobile"
     },
@@ -2406,7 +2394,6 @@
     "name": {
       "property": "size",
       "size": "xl",
-      "legacyKey": "control-size-extra-large",
       "anatomy": "control",
       "scale": "desktop"
     },
@@ -2424,7 +2411,6 @@
     "name": {
       "property": "size",
       "size": "xl",
-      "legacyKey": "control-size-extra-large",
       "anatomy": "control",
       "scale": "mobile"
     },
@@ -2442,7 +2428,6 @@
     "name": {
       "property": "width",
       "size": "s",
-      "legacyKey": "field-width-small",
       "anatomy": "field",
       "scale": "desktop"
     },
@@ -2460,7 +2445,6 @@
     "name": {
       "property": "width",
       "size": "s",
-      "legacyKey": "field-width-small",
       "anatomy": "field",
       "scale": "mobile"
     },
@@ -2478,7 +2462,6 @@
     "name": {
       "property": "width",
       "size": "m",
-      "legacyKey": "field-width-medium",
       "anatomy": "field",
       "scale": "desktop"
     },
@@ -2496,7 +2479,6 @@
     "name": {
       "property": "width",
       "size": "m",
-      "legacyKey": "field-width-medium",
       "anatomy": "field",
       "scale": "mobile"
     },
@@ -2514,7 +2496,6 @@
     "name": {
       "property": "width",
       "size": "l",
-      "legacyKey": "field-width-large",
       "anatomy": "field",
       "scale": "desktop"
     },
@@ -2532,7 +2513,6 @@
     "name": {
       "property": "width",
       "size": "l",
-      "legacyKey": "field-width-large",
       "anatomy": "field",
       "scale": "mobile"
     },
@@ -2550,7 +2530,6 @@
     "name": {
       "property": "width",
       "size": "xl",
-      "legacyKey": "field-width-extra-large",
       "anatomy": "field",
       "scale": "desktop"
     },
@@ -2568,7 +2547,6 @@
     "name": {
       "property": "width",
       "size": "xl",
-      "legacyKey": "field-width-extra-large",
       "anatomy": "field",
       "scale": "mobile"
     },
@@ -3171,7 +3149,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-50",
       "anatomy": "visual",
       "scaleIndex": 50,
       "scale": "desktop"
@@ -3189,7 +3166,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-50",
       "anatomy": "visual",
       "scaleIndex": 50,
       "scale": "mobile"
@@ -3207,7 +3183,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-75",
       "anatomy": "visual",
       "scaleIndex": 75,
       "scale": "desktop"
@@ -3225,7 +3200,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-75",
       "anatomy": "visual",
       "scaleIndex": 75,
       "scale": "mobile"
@@ -3243,7 +3217,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-100",
       "anatomy": "visual",
       "scaleIndex": 100,
       "scale": "desktop"
@@ -3261,7 +3234,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-100",
       "anatomy": "visual",
       "scaleIndex": 100,
       "scale": "mobile"
@@ -3279,7 +3251,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-200",
       "anatomy": "visual",
       "scaleIndex": 200,
       "scale": "desktop"
@@ -3297,7 +3268,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-200",
       "anatomy": "visual",
       "scaleIndex": 200,
       "scale": "mobile"
@@ -3315,7 +3285,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-300",
       "anatomy": "visual",
       "scaleIndex": 300,
       "scale": "desktop"
@@ -3333,7 +3302,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-300",
       "anatomy": "visual",
       "scaleIndex": 300,
       "scale": "mobile"
@@ -3351,7 +3319,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-400",
       "anatomy": "visual",
       "scaleIndex": 400,
       "scale": "desktop"
@@ -3369,7 +3336,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-400",
       "anatomy": "visual",
       "scaleIndex": 400,
       "scale": "mobile"
@@ -3387,7 +3353,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-500",
       "anatomy": "visual",
       "scaleIndex": 500,
       "scale": "desktop"
@@ -3405,7 +3370,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-500",
       "anatomy": "visual",
       "scaleIndex": 500,
       "scale": "mobile"
@@ -3423,7 +3387,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-600",
       "anatomy": "visual",
       "scaleIndex": 600,
       "scale": "desktop"
@@ -3441,7 +3404,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-600",
       "anatomy": "visual",
       "scaleIndex": 600,
       "scale": "mobile"
@@ -3459,7 +3421,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-700",
       "anatomy": "visual",
       "scaleIndex": 700,
       "scale": "desktop"
@@ -3477,7 +3438,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-700",
       "anatomy": "visual",
       "scaleIndex": 700,
       "scale": "mobile"
@@ -3495,7 +3455,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-800",
       "anatomy": "visual",
       "scaleIndex": 800,
       "scale": "desktop"
@@ -3513,7 +3472,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-800",
       "anatomy": "visual",
       "scaleIndex": 800,
       "scale": "mobile"
@@ -3531,7 +3489,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-900",
       "anatomy": "visual",
       "scaleIndex": 900,
       "scale": "desktop"
@@ -3549,7 +3506,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-900",
       "anatomy": "visual",
       "scaleIndex": 900,
       "scale": "mobile"
@@ -3567,7 +3523,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-1000",
       "anatomy": "visual",
       "scaleIndex": 1000,
       "scale": "desktop"
@@ -3585,7 +3540,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-1000",
       "anatomy": "visual",
       "scaleIndex": 1000,
       "scale": "mobile"
@@ -3604,7 +3558,6 @@
     "name": {
       "property": "thickness",
       "size": "xxs",
-      "legacyKey": "bar-thickness-2x-small",
       "anatomy": "bar"
     },
     "value": "1px",
@@ -3619,7 +3572,6 @@
     "name": {
       "property": "thickness",
       "size": "xs",
-      "legacyKey": "bar-thickness-extra-small",
       "anatomy": "bar"
     },
     "value": "2px",
@@ -3634,7 +3586,6 @@
     "name": {
       "property": "thickness",
       "size": "s",
-      "legacyKey": "bar-thickness-small",
       "anatomy": "bar",
       "scale": "desktop"
     },
@@ -3652,7 +3603,6 @@
     "name": {
       "property": "thickness",
       "size": "s",
-      "legacyKey": "bar-thickness-small",
       "anatomy": "bar",
       "scale": "mobile"
     },
@@ -3670,7 +3620,6 @@
     "name": {
       "property": "thickness",
       "size": "m",
-      "legacyKey": "bar-thickness-medium",
       "anatomy": "bar",
       "scale": "desktop"
     },
@@ -3688,7 +3637,6 @@
     "name": {
       "property": "thickness",
       "size": "m",
-      "legacyKey": "bar-thickness-medium",
       "anatomy": "bar",
       "scale": "mobile"
     },
@@ -3706,7 +3654,6 @@
     "name": {
       "property": "thickness",
       "size": "l",
-      "legacyKey": "bar-thickness-large",
       "anatomy": "bar",
       "scale": "desktop"
     },
@@ -3724,7 +3671,6 @@
     "name": {
       "property": "thickness",
       "size": "l",
-      "legacyKey": "bar-thickness-large",
       "anatomy": "bar",
       "scale": "mobile"
     },
@@ -3742,7 +3688,6 @@
     "name": {
       "property": "thickness",
       "size": "xl",
-      "legacyKey": "bar-thickness-extra-large",
       "anatomy": "bar",
       "scale": "desktop"
     },
@@ -3760,7 +3705,6 @@
     "name": {
       "property": "thickness",
       "size": "xl",
-      "legacyKey": "bar-thickness-extra-large",
       "anatomy": "bar",
       "scale": "mobile"
     },

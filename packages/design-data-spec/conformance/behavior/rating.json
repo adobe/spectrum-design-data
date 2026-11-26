@@ -1,0 +1,692 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
+  "component": "rating",
+  "pins": {
+    "state": ["isDisabled", "value", "maxValue", "direction"],
+    "wcag": [
+      {
+        "criterion": "1.3.1",
+        "level": "A",
+        "title": "Info and Relationships"
+      },
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ],
+    "parts": {
+      "container": {
+        "role": "slider",
+        "focus": "tab-stop"
+      }
+    }
+  },
+  "vectors": [
+    {
+      "name": "a disabled rating reads as disabled",
+      "start": {
+        "maxValue": 5,
+        "value": 3,
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "disabled": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "an enabled rating reads as enabled",
+      "start": {
+        "maxValue": 5,
+        "value": 3,
+        "isDisabled": false
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "disabled": false
+          }
+        }
+      ]
+    },
+    {
+      "name": "left to right keeps the arrow order",
+      "start": {
+        "maxValue": 5,
+        "value": 3,
+        "direction": "ltr"
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "arrowOrder": "natural"
+          }
+        }
+      ]
+    },
+    {
+      "name": "right to left mirrors the arrow order",
+      "start": {
+        "maxValue": 5,
+        "value": 3,
+        "direction": "rtl"
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "arrowOrder": "mirrored"
+          }
+        }
+      ]
+    },
+    {
+      "name": "increment and decrement move one star",
+      "start": {
+        "maxValue": 5,
+        "value": 3
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        },
+        {
+          "intent": "decrement"
+        },
+        {
+          "intent": "decrement"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 4
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 3
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "value": 2
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a page is one star",
+      "start": {
+        "maxValue": 5,
+        "value": 3
+      },
+      "steps": [
+        {
+          "intent": "increment-page"
+        },
+        {
+          "intent": "decrement-page"
+        },
+        {
+          "intent": "decrement-page"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 4
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 3
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "value": 2
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "set-min clears the rating and set-max is five stars",
+      "start": {
+        "maxValue": 5,
+        "value": 3
+      },
+      "steps": [
+        {
+          "intent": "set-min"
+        },
+        {
+          "intent": "set-max"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 5
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "five stars is the top",
+      "start": {
+        "maxValue": 5,
+        "value": 5
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        },
+        {
+          "intent": "increment-page"
+        },
+        {
+          "intent": "set-max"
+        }
+      ],
+      "expect": [
+        {
+          "after": 3,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "zero stars is the bottom",
+      "start": {
+        "maxValue": 5,
+        "value": 0
+      },
+      "steps": [
+        {
+          "intent": "decrement"
+        },
+        {
+          "intent": "decrement-page"
+        },
+        {
+          "intent": "set-min"
+        }
+      ],
+      "expect": [
+        {
+          "after": 3,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "an unset rating reads as zero stars",
+      "start": {
+        "maxValue": 5
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a value is exposed with the star count",
+      "start": {
+        "maxValue": 5,
+        "value": 3
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-valuenow": "3",
+            "aria-valuemax": "5"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a rating of zero is exposed",
+      "start": {
+        "maxValue": 5,
+        "value": 0
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-valuenow": "0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "an aggregate half star snaps to a whole star on a step",
+      "start": {
+        "maxValue": 5,
+        "value": 2.5
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 4
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a drag to the middle lands on a whole star",
+      "start": {
+        "maxValue": 5,
+        "value": 1
+      },
+      "steps": [
+        {
+          "intent": "press-start"
+        },
+        {
+          "intent": "move",
+          "position": 0.5
+        },
+        {
+          "intent": "press-end"
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 3
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "a drag to the ends is zero and five stars",
+      "start": {
+        "maxValue": 5,
+        "value": 3
+      },
+      "steps": [
+        {
+          "intent": "move",
+          "position": 0
+        },
+        {
+          "intent": "move",
+          "position": 1
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 5
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a drag to 30 percent is the second star",
+      "start": {
+        "maxValue": 5,
+        "value": 3
+      },
+      "steps": [
+        {
+          "intent": "move",
+          "position": 0.3
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 2
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "every value intent is ignored while disabled",
+      "start": {
+        "maxValue": 5,
+        "value": 3,
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        },
+        {
+          "intent": "decrement"
+        },
+        {
+          "intent": "increment-page"
+        },
+        {
+          "intent": "decrement-page"
+        },
+        {
+          "intent": "set-min"
+        },
+        {
+          "intent": "set-max"
+        },
+        {
+          "intent": "move",
+          "position": 0
+        }
+      ],
+      "expect": [
+        {
+          "after": 7,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "focus follows the keyboard and loses the ring on blur",
+      "start": {
+        "maxValue": 5,
+        "value": 3
+      },
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        },
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "focusVisible": true
+          }
+        },
+        {
+          "after": 2,
+          "facets": {
+            "focusVisible": false
+          }
+        }
+      ]
+    },
+    {
+      "name": "an unset maxValue reads the runner default of 100: the caller applies the component default of 5",
+      "start": {
+        "value": 5
+      },
+      "steps": [
+        {
+          "intent": "set-max"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 100
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "set-max with maxValue 5 is five stars",
+      "start": {
+        "maxValue": 5,
+        "value": 1
+      },
+      "steps": [
+        {
+          "intent": "set-max"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 5
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "another maxValue sets the star count",
+      "start": {
+        "maxValue": 10,
+        "value": 4
+      },
+      "steps": [
+        {
+          "intent": "set-max"
+        },
+        {
+          "intent": "increment"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 10
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "a move is a slider position, not a star hit test: 0.41 lands on star 2 though it is over star 3",
+      "start": {
+        "maxValue": 5,
+        "value": 0
+      },
+      "steps": [
+        {
+          "intent": "move",
+          "position": 0.41
+        },
+        {
+          "intent": "move",
+          "position": 0.5
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 2
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 3
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "an unset value exposes no aria-valuenow",
+      "start": {
+        "maxValue": 5
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-valuenow": null
+          }
+        }
+      ]
+    }
+  ]
+}

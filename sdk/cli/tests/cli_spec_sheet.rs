@@ -58,7 +58,12 @@ fn action_button_sheet_matches_the_schema_and_labels_rows_from_data() {
         .iter()
         .find(|b| b["title"] == "Height")
         .expect("a Height block");
-    let items = height["rows"][0]["items"].as_array().unwrap();
+    let items: Vec<&Value> = height["rows"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .flat_map(|r| r["items"].as_array().unwrap())
+        .collect();
     assert_eq!(items.len(), 5);
     assert_eq!(items[0]["label"], "Extra Small");
     assert_eq!(items[0]["marker"], 1);
@@ -82,7 +87,7 @@ fn action_button_sheet_matches_the_schema_and_labels_rows_from_data() {
         .as_array()
         .unwrap()
         .iter()
-        .find(|b| b["title"] == "Spacing (start/end edges, icon only)")
+        .find(|b| b["title"] == "Spacing (start/end edges, hide label)")
         .expect("an icon-only spacing block");
     let labels: Vec<&str> = icon_only["render"]["measurements"]
         .as_array()
@@ -123,7 +128,7 @@ fn button_icon_only_block_is_labeled_by_the_icon_only_relationship() {
             .map(|m| m["label"].as_str().unwrap().to_string())
             .collect()
     };
-    let icon_only = block("Spacing (start/end edges, icon only)");
+    let icon_only = block("Spacing (start/end edges, label hidden)");
     assert_eq!(
         icon_only["render"]["request"]["options"]["isLabelHidden"],
         true
@@ -483,13 +488,7 @@ fn marker_groups_in_a_block_have_distinct_labels_without_the_size_part() {
         .iter()
         .map(|m| m["label"].as_str().unwrap())
         .collect();
-    assert_eq!(
-        labels,
-        [
-            "component-pill-edge-to-visual",
-            "component-pill-edge-to-text"
-        ]
-    );
+    assert_eq!(labels, ["space-between"]);
 }
 
 #[test]

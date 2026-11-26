@@ -366,24 +366,29 @@ impl std::str::FromStr for IconOverride {
     }
 }
 
-/// The label scenes and compiled recipes use for a token record.
 /// Sort key of a token among same-selector candidates: mode-context score, then the number of
 /// name fields (fewer is the more specific selector match). Equal keys are a true tie.
 fn rank_key(raw: &Value, ctx: &std::collections::HashMap<String, String>) -> (usize, usize) {
     let fields = raw
         .get("name")
         .and_then(Value::as_object)
-        .map_or(0, |o| o.len());
+        .map_or(0, |o| o.keys().filter(|k| *k != "legacyKey").count());
     (name_ctx_score(raw, ctx), fields)
 }
 
+/// The label scenes and compiled recipes use for a token record: its legacy name, derived by
+/// [`crate::naming::extract_legacy_key`] (a `legacyKey` pin wins), or the joined name fields
+/// for a name the derivation does not cover.
 pub fn token_label(rec: &crate::graph::TokenRecord) -> String {
-    let Some(name) = rec.raw.get("name").and_then(Value::as_object) else {
+    let Some(name) = rec.raw.get("name") else {
         return rec.name.clone();
     };
-    if let Some(k) = name.get("legacyKey").and_then(Value::as_str) {
-        return k.to_string();
+    if let Some(k) = crate::naming::extract_legacy_key(name) {
+        return k;
     }
+    let Some(name) = name.as_object() else {
+        return rec.name.clone();
+    };
     name.values()
         .filter_map(value_to_string)
         .collect::<Vec<_>>()
@@ -1406,7 +1411,10 @@ impl<'a> CompileCx<'a> {
                 Value::String(s) => Value::String(self.template(s)),
                 o => o.clone(),
             };
-            match name.get(k) {
+            let derived = (k == "legacyKey")
+                .then(|| crate::naming::extract_legacy_key(name).map(Value::String))
+                .flatten();
+            match derived.as_ref().or_else(|| name.get(k)) {
                 Some(Value::Array(a)) => a.contains(&want),
                 Some(have) => {
                     *have == want
@@ -7852,6 +7860,33 @@ pub fn layout_revision_warning(root: &std::path::Path) -> Option<String> {
 mod tests {
     use super::*;
 
+    fn named(name: Value) -> crate::graph::TokenRecord {
+        crate::graph::TokenRecord {
+            name: "t".into(),
+            file: PathBuf::from("tokens.json"),
+            index: 0,
+            schema_url: None,
+            uuid: None,
+            alias_target: None,
+            raw: serde_json::json!({ "name": name, "value": "1px" }),
+            layer: Default::default(),
+        }
+    }
+
+    #[test]
+    fn a_token_label_is_its_derived_legacy_name_and_the_pin_is_not_a_name_field() {
+        let plain = named(serde_json::json!({"component": "gadget", "property": "width"}));
+        let pinned = named(serde_json::json!({
+            "component": "gadget", "property": "width", "legacyKey": "gadget-width"}));
+        assert_eq!(token_label(&plain), "gadget-width");
+        let ramp = named(serde_json::json!({
+            "property": "color", "colorFamily": "gray", "scaleIndex": 100}));
+        assert_eq!(token_label(&ramp), "gray-100");
+        assert_eq!(token_label(&pinned), "gadget-width");
+        let ctx = std::collections::HashMap::new();
+        assert_eq!(rank_key(&plain.raw, &ctx), rank_key(&pinned.raw, &ctx));
+    }
+
     #[test]
     fn layout_revision_matches_the_data() {
         let root =
@@ -8603,7 +8638,7 @@ mod tests {
             "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
             "parts": { "r": { "kind": "box", "props": { "height": {
                 "dimension": "extent",
-                "fallback": { "relationship": { "property": "component-height-100", "context": "Height" } }
+                "fallback": { "relationship": { "property": "height", "part": "container" } }
             } } } }
         });
         let h = |v: Option<Value>| {
@@ -9339,7 +9374,7 @@ mod tests {
             .unwrap();
         let rel = height.token.relationship.as_ref().expect("relationship");
         assert_eq!(rel.context, "Height");
-        assert_eq!(rel.property, "component-height-100");
+        assert_eq!(rel.property, "height");
         assert!(rel.uuid.is_some(), "every relationship has a uuid");
         let container = &scene.nodes[0];
         assert!(container
@@ -9573,9 +9608,9 @@ mod tests {
                 .token
                 .clone()
         };
-        let white = "color-transparent-static-white-1000";
-        let black = "color-transparent-static-black-1000";
-        let gray = "color-gray-1000-light";
+        let white = "transparent-static-white-1000";
+        let black = "transparent-static-black-1000";
+        let gray = "gray-1000";
         assert_eq!(
             label_color("accent", "bold"),
             white,

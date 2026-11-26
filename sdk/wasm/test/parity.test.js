@@ -370,6 +370,14 @@ test("query result tokens have expected shape", (t) => {
   t.true(["declared", "derived"].includes(first.tierSource));
   t.true(Array.isArray(first.purposeFields));
   t.is(first.purposeCount, first.purposeFields.length);
+  t.is(typeof first.legacyName, "string");
+});
+
+test("legacyName is the derived legacy name, pinned or not", (t) => {
+  const ds = wasm.Dataset.embedded();
+  const [focus] = ds.query("uuid=fe914904-a368-414b-a4ac-21c0b0340d05");
+  t.is(focus.legacyName, "focus-indicator-color");
+  t.is(focus.raw.name.legacyKey, undefined);
 });
 
 test("refinements: specificity and same-property neighbors", (t) => {

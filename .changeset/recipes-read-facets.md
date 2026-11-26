@@ -9,9 +9,10 @@ clauses (`disabled`, `selected`, `checked`, `pending`, and the `hovered`, `press
 `focusVisible` interaction facets). Every rendered SVG and PNG, spec sheet and the legacy
 `@adobe/spectrum-tokens` output are unchanged.
 
-The recipes now need an engine that reads facet clauses (CLI 0.63.6 or later, already the
-`requires.cli` of the dataset). An older TUI build, which is not checked against `requires.cli`,
-may draw these components' previews wrongly (a state or option clause that never matches).
+The recipes need an engine that reads facet clauses: CLI 0.63.7 or later, the first to load
+contracts in wasm, the MCP server and the TUI preview (already the `requires.cli` of the dataset).
+An older TUI build, which is not checked against `requires.cli`, may draw these components'
+previews wrongly (a state or option clause that never matches).
 
 Not converted: Checkbox `isSelected` (its `checked` facet also fixes `isIndeterminate`),
 and the `orientation` clauses of Button group, Checkbox group and Radio group (SPEC-066 does not
