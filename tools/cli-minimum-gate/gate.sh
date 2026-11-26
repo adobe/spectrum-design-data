@@ -21,7 +21,7 @@
 # are compared: a version in between can still regress, as 0.37.0 refused data that 0.36.5 drew.
 # Token labels (the `token` and `chain` name strings in the scene JSON) are display text and are
 # ignored (tools/cli-minimum-gate/normalize.jq): a released CLI cannot know a later display name,
-# and the gate exists to catch geometry, colour and value drift, not label text.
+# and the gate exists to catch geometry, color and value drift, not label text.
 # Only `render` is compared: a data change that breaks the minimum in `query`, `validate` or
 # another command is not caught here.
 
@@ -90,7 +90,7 @@ for scene in "$work"/cur/*.scene.json; do
   id="$(basename "$scene" .scene.json)"
   if ! diff_out="$(scenes_match "$scene" "$work/min/$id.scene.json")"; then
     differing+=("$id")
-    echo "cli-minimum-gate: $id differs (< minimum $min, > current), first lines of the normalised diff:" >&2
+    echo "cli-minimum-gate: $id differs (< minimum $min, > current), first lines of the normalized diff:" >&2
     printf '%s\n' "$diff_out" >&2
   fi
 done

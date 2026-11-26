@@ -2,7 +2,7 @@
 # Sourced by gate.sh and selftest.sh.
 
 # scenes_match A B: true when the scenes are equal after blanking token labels (normalize.jq).
-# On a difference prints a short diff of the normalised JSON and returns 1.
+# On a difference prints a short diff of the normalized JSON and returns 1.
 scenes_match() {
   local dir; dir="$(dirname "${BASH_SOURCE[0]}")"
   local a b

@@ -9,7 +9,7 @@
 # governing permissions and limitations under the License.
 
 # Blanks the token display labels in a scene: the `token` name string and the `chain` array of
-# names, wherever a token record carries them. Geometry, colour, value, relationship and every
+# names, wherever a token record carries them. Geometry, color, value, relationship and every
 # other string are kept.
 walk(
   if type == "object" then
