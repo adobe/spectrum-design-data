@@ -985,40 +985,13 @@ fn a_disabled_field_border_is_not_overridden_by_state_records() {
     }
 }
 
-/// Token `uuid` or `conceptId` -> its `name` object.
-fn token_names() -> HashMap<String, Value> {
-    let mut out = HashMap::new();
-    for entry in std::fs::read_dir(data_dir().join("tokens"))
-        .expect("read tokens")
-        .filter_map(Result::ok)
-    {
-        let path = entry.path();
-        if path.extension().is_none_or(|e| e != "json") {
-            continue;
-        }
-        for token in read_json(&path).as_array().cloned().unwrap_or_default() {
-            let Some(name) = token.get("name") else {
-                continue;
-            };
-            for id in ["uuid", "conceptId"] {
-                if let Some(v) = token.get(id).and_then(Value::as_str) {
-                    out.insert(v.to_string(), name.clone());
-                }
-            }
-        }
-    }
-    out
-}
-
-/// Number field does not declare `keyboard-focus`, so its keyboard-focus error border cannot pin
-/// that state in `scope.options.state` (SPEC-054). A record with no pinned state takes the state
-/// of its token (`Candidate` in `visual.rs`), so it still differs from the default error border:
-/// the two have the same option pins and are told apart by state.
+/// Number field's keyboard-focus error border is a record that pins `focus` in
+/// `scope.options.state`. Only the default error border is stateless: a second keyboard-focus candidate
+/// would make every keyboard-focus render report an ambiguous candidate.
 #[test]
-fn number_field_keyboard_focus_error_border_is_told_apart_by_its_token_state() {
-    let names = token_names();
+fn number_field_keyboard_focus_error_border_is_pinned_to_the_focus_state() {
     let records = read_json(&data_dir().join("relationships/number-field.json"));
-    let states: Vec<Value> = records
+    let states: Vec<Option<Value>> = records
         .as_array()
         .cloned()
         .unwrap_or_default()
@@ -1028,22 +1001,21 @@ fn number_field_keyboard_focus_error_border_is_told_apart_by_its_token_state() {
                 && r.pointer("/scope/property").and_then(Value::as_str) == Some("color")
                 && r.get("context").and_then(Value::as_str) == Some("Border")
                 && r.pointer("/scope/options/isError") == Some(&Value::Bool(true))
-                && r.pointer("/scope/options/state").is_none()
         })
-        .filter_map(|r| {
-            let name = names.get(r.get("$ref")?.as_str()?)?;
-            let light = name.get("colorScheme").is_none_or(|c| c == "light");
-            light.then(|| name.get("state").cloned().unwrap_or(Value::Null))
-        })
+        .map(|r| r.pointer("/scope/options/state").cloned())
         .collect();
-    let unique: BTreeSet<String> = states.iter().map(key).collect();
     assert_eq!(
-        unique.len(),
-        states.len(),
-        "stateless error borders share a state: {states:?}"
+        states.iter().filter(|s| s.is_none()).count(),
+        1,
+        "only the default error border is stateless: {states:?}"
     );
-    assert!(
-        unique.contains(&key(&serde_json::json!(["keyboard-focus"]))),
-        "the keyboard-focus error border should carry its state on the token: {states:?}"
-    );
+    for want in [
+        serde_json::json!(["focus"]),
+        serde_json::json!(["focus", "hover"]),
+    ] {
+        assert!(
+            states.contains(&Some(want.clone())),
+            "no error border pins {want}: {states:?}"
+        );
+    }
 }
