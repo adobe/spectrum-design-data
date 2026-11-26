@@ -17,6 +17,7 @@
     "labelPosition",
     "isRange",
     "step",
+    "orientation",
     "valueFormat",
     "handleStyle",
     "width"
