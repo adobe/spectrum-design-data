@@ -2008,6 +2008,7 @@
     "name": {
       "property": "width",
       "size": "l",
+      "legacyKey": "bar-width-large",
       "anatomy": "bar",
       "scale": "mobile"
     },
@@ -2348,6 +2349,7 @@
     "name": {
       "property": "size",
       "size": "m",
+      "legacyKey": "control-size-medium",
       "anatomy": "control",
       "scale": "mobile"
     },
@@ -2485,6 +2487,7 @@
     "name": {
       "property": "width",
       "size": "m",
+      "legacyKey": "field-width-medium",
       "anatomy": "field",
       "scale": "mobile"
     },
@@ -2520,6 +2523,7 @@
     "name": {
       "property": "width",
       "size": "l",
+      "legacyKey": "field-width-large",
       "anatomy": "field",
       "scale": "mobile"
     },
@@ -3312,6 +3316,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "name": {
       "property": "size",
+      "legacyKey": "visual-size-300",
       "anatomy": "visual",
       "scaleIndex": 300,
       "scale": "mobile"
@@ -3381,6 +3386,7 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "name": {
       "property": "size",
+      "legacyKey": "visual-size-500",
       "anatomy": "visual",
       "scaleIndex": 500,
       "scale": "mobile"
@@ -3651,6 +3657,7 @@
     "name": {
       "property": "thickness",
       "size": "m",
+      "legacyKey": "bar-thickness-medium",
       "anatomy": "bar",
       "scale": "mobile"
     },

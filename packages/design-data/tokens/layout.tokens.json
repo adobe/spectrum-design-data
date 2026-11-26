@@ -582,7 +582,8 @@
       "property": "padding-horizontal",
       "scale": "mobile",
       "structure": "base",
-      "size": "m"
+      "size": "m",
+      "legacyKey": "base-padding-horizontal-medium"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "10px",
@@ -611,7 +612,8 @@
       "property": "padding-horizontal",
       "scale": "mobile",
       "structure": "base",
-      "size": "s"
+      "size": "s",
+      "legacyKey": "base-padding-horizontal-small"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "value": "8px",
@@ -7629,6 +7631,7 @@
     "name": {
       "structure": "banner",
       "property": "width",
+      "legacyKey": "banner-width",
       "scale": "mobile"
     },
     "value": "680px",
@@ -7662,6 +7665,7 @@
     "name": {
       "structure": "banner",
       "property": "height",
+      "legacyKey": "banner-height",
       "scale": "mobile"
     },
     "value": "70px",
@@ -7695,6 +7699,7 @@
     "name": {
       "structure": "banner",
       "property": "minimum-height",
+      "legacyKey": "banner-minimum-height",
       "scale": "mobile"
     },
     "value": "70px",
@@ -7762,6 +7767,7 @@
       "structure": "base",
       "property": "height",
       "size": "xs",
+      "legacyKey": "base-height-extra-small",
       "scale": "mobile"
     },
     "value": "25px",
@@ -7797,6 +7803,7 @@
       "structure": "base",
       "property": "height",
       "size": "s",
+      "legacyKey": "base-height-small",
       "scale": "mobile"
     },
     "value": "30px",
@@ -7832,6 +7839,7 @@
       "structure": "base",
       "property": "height",
       "size": "m",
+      "legacyKey": "base-height-medium",
       "scale": "mobile"
     },
     "value": "40px",
@@ -7901,6 +7909,7 @@
       "structure": "base",
       "property": "height",
       "size": "xl",
+      "legacyKey": "base-height-extra-large",
       "scale": "mobile"
     },
     "value": "60px",
@@ -8212,6 +8221,7 @@
       "structure": "container",
       "property": "minimum-width",
       "size": "xl",
+      "legacyKey": "container-minimum-width-extra-large",
       "scale": "mobile"
     },
     "value": "216px",
@@ -8603,6 +8613,7 @@
     "name": {
       "structure": "list",
       "property": "width",
+      "legacyKey": "list-width",
       "scale": "mobile"
     },
     "value": "240px",
