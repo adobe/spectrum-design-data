@@ -250,7 +250,7 @@ fn render_recipe(graph: &TokenGraph, cache: &SceneCache, name: &str) -> Run {
     run
 }
 
-/// An accordion draws its content text from the `content` option. A calendar draws its months and weekdays from collection options, and an empty nested
+/// A calendar draws its months and weekdays from collection options, and an empty nested
 /// repeat draws no cell, so its snapshots carry a month of days (a blank cell, a day that
 /// follows the request, a selected one, a disabled one and a range with its two ends and a
 /// day between them) and the weekday headings.
