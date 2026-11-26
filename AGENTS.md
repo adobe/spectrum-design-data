@@ -113,3 +113,7 @@ Beads sync to Jira (`DNA` project) weekly. Use the `beads-jira-sync` skill (`.ai
   * An agent that moves into a worktree later keeps talking to the original checkout. Run `ferrograph index --output .ferrograph` in the worktree's `sdk/` and use the CLI (`ferrograph callers`, `blast`), or restart the agent there.
   * Scout attaches a worktree on its own as an overlay of the main checkout. Its default repository is still the one the server started in, so pass `repo` with the worktree path on every Scout call, or you read the main checkout's files.
 * **corp-jira** needs a local `adobe-mcp-servers` checkout; its path in `.mcp.json` is machine-specific.
+
+## Render comparison harness
+
+For any change that can move a rendered pixel, scene value or spec-sheet row (recipes, relationships, tokens, components, the render engine), run `node tools/render-compare/render-compare.mjs --changed` from the repo root instead of comparing BASE and PR by hand. It builds one shared `origin/main` CLI (`~/.cache/sdd-render-compare/`), renders the full option x state matrix from identical repo-root layouts, compares SVG, scenes, PNG sample and `spec-sheet --all` rows, and fails on any diff or on a vacuous run. Authors and reviewers quote its summary. Details: [tools/render-compare/README.md](tools/render-compare/README.md).
