@@ -75,6 +75,7 @@ pub const INTERACTION_EVENTS: &[&str] = &[
     "navigate-previous",
     "navigate-first",
     "navigate-last",
+    "move",
 ];
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -102,6 +103,8 @@ pub(crate) struct Machine {
     pub(crate) semantics: Map<String, Value>,
     /// The contract's own `state` list: the options a vector may start it with.
     pub(crate) state: Vec<String>,
+    /// The contract's own `range` block (decision A658), read by `do.adjust`.
+    pub(crate) range: Option<Value>,
 }
 
 fn extends(raw: &Value) -> Vec<String> {
@@ -141,6 +144,7 @@ pub(crate) fn flatten(
             .and_then(Value::as_object)
             .cloned()
             .unwrap_or_default(),
+        range: contract.get("range").cloned(),
         state: contract
             .get("state")
             .and_then(Value::as_array)
@@ -306,6 +310,94 @@ struct Run<'a> {
     in_group: bool,
     /// `(option, emit)` of each `do.choose` the group still has to apply.
     pending: Vec<(String, Option<String>)>,
+    /// The logical position (0 to 1) of the `move` step being run.
+    position: Option<f64>,
+}
+
+/// A whole number stays whole (41, never 41.0), so a value compares and reads the same however a
+/// vector or a platform wrote it. Applied recursively.
+fn norm(v: &Value) -> Value {
+    match v {
+        Value::Number(n) => match n.as_f64() {
+            Some(f) if f.fract() == 0.0 && f.abs() < 9e15 => json!(f as i64),
+            _ => v.clone(),
+        },
+        Value::Array(a) => Value::Array(a.iter().map(norm).collect()),
+        Value::Object(o) => Value::Object(o.iter().map(|(k, x)| (k.clone(), norm(x))).collect()),
+        _ => v.clone(),
+    }
+}
+
+impl Run<'_> {
+    /// `do.adjust` on the contract's `range`: the option, its value now and its value after. The
+    /// result is snapped to the step from the minimum (half away from the minimum, rounded to 10
+    /// decimals against float noise), then clamped. `min` and `max` set the bound exactly.
+    fn adjust(&self, a: &Value) -> Result<(String, Value, Value), String> {
+        let r = self
+            .m
+            .range
+            .as_ref()
+            .ok_or("`do.adjust`, but the contract has no `range`")?;
+        let name = r
+            .get("value")
+            .and_then(Value::as_str)
+            .ok_or("the `range` names no `value` option")?;
+        // An unset option reads the default; one that is set but not a number is an error.
+        let read = |name: &str, default: f64| match self.options.get(name) {
+            None | Some(Value::Null) => Ok(default),
+            Some(v) => v
+                .as_f64()
+                .ok_or_else(|| format!("option '{name}' is {v}, which is not a number")),
+        };
+        let num = |k: &str, default: f64| match r.get(k).and_then(Value::as_str) {
+            Some(o) => read(o, default),
+            None => Ok(default),
+        };
+        let (min, max, step) = (num("min", 0.0)?, num("max", 100.0)?, num("step", 1.0)?);
+        if step <= 0.0 || min > max {
+            return Err(format!(
+                "the range is min {min}, max {max}, step {step}: the step must be above 0 and min at most max"
+            ));
+        }
+        // The quotient is rounded to 9 decimals first, so an exact decimal half (0.35 / 0.1) is
+        // not pushed below .5 by float noise.
+        // shortcut: values above 1e298 overflow and steps below 1e-10 never move; upgrade with a decimal type.
+        let snap = |x: f64| {
+            let q = (((x - min) / step) * 1e9).round() / 1e9;
+            let s = min + q.round() * step;
+            ((s * 1e10).round() / 1e10).clamp(min, max)
+        };
+        let now = read(name, min)?;
+        let next = match a.get("to").and_then(Value::as_str) {
+            Some("min") => min,
+            Some("max") => max,
+            Some("position") => {
+                let p = self
+                    .position
+                    .filter(|p| (0.0..=1.0).contains(p))
+                    .ok_or("`move` needs a step `position` from 0 to 1")?;
+                snap(min + p * (max - min))
+            }
+            _ => {
+                let by = a.get("by").and_then(Value::as_f64).unwrap_or(0.0);
+                let size = match a.get("unit").and_then(Value::as_str) {
+                    Some("page") => match r.pointer("/page/size").and_then(Value::as_f64) {
+                        Some(n) => n,
+                        None => {
+                            let f = r
+                                .pointer("/page/fraction")
+                                .and_then(Value::as_f64)
+                                .unwrap_or(0.1);
+                            (((max - min) * f / step).round() * step).max(step)
+                        }
+                    },
+                    _ => step,
+                };
+                snap(now + by * size)
+            }
+        };
+        Ok((name.to_string(), norm(&json!(now)), norm(&json!(next))))
+    }
 }
 
 impl Run<'_> {
@@ -394,6 +486,14 @@ impl Run<'_> {
                     changed.insert(o.to_string(), Value::Bool(now));
                 }
             }
+            let mut ranged = false;
+            if let Some(a) = t.pointer("/do/adjust") {
+                let (o, was, now) = self.adjust(a)?;
+                ranged = true;
+                if was != now {
+                    changed.insert(o, now);
+                }
+            }
             let mut options_changed = Map::new();
             for (o, v) in changed {
                 if self.m.published.contains(&o) {
@@ -416,7 +516,7 @@ impl Run<'_> {
             if let Some(name) = t
                 .get("emit")
                 .and_then(Value::as_str)
-                .filter(|_| choose_emit.is_none())
+                .filter(|_| choose_emit.is_none() && !(ranged && options_changed.is_empty()))
             {
                 raised.push(json!({ name: options_changed }));
             }
@@ -440,6 +540,7 @@ impl Run<'_> {
 /// order. With `listed`, each wanted option need only have the raised value and extra raised
 /// options are not checked; otherwise the options must be equal.
 fn emits_match(want: &Value, got: &[Value], listed: bool) -> bool {
+    let want = &norm(want);
     if !listed {
         return *want == Value::Array(got.to_vec());
     }
@@ -489,6 +590,9 @@ fn init_options(
     registry: &RegistryData,
     mut options: Map<String, Value>,
 ) -> Result<Map<String, Value>, String> {
+    for v in options.values_mut() {
+        *v = norm(v);
+    }
     for (name, env) in registry.environment_properties() {
         match options.get(name).and_then(Value::as_str) {
             None => {
@@ -562,6 +666,7 @@ fn run_vector(
         depth: 0,
         in_group: false,
         pending: Vec::new(),
+        position: None,
     };
     let mut failures = Vec::new();
     let expects = v.get("expect").and_then(Value::as_array);
@@ -579,6 +684,7 @@ fn run_vector(
     }
     for (i, s) in steps.iter().enumerate() {
         let n = i + 1;
+        run.position = s.get("position").and_then(Value::as_f64);
         let raised = if let Some(input) = s.get("input") {
             let field = |f: &str| input.get(f).and_then(Value::as_str).unwrap_or_default();
             let bindings = bindings.ok_or_else(|| {
@@ -604,16 +710,17 @@ fn run_vector(
                 ));
             }
             let mut key = field("key");
-            if let Some(g) = &group {
-                let swap = g
-                    .mirrors(&run.facets())
-                    .map_err(|e| format!("step {n}: {e}"))?;
-                key = match (swap, key) {
-                    (true, "ArrowLeft") => "ArrowRight",
-                    (true, "ArrowRight") => "ArrowLeft",
-                    (_, k) => k,
-                };
+            let swap = match (&group, m.range.as_ref().and_then(|r| r.get("mirror"))) {
+                (Some(g), _) => g.mirrors(&run.facets()),
+                (None, Some(guard)) => holds(guard, &run.facets()),
+                _ => Ok(false),
             }
+            .map_err(|e| format!("step {n}: {e}"))?;
+            key = match (swap, key) {
+                (true, "ArrowLeft") => "ArrowRight",
+                (true, "ArrowRight") => "ArrowLeft",
+                (_, k) => k,
+            };
             let mut raised = Vec::new();
             for i in binding_intents(bindings, role, key, field("phase")) {
                 let out = match (at, group.as_mut()) {
@@ -878,6 +985,20 @@ pub fn check_contract(
             if !m.published.iter().any(|p| p == o) && !state.contains(&o) {
                 out.push(format!(
                     "a transition changes '{o}', which `state` does not list"
+                ));
+            }
+        }
+    }
+    for k in ["value", "min", "max", "step"] {
+        if let Some(o) = m
+            .range
+            .as_ref()
+            .and_then(|r| r.get(k))
+            .and_then(Value::as_str)
+        {
+            if !state.contains(&o) {
+                out.push(format!(
+                    "`range.{k}` names '{o}', which `state` does not list"
                 ));
             }
         }
