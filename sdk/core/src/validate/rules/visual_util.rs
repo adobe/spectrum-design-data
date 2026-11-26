@@ -112,11 +112,19 @@ pub(crate) fn name_matches(name: &Value, sel: &Map<String, Value>) -> bool {
                     .as_str()
                     .is_some_and(|w| w.parse::<f64>().ok() == have.as_f64()))
     };
-    sel.iter().all(|(k, want)| match name.get(k) {
-        Some(Value::Array(a)) => a.iter().any(|h| same(h, want)),
-        Some(have) => same(have, want),
-        None => false,
-    })
+    // A `legacyKey` selector names the derived legacy name, pinned or not.
+    let derived = |k: &str| {
+        (k == "legacyKey")
+            .then(|| crate::naming::extract_legacy_key(name).map(Value::String))
+            .flatten()
+    };
+    sel.iter().all(
+        |(k, want)| match derived(k).as_ref().or_else(|| name.get(k)) {
+            Some(Value::Array(a)) => a.iter().any(|h| same(h, want)),
+            Some(have) => same(have, want),
+            None => false,
+        },
+    )
 }
 
 /// Tokens a `token` selector matches. A bare `font-size-{n}` style property also matches
@@ -455,7 +463,15 @@ pub(crate) mod test_util {
 mod tests {
     use serde_json::json;
 
-    use super::{component_relationships, test_util};
+    use super::{component_relationships, name_matches, test_util};
+
+    #[test]
+    fn a_legacy_key_selector_matches_the_derived_name_of_an_unpinned_token() {
+        let name = json!({"component": "gadget", "property": "width"});
+        let sel = |k: &str| json!({ "legacyKey": k }).as_object().unwrap().clone();
+        assert!(name_matches(&name, &sel("gadget-width")));
+        assert!(!name_matches(&name, &sel("gadget-height")));
+    }
 
     #[test]
     fn an_any_of_is_one_target_per_variant_with_its_own_states() {

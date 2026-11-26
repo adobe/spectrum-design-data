@@ -59,6 +59,10 @@ pub struct TokenResult {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub alias_target: Option<String>,
     pub layer: String,
+    /// The legacy name the engine derives for the token (a `legacyKey` pin wins); absent when
+    /// the name has no legacy form.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub legacy_name: Option<String>,
     /// Effective token tier: `"primitive"`, `"semantic"` or `"component"`.
     pub tier: String,
     /// `"declared"` when the token sets `tokenTier`, `"derived"` otherwise.
@@ -449,6 +453,10 @@ impl From<&design_data_core::graph::TokenRecord> for TokenResult {
             schema_url: r.schema_url.clone(),
             alias_target: r.alias_target.clone(),
             layer: format!("{:?}", r.layer).to_lowercase(),
+            legacy_name: r
+                .raw
+                .get("name")
+                .and_then(design_data_core::naming::extract_legacy_key),
             tier: design_data_core::token_tier::effective(r).to_string(),
             tier_source: design_data_core::token_tier::source_raw(&r.raw).to_string(),
             purpose_fields: spec.purpose_fields.clone(),
