@@ -15,7 +15,7 @@ Read this when an orchestrator assigns you a slice as an author or a reviewer. P
 * Never call `asks_*` tools. Put every question in your report.
 * Never merge PRs (`gh pr merge`), and never close beads or issues.
 * Never `git stash`. Never touch the shared checkout (branch, files, stash); work only in your own worktree.
-* Push only your own branch, with `--force-with-lease`. Never run `gh stack sync` or `submit` when someone else owns the parent.
+* Push only your own branch, with `--force-with-lease`. If your branch depends on another open PR, use `gh stack init` and `gh stack add` only to link the PR base. Never run `gh stack sync` or `submit` on a stack someone else owns: they force-push every branch.
 * A `bd` clone on a remote host is stale: do not rely on bead ids there.
 * After `pnpm install`, run `chmod 644 tools/design-data-mcp/src/cli.js`. Never commit that mode change or `paseo.json`. Run AVA as `pnpm exec ava`.
 * Never end a turn waiting on a background job. Run long commands in the foreground, in chunks.
@@ -33,23 +33,23 @@ Read this when an orchestrator assigns you a slice as an author or a reviewer. P
 
 * Bump `sdk/cli/Cargo.toml` and `sdk/Cargo.lock` only when your PR changes CLI-visible behavior under `sdk/` and the current Cargo version already has a release tag: `git ls-remote --tags origin 'design-data-cli@*'`.
 * Main may be untagged-ahead of the last release. If so, do not bump again. Data-only and CI-only PRs never bump.
-* Never change `requires.cli` in `dataset.json` in a feature PR. It is a release-time step.
+* Never change `requires.cli` in `dataset.json` in a feature PR. It is a release-time step. The only exception is a change that needs a newer CLI (a layout-revision bump): it raises `requires.cli` in the same change, per `sdk/cli/AGENTS.md` and `tools/cli-minimum-gate/gate.sh`.
 * `LAYOUT_REVISION` and the dataset `layoutRevision` move together, only when snapshots change geometry (see `sdk/cli/AGENTS.md`).
 
 ## Author: changesets and PR
 
 * Changeset: write the file in `.changeset` directly, then run `node tools/changeset-linter/src/cli.js check --fail-on-warnings`. Body at most 20 lines. See `.ai/rules/changesets.md`.
-* PR body: fill every section of `.github/PULL_REQUEST_TEMPLATE.md` in a file from `mktemp` outside the repo. Use a conventional title and `Fixes #N`. Tick the CLA box (`- [x]`), the owner has signed it. Run `gh pr create --body-file`, then re-read with `gh pr view <n> --json body` to confirm it is yours. Never write to a shared path such as `/tmp/pr.md`.
+* PR body: fill every section of `.github/PULL_REQUEST_TEMPLATE.md` in a file from `mktemp` outside the repo. Use a conventional title and `Fixes #N`. Always tick the CLA box (`- [x]`), the owner has signed it. Tick no other checkbox you did not satisfy. Run `gh pr create --body-file`, then re-read with `gh pr view <n> --json body` to confirm it is yours. Never write to a shared path such as `/tmp/pr.md`.
 * New files start with `Copyright YYYY Adobe. All rights reserved.`
 
 ## Author: gates by change type
 
 * Any data or engine change: `design-data validate` shows no new errors (report counts before and after).
-* Legacy output stays byte-identical. CI does not run this, you do: `design-data migrate legacy-verify`, then `design-data migrate legacy-output --output <mktemp dir>` and `diff -rq <that dir> packages/tokens/src`. Without `--output` the command errors and proves nothing. New design-data tokens need `"excludeFromLegacy": true` unless a `legacyKey` is intended.
+* Legacy output stays byte-identical. CI does not run this, you do: from `packages/design-data`, `design-data migrate legacy-verify ./tokens --reference ../tokens/src`, then `design-data migrate legacy-output ./tokens --output <mktemp dir>` and `diff -rq <that dir> ../tokens/src`. The input path is required; a command that errors proves nothing. New design-data tokens need `"excludeFromLegacy": true` unless a `legacyKey` is intended.
 * Deprecated records are a frozen archive. Check `lifecycle.deprecatedIn` on every record you bind, point at or edit. A live record must not point at a deprecated one: report it instead.
 * Rust: `cargo test --workspace --no-fail-fast`, `cargo fmt --check`, `cargo clippy -D warnings`, the sdk-wasm gate from `.github/workflows/ci.yml`, and `moon run sdk:codegen-check` when schemas or the registry change.
 * New or changed validation rule: register it in `default_rules()` (guard list in `sdk/core/src/lib.rs`) and add a test that fails when the rule is disabled.
-* wasm-visual size budget: 528,000 raw and 201,100 gzip bytes, enforced by `wasm-visual/test/budget.test.mjs`. Never raise it.
+* wasm-visual size budget: 528,000 raw and 201,100 gzip bytes, enforced by `sdk/wasm-visual/test/budget.test.mjs`. Never raise it.
 * Mutation check for every new behavior or binding: revert, zero or swap it in a scratch copy and show which test or golden fails. "No new rule" is not an excuse for recipes.
 * Design-data tokens are the contract. If Figma or React Spectrum S2 differ, report a source-conflict gap (one flat bead proposal each, labels `comp:`, `layer:`, `kind:source-conflict`, `disp:needs-design`). Never edit data or invent a literal to match Figma.
 
@@ -58,7 +58,7 @@ Read this when an orchestrator assigns you a slice as an author or a reviewer. P
 * Compare BASE and PR renders. Build the BASE CLI from `git archive origin/main`, and run both CLIs from identical REPO ROOT layouts (provenance paths differ otherwise).
 * The matrix covers every text, label and content option (a missing `content` text hid a disabled-color regression) and every state. Report the case counts. A matrix with no differences must be shown not vacuous: confirm cases actually render the option.
 * Goldens and recipe snapshots for groups, collections and slots draw slot fills and several items (selected, unselected, disabled), not an empty group.
-* A change that touches token pins or `legacyKey` also needs recipe renders, `recipe_snapshots`, SPEC-062 selector checks and `validate-visuals`. Recipes select by those pins, not only legacy output.
+* A change that touches token pins or `legacyKey` also needs recipe renders, `recipe_snapshots`, SPEC-062 selector checks and `moon run design-data:validate-visuals` (script `packages/design-data/scripts/validate-visuals.js`). Recipes select by those pins, not only legacy output.
 
 ## Author: report
 
