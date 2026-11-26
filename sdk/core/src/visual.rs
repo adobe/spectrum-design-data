@@ -8638,7 +8638,7 @@ mod tests {
             "component": "action-button", "root": "r", "sizeScale": { "m": 100 },
             "parts": { "r": { "kind": "box", "props": { "height": {
                 "dimension": "extent",
-                "fallback": { "relationship": { "property": "component-height-100", "context": "Height" } }
+                "fallback": { "relationship": { "property": "height", "part": "container" } }
             } } } }
         });
         let h = |v: Option<Value>| {
@@ -9374,7 +9374,7 @@ mod tests {
             .unwrap();
         let rel = height.token.relationship.as_ref().expect("relationship");
         assert_eq!(rel.context, "Height");
-        assert_eq!(rel.property, "component-height-100");
+        assert_eq!(rel.property, "height");
         assert!(rel.uuid.is_some(), "every relationship has a uuid");
         let container = &scene.nodes[0];
         assert!(container

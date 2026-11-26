@@ -2,7 +2,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-height-50"
+      "part": "container",
+      "property": "height",
+      "options": {
+        "size": "xs"
+      }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -12,7 +16,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-height-50"
+      "part": "container",
+      "property": "height",
+      "options": {
+        "size": "xs"
+      }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -22,7 +30,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-height-75"
+      "part": "container",
+      "property": "height",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -32,7 +44,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-height-75"
+      "part": "container",
+      "property": "height",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -42,7 +58,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-height-100"
+      "part": "container",
+      "property": "height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -52,7 +72,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-height-100"
+      "part": "container",
+      "property": "height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -62,7 +86,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-height-200"
+      "part": "container",
+      "property": "height",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -72,7 +100,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-height-200"
+      "part": "container",
+      "property": "height",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -82,7 +114,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-height-300"
+      "part": "container",
+      "property": "height",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -92,7 +128,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-height-300"
+      "part": "container",
+      "property": "height",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Height",
     "contextRole": ["height"],
@@ -102,6 +142,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "component-size-difference"
     },
     "context": "Component size (down)",
@@ -113,6 +154,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "component-size-width-ratio"
     },
     "context": "Component size (down)",
@@ -124,6 +166,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "component-size-minimum-perspective"
     },
     "context": "Component size (down)",
@@ -135,6 +178,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "component-size-maximum-perspective"
     },
     "context": "Component size (down)",
@@ -146,6 +190,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "corner-radius"
     },
     "context": "Rounding",
@@ -156,6 +201,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "corner-radius"
     },
     "context": "Rounding",
@@ -166,6 +212,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "corner-radius"
     },
     "context": "Rounding",
@@ -176,6 +223,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "corner-radius"
     },
     "context": "Rounding",
@@ -186,6 +234,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "corner-radius"
     },
     "context": "Rounding",
@@ -196,7 +245,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "workflow-icon-size-50"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "size": "xs"
+      }
     },
     "context": "Icon",
     "contextRole": ["icon"],
@@ -206,7 +259,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "workflow-icon-size-50"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "size": "xs"
+      }
     },
     "context": "Icon",
     "contextRole": ["icon"],
@@ -216,7 +273,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "workflow-icon-size-75"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Icon",
     "contextRole": ["icon"],
@@ -226,7 +287,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "workflow-icon-size-75"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Icon",
     "contextRole": ["icon"],
@@ -236,7 +301,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "workflow-icon-size-100"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Icon",
     "contextRole": ["icon"],
@@ -246,7 +315,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "workflow-icon-size-100"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Icon",
     "contextRole": ["icon"],
@@ -256,7 +329,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "workflow-icon-size-200"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Icon",
     "contextRole": ["icon"],
@@ -266,7 +343,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "workflow-icon-size-200"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Icon",
     "contextRole": ["icon"],
@@ -276,7 +357,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "workflow-icon-size-300"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Icon",
     "contextRole": ["icon"],
@@ -286,7 +371,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "workflow-icon-size-300"
+      "part": "icon",
+      "property": "size",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Icon",
     "contextRole": ["icon"],
@@ -296,7 +385,15 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "space-between"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "icon",
+        "to": "label"
+      },
+      "options": {
+        "size": "xs"
+      }
     },
     "context": "Spacing (icon to label)",
     "contextRole": ["spacing"],
@@ -307,7 +404,15 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "space-between"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "icon",
+        "to": "label"
+      },
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Spacing (icon to label)",
     "contextRole": ["spacing"],
@@ -318,7 +423,15 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "space-between"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "icon",
+        "to": "label"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (icon to label)",
     "contextRole": ["spacing"],
@@ -329,7 +442,15 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "space-between"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "icon",
+        "to": "label"
+      },
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Spacing (icon to label)",
     "contextRole": ["spacing"],
@@ -340,7 +461,15 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "space-between"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "icon",
+        "to": "label"
+      },
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Spacing (icon to label)",
     "contextRole": ["spacing"],
@@ -351,7 +480,15 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-edge-to-visual-50"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "xs"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -362,7 +499,15 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-edge-to-visual-75"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -373,7 +518,15 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-edge-to-visual-75"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -384,7 +537,15 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-edge-to-visual-100"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -395,7 +556,15 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-edge-to-visual-100"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -406,7 +575,15 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-edge-to-visual-200"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -417,7 +594,15 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-edge-to-visual-200"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -428,7 +613,15 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-edge-to-visual-300"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -439,7 +632,15 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-edge-to-visual-300"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -450,7 +651,15 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-edge-to-text-50"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "xs"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -461,7 +670,15 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-edge-to-text-75"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -472,7 +689,15 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-edge-to-text-75"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -483,7 +708,15 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-edge-to-text-100"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -494,7 +727,15 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-edge-to-text-100"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -505,7 +746,15 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-edge-to-text-200"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -516,7 +765,15 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-edge-to-text-200"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -527,7 +784,15 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-edge-to-text-300"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -538,7 +803,15 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-edge-to-text-300"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
@@ -549,62 +822,115 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-edge-to-visual-only-50"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "xs",
+        "hideLabel": true
+      }
     },
-    "context": "Spacing (start/end edges, icon only)",
+    "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
-    "contextQualifier": "start/end edges, icon only",
+    "contextQualifier": "start/end edges",
     "$ref": "e4437bc9-3acf-4bb5-9dab-39157a0d5e47",
     "uuid": "30bb5802-7a34-5d5d-8f4d-e9f046023830"
   },
   {
     "scope": {
       "component": "action-button",
-      "property": "component-edge-to-visual-only-75"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "s",
+        "hideLabel": true
+      }
     },
-    "context": "Spacing (start/end edges, icon only)",
+    "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
-    "contextQualifier": "start/end edges, icon only",
+    "contextQualifier": "start/end edges",
     "$ref": "80b4ea6a-2f97-4d23-9256-61e30ed07f4d",
     "uuid": "9ae574ca-16e2-5b59-9406-45aace2a3291"
   },
   {
     "scope": {
       "component": "action-button",
-      "property": "component-edge-to-visual-only-100"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "m",
+        "hideLabel": true
+      }
     },
-    "context": "Spacing (start/end edges, icon only)",
+    "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
-    "contextQualifier": "start/end edges, icon only",
+    "contextQualifier": "start/end edges",
     "$ref": "5741f832-f012-45bc-9e87-6e07ab2cb87f",
     "uuid": "11db8654-7bf7-5221-962b-459d3f3e61e1"
   },
   {
     "scope": {
       "component": "action-button",
-      "property": "component-edge-to-visual-only-200"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "l",
+        "hideLabel": true
+      }
     },
-    "context": "Spacing (start/end edges, icon only)",
+    "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
-    "contextQualifier": "start/end edges, icon only",
+    "contextQualifier": "start/end edges",
     "$ref": "cc707192-e70f-4965-8582-55fa97d02184",
     "uuid": "8084cb7b-7955-5eb9-8104-199c2d83d7a0"
   },
   {
     "scope": {
       "component": "action-button",
-      "property": "component-edge-to-visual-only-300"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "xl",
+        "hideLabel": true
+      }
     },
-    "context": "Spacing (start/end edges, icon only)",
+    "context": "Spacing (start/end edges)",
     "contextRole": ["spacing"],
-    "contextQualifier": "start/end edges, icon only",
+    "contextQualifier": "start/end edges",
     "$ref": "62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc",
     "uuid": "6cc3354e-20c1-5888-9c28-7507b64bdf52"
   },
   {
     "scope": {
       "component": "action-button",
-      "property": "component-top-to-workflow-icon-50"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "xs"
+      }
     },
     "context": "Spacing (top edge to icon)",
     "contextRole": ["spacing"],
@@ -615,7 +941,15 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-top-to-workflow-icon-75"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Spacing (top edge to icon)",
     "contextRole": ["spacing"],
@@ -626,7 +960,15 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-top-to-workflow-icon-100"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (top edge to icon)",
     "contextRole": ["spacing"],
@@ -637,7 +979,15 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-top-to-workflow-icon-200"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Spacing (top edge to icon)",
     "contextRole": ["spacing"],
@@ -648,7 +998,15 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-top-to-workflow-icon-300"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "icon"
+      },
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Spacing (top edge to icon)",
     "contextRole": ["spacing"],
@@ -659,7 +1017,15 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-top-to-text-50"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "xs"
+      }
     },
     "context": "Spacing (top edge to label)",
     "contextRole": ["spacing"],
@@ -670,7 +1036,15 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-top-to-text-75"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Spacing (top edge to label)",
     "contextRole": ["spacing"],
@@ -681,7 +1055,15 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-top-to-text-100"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (top edge to label)",
     "contextRole": ["spacing"],
@@ -692,7 +1074,15 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-top-to-text-200"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Spacing (top edge to label)",
     "contextRole": ["spacing"],
@@ -703,7 +1093,15 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "component-top-to-text-300"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "label"
+      },
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Spacing (top edge to label)",
     "contextRole": ["spacing"],
@@ -714,6 +1112,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "focus-indicator",
       "property": "thickness"
     },
     "context": "Focus ring",
@@ -724,6 +1123,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "focus-indicator",
       "property": "gap"
     },
     "context": "Focus ring",
@@ -734,7 +1134,15 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "space-between"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
+        "to": "hold-icon"
+      },
+      "options": {
+        "size": "xs"
+      }
     },
     "context": "Spacing (edge to hold icon)",
     "contextRole": ["spacing"],
@@ -745,7 +1153,34 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "space-between"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "hold-icon"
+      },
+      "options": {
+        "size": "xs"
+      }
+    },
+    "context": "Spacing (edge to hold icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "edge to hold icon",
+    "$ref": "b4d6b11b-240b-4daf-8c24-3661888730d1",
+    "uuid": "e5a3f001-5456-5151-b3e3-466f38ca2e63"
+  },
+  {
+    "scope": {
+      "component": "action-button",
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
+        "to": "hold-icon"
+      },
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Spacing (edge to hold icon)",
     "contextRole": ["spacing"],
@@ -756,7 +1191,34 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "space-between"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "hold-icon"
+      },
+      "options": {
+        "size": "s"
+      }
+    },
+    "context": "Spacing (edge to hold icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "edge to hold icon",
+    "$ref": "7789a1e5-3bc8-494d-91c2-1309b4697da9",
+    "uuid": "a39b7cb4-d164-5c8c-98e7-1b790ecad70b"
+  },
+  {
+    "scope": {
+      "component": "action-button",
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
+        "to": "hold-icon"
+      },
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (edge to hold icon)",
     "contextRole": ["spacing"],
@@ -767,7 +1229,34 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "space-between"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "hold-icon"
+      },
+      "options": {
+        "size": "m"
+      }
+    },
+    "context": "Spacing (edge to hold icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "edge to hold icon",
+    "$ref": "32bdfee6-cc93-4d53-9d08-2591646d38e9",
+    "uuid": "a32e6195-4f7b-50e1-b8b1-596cc584332a"
+  },
+  {
+    "scope": {
+      "component": "action-button",
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
+        "to": "hold-icon"
+      },
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Spacing (edge to hold icon)",
     "contextRole": ["spacing"],
@@ -778,7 +1267,34 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "space-between"
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "hold-icon"
+      },
+      "options": {
+        "size": "l"
+      }
+    },
+    "context": "Spacing (edge to hold icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "edge to hold icon",
+    "$ref": "31fe1f21-a95a-4354-b6d1-e40dc66990fb",
+    "uuid": "569d1cc7-a599-52a9-9b6d-58f477cbe3a9"
+  },
+  {
+    "scope": {
+      "component": "action-button",
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
+        "to": "hold-icon"
+      },
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Spacing (edge to hold icon)",
     "contextRole": ["spacing"],
@@ -789,6 +1305,26 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "hold-icon"
+      },
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Spacing (edge to hold icon)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "edge to hold icon",
+    "$ref": "5ddb3980-2cbd-41cb-9b60-2139c5ce9544",
+    "uuid": "f24b70e6-a707-5cdd-8068-de775415e519"
+  },
+  {
+    "scope": {
+      "component": "action-button",
+      "part": "label",
       "property": "font-family"
     },
     "context": "Label",
@@ -799,6 +1335,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "label",
       "property": "font-weight"
     },
     "context": "Label",
@@ -809,6 +1346,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "label",
       "property": "font-style"
     },
     "context": "Label",
@@ -819,7 +1357,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "font-size-50"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "size": "xs"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -829,7 +1371,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "font-size-50"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "size": "xs"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -839,7 +1385,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "font-size-75"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -849,7 +1399,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "font-size-75"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -859,7 +1413,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "font-size-100"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -869,7 +1427,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "font-size-100"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -879,7 +1441,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "font-size-200"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -889,7 +1455,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "font-size-200"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -899,7 +1469,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "font-size-300"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -909,7 +1483,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "font-size-300"
+      "part": "label",
+      "property": "font-size",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -919,7 +1497,8 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "line-height-100"
+      "part": "label",
+      "property": "line-height"
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -929,7 +1508,8 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "line-height-100"
+      "part": "label",
+      "property": "line-height"
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -939,7 +1519,9 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -949,7 +1531,9 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -959,7 +1543,9 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -969,7 +1555,9 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -979,7 +1567,9 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -989,7 +1579,9 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -999,6 +1591,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "content-color"
     },
     "context": "Label, icon, and hold icon",
@@ -1009,6 +1602,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "content-color"
     },
     "context": "Label, icon, and hold icon",
@@ -1019,6 +1613,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "content-color"
     },
     "context": "Label, icon, and hold icon",
@@ -1029,6 +1624,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "content-color"
     },
     "context": "Label, icon, and hold icon",
@@ -1039,7 +1635,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isSelected": true
       }
@@ -1052,7 +1650,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isSelected": true
       }
@@ -1065,7 +1665,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isSelected": true
       }
@@ -1078,7 +1680,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isSelected": true
       }
@@ -1091,6 +1695,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
       "options": {
         "isSelected": true
@@ -1104,6 +1709,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
       "options": {
         "isSelected": true
@@ -1117,6 +1723,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
       "options": {
         "isSelected": true
@@ -1130,7 +1737,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isSelected": true,
         "isEmphasized": true
@@ -1144,7 +1753,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isSelected": true,
         "isEmphasized": true
@@ -1158,7 +1769,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isSelected": true,
         "isEmphasized": true
@@ -1172,7 +1785,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isSelected": true,
         "isEmphasized": true
@@ -1186,7 +1801,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isSelected": true,
         "isEmphasized": true
@@ -1200,7 +1817,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isSelected": true,
         "isEmphasized": true
@@ -1214,7 +1833,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isSelected": true,
         "isEmphasized": true
@@ -1228,7 +1849,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isSelected": true,
         "isEmphasized": true
@@ -1242,7 +1865,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isSelected": true,
         "isEmphasized": true
@@ -1256,7 +1881,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isSelected": true,
         "isEmphasized": true
@@ -1270,7 +1897,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isSelected": true,
         "isEmphasized": true
@@ -1284,7 +1913,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isSelected": true,
         "isEmphasized": true
@@ -1298,6 +1929,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
       "options": {
         "isSelected": true,
@@ -1312,7 +1944,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": true
       }
@@ -1325,6 +1959,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "content-color",
       "options": {
         "isDisabled": true
@@ -1338,6 +1973,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "focus-indicator",
       "property": "color"
     },
     "context": "Focus ring",
@@ -1348,7 +1984,9 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1358,7 +1996,9 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1368,6 +2008,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color"
     },
     "context": "Label, icon, and hold icon",
@@ -1378,6 +2019,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color"
     },
     "context": "Label, icon, and hold icon",
@@ -1388,6 +2030,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
       "options": {
         "isSelected": true,
@@ -1402,7 +2045,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": true,
         "staticColor": "white"
@@ -1416,7 +2061,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": true,
         "staticColor": "white"
@@ -1430,6 +2077,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "content-color",
       "options": {
         "isDisabled": true,
@@ -1444,6 +2092,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "focus-indicator",
       "property": "color",
       "options": {
         "staticColor": "white"
@@ -1457,7 +2106,9 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1467,7 +2118,9 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "color"
+      "part": "container",
+      "property": "color",
+      "attribute": "background"
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -1477,6 +2130,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color"
     },
     "context": "Label, icon, and hold icon",
@@ -1487,6 +2141,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color"
     },
     "context": "Label, icon, and hold icon",
@@ -1497,7 +2152,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": true,
         "staticColor": "black"
@@ -1511,7 +2168,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isDisabled": true,
         "staticColor": "black"
@@ -1525,6 +2184,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "content-color",
       "options": {
         "isDisabled": true,
@@ -1539,6 +2199,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "focus-indicator",
       "property": "color",
       "options": {
         "staticColor": "black"
@@ -1730,7 +2391,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -1750,7 +2413,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -1771,7 +2436,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -1792,7 +2459,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -1813,7 +2482,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -1833,7 +2504,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -1854,7 +2527,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -1875,7 +2550,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -1896,7 +2573,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -1916,7 +2595,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -1937,7 +2618,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -1958,7 +2641,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -1979,7 +2664,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -1999,7 +2686,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2020,7 +2709,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2041,7 +2732,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2062,7 +2755,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2081,7 +2776,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2100,7 +2797,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2119,7 +2818,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2139,7 +2840,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2159,7 +2862,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2179,7 +2884,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2199,7 +2906,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2219,7 +2928,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2239,7 +2950,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2259,7 +2972,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2279,7 +2994,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2299,7 +3016,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2318,7 +3037,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2338,7 +3059,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2358,7 +3081,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2378,7 +3103,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2397,7 +3124,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2416,7 +3145,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2435,7 +3166,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2454,7 +3187,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2473,7 +3208,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2492,7 +3229,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2512,7 +3251,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2532,7 +3273,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2552,7 +3295,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2573,7 +3318,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2594,7 +3341,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2615,7 +3364,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2636,7 +3387,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2657,7 +3410,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2678,7 +3433,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2699,7 +3456,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2718,7 +3477,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2737,7 +3498,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2756,7 +3519,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2776,7 +3541,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2796,7 +3563,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2816,7 +3585,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2836,7 +3607,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2856,7 +3629,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2876,7 +3651,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2896,7 +3673,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2916,7 +3695,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "hasHoldIcon": [false, true],
         "hideLabel": [false, true],
@@ -2936,6 +3717,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "icon",
       "property": "color",
       "options": {
         "hasHoldIcon": [false, true],
@@ -2956,6 +3738,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "icon",
       "property": "color",
       "options": {
         "hasHoldIcon": [false, true],
@@ -2976,6 +3759,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "icon",
       "property": "color",
       "options": {
         "hasHoldIcon": [false, true],
@@ -2996,6 +3780,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "icon",
       "property": "color",
       "options": {
         "hasHoldIcon": [false, true],
@@ -3016,6 +3801,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "icon",
       "property": "color",
       "options": {
         "hasHoldIcon": [false, true],
@@ -3035,6 +3821,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "icon",
       "property": "color",
       "options": {
         "hasHoldIcon": [false, true],
@@ -3055,6 +3842,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "icon",
       "property": "color",
       "options": {
         "hasHoldIcon": [false, true],
@@ -3075,6 +3863,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "icon",
       "property": "color",
       "options": {
         "hasHoldIcon": [false, true],
@@ -3095,6 +3884,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "icon",
       "property": "color",
       "options": {
         "hasHoldIcon": [false, true],
@@ -3114,6 +3904,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "icon",
       "property": "color",
       "options": {
         "hasHoldIcon": [false, true],
@@ -3133,6 +3924,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "icon",
       "property": "color",
       "options": {
         "hasHoldIcon": [false, true],
@@ -3152,6 +3944,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "icon",
       "property": "color",
       "options": {
         "hasHoldIcon": [false, true],
@@ -3171,6 +3964,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "icon",
       "property": "color",
       "options": {
         "hasHoldIcon": [false, true],
@@ -3190,6 +3984,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "label",
       "property": "color",
       "options": {
         "hasHoldIcon": [false, true],
@@ -3210,6 +4005,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "label",
       "property": "color",
       "options": {
         "hasHoldIcon": [false, true],
@@ -3230,6 +4026,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "label",
       "property": "color",
       "options": {
         "hasHoldIcon": [false, true],
@@ -3250,6 +4047,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "label",
       "property": "color",
       "options": {
         "hasHoldIcon": [false, true],
@@ -3270,6 +4068,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "label",
       "property": "color",
       "options": {
         "hasHoldIcon": [false, true],
@@ -3289,6 +4088,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "label",
       "property": "color",
       "options": {
         "hasHoldIcon": [false, true],
@@ -3309,6 +4109,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "label",
       "property": "color",
       "options": {
         "hasHoldIcon": [false, true],
@@ -3329,6 +4130,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "label",
       "property": "color",
       "options": {
         "hasHoldIcon": [false, true],
@@ -3349,6 +4151,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "label",
       "property": "color",
       "options": {
         "hasHoldIcon": [false, true],
@@ -3368,6 +4171,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "label",
       "property": "color",
       "options": {
         "hasHoldIcon": [false, true],
@@ -3387,6 +4191,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "label",
       "property": "color",
       "options": {
         "hasHoldIcon": [false, true],
@@ -3406,6 +4211,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "label",
       "property": "color",
       "options": {
         "hasHoldIcon": [false, true],
@@ -3425,6 +4231,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "label",
       "property": "color",
       "options": {
         "hasHoldIcon": [false, true],
@@ -3444,6 +4251,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "hold-icon",
       "property": "color",
       "options": {
         "hasHoldIcon": true,
@@ -3463,6 +4271,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "hold-icon",
       "property": "color",
       "options": {
         "hasHoldIcon": true,
@@ -3482,6 +4291,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "hold-icon",
       "property": "color",
       "options": {
         "hasHoldIcon": true,
@@ -3501,6 +4311,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "hold-icon",
       "property": "color",
       "options": {
         "hasHoldIcon": true,
@@ -3520,6 +4331,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "hold-icon",
       "property": "color",
       "options": {
         "hasHoldIcon": true,
@@ -3539,6 +4351,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "hold-icon",
       "property": "color",
       "options": {
         "hasHoldIcon": true,
@@ -3558,6 +4371,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "progress",
       "property": "color"
     },
     "context": "Progress track",
@@ -3568,6 +4382,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "progress",
       "property": "color"
     },
     "context": "Progress track",
@@ -3578,6 +4393,7 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "progress",
       "property": "color"
     },
     "context": "Progress track",
@@ -3588,7 +4404,8 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "color"
+      "part": "progress",
+      "property": "content-color"
     },
     "context": "Progress",
     "contextRole": ["track"],
@@ -3598,7 +4415,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "line-height-font-size-50"
+      "part": "label",
+      "property": "line-height",
+      "options": {
+        "size": "xs"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -3608,7 +4429,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "line-height-font-size-50"
+      "part": "label",
+      "property": "line-height",
+      "options": {
+        "size": "xs"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -3618,7 +4443,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "line-height-font-size-75"
+      "part": "label",
+      "property": "line-height",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -3628,7 +4457,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "line-height-font-size-75"
+      "part": "label",
+      "property": "line-height",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -3638,7 +4471,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "line-height-font-size-100"
+      "part": "label",
+      "property": "line-height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -3648,7 +4485,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "line-height-font-size-100"
+      "part": "label",
+      "property": "line-height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -3658,7 +4499,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "line-height-font-size-200"
+      "part": "label",
+      "property": "line-height",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -3668,7 +4513,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "line-height-font-size-200"
+      "part": "label",
+      "property": "line-height",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -3678,7 +4527,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "line-height-font-size-300"
+      "part": "label",
+      "property": "line-height",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -3688,7 +4541,11 @@
   {
     "scope": {
       "component": "action-button",
-      "property": "line-height-font-size-300"
+      "part": "label",
+      "property": "line-height",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -3698,7 +4555,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isSelected": true,
         "isDisabled": true
@@ -3712,7 +4571,9 @@
   {
     "scope": {
       "component": "action-button",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "isSelected": true,
         "isEmphasized": true,
