@@ -62,7 +62,9 @@
         },
         "pressDifference": {
           "when": {
-            "states": ["down"]
+            "facets": {
+              "pressed": "true"
+            }
           },
           "relationship": {
             "property": "component-size-difference",
@@ -71,7 +73,9 @@
         },
         "pressWidthRatio": {
           "when": {
-            "states": ["down"]
+            "facets": {
+              "pressed": "true"
+            }
           },
           "relationship": {
             "property": "component-size-width-ratio",
@@ -80,7 +84,9 @@
         },
         "pressMinPerspective": {
           "when": {
-            "states": ["down"]
+            "facets": {
+              "pressed": "true"
+            }
           },
           "relationship": {
             "property": "component-size-minimum-perspective",
@@ -121,8 +127,8 @@
           },
           {
             "when": {
-              "options": {
-                "isSelected": true
+              "facets": {
+                "checked": "checked"
               }
             },
             "value": 0,
@@ -138,8 +144,8 @@
           },
           {
             "when": {
-              "options": {
-                "isSelected": true
+              "facets": {
+                "checked": "checked"
               }
             },
             "relationship": {
@@ -149,9 +155,9 @@
           },
           {
             "when": {
-              "options": {
-                "isSelected": true,
-                "isDisabled": true
+              "facets": {
+                "checked": "checked",
+                "disabled": "true"
               }
             },
             "relationship": {

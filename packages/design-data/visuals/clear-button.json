@@ -161,8 +161,10 @@
           {
             "when": {
               "options": {
-                "staticColor": "white",
-                "isDisabled": true
+                "staticColor": "white"
+              },
+              "facets": {
+                "disabled": "true"
               }
             },
             "relationship": {

@@ -197,48 +197,76 @@ fn an_intent_the_contract_does_not_cover_fails_unless_a_part_handles_it() {
     assert_eq!(failures(&contract, &[vector], &patterns), 0);
 }
 
-fn rewrite_to_facets(node: &mut Value, mapping: &[(&str, &str, &str)], count: &mut usize) {
+/// The option and state form of the facet clauses under `node`: the inverse of what the compiler
+/// folds, for the facets the converted recipes read.
+fn rewrite_to_options(node: &mut Value, count: &mut usize) {
+    let fold = |facet: &str, value: &str| -> Option<(&'static str, Value)> {
+        match (facet, value) {
+            ("checked", "checked") => Some(("isSelected", json!(true))),
+            ("checked", "indeterminate") => Some(("isIndeterminate", json!(true))),
+            ("disabled", "true") => Some(("isDisabled", json!(true))),
+            ("pressed", "true") => Some(("", json!("down"))),
+            ("hovered", "true") => Some(("", json!("hover"))),
+            _ => None,
+        }
+    };
     match node {
         Value::Object(map) => {
             for key in ["when", "visibleWhen"] {
                 let Some(cond) = map.get_mut(key).and_then(Value::as_object_mut) else {
                     continue;
                 };
-                let mut facets = serde_json::Map::new();
-                if let Some(opts) = cond.get_mut("options").and_then(Value::as_object_mut) {
-                    for (opt, facet, value) in mapping.iter().copied() {
-                        if opts.get(opt) == Some(&Value::Bool(true)) {
-                            opts.remove(opt);
-                            facets.insert(facet.into(), json!(value));
-                        }
+                let Some(Value::Object(facets)) = cond.remove("facets") else {
+                    continue;
+                };
+                for (facet, want) in facets {
+                    let (opt, value) = fold(&facet, want.as_str().unwrap())
+                        .unwrap_or_else(|| panic!("no option form for facet {facet}"));
+                    *count += 1;
+                    if opt.is_empty() {
+                        cond.entry("states")
+                            .or_insert_with(|| json!([]))
+                            .as_array_mut()
+                            .unwrap()
+                            .push(value);
+                    } else {
+                        cond.entry("options")
+                            .or_insert_with(|| json!({}))
+                            .as_object_mut()
+                            .unwrap()
+                            .insert(opt.into(), value);
                     }
-                    if opts.is_empty() {
-                        cond.remove("options");
-                    }
-                }
-                if let Some(states) = cond.get_mut("states").and_then(Value::as_array_mut) {
-                    if states.iter().any(|s| s == "hover") {
-                        states.retain(|s| s != "hover");
-                        facets.insert("hovered".into(), json!("true"));
-                    }
-                    if states.is_empty() {
-                        cond.remove("states");
-                    }
-                }
-                *count += facets.len();
-                if !facets.is_empty() {
-                    cond.insert("facets".into(), Value::Object(facets));
                 }
             }
             for v in map.values_mut() {
-                rewrite_to_facets(v, mapping, count);
+                rewrite_to_options(v, count);
             }
         }
-        Value::Array(items) => items
-            .iter_mut()
-            .for_each(|v| rewrite_to_facets(v, mapping, count)),
+        Value::Array(items) => items.iter_mut().for_each(|v| rewrite_to_options(v, count)),
         _ => {}
     }
+}
+
+/// The compile output without the empty `options: {}` an interaction-only facet clause leaves
+/// (`pressed` folds into `states` and no option), which no condition reads.
+fn without_empty_options(mut node: Value) -> Value {
+    fn go(n: &mut Value) {
+        match n {
+            Value::Object(map) => {
+                if map
+                    .get("options")
+                    .is_some_and(|o| o.as_object().is_some_and(|o| o.is_empty()))
+                {
+                    map.remove("options");
+                }
+                map.values_mut().for_each(go);
+            }
+            Value::Array(a) => a.iter_mut().for_each(go),
+            _ => {}
+        }
+    }
+    go(&mut node);
+    node
 }
 
 /// A recipe that reads facets compiles to exactly what the equivalent option and state
@@ -259,7 +287,7 @@ fn facet_conditions_compile_to_the_equivalent_option_conditions() {
     g.visuals = TokenGraph::load_spec_visuals(&pkg.join("visuals")).unwrap();
     g.behaviors = TokenGraph::load_spec_behaviors(&b).unwrap();
     g.behavior_patterns = TokenGraph::load_spec_behavior_patterns(&b.join("patterns")).unwrap();
-    let recipe = g
+    let faceted = g
         .visuals
         .iter()
         .find(|v| v.component == "switch")
@@ -271,58 +299,85 @@ fn facet_conditions_compile_to_the_equivalent_option_conditions() {
             .iter()
             .map(|(k, v)| (k.to_string(), v.to_string()))
             .collect();
-    let mut faceted = recipe.clone();
+    let mut recipe = faceted.clone();
     let mut count = 0;
-    let switch_map = [
-        ("isSelected", "checked", "checked"),
-        ("isDisabled", "disabled", "true"),
-    ];
-    rewrite_to_facets(&mut faceted, &switch_map, &mut count);
+    rewrite_to_options(&mut recipe, &mut count);
     assert!(
         count >= 9,
-        "the switch recipe should have facet-able conditions, got {count}"
+        "the switch recipe should have facet conditions, got {count}"
     );
     assert_ne!(recipe, faceted);
-    let want = compile_recipe(&g, &recipe, "switch", &[mode.clone()]).unwrap();
-    let got = compile_recipe(&g, &faceted, "switch", &[mode.clone()]).unwrap();
+    let want =
+        without_empty_options(compile_recipe(&g, &recipe, "switch", &[mode.clone()]).unwrap());
+    let got =
+        without_empty_options(compile_recipe(&g, &faceted, "switch", &[mode.clone()]).unwrap());
     assert_eq!(want, got);
 
     // Checkbox: only `indeterminate` selects exactly one option. `checked` also needs
     // `isIndeterminate: false`, which would add that option to the compiled scene conditions, so
     // the recipe keeps `isSelected` in option form.
-    let recipe = g
+    let faceted = g
         .visuals
         .iter()
         .find(|v| v.component == "checkbox")
         .unwrap()
         .raw
         .clone();
-    let mut faceted = recipe.clone();
+    let mut recipe = faceted.clone();
     let mut count = 0;
-    let map = [("isIndeterminate", "checked", "indeterminate")];
-    rewrite_to_facets(&mut faceted, &map, &mut count);
-    assert_eq!(count, 2);
-    let want = compile_recipe(&g, &recipe, "checkbox", &[mode.clone()]).unwrap();
-    let got = compile_recipe(&g, &faceted, "checkbox", &[mode.clone()]).unwrap();
+    rewrite_to_options(&mut recipe, &mut count);
+    assert_eq!(count, 5, "pressed (3) and indeterminate (2)");
+    assert_ne!(recipe, faceted);
+    let want =
+        without_empty_options(compile_recipe(&g, &recipe, "checkbox", &[mode.clone()]).unwrap());
+    let got =
+        without_empty_options(compile_recipe(&g, &faceted, "checkbox", &[mode.clone()]).unwrap());
     assert_eq!(want, got);
     let mut selected = recipe.clone();
-    rewrite_to_facets(
-        &mut selected,
-        &[("isSelected", "checked", "checked")],
-        &mut 0,
-    );
-    let got = compile_recipe(&g, &selected, "checkbox", &[mode.clone()]).unwrap();
+    fn as_checked(n: &mut Value, swapped: &mut usize) {
+        match n {
+            Value::Object(map) => {
+                if let Some(cond) = map.get_mut("when").and_then(Value::as_object_mut) {
+                    let had = cond
+                        .get_mut("options")
+                        .and_then(Value::as_object_mut)
+                        .is_some_and(|o| o.remove("isSelected").is_some());
+                    if had {
+                        cond.insert("facets".into(), json!({ "checked": "checked" }));
+                        *swapped += 1;
+                    }
+                }
+                map.values_mut().for_each(|v| as_checked(v, swapped));
+            }
+            Value::Array(a) => a.iter_mut().for_each(|v| as_checked(v, swapped)),
+            _ => {}
+        }
+    }
+    let mut swapped = 0;
+    as_checked(&mut selected, &mut swapped);
+    assert!(swapped > 0, "the checkbox recipe reads isSelected");
+    let got =
+        without_empty_options(compile_recipe(&g, &selected, "checkbox", &[mode.clone()]).unwrap());
     assert_ne!(want, got, "`checked` is not the option form of isSelected");
 
     // Mutation guard: a facet that selects a different option changes the compile.
-    let mut wrong = faceted.clone();
-    let swap = |n: &mut Value| {
-        if let Some(c) = n.pointer_mut("/parts/track/props/fill/1/when/facets") {
-            *c = json!({ "disabled": "true" });
-        }
-    };
-    swap(&mut wrong);
-    assert_ne!(want, compile_recipe(&g, &wrong, "switch", &[mode]).unwrap());
+    let switch = g
+        .visuals
+        .iter()
+        .find(|v| v.component == "switch")
+        .unwrap()
+        .raw
+        .clone();
+    let want =
+        without_empty_options(compile_recipe(&g, &switch, "switch", &[mode.clone()]).unwrap());
+    let mut wrong = switch.clone();
+    *wrong
+        .pointer_mut("/parts/track/props/fill/1/when/facets")
+        .expect("track fill rule reads a facet") = json!({ "disabled": "true" });
+    assert_ne!(
+        want,
+        without_empty_options(compile_recipe(&g, &wrong, "switch", &[mode]).unwrap())
+    );
 }
 
 #[test]
