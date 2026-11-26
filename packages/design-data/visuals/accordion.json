@@ -48,7 +48,7 @@
             "when": { "options": { "size": ["l", "xl"] } },
             "relationship": {
               "property": "width",
-              "context": "Width (default)"
+              "part": "container"
             }
           }
         ]
@@ -86,27 +86,27 @@
         "paddingInlineStart": {
           "relationship": {
             "property": "padding-horizontal",
-            "context": "Header (horizontal)"
+            "part": "header"
           }
         },
         "paddingInlineEnd": {
           "relationship": {
             "property": "padding-horizontal",
-            "context": "Header (horizontal)"
+            "part": "header"
           }
         },
         "paddingBlockStart": {
           "when": { "options": { "density": ["regular", "spacious"] } },
           "relationship": {
             "property": "padding-vertical",
-            "context": "Header (vertical)"
+            "part": "header"
           }
         },
         "paddingBlockEnd": {
           "when": { "options": { "density": ["regular", "spacious"] } },
           "relationship": {
             "property": "padding-vertical",
-            "context": "Header (vertical)"
+            "part": "header"
           }
         }
       }
@@ -125,7 +125,10 @@
         "gap": {
           "relationship": {
             "property": "spacing",
-            "context": "Spacing (section title to action area)"
+            "between": {
+              "from": "title",
+              "to": "actions"
+            }
           }
         }
       }
@@ -200,15 +203,15 @@
         "color": [
           {
             "relationship": {
-              "property": "content-color",
-              "context": "Section title and chevron"
+              "property": "color",
+              "part": "title"
             }
           },
           {
             "when": { "options": { "isDisabled": true } },
             "relationship": {
-              "property": "content-color",
-              "context": "Disabled"
+              "property": "color",
+              "part": "accordion-item"
             },
             "priority": 10
           }
@@ -222,38 +225,38 @@
         "paddingInlineStart": {
           "relationship": {
             "property": "padding-horizontal",
-            "context": "Title (horizontal)"
+            "part": "title"
           }
         },
         "paddingInlineEnd": {
           "relationship": {
             "property": "padding-horizontal",
-            "context": "Title (horizontal)"
+            "part": "title"
           }
         },
         "paddingBlockStart": {
           "relationship": {
             "property": "padding-vertical",
-            "context": "Title (vertical)"
+            "part": "title"
           }
         },
         "paddingBlockEnd": {
           "relationship": {
             "property": "padding-vertical",
-            "context": "Title (vertical)"
+            "part": "title"
           }
         },
         "fontFamily": {
-          "relationship": { "property": "font-family", "context": "Value" }
+          "relationship": { "property": "font-family", "part": "title" }
         },
         "fontSize": {
           "relationship": {
-            "property": "font-size-{sizeIndex}",
-            "context": "Value"
+            "property": "font-size",
+            "part": "title"
           }
         },
         "fontWeight": {
-          "relationship": { "property": "font-weight", "context": "Value" }
+          "relationship": { "property": "font-weight", "part": "title" }
         },
         "lineHeight": {
           "token": {
@@ -264,15 +267,15 @@
         "color": [
           {
             "relationship": {
-              "property": "content-color",
-              "context": "Section title and chevron"
+              "property": "color",
+              "part": "title"
             }
           },
           {
             "when": { "options": { "isDisabled": true } },
             "relationship": {
-              "property": "content-color",
-              "context": "Disabled"
+              "property": "color",
+              "part": "accordion-item"
             },
             "priority": 10
           }
@@ -306,7 +309,7 @@
         },
         "fontSize": {
           "relationship": {
-            "property": "font-size-{sizeIndex}",
+            "property": "font-size",
             "part": "title"
           }
         },
@@ -320,7 +323,12 @@
           }
         },
         "color": [
-          { "relationship": { "property": "content-color", "part": "title" } }
+          { "relationship": { "property": "color", "part": "title" } },
+          {
+            "when": { "options": { "isDisabled": true } },
+            "relationship": { "property": "color", "part": "accordion-item" },
+            "priority": 10
+          }
         ]
       }
     },

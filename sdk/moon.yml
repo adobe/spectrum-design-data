@@ -32,6 +32,7 @@ fileGroups:
     # silently never triggered affected-task detection.
     - "*.toml"
     - "*/*.toml"
+    - "plugins/*/*.toml"
 tasks:
   codegen:
     command: node

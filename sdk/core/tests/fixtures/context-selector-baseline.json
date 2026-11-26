@@ -1,5 +1,4 @@
 {
-  "accordion": 17,
   "action-button": 33,
   "avatar": 16,
   "badge": 18,
@@ -12,7 +11,6 @@
   "in-field-progress-circle": 8,
   "link": 15,
   "progress-circle": 9,
-  "radio-button": 24,
   "swatch": 19,
   "thumbnail": 7
 }
