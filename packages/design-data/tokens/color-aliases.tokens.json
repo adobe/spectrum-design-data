@@ -1991,7 +1991,8 @@
   {
     "name": {
       "object": "focus-indicator",
-      "property": "color"
+      "property": "color",
+      "legacyKey": "focus-indicator-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "85be576c-6810-4971-9748-e558384b903d",
@@ -5097,7 +5098,8 @@
   {
     "name": {
       "object": "track",
-      "property": "color"
+      "property": "color",
+      "legacyKey": "track-color"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "dac01571-b26a-4aef-ace7-d0e34e917570",

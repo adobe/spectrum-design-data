@@ -1804,7 +1804,8 @@
       "icon": "icon",
       "property": "color",
       "state": ["default"],
-      "colorRole": "primary"
+      "colorRole": "primary",
+      "legacyKey": "icon-color-primary-default"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c",
@@ -1816,7 +1817,8 @@
       "icon": "icon",
       "property": "color",
       "state": ["down"],
-      "colorRole": "primary"
+      "colorRole": "primary",
+      "legacyKey": "icon-color-primary-down"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "cf169d95-e427-4665-a983-c24727dbfa60",
@@ -1828,7 +1830,8 @@
       "icon": "icon",
       "property": "color",
       "state": ["hover"],
-      "colorRole": "primary"
+      "colorRole": "primary",
+      "legacyKey": "icon-color-primary-hover"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c",
