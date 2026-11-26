@@ -19,13 +19,13 @@
     },
     {
       "context": "Spacing (top/bottom edge to label)",
-      "property": "component-top-to-text-{sizeIndex}",
+      "property": "space-between",
       "part": "label",
       "from": "(height - label.lineHeight) / 2"
     },
     {
       "context": "Spacing (top/bottom edge to label)",
-      "property": "component-bottom-to-text-{sizeIndex}",
+      "property": "space-between",
       "part": "label",
       "edge": "bottom",
       "from": "(height - label.lineHeight) / 2"
@@ -47,7 +47,7 @@
         },
         "minHeight": {
           "relationship": {
-            "property": "component-height-{sizeIndex}",
+            "property": "minimum-height",
             "part": "container"
           }
         },
@@ -317,13 +317,13 @@
         },
         "fontSize": {
           "relationship": {
-            "property": "font-size-{sizeIndex}",
+            "property": "font-size",
             "part": "label"
           }
         },
         "lineHeight": {
           "relationship": {
-            "property": "line-height-font-size-{sizeIndex}",
+            "property": "line-height",
             "part": "label"
           }
         },

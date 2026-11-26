@@ -102,6 +102,9 @@
       "between": {
         "from": "top",
         "to": "control"
+      },
+      "options": {
+        "size": "s"
       }
     },
     "context": "Spacing (top edge to control)",
@@ -117,6 +120,9 @@
       "between": {
         "from": "top",
         "to": "control"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (top edge to control)",
@@ -132,6 +138,9 @@
       "between": {
         "from": "top",
         "to": "control"
+      },
+      "options": {
+        "size": "l"
       }
     },
     "context": "Spacing (top edge to control)",
@@ -147,6 +156,9 @@
       "between": {
         "from": "top",
         "to": "control"
+      },
+      "options": {
+        "size": "xl"
       }
     },
     "context": "Spacing (top edge to control)",
@@ -243,7 +255,10 @@
     "scope": {
       "component": "checkbox",
       "part": "container",
-      "property": "component-height-75"
+      "property": "minimum-height",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -254,7 +269,10 @@
     "scope": {
       "component": "checkbox",
       "part": "container",
-      "property": "component-height-75"
+      "property": "minimum-height",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -265,7 +283,10 @@
     "scope": {
       "component": "checkbox",
       "part": "container",
-      "property": "component-height-100"
+      "property": "minimum-height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -276,7 +297,10 @@
     "scope": {
       "component": "checkbox",
       "part": "container",
-      "property": "component-height-100"
+      "property": "minimum-height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -287,7 +311,10 @@
     "scope": {
       "component": "checkbox",
       "part": "container",
-      "property": "component-height-200"
+      "property": "minimum-height",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -298,7 +325,10 @@
     "scope": {
       "component": "checkbox",
       "part": "container",
-      "property": "component-height-200"
+      "property": "minimum-height",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -309,7 +339,10 @@
     "scope": {
       "component": "checkbox",
       "part": "container",
-      "property": "component-height-300"
+      "property": "minimum-height",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -320,7 +353,10 @@
     "scope": {
       "component": "checkbox",
       "part": "container",
-      "property": "component-height-300"
+      "property": "minimum-height",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Minimum height",
     "contextRole": ["height"],
@@ -430,6 +466,9 @@
       "between": {
         "from": "control",
         "to": "label"
+      },
+      "options": {
+        "size": "s"
       }
     },
     "context": "Spacing (control to label)",
@@ -445,6 +484,9 @@
       "between": {
         "from": "control",
         "to": "label"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (control to label)",
@@ -460,6 +502,9 @@
       "between": {
         "from": "control",
         "to": "label"
+      },
+      "options": {
+        "size": "l"
       }
     },
     "context": "Spacing (control to label)",
@@ -475,6 +520,9 @@
       "between": {
         "from": "control",
         "to": "label"
+      },
+      "options": {
+        "size": "xl"
       }
     },
     "context": "Spacing (control to label)",
@@ -486,10 +534,13 @@
   {
     "scope": {
       "component": "checkbox",
-      "property": "component-top-to-text-75",
+      "property": "space-between",
       "between": {
-        "from": "top",
+        "from": "top-edge",
         "to": "label"
+      },
+      "options": {
+        "size": "s"
       }
     },
     "context": "Spacing (top/bottom edge to label)",
@@ -501,10 +552,13 @@
   {
     "scope": {
       "component": "checkbox",
-      "property": "component-top-to-text-100",
+      "property": "space-between",
       "between": {
-        "from": "top",
+        "from": "top-edge",
         "to": "label"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (top/bottom edge to label)",
@@ -516,10 +570,13 @@
   {
     "scope": {
       "component": "checkbox",
-      "property": "component-top-to-text-200",
+      "property": "space-between",
       "between": {
-        "from": "top",
+        "from": "top-edge",
         "to": "label"
+      },
+      "options": {
+        "size": "l"
       }
     },
     "context": "Spacing (top/bottom edge to label)",
@@ -531,10 +588,13 @@
   {
     "scope": {
       "component": "checkbox",
-      "property": "component-top-to-text-300",
+      "property": "space-between",
       "between": {
-        "from": "top",
+        "from": "top-edge",
         "to": "label"
+      },
+      "options": {
+        "size": "xl"
       }
     },
     "context": "Spacing (top/bottom edge to label)",
@@ -546,10 +606,13 @@
   {
     "scope": {
       "component": "checkbox",
-      "property": "component-bottom-to-text-75",
+      "property": "space-between",
       "between": {
-        "from": "bottom",
+        "from": "bottom-edge",
         "to": "label"
+      },
+      "options": {
+        "size": "s"
       }
     },
     "context": "Spacing (top/bottom edge to label)",
@@ -561,10 +624,13 @@
   {
     "scope": {
       "component": "checkbox",
-      "property": "component-bottom-to-text-100",
+      "property": "space-between",
       "between": {
-        "from": "bottom",
+        "from": "bottom-edge",
         "to": "label"
+      },
+      "options": {
+        "size": "m"
       }
     },
     "context": "Spacing (top/bottom edge to label)",
@@ -576,10 +642,13 @@
   {
     "scope": {
       "component": "checkbox",
-      "property": "component-bottom-to-text-200",
+      "property": "space-between",
       "between": {
-        "from": "bottom",
+        "from": "bottom-edge",
         "to": "label"
+      },
+      "options": {
+        "size": "l"
       }
     },
     "context": "Spacing (top/bottom edge to label)",
@@ -591,10 +660,13 @@
   {
     "scope": {
       "component": "checkbox",
-      "property": "component-bottom-to-text-300",
+      "property": "space-between",
       "between": {
-        "from": "bottom",
+        "from": "bottom-edge",
         "to": "label"
+      },
+      "options": {
+        "size": "xl"
       }
     },
     "context": "Spacing (top/bottom edge to label)",
@@ -628,6 +700,7 @@
   {
     "scope": {
       "component": "checkbox",
+      "part": "container",
       "property": "spacing"
     },
     "context": "Checkbox group spacing (horizontal)",
@@ -1103,7 +1176,10 @@
     "scope": {
       "component": "checkbox",
       "part": "label",
-      "property": "font-size-75"
+      "property": "font-size",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1114,7 +1190,10 @@
     "scope": {
       "component": "checkbox",
       "part": "label",
-      "property": "font-size-75"
+      "property": "font-size",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1125,7 +1204,10 @@
     "scope": {
       "component": "checkbox",
       "part": "label",
-      "property": "font-size-100"
+      "property": "font-size",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1136,7 +1218,10 @@
     "scope": {
       "component": "checkbox",
       "part": "label",
-      "property": "font-size-100"
+      "property": "font-size",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1147,7 +1232,10 @@
     "scope": {
       "component": "checkbox",
       "part": "label",
-      "property": "font-size-200"
+      "property": "font-size",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1158,7 +1246,10 @@
     "scope": {
       "component": "checkbox",
       "part": "label",
-      "property": "font-size-200"
+      "property": "font-size",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1169,7 +1260,10 @@
     "scope": {
       "component": "checkbox",
       "part": "label",
-      "property": "font-size-300"
+      "property": "font-size",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1180,7 +1274,10 @@
     "scope": {
       "component": "checkbox",
       "part": "label",
-      "property": "font-size-300"
+      "property": "font-size",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1191,7 +1288,7 @@
     "scope": {
       "component": "checkbox",
       "part": "label",
-      "property": "line-height-100"
+      "property": "line-height"
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1202,7 +1299,7 @@
     "scope": {
       "component": "checkbox",
       "part": "label",
-      "property": "line-height-100"
+      "property": "line-height"
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1581,7 +1678,10 @@
     "scope": {
       "component": "checkbox",
       "part": "label",
-      "property": "line-height-font-size-75"
+      "property": "line-height",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1592,7 +1692,10 @@
     "scope": {
       "component": "checkbox",
       "part": "label",
-      "property": "line-height-font-size-75"
+      "property": "line-height",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1603,7 +1706,10 @@
     "scope": {
       "component": "checkbox",
       "part": "label",
-      "property": "line-height-font-size-100"
+      "property": "line-height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1614,7 +1720,10 @@
     "scope": {
       "component": "checkbox",
       "part": "label",
-      "property": "line-height-font-size-100"
+      "property": "line-height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1625,7 +1734,10 @@
     "scope": {
       "component": "checkbox",
       "part": "label",
-      "property": "line-height-font-size-200"
+      "property": "line-height",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1636,7 +1748,10 @@
     "scope": {
       "component": "checkbox",
       "part": "label",
-      "property": "line-height-font-size-200"
+      "property": "line-height",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1647,7 +1762,10 @@
     "scope": {
       "component": "checkbox",
       "part": "label",
-      "property": "line-height-font-size-300"
+      "property": "line-height",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1658,7 +1776,10 @@
     "scope": {
       "component": "checkbox",
       "part": "label",
-      "property": "line-height-font-size-300"
+      "property": "line-height",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Label",
     "contextRole": ["label"],
