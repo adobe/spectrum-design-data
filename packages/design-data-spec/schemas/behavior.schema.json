@@ -248,6 +248,16 @@
                 "transitions": {
                   "type": "array",
                   "items": { "$ref": "#/$defs/transition" }
+                },
+                "semantics": {
+                  "type": "object",
+                  "propertyNames": { "$ref": "#/$defs/name" },
+                  "additionalProperties": {
+                    "type": "object",
+                    "propertyNames": { "$ref": "#/$defs/name" },
+                    "additionalProperties": { "$ref": "#/$defs/semantic" }
+                  },
+                  "description": "Per anatomy part of the item, facet id to the accessibility state it exposes. Same shape as the contract's `semantics`, read against the item's own facets."
                 }
               },
               "additionalProperties": false
@@ -450,7 +460,12 @@
                       "key": {
                         "$ref": "behavior-bindings.schema.json#/$defs/key"
                       },
-                      "phase": { "enum": ["down", "up"] }
+                      "phase": { "enum": ["down", "up"] },
+                      "item": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "A group contract: resolve the key through the role of this item's contract (by index) and run the intents on that item, instead of the group's role."
+                      }
                     },
                     "additionalProperties": false,
                     "description": "A key press phase, resolved to intents through the platform's bindings for the role of the contract's role-carrying part. A key with no binding raises nothing."
@@ -494,6 +509,19 @@
                 "type": "integer",
                 "minimum": 0,
                 "description": "A group contract: the index the logical focus is on after the step."
+              },
+              "itemAria": {
+                "type": "array",
+                "items": {
+                  "oneOf": [
+                    { "type": "null" },
+                    {
+                      "type": "object",
+                      "additionalProperties": { "type": ["string", "null"] }
+                    }
+                  ]
+                },
+                "description": "A group contract: per item, the accessibility attributes the item contract's `semantics` expose after the step; `null` is an item not checked."
               },
               "aria": {
                 "type": "object",

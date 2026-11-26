@@ -1556,3 +1556,103 @@ fn a_mutated_tooltip_fails_a_vector() {
         assert!(!design_data_core::behavior::check_contract(&m, &patterns, Some(&pins)).is_empty());
     }
 }
+
+/// Accordion vectors that need the runner's item support: a key step addressed to an item
+/// (resolved through the item contract's role), item `aria`, and no navigation without `traversal`.
+fn accordion_failures(contract: &Value) -> usize {
+    let (_, _, patterns) = load("accordion");
+    let key = |item: Option<u64>, key: &str, phase: &str| {
+        let mut input = json!({ "key": key, "phase": phase });
+        if let Some(i) = item {
+            input["item"] = json!(i);
+        }
+        json!({ "input": input })
+    };
+    let vectors = vec![
+        json!({
+            "name": "Enter on header 1 opens it and sets aria-expanded",
+            "start": { "items": [{}, {}] },
+            "steps": [key(Some(1), "Enter", "down")],
+            "expect": [{
+                "after": 1,
+                "items": [{ "expanded": "collapsed" }, { "expanded": "expanded" }],
+                "itemAria": [{ "aria-expanded": "false" }, { "aria-expanded": "true" }],
+                "emit": [{ "change": { "isExpanded": [1] } }]
+            }]
+        }),
+        json!({
+            "name": "Space acts on key up, an arrow does nothing",
+            "start": { "items": [{}, {}], "focused": 0 },
+            "steps": [
+                key(Some(0), "Space", "down"),
+                key(Some(0), "Space", "up"),
+                key(Some(0), "ArrowDown", "down")
+            ],
+            "expect": [
+                { "after": 1, "items": [{ "expanded": "collapsed" }, null] },
+                { "after": 2, "items": [{ "expanded": "expanded" }, null] },
+                { "after": 3, "focused": 0, "emit": [] }
+            ]
+        }),
+        json!({
+            "name": "navigate is ignored without a traversal",
+            "start": { "items": [{}, {}, {}], "focused": 1 },
+            "steps": [{ "intent": "navigate-next" }, { "intent": "navigate-last" }],
+            "expect": [{ "after": 1, "focused": 1 }, { "after": 2, "focused": 1 }]
+        }),
+    ];
+    run_vectors_with(
+        contract,
+        &patterns,
+        &vectors,
+        RegistryData::embedded(),
+        &all_capabilities(),
+        Some(&web_bindings()),
+        &all_contracts(),
+    )
+    .iter()
+    .filter(|r| matches!(r.status, Status::Fail(_)))
+    .count()
+}
+
+#[test]
+fn an_item_key_step_item_aria_and_a_traversal_less_group_are_pinned() {
+    let (contract, _, _) = load("accordion");
+    assert_eq!(accordion_failures(&contract), 0);
+
+    // Mutations of the data: each must fail a vector.
+    let mut no_semantics = contract.clone();
+    no_semantics["collection"]["item"]
+        .as_object_mut()
+        .unwrap()
+        .remove("semantics");
+    assert!(
+        accordion_failures(&no_semantics) > 0,
+        "dropping item semantics"
+    );
+
+    let mut wrong_map = contract.clone();
+    wrong_map["collection"]["item"]["semantics"]["header"]["expanded"]["map"] =
+        json!({ "collapsed": "true", "expanded": "false" });
+    assert!(
+        accordion_failures(&wrong_map) > 0,
+        "swapped aria-expanded map"
+    );
+
+    let mut traversal = contract.clone();
+    traversal["collection"]["traversal"] = json!({ "wrap": true });
+    assert!(
+        accordion_failures(&traversal) > 0,
+        "a traversal moves focus"
+    );
+
+    let mut no_role = contract.clone();
+    no_role["collection"]["item"]["parts"]["header"]
+        .as_object_mut()
+        .unwrap()
+        .remove("role");
+    assert!(
+        accordion_failures(&no_role) > 0,
+        "an item part with no role"
+    );
+}

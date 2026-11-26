@@ -30,6 +30,14 @@
           "press": "activate"
         }
       },
+      "semantics": {
+        "header": {
+          "expanded": {
+            "ariaState": "aria-expanded",
+            "map": { "collapsed": "false", "expanded": "true" }
+          }
+        }
+      },
       "transitions": [
         {
           "on": "activate",
