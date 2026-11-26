@@ -73,13 +73,16 @@
                   "color": {
                     "relationship": {
                       "property": "color",
-                      "context": "Background (gradient stop 1)"
+                      "attribute": "background",
+                      "part": "container",
+                      "ordinal": 1
                     }
                   },
                   "offset": {
                     "relationship": {
-                      "property": "gradient-stop-1",
-                      "context": "0%"
+                      "property": "gradient-stop",
+                      "part": "container",
+                      "ordinal": 1
                     }
                   }
                 },
@@ -87,13 +90,16 @@
                   "color": {
                     "relationship": {
                       "property": "color",
-                      "context": "Background (gradient stop 2)"
+                      "attribute": "background",
+                      "part": "container",
+                      "ordinal": 2
                     }
                   },
                   "offset": {
                     "relationship": {
-                      "property": "gradient-stop-2",
-                      "context": "66%"
+                      "property": "gradient-stop",
+                      "part": "container",
+                      "ordinal": 2
                     }
                   }
                 },
@@ -101,13 +107,16 @@
                   "color": {
                     "relationship": {
                       "property": "color",
-                      "context": "Background (gradient stop 3)"
+                      "attribute": "background",
+                      "part": "container",
+                      "ordinal": 3
                     }
                   },
                   "offset": {
                     "relationship": {
-                      "property": "gradient-stop-3",
-                      "context": "100%"
+                      "property": "gradient-stop",
+                      "part": "container",
+                      "ordinal": 3
                     }
                   }
                 }
@@ -182,7 +191,7 @@
         },
         "fontSize": {
           "relationship": {
-            "property": "font-size-100",
+            "property": "font-size",
             "context": "Text"
           }
         },
@@ -194,13 +203,13 @@
         },
         "lineHeight": {
           "relationship": {
-            "property": "line-height-100",
+            "property": "line-height",
             "context": "Text"
           }
         },
         "color": {
           "relationship": {
-            "property": "color",
+            "property": "content-color",
             "context": "Label"
           }
         }
@@ -215,7 +224,7 @@
       "props": {
         "color": {
           "relationship": {
-            "property": "color",
+            "property": "content-color",
             "context": "Icon"
           }
         }

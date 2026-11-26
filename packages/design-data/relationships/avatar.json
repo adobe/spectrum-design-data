@@ -478,7 +478,8 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "thickness"
+      "property": "thickness",
+      "part": "container"
     },
     "context": "Focus indicator",
     "contextRole": ["focus"],
@@ -488,7 +489,8 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "gap"
+      "property": "gap",
+      "part": "container"
     },
     "context": "Focus indicator",
     "contextRole": ["focus"],
@@ -498,7 +500,9 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "gradient-stop-1"
+      "part": "container",
+      "property": "gradient-stop",
+      "ordinal": 1
     },
     "context": "0%",
     "$ref": "8d9e0c2d-d692-47a0-86cd-6349649ec6e2",
@@ -507,7 +511,9 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "gradient-stop-2"
+      "part": "container",
+      "property": "gradient-stop",
+      "ordinal": 2
     },
     "context": "66%",
     "$ref": "a7791b29-4e4d-4b9f-ab34-0240ac4d6769",
@@ -516,7 +522,9 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "gradient-stop-3"
+      "part": "container",
+      "property": "gradient-stop",
+      "ordinal": 3
     },
     "context": "100%",
     "$ref": "620ee6f3-eb3d-40ad-854b-9edceb897c7f",
@@ -525,7 +533,10 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
+      "ordinal": 1,
       "options": {
         "image": ["gradient image", "initials", "guest"]
       }
@@ -537,7 +548,10 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
+      "ordinal": 2,
       "options": {
         "image": ["gradient image", "initials", "guest"]
       }
@@ -549,7 +563,10 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
+      "ordinal": 3,
       "options": {
         "image": ["gradient image", "initials", "guest"]
       }
@@ -564,7 +581,8 @@
       "property": "font-family",
       "options": {
         "image": "initials"
-      }
+      },
+      "part": "initials"
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -577,7 +595,8 @@
       "property": "font-weight",
       "options": {
         "image": "initials"
-      }
+      },
+      "part": "initials"
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -590,7 +609,8 @@
       "property": "font-style",
       "options": {
         "image": "initials"
-      }
+      },
+      "part": "initials"
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -600,10 +620,11 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "font-size-100",
+      "property": "font-size",
       "options": {
         "image": "initials"
-      }
+      },
+      "part": "initials"
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -613,10 +634,11 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "font-size-100",
+      "property": "font-size",
       "options": {
         "image": "initials"
-      }
+      },
+      "part": "initials"
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -626,10 +648,11 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "line-height-100",
+      "property": "line-height",
       "options": {
         "image": "initials"
-      }
+      },
+      "part": "initials"
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -639,7 +662,9 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "color",
+      "attribute": "border",
       "options": {
         "object": "border"
       }
@@ -657,7 +682,8 @@
       "property": "opacity",
       "options": {
         "state": ["disabled"]
-      }
+      },
+      "part": "container"
     },
     "context": "Disabled",
     "contextRole": ["state"],
@@ -669,7 +695,8 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "border-width"
+      "property": "border-width",
+      "part": "container"
     },
     "context": "Border",
     "contextRole": ["border"],
@@ -1709,7 +1736,8 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "gradient-stop-1"
+      "part": "container",
+      "property": "gradient-stop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/gradient-stop.json",
     "value": 0,
@@ -1720,7 +1748,8 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "gradient-stop-2"
+      "part": "container",
+      "property": "gradient-stop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/gradient-stop.json",
     "value": 0.6666,
@@ -1731,7 +1760,8 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "gradient-stop-3"
+      "part": "container",
+      "property": "gradient-stop"
     },
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/gradient-stop.json",
     "value": 1,
@@ -1742,7 +1772,9 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "image": "user image"
       }
@@ -1756,7 +1788,9 @@
   {
     "scope": {
       "component": "avatar",
+      "part": "container",
       "property": "color",
+      "attribute": "background",
       "options": {
         "image": ["gradient image", "initials", "guest"]
       }
@@ -1770,10 +1804,11 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "color",
+      "property": "content-color",
       "options": {
         "image": "initials"
-      }
+      },
+      "part": "initials"
     },
     "context": "Label",
     "contextRole": ["label"],
@@ -1783,10 +1818,11 @@
   {
     "scope": {
       "component": "avatar",
-      "property": "color",
+      "property": "content-color",
       "options": {
         "image": "guest"
-      }
+      },
+      "part": "guest-icon"
     },
     "context": "Icon",
     "contextRole": ["icon"],
