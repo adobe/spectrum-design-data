@@ -19,6 +19,9 @@
 # The minimum runs without --strict (older releases do not have it); the current CLI runs with
 # --strict, so the smoke set also has to be clean. Only the declared minimum and the current CLI
 # are compared: a version in between can still regress, as 0.37.0 refused data that 0.36.5 drew.
+# Token labels (the `token` and `chain` name strings in the scene JSON) are display text and are
+# ignored (tools/cli-minimum-gate/normalize.jq): a released CLI cannot know a later display name,
+# and the gate exists to catch geometry, color and value drift, not label text.
 # Only `render` is compared: a data change that breaks the minimum in `query`, `validate` or
 # another command is not caught here.
 
@@ -26,6 +29,7 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT"
+. tools/cli-minimum-gate/gate-lib.sh
 DATASET="packages/design-data/dataset.json"
 STATES="tools/cli-minimum-gate/smoke-states.json"
 CURRENT_CLI="${CURRENT_CLI:-sdk/target/debug/design-data}"
@@ -84,7 +88,11 @@ echo "cli-minimum-gate: minimum $min ($ASSET) against current $current"
 differing=()
 for scene in "$work"/cur/*.scene.json; do
   id="$(basename "$scene" .scene.json)"
-  cmp -s "$scene" "$work/min/$id.scene.json" || differing+=("$id")
+  if ! diff_out="$(scenes_match "$scene" "$work/min/$id.scene.json")"; then
+    differing+=("$id")
+    echo "cli-minimum-gate: $id differs (< minimum $min, > current), first lines of the normalized diff:" >&2
+    printf '%s\n' "$diff_out" >&2
+  fi
 done
 if [ "${#differing[@]}" -gt 0 ]; then
   fail "CLI $min draws ${#differing[@]} state(s) differently from the current CLI: ${differing[*]}. Raise requires.cli to the first release that matches."

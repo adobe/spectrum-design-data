@@ -88,6 +88,7 @@ impl<'a> Group<'a> {
                 depth: 0,
                 in_group: true,
                 pending: Vec::new(),
+                position: None,
             });
         }
         let focus = start.get("focused").and_then(Value::as_u64).unwrap_or(0) as usize;

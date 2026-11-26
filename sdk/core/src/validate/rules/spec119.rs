@@ -260,6 +260,37 @@ impl ValidationRule for Rule {
         }
         for b in &ctx.graph.behaviors {
             let state = state_ids(b);
+            let range = b.raw.get("range");
+            for k in ["value", "min", "max", "step"] {
+                let Some(o) = range.and_then(|r| r.get(k)).and_then(Value::as_str) else {
+                    continue;
+                };
+                if !state.contains(o) {
+                    out.push(warning(
+                        self.id(),
+                        b,
+                        &format!("/range/{k}"),
+                        format!("Behavior contract of '{}' has a `range` naming '{o}', which is not in `state`", b.component),
+                    ));
+                }
+            }
+            let adjusts =
+                crate::behavior::flatten(&b.raw, &ctx.graph.behavior_patterns).is_ok_and(|m| {
+                    m.transitions
+                        .iter()
+                        .any(|t| t.pointer("/do/adjust").is_some())
+                });
+            if adjusts && range.is_none() {
+                out.push(warning(
+                    self.id(),
+                    b,
+                    "/range",
+                    format!("Behavior contract of '{}' has a transition with `do.adjust` and no `range` block", b.component),
+                ));
+            }
+        }
+        for b in &ctx.graph.behaviors {
+            let state = state_ids(b);
             let own = b
                 .raw
                 .get("transitions")
@@ -560,6 +591,20 @@ mod tests {
             let m = check(edit);
             assert!(m.iter().any(|m| m.contains(why)), "{why}: {m:?}");
         }
+    }
+
+    #[test]
+    fn flags_a_range_option_outside_state_and_adjust_without_a_range() {
+        let m = check(|c| {
+            c["range"] = json!({ "value": "isGhost" });
+        });
+        assert!(m.iter().any(|m| m.contains("naming 'isGhost'")), "{m:?}");
+        let m = check(|c| c["transitions"][0]["do"] = json!({ "adjust": { "to": "min" } }));
+        assert!(
+            m.iter().any(|m| m.contains("`do.adjust` and no `range`")),
+            "{m:?}"
+        );
+        assert!(check(|c| c["range"] = json!({ "value": "isSelected" })).is_empty());
     }
 
     #[test]

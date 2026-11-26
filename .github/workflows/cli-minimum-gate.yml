@@ -33,6 +33,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Self-test the scene comparison
+        run: tools/cli-minimum-gate/selftest.sh
       - uses: dtolnay/rust-toolchain@1.88.0
       # lld is the linker sdk/.cargo/config.toml sets for x86_64-unknown-linux-gnu.
       - name: Install lld

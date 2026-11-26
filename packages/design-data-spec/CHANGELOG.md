@@ -1,5 +1,36 @@
 # @adobe/design-data-spec
 
+## 7.9.0
+
+### Minor Changes
+
+- [#2191](https://github.com/adobe/spectrum-design-data/pull/2191) [`36b0fcb`](https://github.com/adobe/spectrum-design-data/commit/36b0fcb5be3f5a56fc6823d87b5f2f801f71a968) Thanks [@GarthDB](https://github.com/GarthDB)! - Collection items can carry accessibility state, key steps can address an item, and a group with no
+  `traversal` ignores `navigate-*`.
+  - An inline collection item takes `semantics` (same shape as a contract's). A vector reads them with
+    the new `expect.itemAria` (per item).
+  - An `input` step takes `item`: the key resolves through the role of that item's part and the
+    intents run on that item.
+  - A collection with no `traversal` declares no navigation; `navigate-*` on its group does nothing.
+  - Accordion headers expose `aria-expanded` from the `expanded` facet; three vectors pin it and the
+    no-navigation rule.
+
+- [#2193](https://github.com/adobe/spectrum-design-data/pull/2193) [`19c3c5f`](https://github.com/adobe/spectrum-design-data/commit/19c3c5fc821ebc02a3d0da2ebf576cb0c0351b4d) Thanks [@GarthDB](https://github.com/GarthDB)! - A key suite can run against the item parts of a collection.
+  - A suite in `conformance/behavior/bindings/<platform>/<role>.item.json` sets `"item": true`. The
+    runner then selects every component whose collection item contract has a part with that role,
+    not the group's own part, so Accordion (a group with no role) runs the `button` key vectors.
+  - The Accordion key vectors (Enter, Space, an arrow) moved from a Rust-only test into
+    `bindings/web/button.item.json`.
+
+- [#2188](https://github.com/adobe/spectrum-design-data/pull/2188) [`849bd9a`](https://github.com/adobe/spectrum-design-data/commit/849bd9a1845e7257e4db1dd89e46e4e5891378bd) Thanks [@GarthDB](https://github.com/GarthDB)! - Relationships can carry an ordinal in their identity.
+  - **relationship-format.md, relationship.schema.json**: new `scope.ordinal` (integer, 1 or
+    more). Records that differ only by it are distinct identities, so the stops of one gradient
+    need no digit in the property name. A record without it is unchanged.
+  - **Rule SPEC-125** (`relationship-ordinal-valid`, error): the ordinal is a positive integer.
+  - **component-visual.schema.json**: a structured selector may name `ordinal`.
+  - **Engine**: the identity line, the status collision check, the changelog identity class
+    (an ordinal change is an API change) and the record diff label read the ordinal.
+  - No data uses the field yet; the avatar gradient stops migrate in a follow-up.
+
 ## 7.8.0
 
 ### Minor Changes
