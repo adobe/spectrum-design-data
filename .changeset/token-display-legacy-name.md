@@ -1,4 +1,5 @@
 ---
+"@adobe/spectrum-design-data": patch
 "@adobe/design-data-wasm": minor
 "@adobe/design-data-mcp": minor
 "@adobe/design-data-visual": patch
@@ -14,3 +15,5 @@ derives (`extract_legacy_key`), pinned or not (proposal 023, slice 1).
   longer counts the `legacyKey` pin as a name field.
 - MCP `design-data-query`, `token-usage` and friends return the legacy name, resolve
   mode-dependent aliases through it, and still accept the old `field=value` text.
+- Removes 164 token `legacyKey` pins that now equal the derived name. Legacy output
+  (`@adobe/spectrum-tokens`) is byte-identical.
