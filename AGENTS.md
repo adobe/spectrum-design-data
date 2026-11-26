@@ -16,6 +16,7 @@ Shared rules and skills live in `.ai/` (see [.ai/README.md](.ai/README.md)). Edi
 * **Tests**: `moon run test` (all), `pnpm --filter <package> test` (one), `moon run sdk:test` (Rust).
 * **GitHub**: use the `gh` CLI. Fill every section of `.github/PULL_REQUEST_TEMPLATE.md`; link issues and describe how you tested.
 * **Layout**: `packages/` core libraries, `tools/` internal tooling, `docs/` sites and explorers, `sdk/` Rust workspace, `platforms/` incubating platform manifests.
+* **Orchestrated work** (author or reviewer for an orchestrator): read `.ai/rules/orchestrated-work.md`; prompt templates are in `.ai/prompts/`.
 
 ## Maintainer Workflows
 
