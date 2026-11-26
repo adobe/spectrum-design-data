@@ -516,7 +516,7 @@ mod tests {
 
     fn graph(with_contracts: bool) -> TokenGraph {
         let packages =
-            std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../packages/design-data");
+            std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../../packages/design-data");
         let mut g = TokenGraph::from_json_dir_with_catalogs(
             &packages.join("tokens"),
             Some(&packages.join("mode-sets")),
