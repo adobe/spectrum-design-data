@@ -1962,7 +1962,6 @@
     "name": {
       "property": "width",
       "size": "s",
-      "legacyKey": "bar-width-small",
       "anatomy": "bar"
     },
     "value": "120px",
@@ -1977,7 +1976,6 @@
     "name": {
       "property": "width",
       "size": "m",
-      "legacyKey": "bar-width-medium",
       "anatomy": "bar"
     },
     "value": "144px",
@@ -2010,7 +2008,6 @@
     "name": {
       "property": "width",
       "size": "l",
-      "legacyKey": "bar-width-large",
       "anatomy": "bar",
       "scale": "mobile"
     },
@@ -2028,7 +2025,6 @@
     "name": {
       "property": "width",
       "size": "xl",
-      "legacyKey": "bar-width-extra-large",
       "anatomy": "bar"
     },
     "value": "240px",
@@ -2043,7 +2039,6 @@
     "name": {
       "property": "minimum-width",
       "size": "xs",
-      "legacyKey": "bar-minimum-width-extra-small",
       "anatomy": "bar"
     },
     "value": "20px",
@@ -2058,7 +2053,6 @@
     "name": {
       "property": "minimum-width",
       "size": "s",
-      "legacyKey": "bar-minimum-width-small",
       "anatomy": "bar"
     },
     "value": "24px",
@@ -2073,7 +2067,6 @@
     "name": {
       "property": "minimum-width",
       "size": "m",
-      "legacyKey": "bar-minimum-width-medium",
       "anatomy": "bar"
     },
     "value": "32px",
@@ -2088,7 +2081,6 @@
     "name": {
       "property": "minimum-width",
       "size": "l",
-      "legacyKey": "bar-minimum-width-large",
       "anatomy": "bar"
     },
     "value": "40px",
@@ -2134,7 +2126,6 @@
       "structure": "base",
       "property": "size",
       "size": "xxxs",
-      "legacyKey": "base-visual-size-3x-small",
       "anatomy": "visual"
     },
     "value": "10px",
@@ -2150,7 +2141,6 @@
       "structure": "base",
       "property": "size",
       "size": "xxs",
-      "legacyKey": "base-visual-size-2x-small",
       "anatomy": "visual"
     },
     "value": "12px",
@@ -2166,7 +2156,6 @@
       "structure": "base",
       "property": "size",
       "size": "xs",
-      "legacyKey": "base-visual-size-extra-small",
       "anatomy": "visual"
     },
     "value": "14px",
@@ -2182,7 +2171,6 @@
       "structure": "base",
       "property": "size",
       "size": "s",
-      "legacyKey": "base-visual-size-small",
       "anatomy": "visual"
     },
     "value": "16px",
@@ -2217,7 +2205,6 @@
       "structure": "base",
       "property": "size",
       "size": "m",
-      "legacyKey": "base-visual-size-medium",
       "anatomy": "visual",
       "scale": "mobile"
     },
@@ -2236,7 +2223,6 @@
       "structure": "base",
       "property": "size",
       "size": "l",
-      "legacyKey": "base-visual-size-large",
       "anatomy": "visual"
     },
     "value": "20px",
@@ -2252,7 +2238,6 @@
       "structure": "base",
       "property": "size",
       "size": "xl",
-      "legacyKey": "base-visual-size-extra-large",
       "anatomy": "visual"
     },
     "value": "22px",
@@ -2268,7 +2253,6 @@
       "structure": "base",
       "property": "size",
       "size": "xxl",
-      "legacyKey": "base-visual-size-2x-large",
       "anatomy": "visual"
     },
     "value": "24px",
@@ -2284,7 +2268,6 @@
       "structure": "base",
       "property": "size",
       "size": "xxxl",
-      "legacyKey": "base-visual-size-3x-large",
       "anatomy": "visual"
     },
     "value": "32px",
@@ -2299,7 +2282,6 @@
     "name": {
       "property": "size",
       "size": "xs",
-      "legacyKey": "control-size-extra-small",
       "anatomy": "control"
     },
     "value": "12px",
@@ -2314,7 +2296,6 @@
     "name": {
       "property": "size",
       "size": "s",
-      "legacyKey": "control-size-small",
       "anatomy": "control",
       "scale": "desktop"
     },
@@ -2332,7 +2313,6 @@
     "name": {
       "property": "size",
       "size": "s",
-      "legacyKey": "control-size-small",
       "anatomy": "control",
       "scale": "mobile"
     },
@@ -2368,7 +2348,6 @@
     "name": {
       "property": "size",
       "size": "m",
-      "legacyKey": "control-size-medium",
       "anatomy": "control",
       "scale": "mobile"
     },
@@ -2386,7 +2365,6 @@
     "name": {
       "property": "size",
       "size": "l",
-      "legacyKey": "control-size-large",
       "anatomy": "control",
       "scale": "desktop"
     },
@@ -2404,7 +2382,6 @@
     "name": {
       "property": "size",
       "size": "l",
-      "legacyKey": "control-size-large",
       "anatomy": "control",
       "scale": "mobile"
     },
@@ -2422,7 +2399,6 @@
     "name": {
       "property": "size",
       "size": "xl",
-      "legacyKey": "control-size-extra-large",
       "anatomy": "control",
       "scale": "desktop"
     },
@@ -2440,7 +2416,6 @@
     "name": {
       "property": "size",
       "size": "xl",
-      "legacyKey": "control-size-extra-large",
       "anatomy": "control",
       "scale": "mobile"
     },
@@ -2458,7 +2433,6 @@
     "name": {
       "property": "width",
       "size": "s",
-      "legacyKey": "field-width-small",
       "anatomy": "field",
       "scale": "desktop"
     },
@@ -2476,7 +2450,6 @@
     "name": {
       "property": "width",
       "size": "s",
-      "legacyKey": "field-width-small",
       "anatomy": "field",
       "scale": "mobile"
     },
@@ -2512,7 +2485,6 @@
     "name": {
       "property": "width",
       "size": "m",
-      "legacyKey": "field-width-medium",
       "anatomy": "field",
       "scale": "mobile"
     },
@@ -2548,7 +2520,6 @@
     "name": {
       "property": "width",
       "size": "l",
-      "legacyKey": "field-width-large",
       "anatomy": "field",
       "scale": "mobile"
     },
@@ -2584,7 +2555,6 @@
     "name": {
       "property": "width",
       "size": "xl",
-      "legacyKey": "field-width-extra-large",
       "anatomy": "field",
       "scale": "mobile"
     },
@@ -2602,7 +2572,6 @@
     "name": {
       "property": "width",
       "size": "xxl",
-      "legacyKey": "field-width-2x-large",
       "anatomy": "field",
       "scale": "desktop"
     },
@@ -2620,7 +2589,6 @@
     "name": {
       "property": "width",
       "size": "xxl",
-      "legacyKey": "field-width-2x-large",
       "anatomy": "field",
       "scale": "mobile"
     },
@@ -2638,7 +2606,6 @@
     "name": {
       "property": "width",
       "size": "xxxl",
-      "legacyKey": "field-width-3x-large",
       "anatomy": "field"
     },
     "value": "416px",
@@ -2653,7 +2620,6 @@
     "name": {
       "property": "minimum-width",
       "size": "s",
-      "legacyKey": "field-minimum-width-small",
       "anatomy": "field",
       "scale": "desktop"
     },
@@ -2671,7 +2637,6 @@
     "name": {
       "property": "minimum-width",
       "size": "s",
-      "legacyKey": "field-minimum-width-small",
       "anatomy": "field",
       "scale": "mobile"
     },
@@ -2689,7 +2654,6 @@
     "name": {
       "property": "minimum-width",
       "size": "m",
-      "legacyKey": "field-minimum-width-medium",
       "anatomy": "field"
     },
     "value": "144px",
@@ -2704,7 +2668,6 @@
     "name": {
       "property": "minimum-width",
       "size": "l",
-      "legacyKey": "field-minimum-width-large",
       "anatomy": "field",
       "scale": "desktop"
     },
@@ -2722,7 +2685,6 @@
     "name": {
       "property": "minimum-width",
       "size": "l",
-      "legacyKey": "field-minimum-width-large",
       "anatomy": "field",
       "scale": "mobile"
     },
@@ -2740,7 +2702,6 @@
     "name": {
       "property": "minimum-width",
       "size": "xl",
-      "legacyKey": "field-minimum-width-extra-large",
       "anatomy": "field"
     },
     "value": "240px",
@@ -2755,7 +2716,6 @@
     "name": {
       "property": "minimum-height",
       "size": "s",
-      "legacyKey": "field-minimum-height-small",
       "anatomy": "field"
     },
     "value": "32px",
@@ -2770,7 +2730,6 @@
     "name": {
       "property": "minimum-height",
       "size": "m",
-      "legacyKey": "field-minimum-height-medium",
       "anatomy": "field",
       "scale": "desktop"
     },
@@ -2788,7 +2747,6 @@
     "name": {
       "property": "minimum-height",
       "size": "m",
-      "legacyKey": "field-minimum-height-medium",
       "anatomy": "field",
       "scale": "mobile"
     },
@@ -2806,7 +2764,6 @@
     "name": {
       "property": "minimum-height",
       "size": "l",
-      "legacyKey": "field-minimum-height-large",
       "anatomy": "field",
       "scale": "desktop"
     },
@@ -2824,7 +2781,6 @@
     "name": {
       "property": "minimum-height",
       "size": "l",
-      "legacyKey": "field-minimum-height-large",
       "anatomy": "field",
       "scale": "mobile"
     },
@@ -2842,7 +2798,6 @@
     "name": {
       "property": "minimum-height",
       "size": "xl",
-      "legacyKey": "field-minimum-height-extra-large",
       "anatomy": "field",
       "scale": "desktop"
     },
@@ -2860,7 +2815,6 @@
     "name": {
       "property": "minimum-height",
       "size": "xl",
-      "legacyKey": "field-minimum-height-extra-large",
       "anatomy": "field",
       "scale": "mobile"
     },
@@ -2878,7 +2832,6 @@
     "name": {
       "property": "minimum-width",
       "size": "s",
-      "legacyKey": "list-item-minimum-width-small",
       "anatomy": "list-item",
       "scale": "desktop"
     },
@@ -2896,7 +2849,6 @@
     "name": {
       "property": "minimum-width",
       "size": "s",
-      "legacyKey": "list-item-minimum-width-small",
       "anatomy": "list-item",
       "scale": "mobile"
     },
@@ -2914,7 +2866,6 @@
     "name": {
       "property": "minimum-width",
       "size": "m",
-      "legacyKey": "list-item-minimum-width-medium",
       "anatomy": "list-item",
       "scale": "desktop"
     },
@@ -2932,7 +2883,6 @@
     "name": {
       "property": "minimum-width",
       "size": "m",
-      "legacyKey": "list-item-minimum-width-medium",
       "anatomy": "list-item",
       "scale": "mobile"
     },
@@ -2950,7 +2900,6 @@
     "name": {
       "property": "width",
       "size": "s",
-      "legacyKey": "list-item-width-small",
       "anatomy": "list-item"
     },
     "value": "120px",
@@ -2965,7 +2914,6 @@
     "name": {
       "property": "width",
       "size": "m",
-      "legacyKey": "list-item-width-medium",
       "anatomy": "list-item"
     },
     "value": "144px",
@@ -2980,7 +2928,6 @@
     "name": {
       "property": "width",
       "size": "l",
-      "legacyKey": "list-item-width-large",
       "anatomy": "list-item"
     },
     "value": "192px",
@@ -2995,7 +2942,6 @@
     "name": {
       "property": "width",
       "size": "xl",
-      "legacyKey": "list-item-width-extra-large",
       "anatomy": "list-item"
     },
     "value": "240px",
@@ -3010,7 +2956,6 @@
     "name": {
       "property": "height",
       "size": "xs",
-      "legacyKey": "list-item-height-extra-small",
       "anatomy": "list-item",
       "scale": "desktop"
     },
@@ -3028,7 +2973,6 @@
     "name": {
       "property": "height",
       "size": "xs",
-      "legacyKey": "list-item-height-extra-small",
       "anatomy": "list-item",
       "scale": "mobile"
     },
@@ -3046,7 +2990,6 @@
     "name": {
       "property": "height",
       "size": "s",
-      "legacyKey": "list-item-height-small",
       "anatomy": "list-item",
       "scale": "desktop"
     },
@@ -3064,7 +3007,6 @@
     "name": {
       "property": "height",
       "size": "s",
-      "legacyKey": "list-item-height-small",
       "anatomy": "list-item",
       "scale": "mobile"
     },
@@ -3082,7 +3024,6 @@
     "name": {
       "property": "height",
       "size": "m",
-      "legacyKey": "list-item-height-medium",
       "anatomy": "list-item",
       "scale": "desktop"
     },
@@ -3100,7 +3041,6 @@
     "name": {
       "property": "height",
       "size": "m",
-      "legacyKey": "list-item-height-medium",
       "anatomy": "list-item",
       "scale": "mobile"
     },
@@ -3118,7 +3058,6 @@
     "name": {
       "property": "height",
       "size": "l",
-      "legacyKey": "list-item-height-large",
       "anatomy": "list-item",
       "scale": "desktop"
     },
@@ -3136,7 +3075,6 @@
     "name": {
       "property": "height",
       "size": "l",
-      "legacyKey": "list-item-height-large",
       "anatomy": "list-item",
       "scale": "mobile"
     },
@@ -3154,7 +3092,6 @@
     "name": {
       "property": "height",
       "size": "xl",
-      "legacyKey": "list-item-height-extra-large",
       "anatomy": "list-item",
       "scale": "desktop"
     },
@@ -3172,7 +3109,6 @@
     "name": {
       "property": "height",
       "size": "xl",
-      "legacyKey": "list-item-height-extra-large",
       "anatomy": "list-item",
       "scale": "mobile"
     },
@@ -3189,7 +3125,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "minimum-height",
-      "legacyKey": "list-item-minimum-height",
       "anatomy": "list-item",
       "scale": "desktop"
     },
@@ -3206,7 +3141,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "name": {
       "property": "minimum-height",
-      "legacyKey": "list-item-minimum-height",
       "anatomy": "list-item",
       "scale": "mobile"
     },
@@ -3223,7 +3157,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-50",
       "anatomy": "visual",
       "scaleIndex": 50,
       "scale": "desktop"
@@ -3241,7 +3174,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-50",
       "anatomy": "visual",
       "scaleIndex": 50,
       "scale": "mobile"
@@ -3277,7 +3209,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-75",
       "anatomy": "visual",
       "scaleIndex": 75,
       "scale": "mobile"
@@ -3295,7 +3226,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-100",
       "anatomy": "visual",
       "scaleIndex": 100,
       "scale": "desktop"
@@ -3313,7 +3243,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-100",
       "anatomy": "visual",
       "scaleIndex": 100,
       "scale": "mobile"
@@ -3331,7 +3260,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-200",
       "anatomy": "visual",
       "scaleIndex": 200,
       "scale": "desktop"
@@ -3349,7 +3277,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-200",
       "anatomy": "visual",
       "scaleIndex": 200,
       "scale": "mobile"
@@ -3385,7 +3312,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-300",
       "anatomy": "visual",
       "scaleIndex": 300,
       "scale": "mobile"
@@ -3403,7 +3329,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-400",
       "anatomy": "visual",
       "scaleIndex": 400,
       "scale": "desktop"
@@ -3421,7 +3346,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-400",
       "anatomy": "visual",
       "scaleIndex": 400,
       "scale": "mobile"
@@ -3457,7 +3381,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-500",
       "anatomy": "visual",
       "scaleIndex": 500,
       "scale": "mobile"
@@ -3475,7 +3398,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-600",
       "anatomy": "visual",
       "scaleIndex": 600,
       "scale": "desktop"
@@ -3493,7 +3415,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-600",
       "anatomy": "visual",
       "scaleIndex": 600,
       "scale": "mobile"
@@ -3511,7 +3432,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-700",
       "anatomy": "visual",
       "scaleIndex": 700,
       "scale": "desktop"
@@ -3529,7 +3449,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-700",
       "anatomy": "visual",
       "scaleIndex": 700,
       "scale": "mobile"
@@ -3547,7 +3466,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-800",
       "anatomy": "visual",
       "scaleIndex": 800,
       "scale": "desktop"
@@ -3565,7 +3483,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-800",
       "anatomy": "visual",
       "scaleIndex": 800,
       "scale": "mobile"
@@ -3583,7 +3500,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-900",
       "anatomy": "visual",
       "scaleIndex": 900,
       "scale": "desktop"
@@ -3601,7 +3517,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-900",
       "anatomy": "visual",
       "scaleIndex": 900,
       "scale": "mobile"
@@ -3619,7 +3534,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-1000",
       "anatomy": "visual",
       "scaleIndex": 1000,
       "scale": "desktop"
@@ -3637,7 +3551,6 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/dimension.json",
     "name": {
       "property": "size",
-      "legacyKey": "visual-size-1000",
       "anatomy": "visual",
       "scaleIndex": 1000,
       "scale": "mobile"
@@ -3686,7 +3599,6 @@
     "name": {
       "property": "thickness",
       "size": "s",
-      "legacyKey": "bar-thickness-small",
       "anatomy": "bar",
       "scale": "desktop"
     },
@@ -3704,7 +3616,6 @@
     "name": {
       "property": "thickness",
       "size": "s",
-      "legacyKey": "bar-thickness-small",
       "anatomy": "bar",
       "scale": "mobile"
     },
@@ -3740,7 +3651,6 @@
     "name": {
       "property": "thickness",
       "size": "m",
-      "legacyKey": "bar-thickness-medium",
       "anatomy": "bar",
       "scale": "mobile"
     },
@@ -3758,7 +3668,6 @@
     "name": {
       "property": "thickness",
       "size": "l",
-      "legacyKey": "bar-thickness-large",
       "anatomy": "bar",
       "scale": "desktop"
     },
@@ -3776,7 +3685,6 @@
     "name": {
       "property": "thickness",
       "size": "l",
-      "legacyKey": "bar-thickness-large",
       "anatomy": "bar",
       "scale": "mobile"
     },
@@ -3794,7 +3702,6 @@
     "name": {
       "property": "thickness",
       "size": "xl",
-      "legacyKey": "bar-thickness-extra-large",
       "anatomy": "bar",
       "scale": "desktop"
     },
@@ -3812,7 +3719,6 @@
     "name": {
       "property": "thickness",
       "size": "xl",
-      "legacyKey": "bar-thickness-extra-large",
       "anatomy": "bar",
       "scale": "mobile"
     },
@@ -3830,7 +3736,6 @@
     "name": {
       "property": "thickness",
       "size": "xxl",
-      "legacyKey": "bar-thickness-2x-large",
       "anatomy": "bar"
     },
     "value": "12px",
@@ -3845,7 +3750,6 @@
     "name": {
       "property": "thickness",
       "size": "xxxl",
-      "legacyKey": "bar-thickness-3x-large",
       "anatomy": "bar"
     },
     "value": "16px",
