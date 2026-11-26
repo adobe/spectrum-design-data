@@ -99,7 +99,7 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "space-between"
+      "property": "padding"
     },
     "context": "Paddings",
     "contextRole": ["spacing"],
@@ -110,7 +110,7 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "space-between"
+      "property": "padding"
     },
     "context": "Paddings",
     "contextRole": ["spacing"],
@@ -121,7 +121,7 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "space-between"
+      "property": "padding"
     },
     "context": "Paddings",
     "contextRole": ["spacing"],
@@ -145,7 +145,10 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "component-height-75"
+      "property": "height",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -157,7 +160,10 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "component-height-75"
+      "property": "height",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -169,7 +175,10 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "component-height-100"
+      "property": "height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -181,7 +190,10 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "component-height-100"
+      "property": "height",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -193,7 +205,10 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "component-height-200"
+      "property": "height",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -205,7 +220,10 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "component-height-200"
+      "property": "height",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -217,7 +235,10 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "component-height-300"
+      "property": "height",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -229,7 +250,10 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "component-height-300"
+      "property": "height",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Spacing (top/bottom edge to label)",
     "contextRole": ["spacing"],
@@ -241,7 +265,11 @@
     "scope": {
       "component": "accordion",
       "part": "content",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "content"
+      }
     },
     "context": "Spacing (end edges to content)",
     "contextRole": ["spacing"],
@@ -254,7 +282,11 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "text"
+      }
     },
     "context": "Spacing (top edge to text)",
     "contextRole": ["spacing"],
@@ -266,7 +298,11 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "text"
+      }
     },
     "context": "Spacing (top edge to text)",
     "contextRole": ["spacing"],
@@ -278,7 +314,11 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "text"
+      }
     },
     "context": "Spacing (top edge to text)",
     "contextRole": ["spacing"],
@@ -290,7 +330,11 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "text"
+      }
     },
     "context": "Spacing (top edge to text)",
     "contextRole": ["spacing"],
@@ -302,7 +346,11 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
+        "to": "text"
+      }
     },
     "context": "Spacing (bottom edge to text)",
     "contextRole": ["spacing"],
@@ -314,7 +362,11 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
+        "to": "text"
+      }
     },
     "context": "Spacing (bottom edge to text)",
     "contextRole": ["spacing"],
@@ -326,7 +378,11 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
+        "to": "text"
+      }
     },
     "context": "Spacing (bottom edge to text)",
     "contextRole": ["spacing"],
@@ -338,7 +394,11 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "bottom-edge",
+        "to": "text"
+      }
     },
     "context": "Spacing (bottom edge to text)",
     "contextRole": ["spacing"],
@@ -350,7 +410,7 @@
     "scope": {
       "component": "accordion",
       "part": "focus-indicator",
-      "property": "accordion-focus-indicator-gap"
+      "property": "gap"
     },
     "context": "Focus indicator",
     "contextRole": ["focus"],
@@ -416,7 +476,11 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "disclosure-icon"
+      }
     },
     "context": "Spacing (top/bottom to disclosure icon)",
     "contextRole": ["spacing"],
@@ -428,7 +492,11 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "disclosure-icon"
+      }
     },
     "context": "Spacing (top/bottom to disclosure icon)",
     "contextRole": ["spacing"],
@@ -440,7 +508,11 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "disclosure-icon"
+      }
     },
     "context": "Spacing (top/bottom to disclosure icon)",
     "contextRole": ["spacing"],
@@ -452,7 +524,11 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "disclosure-icon"
+      }
     },
     "context": "Spacing (top/bottom to disclosure icon)",
     "contextRole": ["spacing"],
@@ -464,7 +540,11 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "disclosure-icon"
+      }
     },
     "context": "Spacing (end edge to disclosure icon)",
     "contextRole": ["spacing"],
@@ -476,7 +556,11 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "disclosure-icon"
+      }
     },
     "context": "Spacing (end edge to disclosure icon)",
     "contextRole": ["spacing"],
@@ -488,7 +572,11 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "disclosure-icon"
+      }
     },
     "context": "Spacing (end edge to disclosure icon)",
     "contextRole": ["spacing"],
@@ -500,7 +588,11 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "disclosure-icon"
+      }
     },
     "context": "Spacing (end edge to disclosure icon)",
     "contextRole": ["spacing"],
@@ -512,7 +604,11 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "disclosure-icon"
+      }
     },
     "context": "Spacing (end edge to disclosure icon)",
     "contextRole": ["spacing"],
@@ -524,7 +620,11 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "disclosure-icon"
+      }
     },
     "context": "Spacing (end edge to disclosure icon)",
     "contextRole": ["spacing"],
@@ -536,7 +636,11 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "disclosure-icon"
+      }
     },
     "context": "Spacing (end edge to disclosure icon)",
     "contextRole": ["spacing"],
@@ -548,7 +652,11 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "end-edge",
+        "to": "disclosure-icon"
+      }
     },
     "context": "Spacing (end edge to disclosure icon)",
     "contextRole": ["spacing"],
@@ -560,7 +668,11 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "disclosure-icon",
+        "to": "text"
+      }
     },
     "context": "Spacing (disclosure icon to text)",
     "contextRole": ["spacing"],
@@ -572,7 +684,11 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "disclosure-icon",
+        "to": "text"
+      }
     },
     "context": "Spacing (disclosure icon to text)",
     "contextRole": ["spacing"],
@@ -584,7 +700,11 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "disclosure-icon",
+        "to": "text"
+      }
     },
     "context": "Spacing (disclosure icon to text)",
     "contextRole": ["spacing"],
@@ -596,7 +716,11 @@
     "scope": {
       "component": "accordion",
       "part": "header",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "disclosure-icon",
+        "to": "text"
+      }
     },
     "context": "Spacing (disclosure icon to text)",
     "contextRole": ["spacing"],
@@ -608,7 +732,10 @@
     "scope": {
       "component": "accordion",
       "property": "spacing",
-      "between": { "from": "title", "to": "actions" }
+      "between": {
+        "from": "title",
+        "to": "actions"
+      }
     },
     "context": "Spacing (section title to action area)",
     "contextRole": ["spacing"],
@@ -620,7 +747,11 @@
     "scope": {
       "component": "accordion",
       "part": "content",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "text"
+      }
     },
     "context": "Expanded (content area top/bottom to text)",
     "contextRole": ["state"],
@@ -632,7 +763,11 @@
     "scope": {
       "component": "accordion",
       "part": "content",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "top-edge",
+        "to": "text"
+      }
     },
     "context": "Expanded (content area top/bottom to text)",
     "contextRole": ["state"],
@@ -644,7 +779,11 @@
     "scope": {
       "component": "accordion",
       "part": "content",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "content"
+      }
     },
     "context": "Expanded (content area start/end edges)",
     "contextRole": ["state"],
@@ -656,7 +795,11 @@
     "scope": {
       "component": "accordion",
       "part": "content",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "content"
+      }
     },
     "context": "Expanded (content area start/end edges)",
     "contextRole": ["state"],
@@ -668,7 +811,11 @@
     "scope": {
       "component": "accordion",
       "part": "content",
-      "property": "space-between"
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "content"
+      }
     },
     "context": "Expanded (content area start/end edges)",
     "contextRole": ["state"],
@@ -724,7 +871,7 @@
     "scope": {
       "component": "accordion",
       "part": "title",
-      "property": "content-color"
+      "property": "color"
     },
     "context": "Section title and chevron",
     "contextRole": ["navigation"],
@@ -735,7 +882,7 @@
     "scope": {
       "component": "accordion",
       "part": "title",
-      "property": "content-color"
+      "property": "color"
     },
     "context": "Section title and chevron",
     "contextRole": ["navigation"],
@@ -746,7 +893,7 @@
     "scope": {
       "component": "accordion",
       "part": "title",
-      "property": "content-color"
+      "property": "color"
     },
     "context": "Section title and chevron",
     "contextRole": ["navigation"],
@@ -756,8 +903,8 @@
   {
     "scope": {
       "component": "accordion",
-      "part": "title",
-      "property": "content-color"
+      "part": "accordion-item",
+      "property": "color"
     },
     "context": "Disabled",
     "contextRole": ["state"],
@@ -812,7 +959,10 @@
     "scope": {
       "component": "accordion",
       "part": "title",
-      "property": "font-size-100"
+      "property": "font-size",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -823,7 +973,10 @@
     "scope": {
       "component": "accordion",
       "part": "title",
-      "property": "font-size-100"
+      "property": "font-size",
+      "options": {
+        "size": "s"
+      }
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -834,7 +987,10 @@
     "scope": {
       "component": "accordion",
       "part": "title",
-      "property": "font-size-200"
+      "property": "font-size",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -845,7 +1001,10 @@
     "scope": {
       "component": "accordion",
       "part": "title",
-      "property": "font-size-200"
+      "property": "font-size",
+      "options": {
+        "size": "m"
+      }
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -856,7 +1015,10 @@
     "scope": {
       "component": "accordion",
       "part": "title",
-      "property": "font-size-300"
+      "property": "font-size",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -867,7 +1029,10 @@
     "scope": {
       "component": "accordion",
       "part": "title",
-      "property": "font-size-300"
+      "property": "font-size",
+      "options": {
+        "size": "l"
+      }
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -878,7 +1043,10 @@
     "scope": {
       "component": "accordion",
       "part": "title",
-      "property": "font-size-400"
+      "property": "font-size",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -889,7 +1057,10 @@
     "scope": {
       "component": "accordion",
       "part": "title",
-      "property": "font-size-400"
+      "property": "font-size",
+      "options": {
+        "size": "xl"
+      }
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -900,7 +1071,7 @@
     "scope": {
       "component": "accordion",
       "part": "title",
-      "property": "line-height-100"
+      "property": "line-height"
     },
     "context": "Value",
     "contextRole": ["value"],
@@ -911,7 +1082,7 @@
     "scope": {
       "component": "accordion",
       "part": "title",
-      "property": "line-height-100"
+      "property": "line-height"
     },
     "context": "Value",
     "contextRole": ["value"],

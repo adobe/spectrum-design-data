@@ -255,6 +255,11 @@ fn render_recipe(graph: &TokenGraph, cache: &SceneCache, name: &str) -> Run {
 /// follows the request, a selected one, a disabled one and a range with its two ends and a
 /// day between them) and the weekday headings.
 fn fixed_options(name: &str) -> Vec<(String, Value)> {
+    if name == "accordion" {
+        // An open item draws its content text only when `content` is set, and that text takes
+        // its own color binding (disabled grey when `isDisabled`), so it is part of every snapshot.
+        return vec![("content".into(), Value::String("Content text".into()))];
+    }
     if name != "calendar" {
         return Vec::new();
     }
