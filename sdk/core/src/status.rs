@@ -193,7 +193,10 @@ pub fn status_report(graph: &TokenGraph) -> Vec<ComponentStatus> {
             if !label_clean(raw, reg, &anatomy) {
                 s.label_debt_records += 1;
             }
-            let key = format!("{property}\u{0}{attribute:?}\u{0}{part:?}\u{0}{between:?}");
+            let ordinal = scope.get("ordinal");
+            let key = format!(
+                "{property}\u{0}{attribute:?}\u{0}{part:?}\u{0}{between:?}\u{0}{ordinal:?}"
+            );
             identities
                 .entry(key)
                 .or_default()
@@ -363,6 +366,19 @@ mod tests {
             status_report(&graph("reviewed", vec![a.clone(), b], None))[0].colliding_identities,
             1
         );
+        let ord = |n: u64, ctx: &str| {
+            let mut r = rel("gap", Some("label"), ctx, json!(["spacing"]));
+            r["scope"]["ordinal"] = json!(n);
+            r
+        };
+        let g = graph("reviewed", vec![ord(1, "One"), ord(2, "Two")], None);
+        assert_eq!(
+            status_report(&g)[0].colliding_identities,
+            0,
+            "different ordinals are different identities"
+        );
+        let g = graph("reviewed", vec![ord(1, "One"), ord(1, "Two")], None);
+        assert_eq!(status_report(&g)[0].colliding_identities, 1);
         let same = status_report(&graph("reviewed", vec![a.clone(), a], None));
         assert_eq!(
             same[0].colliding_identities, 0,

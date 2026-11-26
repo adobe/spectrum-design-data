@@ -834,6 +834,11 @@
           },
           "additionalProperties": false
         },
+        "ordinal": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "The record's `scope.ordinal`: picks one of several records that share an identity and differ only by order."
+        },
         "position": {
           "enum": ["inner", "outer"],
           "description": "Which stroke the selector is for: a record pinned `scope.options.position` to this value, or one with no such pin, matches. Default `outer`."
@@ -846,14 +851,15 @@
           "anyOf": [
             { "required": ["attribute"] },
             { "required": ["part"] },
-            { "required": ["between"] }
+            { "required": ["between"] },
+            { "required": ["ordinal"] }
           ]
         }
       },
       "else": {
         "anyOf": [{ "required": ["part"] }, { "required": ["between"] }]
       },
-      "description": "Names a relationship by `property` and either its `context` label or its structured identity: `attribute` (the record's `scope.attribute`), `part` (its `scope.part`) and `between` (its `scope.between`). A structured selector names at least one of `part` and `between`, matches every record whose given fields are equal, and a field it leaves out is not compared. SPEC-062 rejects a selector that then names more than one identity. `context` cannot be combined with them, except `position`."
+      "description": "Names a relationship by `property` and either its `context` label or its structured identity: `attribute` (the record's `scope.attribute`), `part` (its `scope.part`) and `between` (its `scope.between`) and `ordinal` (its `scope.ordinal`). A structured selector names at least one of `part` and `between`, matches every record whose given fields are equal, and a field it leaves out is not compared. SPEC-062 rejects a selector that then names more than one identity. `context` cannot be combined with them, except `position`."
     }
   }
 }
