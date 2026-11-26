@@ -67,15 +67,25 @@
           },
           {
             "when": {
-              "options": { "isStandalone": true, "isQuiet": true },
-              "states": ["hover"]
+              "options": {
+                "isStandalone": true,
+                "isQuiet": true
+              },
+              "facets": {
+                "hovered": "true"
+              }
             },
             "value": "underline"
           },
           {
             "when": {
-              "options": { "isStandalone": true, "isQuiet": true },
-              "states": ["keyboard-focus"]
+              "options": {
+                "isStandalone": true,
+                "isQuiet": true
+              },
+              "facets": {
+                "focusVisible": "true"
+              }
             },
             "value": "underline"
           }

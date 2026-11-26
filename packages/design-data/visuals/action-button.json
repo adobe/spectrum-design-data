@@ -107,8 +107,10 @@
           {
             "when": {
               "options": {
-                "isQuiet": true,
-                "isDisabled": true
+                "isQuiet": true
+              },
+              "facets": {
+                "disabled": "true"
               }
             },
             "priority": 11,
@@ -128,48 +130,35 @@
           {
             "when": {
               "options": {
-                "isDisabled": false,
                 "staticColor": ["black", "white"]
-              }
-            },
-            "relationship": {
-              "property": "color",
-              "context": "Background"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "isDisabled": false,
-                "isSelected": true
-              }
-            },
-            "relationship": {
-              "property": "color",
-              "context": "Background"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "isDisabled": false,
-                "isPending": true
-              }
-            },
-            "relationship": {
-              "property": "color",
-              "context": "Background"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "isDisabled": false,
-                "isPending": false,
-                "isQuiet": true,
-                "isSelected": false
               },
-              "states": ["hover"]
+              "facets": {
+                "disabled": "false"
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "context": "Background"
+            }
+          },
+          {
+            "when": {
+              "facets": {
+                "disabled": "false",
+                "selected": "selected"
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "context": "Background"
+            }
+          },
+          {
+            "when": {
+              "facets": {
+                "disabled": "false",
+                "pending": "true"
+              }
             },
             "relationship": {
               "property": "color",
@@ -179,12 +168,31 @@
           {
             "when": {
               "options": {
-                "isDisabled": false,
-                "isPending": false,
-                "isQuiet": true,
-                "isSelected": false
+                "isQuiet": true
               },
-              "states": ["down"]
+              "facets": {
+                "disabled": "false",
+                "selected": "unselected",
+                "pending": "false",
+                "hovered": "true"
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "context": "Background"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isQuiet": true
+              },
+              "facets": {
+                "disabled": "false",
+                "selected": "unselected",
+                "pending": "false",
+                "pressed": "true"
+              }
             },
             "relationship": {
               "property": "color",
@@ -194,7 +202,9 @@
         ],
         "pressDifference": {
           "when": {
-            "states": ["down"]
+            "facets": {
+              "pressed": "true"
+            }
           },
           "relationship": {
             "property": "component-size-difference",
@@ -203,7 +213,9 @@
         },
         "pressWidthRatio": {
           "when": {
-            "states": ["down"]
+            "facets": {
+              "pressed": "true"
+            }
           },
           "relationship": {
             "property": "component-size-width-ratio",
@@ -212,7 +224,9 @@
         },
         "pressMinPerspective": {
           "when": {
-            "states": ["down"]
+            "facets": {
+              "pressed": "true"
+            }
           },
           "relationship": {
             "property": "component-size-minimum-perspective",
@@ -221,7 +235,9 @@
         },
         "pressMaxPerspective": {
           "when": {
-            "states": ["down"]
+            "facets": {
+              "pressed": "true"
+            }
           },
           "relationship": {
             "property": "component-size-maximum-perspective",
@@ -254,8 +270,8 @@
         "color": [
           {
             "when": {
-              "options": {
-                "isPending": false
+              "facets": {
+                "pending": "false"
               }
             },
             "relationship": {
@@ -291,8 +307,10 @@
           {
             "when": {
               "options": {
-                "hideLabel": false,
-                "isPending": false
+                "hideLabel": false
+              },
+              "facets": {
+                "pending": "false"
               }
             },
             "relationship": {
@@ -323,8 +341,10 @@
           {
             "when": {
               "options": {
-                "hasHoldIcon": true,
-                "isPending": false
+                "hasHoldIcon": true
+              },
+              "facets": {
+                "pending": "false"
               }
             },
             "relationship": {

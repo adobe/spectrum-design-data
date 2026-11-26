@@ -31,7 +31,9 @@ fn scene(preview: Option<Value>) -> Scene {
         TokenGraph::load_spec_relationships(&d.join("relationships")).expect("rels"),
     )
     .with_icons(TokenGraph::load_spec_icons(&d.join("icons")).expect("icons"))
-    .with_visuals(TokenGraph::load_spec_visuals(&d.join("visuals")).expect("visuals"));
+    .with_visuals(TokenGraph::load_spec_visuals(&d.join("visuals")).expect("visuals"))
+    .with_behaviors_dir(&d.join("behaviors"))
+    .expect("behaviors");
     let recipe: Value =
         serde_json::from_str(&std::fs::read_to_string(d.join("visuals/swatch.json")).unwrap())
             .unwrap();

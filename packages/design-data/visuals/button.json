@@ -136,8 +136,10 @@
           {
             "when": {
               "options": {
-                "isDisabled": true,
                 "style": "outline"
+              },
+              "facets": {
+                "disabled": "true"
               }
             },
             "value": "transparent",
@@ -157,11 +159,13 @@
           {
             "when": {
               "options": {
-                "isDisabled": false,
                 "style": "outline",
                 "variant": ["primary", "secondary"]
               },
-              "states": ["hover"]
+              "facets": {
+                "disabled": "false",
+                "hovered": "true"
+              }
             },
             "relationship": {
               "property": "color",
@@ -171,11 +175,13 @@
           {
             "when": {
               "options": {
-                "isDisabled": false,
                 "style": "outline",
                 "variant": ["primary", "secondary"]
               },
-              "states": ["down"]
+              "facets": {
+                "disabled": "false",
+                "pressed": "true"
+              }
             },
             "relationship": {
               "property": "color",
@@ -185,11 +191,13 @@
           {
             "when": {
               "options": {
-                "isDisabled": false,
                 "style": "outline",
                 "variant": ["primary", "secondary"]
               },
-              "states": ["keyboard-focus"]
+              "facets": {
+                "disabled": "false",
+                "focusVisible": "true"
+              }
             },
             "relationship": {
               "property": "color",
@@ -216,8 +224,10 @@
           {
             "when": {
               "options": {
-                "isDisabled": true,
                 "style": "outline"
+              },
+              "facets": {
+                "disabled": "true"
               }
             },
             "relationship": {
@@ -244,7 +254,9 @@
         ],
         "pressDifference": {
           "when": {
-            "states": ["down"]
+            "facets": {
+              "pressed": "true"
+            }
           },
           "relationship": {
             "property": "component-size-difference",
@@ -253,7 +265,9 @@
         },
         "pressWidthRatio": {
           "when": {
-            "states": ["down"]
+            "facets": {
+              "pressed": "true"
+            }
           },
           "relationship": {
             "property": "component-size-width-ratio",
@@ -262,7 +276,9 @@
         },
         "pressMinPerspective": {
           "when": {
-            "states": ["down"]
+            "facets": {
+              "pressed": "true"
+            }
           },
           "relationship": {
             "property": "component-size-minimum-perspective",
@@ -271,7 +287,9 @@
         },
         "pressMaxPerspective": {
           "when": {
-            "states": ["down"]
+            "facets": {
+              "pressed": "true"
+            }
           },
           "relationship": {
             "property": "component-size-maximum-perspective",
@@ -304,8 +322,8 @@
         "color": [
           {
             "when": {
-              "options": {
-                "isPending": false
+              "facets": {
+                "pending": "false"
               }
             },
             "relationship": {
@@ -344,8 +362,10 @@
           {
             "when": {
               "options": {
-                "isLabelHidden": false,
-                "isPending": false
+                "isLabelHidden": false
+              },
+              "facets": {
+                "pending": "false"
               }
             },
             "relationship": {

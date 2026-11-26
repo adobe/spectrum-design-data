@@ -3040,15 +3040,15 @@ fn recipe_renders_match_the_golden_svgs() {
 #[test]
 fn a_facets_clause_draws_the_same_scene_as_the_option_form() {
     let g = load_graph();
-    let recipe = g
+    let faceted = g
         .visual_recipe("switch")
         .expect("switch recipe")
         .raw
         .clone();
-    let mut faceted = recipe.clone();
-    *faceted
+    let mut recipe = faceted.clone();
+    *recipe
         .pointer_mut("/parts/track/props/fill/1/when")
-        .expect("track fill rule") = serde_json::json!({ "facets": { "checked": "checked" } });
+        .expect("track fill rule") = serde_json::json!({ "options": { "isSelected": true } });
     assert_ne!(recipe, faceted);
     let svg = |recipe: &Value, selected: bool| {
         let req = RenderRequest {
