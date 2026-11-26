@@ -78,11 +78,11 @@ function addIosRecipe(root, edit = () => {}) {
   writeFileSync(join(dir, "badge.json"), JSON.stringify(recipe));
 }
 
-// Points the first relationship a recipe binds at a context no relationship has.
+// Points the first relationship a recipe binds at a property no relationship has.
 function breakFirstBinding(node) {
   if (node && typeof node === "object") {
-    if (node.relationship?.context) {
-      node.relationship.context = "Missing context";
+    if (node.relationship?.property) {
+      node.relationship.property = "missing-property";
       return true;
     }
     return Object.values(node).some(breakFirstBinding);
@@ -154,7 +154,7 @@ describe("platform recipe guard on ios", { concurrency: true }, () => {
       const result = await guard(root);
       assert.equal(result.status, 1);
       assert.match(result.stderr, /ios: \d+ recipe binding gap/);
-      assert.match(result.stderr, /Missing context/);
+      assert.match(result.stderr, /missing-property/);
     });
   });
 
