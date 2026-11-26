@@ -739,6 +739,23 @@ pub fn run_vectors(
     )
 }
 
+/// The item machine of a contract's `collection`, `None` without one.
+fn item_of(
+    contract: &Value,
+    patterns: &[BehaviorPatternRecord],
+    contracts: &[Value],
+) -> Option<Result<Machine, String>> {
+    contract.get("collection").map(|c| match c.get("item") {
+        Some(Value::String(n)) => contracts
+            .iter()
+            .find(|x| x.get("component").and_then(Value::as_str) == Some(n))
+            .ok_or_else(|| format!("the collection item '{n}' has no behavior contract"))
+            .and_then(|x| flatten(x, patterns)),
+        Some(inline @ Value::Object(_)) => flatten(inline, patterns),
+        _ => Err("the `collection` has no `item`".to_string()),
+    })
+}
+
 /// [`run_vectors`] for a contract whose `collection` names an item component: `contracts` are the
 /// contracts that name can be found in (an inline `item` needs none).
 pub fn run_vectors_with(
@@ -757,15 +774,7 @@ pub fn run_vectors_with(
         .to_string();
     let machine = flatten(contract, patterns);
     let collection = contract.get("collection");
-    let item: Option<Result<Machine, String>> = collection.map(|c| match c.get("item") {
-        Some(Value::String(n)) => contracts
-            .iter()
-            .find(|x| x.get("component").and_then(Value::as_str) == Some(n))
-            .ok_or_else(|| format!("the collection item '{n}' has no behavior contract"))
-            .and_then(|x| flatten(x, patterns)),
-        Some(inline @ Value::Object(_)) => flatten(inline, patterns),
-        _ => Err("the `collection` has no `item`".to_string()),
-    });
+    let item = item_of(contract, patterns, contracts);
     vectors
         .iter()
         .map(|v| {
@@ -1063,10 +1072,17 @@ pub fn run_dir(
                 continue;
             }
             let caps = capabilities_of(file, capabilities);
+            let on_items = suite.get("item").and_then(Value::as_bool) == Some(true);
             let mut matched = false;
             for c in &contracts {
-                let carries =
-                    flatten(&c.raw, &patterns).is_ok_and(|m| part_role(&m.parts) == Some(role));
+                // An `item` suite is for the role of the collection's item part, not the group's.
+                let carries = if on_items {
+                    item_of(&c.raw, &patterns, &raws)
+                        .and_then(Result::ok)
+                        .is_some_and(|m| part_role(&m.parts) == Some(role))
+                } else {
+                    flatten(&c.raw, &patterns).is_ok_and(|m| part_role(&m.parts) == Some(role))
+                };
                 if !carries || only.is_some_and(|o| o != c.component) {
                     continue;
                 }

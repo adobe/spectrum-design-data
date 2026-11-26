@@ -149,7 +149,7 @@ for (const [name, file, expected, check, got] of [
     f,
     id,
     validateBindingsSuite,
-    `${f.platform}/${f.role}`,
+    `${f.platform}/${f.role}${f.item ? ".item" : ""}`,
   ]),
 ]) {
   const problems = check(file)
