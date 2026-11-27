@@ -1,0 +1,1065 @@
+{
+  "contract": {
+    "component": "text-fixture",
+    "extends": ["text"],
+    "state": ["isDisabled", "value"],
+    "parts": {
+      "field": {
+        "role": "searchbox",
+        "focus": "tab-stop"
+      }
+    },
+    "semantics": {
+      "field": {
+        "value": {
+          "ariaState": "data-value",
+          "copy": true
+        }
+      }
+    }
+  },
+  "vectors": [
+    {
+      "name": "hasValue: an unset value is empty",
+      "start": {},
+      "steps": [
+        {
+          "intent": "focus"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "hasValue": "false"
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "hasValue: an empty string is empty",
+      "start": {
+        "value": ""
+      },
+      "steps": [
+        {
+          "intent": "focus"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "hasValue": "false"
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "hasValue: a null value is empty",
+      "start": {
+        "value": null
+      },
+      "steps": [
+        {
+          "intent": "focus"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "hasValue": "false"
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "hasValue: text is a value",
+      "start": {
+        "value": "a"
+      },
+      "steps": [
+        {
+          "intent": "focus"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "hasValue": "true"
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "hasValue: a space is a value",
+      "start": {
+        "value": " "
+      },
+      "steps": [
+        {
+          "intent": "focus"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "hasValue": "true"
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "hasValue: zero is a value",
+      "start": {
+        "value": 0
+      },
+      "steps": [
+        {
+          "intent": "focus"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "hasValue": "true"
+          },
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "clear empties a value and emits change",
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "intent": "clear"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": ""
+              }
+            }
+          ],
+          "aria": {
+            "data-value": ""
+          },
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "clear on an empty string emits nothing",
+      "start": {
+        "value": ""
+      },
+      "steps": [
+        {
+          "intent": "clear"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "aria": {
+            "data-value": ""
+          },
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "clear on an unset value emits nothing and leaves it unset",
+      "start": {},
+      "steps": [
+        {
+          "intent": "clear"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "clear on a null value emits nothing",
+      "start": {
+        "value": null
+      },
+      "steps": [
+        {
+          "intent": "clear"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "clear twice emits once",
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "intent": "clear"
+        },
+        {
+          "intent": "clear"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": ""
+              }
+            }
+          ],
+          "aria": {
+            "data-value": ""
+          },
+          "facets": {
+            "hasValue": "false"
+          }
+        },
+        {
+          "after": 2,
+          "emit": [],
+          "aria": {
+            "data-value": ""
+          },
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "clear a value of zero",
+      "start": {
+        "value": 0
+      },
+      "steps": [
+        {
+          "intent": "clear"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": ""
+              }
+            }
+          ],
+          "aria": {
+            "data-value": ""
+          },
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a disabled input ignores clear",
+      "start": {
+        "value": "abc",
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "clear"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "aria": {
+            "data-value": "abc"
+          },
+          "facets": {
+            "hasValue": "true"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a disabled empty input ignores clear",
+      "start": {
+        "value": "",
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "clear"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "aria": {
+            "data-value": ""
+          },
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "submit emits submit and keeps the value",
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "intent": "submit"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "submit": {}
+            }
+          ],
+          "aria": {
+            "data-value": "abc"
+          },
+          "facets": {
+            "hasValue": "true"
+          }
+        }
+      ]
+    },
+    {
+      "name": "submit with no value still emits submit",
+      "start": {},
+      "steps": [
+        {
+          "intent": "submit"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "submit": {}
+            }
+          ],
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "submit with an empty string emits submit",
+      "start": {
+        "value": ""
+      },
+      "steps": [
+        {
+          "intent": "submit"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "submit": {}
+            }
+          ],
+          "aria": {
+            "data-value": ""
+          },
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "submit twice emits twice",
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "intent": "submit"
+        },
+        {
+          "intent": "submit"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "submit": {}
+            }
+          ],
+          "aria": {
+            "data-value": "abc"
+          }
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "submit": {}
+            }
+          ],
+          "aria": {
+            "data-value": "abc"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a disabled input ignores submit",
+      "start": {
+        "value": "abc",
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "submit"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "aria": {
+            "data-value": "abc"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a disabled empty input ignores submit",
+      "start": {
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "submit"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "clear then submit submits the empty value",
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "intent": "clear"
+        },
+        {
+          "intent": "submit"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": ""
+              }
+            }
+          ],
+          "aria": {
+            "data-value": ""
+          },
+          "facets": {
+            "hasValue": "false"
+          }
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "submit": {}
+            }
+          ],
+          "aria": {
+            "data-value": ""
+          },
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "submit then clear still clears",
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "intent": "submit"
+        },
+        {
+          "intent": "clear"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "submit": {}
+            }
+          ],
+          "aria": {
+            "data-value": "abc"
+          },
+          "facets": {
+            "hasValue": "true"
+          }
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": ""
+              }
+            }
+          ],
+          "aria": {
+            "data-value": ""
+          },
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Escape clears a value",
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Escape",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": ""
+              }
+            }
+          ],
+          "aria": {
+            "data-value": ""
+          },
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Escape on an empty input does nothing",
+      "start": {
+        "value": ""
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Escape",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "aria": {
+            "data-value": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "Escape on an unset input does nothing",
+      "start": {},
+      "steps": [
+        {
+          "input": {
+            "key": "Escape",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "Escape twice clears once",
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Escape",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Escape",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": ""
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "Escape on key up does nothing",
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Escape",
+            "phase": "up"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "aria": {
+            "data-value": "abc"
+          },
+          "facets": {
+            "hasValue": "true"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Enter submits",
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Enter",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "submit": {}
+            }
+          ],
+          "aria": {
+            "data-value": "abc"
+          },
+          "facets": {
+            "hasValue": "true"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Enter on an empty input still submits",
+      "start": {
+        "value": ""
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Enter",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "submit": {}
+            }
+          ],
+          "aria": {
+            "data-value": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "Enter on key up does nothing",
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Enter",
+            "phase": "up"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "aria": {
+            "data-value": "abc"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Escape then Enter clears, then submits the empty value",
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Escape",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Enter",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": ""
+              }
+            }
+          ],
+          "aria": {
+            "data-value": ""
+          }
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "submit": {}
+            }
+          ],
+          "aria": {
+            "data-value": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "a disabled searchbox ignores Escape",
+      "start": {
+        "value": "abc",
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Escape",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "aria": {
+            "data-value": "abc"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a disabled searchbox ignores Enter",
+      "start": {
+        "value": "abc",
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Enter",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "aria": {
+            "data-value": "abc"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Space and the arrows do nothing",
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Space",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "ArrowDown",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "ArrowLeft",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Home",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 4,
+          "emit": [],
+          "aria": {
+            "data-value": "abc"
+          },
+          "facets": {
+            "hasValue": "true"
+          }
+        }
+      ]
+    }
+  ],
+  "textboxVectors": [
+    {
+      "name": "textbox: Escape does nothing",
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Escape",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "aria": {
+            "data-value": "abc"
+          },
+          "facets": {
+            "hasValue": "true"
+          }
+        }
+      ]
+    },
+    {
+      "name": "textbox: Enter does nothing",
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Enter",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "aria": {
+            "data-value": "abc"
+          },
+          "facets": {
+            "hasValue": "true"
+          }
+        }
+      ]
+    },
+    {
+      "name": "textbox: Escape and Enter on an empty input do nothing",
+      "start": {},
+      "steps": [
+        {
+          "input": {
+            "key": "Escape",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Enter",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "textbox: the clear and submit intents still work as intents",
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "intent": "clear"
+        },
+        {
+          "intent": "submit"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": ""
+              }
+            }
+          ],
+          "aria": {
+            "data-value": ""
+          }
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "submit": {}
+            }
+          ],
+          "aria": {
+            "data-value": ""
+          }
+        }
+      ]
+    }
+  ]
+}

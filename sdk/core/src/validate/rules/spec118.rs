@@ -198,6 +198,21 @@ impl ValidationRule for Rule {
                         format!("derives facet '{name}' from '{s}', which is not in `state`"),
                     );
                 }
+                let values = facet.get("values").and_then(Value::as_object);
+                if let Some(o) = facet.get("otherwise").and_then(Value::as_str) {
+                    if values.is_some_and(|v| v.contains_key(o)) {
+                        problem(
+                            &path,
+                            format!("gives facet '{name}' `otherwise` '{o}', which `values` already lists"),
+                        );
+                    }
+                }
+                if sources.len() > 1 && values.is_some_and(|v| v.values().any(Value::is_array)) {
+                    problem(
+                        &path,
+                        format!("gives facet '{name}' an any-of list, which needs a single source option"),
+                    );
+                }
                 for v in facet_values(ctx.graph, b, ctx.registry, name)
                     .into_iter()
                     .flatten()
@@ -385,6 +400,21 @@ mod tests {
             (
                 Box::new(|c| c["facets"]["checked"]["values"]["maybe"] = json!(true)),
                 "does not list",
+            ),
+            (
+                Box::new(|c| c["facets"]["checked"]["otherwise"] = json!("checked")),
+                "`otherwise` 'checked'",
+            ),
+            (
+                Box::new(|c| c["facets"]["checked"]["otherwise"] = json!("maybe")),
+                "does not list",
+            ),
+            (
+                Box::new(|c| {
+                    c["facets"]["checked"]["from"] = json!(["isSelected", "isIndeterminate"]);
+                    c["facets"]["checked"]["values"]["unchecked"] = json!([false, ""]);
+                }),
+                "single source",
             ),
             (
                 Box::new(|c| c["parts"]["ghost"] = json!({ "role": "switch" })),

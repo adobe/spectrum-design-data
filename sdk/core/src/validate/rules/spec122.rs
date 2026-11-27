@@ -113,6 +113,24 @@ mod tests {
     }
 
     #[test]
+    fn flags_an_any_of_or_otherwise_facet_a_recipe_cannot_select() {
+        let mut c = good();
+        c["state"] = json!(["isSelected", "value"]);
+        c["facets"]["hasValue"] = json!({
+            "from": "value",
+            "values": { "false": [false, null, ""] },
+            "otherwise": "true"
+        });
+        for want in ["true", "false"] {
+            let m = check_contract(c.clone(), json!({ "hasValue": want }));
+            assert!(
+                m.iter().any(|m| m.contains("options alone cannot select")),
+                "{want}: {m:?}"
+            );
+        }
+    }
+
+    #[test]
     fn flags_a_value_that_overlaps_an_earlier_one() {
         let mut c = good();
         c["state"] = json!(["isSelected", "isDisabled"]);

@@ -226,11 +226,13 @@ fn derive(
             .iter()
             .find(|(_, want)| match (want, from.as_slice()) {
                 (Value::Object(o), _) => o.iter().all(|(k, v)| option(options, k) == *v),
+                (Value::Array(any), [only]) => any.contains(&option(options, only)),
                 (v, [only]) => option(options, only) == **v,
                 _ => false,
             });
-        if let Some((id, _)) = hit {
-            out.insert(name.clone(), id.clone());
+        let otherwise = f.get("otherwise").and_then(Value::as_str);
+        if let Some(id) = hit.map(|(id, _)| id.as_str()).or(otherwise) {
+            out.insert(name.clone(), id.to_string());
         }
     }
     for (name, on) in interaction {
@@ -1491,6 +1493,11 @@ pub fn facet_match(
         Some(Value::Array(a)) => a.iter().filter_map(Value::as_str).collect(),
         _ => vec![],
     };
+    if decl.get("otherwise").is_some() || values.values().any(Value::is_array) {
+        return Err(format!(
+            "facet '{facet}' uses an any-of list or `otherwise`, so options alone cannot select it"
+        ));
+    }
     let spec = |v: &Value| -> Map<String, Value> {
         match (v, from.as_slice()) {
             (Value::Object(o), _) => o.clone(),
