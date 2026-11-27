@@ -58,7 +58,6 @@ jobs:
           git fetch -q origin main
           mb="$(git merge-base origin/main HEAD)"
           echo "sha=$(git rev-parse --short=12 "$mb")" >> "$GITHUB_OUTPUT"
-          # A change to the harness or this workflow changes no component, so smoke-test two.
           if [ -n "$(git diff --name-only "$mb" HEAD -- tools/render-compare .github/workflows/render-compare.yml)" ]; then
             echo "self=true" >> "$GITHUB_OUTPUT"
           else
@@ -100,13 +99,19 @@ jobs:
         run: time cargo build --manifest-path sdk/Cargo.toml -p design-data-cli
       - name: Compare renders
         run: |
-          scope=--changed
-          [ "${{ steps.base.outputs.self }}" = true ] && scope="--components=button,menu"
-          args=("$scope" --sample "$RC_SAMPLE" --base-ref "${{ steps.base.outputs.sha }}" --no-fetch --report "$RUNNER_TEMP/render-compare.json" --out "$RUNNER_TEMP/render-compare-out")
-          [ "${{ steps.base.outputs.sdk }}" = true ] || args+=(--same-cli)
+          [ "${{ steps.base.outputs.sdk }}" = true ] || set -- --same-cli
+          run() {
+            node tools/render-compare/render-compare.mjs "$@" --sample "$RC_SAMPLE" --base-ref "${{ steps.base.outputs.sha }}" --no-fetch --report "$RUNNER_TEMP/render-compare.json" --out "$RUNNER_TEMP/render-compare-out" 2>&1 | tee "$RUNNER_TEMP/render-compare.log"
+            return "${PIPESTATUS[0]}"
+          }
           set +e
-          node tools/render-compare/render-compare.mjs "${args[@]}" 2>&1 | tee "$RUNNER_TEMP/render-compare.log"
-          rc="${PIPESTATUS[0]}"
+          run --changed "$@"
+          rc=$?
+          # A change to the harness or this workflow changes no component: smoke-test two.
+          if [ "${{ steps.base.outputs.self }}" = true ] && grep -q 'found no changed component' "$RUNNER_TEMP/render-compare.log"; then
+            run --components=button,menu "$@"
+            rc=$?
+          fi
           set -e
           {
             echo "## Render compare (advisory)"
