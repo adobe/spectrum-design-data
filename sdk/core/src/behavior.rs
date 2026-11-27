@@ -381,9 +381,11 @@ impl Run<'_> {
             .get("value")
             .and_then(Value::as_str)
             .ok_or("the `range` names no `value` option")?;
-        // An unset option is None; one that is set but not a number is an error.
+        // An unset, null or empty-string option is None (a cleared text input is `""`); one that
+        // is set but not a number is an error.
         let read = |name: &str| match self.options.get(name) {
             None | Some(Value::Null) => Ok(None),
+            Some(Value::String(s)) if s.is_empty() => Ok(None),
             Some(v) => v
                 .as_f64()
                 .map(Some)

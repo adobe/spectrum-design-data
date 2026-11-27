@@ -138,6 +138,8 @@
           "minProperties": 1,
           "additionalProperties": {
             "type": ["boolean", "string", "number", "object", "array"],
+            "minItems": 1,
+            "items": { "type": ["boolean", "string", "number", "null"] },
             "description": "Single source option: the option value that selects the facet value, or an array of option values, any of which selects it. Several sources: an object of option values that must all match."
           },
           "description": "Facet value id to the option value (one source) or option-to-value match (several sources) that selects it."
@@ -329,6 +331,11 @@
           "type": "string",
           "minLength": 1
         }
+      },
+      "if": { "properties": { "do": { "maxProperties": 0 } } },
+      "then": {
+        "required": ["emit"],
+        "description": "An empty `do` is only valid on a transition that emits."
       },
       "additionalProperties": false
     }

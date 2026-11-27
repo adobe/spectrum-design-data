@@ -26,7 +26,7 @@ Status: **draft**. [Proposal 022](../../../docs/proposals/022-behavior-contract.
 
 A facet is a named, finite-valued view of state. [`registry/facets.json`](registry.md#behavior-contract-registries) lists each facet id and its values, and whether it comes from a state group (`state-group`, derived from options the component declares) or from the shared `interactive` base (`interaction`: `hovered`, `pressed`, `focusVisible`). An interaction facet also carries `stateName`, the interaction state name (`states.json`) a recipe resolves against: `hovered` to `hover`, `pressed` to `down`, `focusVisible` to `keyboard-focus`. `states` stays on the component for token identity; the names a recipe resolves against are derived from facets.
 
-A contract declares each state-group facet it uses: `from` names one option or several, and `values` maps each facet value to the option value that selects it. With several sources the values are object matches tried in order (`"order": "first match wins"`). Checkbox keeps `isSelected` and `isIndeterminate` as booleans and derives the tri-state `checked` (`unchecked`, `checked`, `indeterminate`) this way:
+A contract declares each state-group facet it uses: `from` names one option or several, and `values` maps each facet value to the option value that selects it (with one source, an array lists option values any of which selects it; a facet may also give `otherwise`, the facet value when no entry matches: see [Text inputs](#text-inputs)). With several sources the values are object matches tried in order (`"order": "first match wins"`). Checkbox keeps `isSelected` and `isIndeterminate` as booleans and derives the tri-state `checked` (`unchecked`, `checked`, `indeterminate`) this way:
 
 ```json
 "checked": {
@@ -99,7 +99,9 @@ A text input (text field, text area, search field) is one contract that extends 
 
 **`hasValue`** is the first facet that is not a plain match on an option. A facet entry in `values` may be an array, an any-of list for a single source option: the entry selects the facet value when the option equals any element (`"false": [false, null, ""]` is an unset, null or empty `value`). A facet may add `otherwise`, the facet value when no entry of `values` matches (`"true"`). `otherwise` is not also a key of `values`, and an any-of list needs a single source (SPEC-118). The runner reads an unset option as `false`, so `false` in the list matches it, and `null` and `""` are listed explicitly. A number, including 0, is a value. A recipe cannot select such a facet value (`facets` in a `when`, below): an any-of list or `otherwise` has no option value to fold into `options`, and SPEC-122 warns.
 
-`do` may be empty (`{}`): the transition changes no state and only emits, which `submit` needs.
+`do` may be empty (`{}`) only on a transition that has an `emit`: it changes no state and only emits, which `submit` needs. An empty `do` with no `emit` does nothing, so the schema requires `emit` and SPEC-119 warns. An any-of list is non-empty and holds booleans, strings, numbers or null.
+
+**The empty value.** `clear` writes the empty string `""` (the value of a cleared text input), not an unset option; unset, null and `""` are all empty, and `hasValue` is `false` for each. The range runner reads them the same way: an unset, null or `""` value or bound is unset (a step goes to a bound, as above), while any other string, such as `"50"`, still fails the vector as not a number. So a control that is both a range and a text input (a clearable number field) can `clear` and step again.
 
 **Web bindings** (role keyed, as above): the role `searchbox` binds `Escape` to `clear` and `Enter` to `submit`, on key down. React Aria `useSearchField` and Spectrum Web Components agree. `Escape` on an empty search field does nothing here (React Aria lets the key propagate so an enclosing dialog can close; that is the adapter's). The role `textbox` is listed with no keyboard entries (`"textbox": { "keyboard": [] }`), so text field and text area bind no keys, and a key vector can say that Enter and Escape do nothing. Text field and text area keep the role `textbox` and search field takes `searchbox`; the component contracts come with their own change. The runner vectors for the pattern and the bindings are in `sdk/core/tests/behavior_vectors.rs` (fixture `behavior-text.json`).
 
@@ -234,8 +236,12 @@ A contract names intents, never keys (principle 12). Which key raises which inte
   "platform": "web",
   "capabilities": ["pointer-hover", "keyboard", "assistive-activation"],
   "roles": {
-    "switch": { "keyboard": [{ "key": "Space", "down": "press-start", "up": "press-end" }] },
-    "checkbox": { "keyboard": [{ "key": "Space", "down": "press-start", "up": "press-end" }] }
+    "switch": {
+      "keyboard": [{ "key": "Space", "down": "press-start", "up": "press-end" }]
+    },
+    "checkbox": {
+      "keyboard": [{ "key": "Space", "down": "press-start", "up": "press-end" }]
+    }
   }
 }
 ```
@@ -284,8 +290,8 @@ The Figma spec sheet's accessibility section reads role, focus, keyboard intents
 
 The schema shape is checked by `design-data:validate-behaviors` (AJV), which also checks the conformance baseline, as `validate-visuals` does for recipes. The SDK loads `behaviors/` (a sibling of `visuals/`, so a dataset without the directory is valid) and runs these rules, all **warnings** until components migrate:
 
-* **SPEC-118** `behavior-references-resolve`: the component, `state` options, facets, parts, semantics and `collection` (slot, item, facet references) resolve.
-* **SPEC-119** `behavior-transitions-well-formed`: intents, capabilities, guards, `do` (including `choose`) and the `collection` traversal guards resolve.
+* **SPEC-118** `behavior-references-resolve`: the component, `state` options, facets, parts, semantics and `collection` (slot, item, facet references) resolve A facet's `otherwise` is a registered value and not also a key of `values`, and an any-of list in `values` has a single source option.
+* **SPEC-119** `behavior-transitions-well-formed`: intents, capabilities, guards, `do` (including `choose`) and the `collection` traversal guards resolve, and a transition with an empty `do` has an `emit`.
 * **SPEC-120** `behavior-vectors-well-formed`: a vector's component, capabilities, steps, start options (and a group's item options, indices and expected item facets) and expectations resolve.
 * **SPEC-122** `recipe-facets-resolve`: a recipe `facets` clause names a facet its component's contract can publish, with a value options or a state can select.
 * **SPEC-123** `component-has-contract-or-exemption`: a component with no `accessibility.role` has a contract or a registered exemption, not both, and an exemption's reason is registered.

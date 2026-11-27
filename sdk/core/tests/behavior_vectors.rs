@@ -2451,3 +2451,30 @@ fn the_text_registry_entries_and_bindings_are_wired() {
         ])
     );
 }
+
+/// A contract that extends both `range` and `text` (a clearable number input): `clear` writes
+/// the empty string, which the range reads as an unset value, so the next step goes to a bound.
+#[test]
+fn clear_on_a_range_and_text_contract_leaves_an_empty_value_the_range_reads() {
+    let (mut contract, _) = range_fixture();
+    contract["extends"] = json!(["range", "text"]);
+    let v = json!([
+        { "name": "clear, then step", "start": { "minValue": 0, "maxValue": 100, "step": 1, "value": 5 },
+          "steps": [{ "intent": "clear" }, { "intent": "increment" }, { "intent": "clear" }, { "intent": "decrement" }],
+          "expect": [
+            { "after": 1, "emit": [{ "change": { "value": "" } }], "facets": { "hasValue": "false" } },
+            { "after": 2, "emit": [{ "change": { "value": 0 } }], "facets": { "hasValue": "true" } },
+            { "after": 3, "emit": [{ "change": { "value": "" } }] },
+            { "after": 4, "emit": [{ "change": { "value": 100 } }] }
+          ] },
+        { "name": "a non-empty string is still not a number", "start": { "value": "50" },
+          "steps": [{ "intent": "increment" }], "expect": [{ "after": 1, "emit": [] }] }
+    ]);
+    let r = run_range(&contract, v.as_array().unwrap(), &range_patterns());
+    assert_eq!(r[0].status, Status::Pass, "{:?}", r[0]);
+    assert!(
+        matches!(&r[1].status, Status::Fail(f) if f[0].contains("not a number")),
+        "{:?}",
+        r[1]
+    );
+}
