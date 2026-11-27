@@ -41,6 +41,13 @@ export function readComponent(dataDir, name) {
       : ["m"],
     options: c.options ?? {},
     states: (c.states ?? []).map((s) => s.name),
+    collections: [
+      ...new Set(
+        (c.slots ?? [])
+          .map((sl) => sl.collection)
+          .filter((k) => k && c.options?.[k]?.type === "array"),
+      ),
+    ],
   };
 }
 
@@ -323,8 +330,89 @@ function pairCases(name, params, sizes) {
 
 const keyOf = (c) => JSON.stringify(c);
 
+const ON_FLAGS = ["isSelected", "isCurrent", "isExpanded"];
+
+/**
+ * Collection cases: components whose slot repeats an array option (menu items, tabs, steps, ...).
+ * Items are selected, unselected, disabled and mixed, as explicit item keys and as keys inherited
+ * from the top-level option (the spec-sheet request shape), crossed with every selection* enum
+ * option (selectionMode none/single/multiple, selectionStyle) and its unset value.
+ */
+export function collectionCases(name, { sizes, options, collections }) {
+  const cases = [];
+  for (const key of collections ?? []) {
+    const props = options[key]?.items?.properties ?? {};
+    const on = ON_FLAGS.filter((f) => props[f]?.type === "boolean");
+    const dis = props.isDisabled?.type === "boolean";
+    const enumProp = Object.entries(props).find(
+      ([, p]) => p.type === "string" && (p.values ?? p.enum)?.length,
+    );
+    const mk = (n, f) =>
+      Array.from({ length: n }, (_, i) => ({
+        ...item(options[key].items, i, false),
+        ...f(i),
+      }));
+    const variants = [{ items: mk(3, () => ({})) }];
+    for (const f of on) {
+      variants.push({ items: mk(3, (i) => ({ [f]: i === 1 })) });
+      variants.push({ items: mk(3, () => ({ [f]: true })) });
+      if (dis)
+        variants.push({
+          items: mk(4, (i) => ({
+            [f]: i === 0 || i === 2,
+            isDisabled: i >= 1 && i <= 2,
+          })),
+        });
+      // keys inherited from the top-level option, as the spec sheet draws a repeated item
+      const bare = mk(2, () => ({}));
+      for (const it of bare) delete it[f];
+      variants.push({ items: bare, [f]: true });
+    }
+    if (dis) {
+      variants.push({ items: mk(3, (i) => ({ isDisabled: i === 1 })) });
+      const bare = mk(2, () => ({}));
+      for (const it of bare) delete it.isDisabled;
+      variants.push({ items: bare, isDisabled: true });
+    }
+    if (enumProp) {
+      const vals = (enumProp[1].values ?? enumProp[1].enum).map(
+        (v) => v?.value ?? v,
+      );
+      variants.push({
+        items: mk(Math.max(3, vals.length), (i) => ({
+          [enumProp[0]]: vals[i % vals.length],
+        })),
+      });
+    }
+    const sel = Object.entries(options)
+      .filter(([k, o]) => /^selection/.test(k) && optionValues(o).length)
+      .map(([k, o]) => [k, [UNSET, ...optionValues(o)]]);
+    let combos = [{}];
+    for (const [k, vals] of sel)
+      combos = combos.flatMap((c) =>
+        vals.map((v) => (v === UNSET ? c : { ...c, [k]: v })),
+      );
+    const midSize = sizes.includes("m") ? "m" : sizes[sizes.length - 1];
+    const edge = [...new Set([sizes[0], midSize, sizes[sizes.length - 1]])];
+    for (const combo of combos)
+      for (const { items, ...top } of variants)
+        for (const size of edge)
+          for (const [colorScheme, scale] of MODES.slice(0, 2))
+            cases.push({
+              component: name,
+              size,
+              states: [],
+              options: { ...combo, ...top, [key]: items },
+              colorScheme,
+              scale,
+              label: "Label",
+            });
+  }
+  return cases;
+}
+
 /** Union of the cases built from both trees (single factor and pairwise), deduplicated and numbered. */
-export function matrixFor(name, trees) {
+export function matrixFor(name, trees, collections = true) {
   const seen = new Set();
   const out = [];
   const push = (c) => {
@@ -338,11 +426,21 @@ export function matrixFor(name, trees) {
   const params = mergeParams(live.map(paramsOf));
   const sizes = [...new Set(live.flatMap((t) => t.sizes))];
   if (params.length) for (const c of pairCases(name, params, sizes)) push(c);
+  const collectionKeys = new Set();
+  if (collections)
+    for (const tree of live)
+      for (const c of collectionCases(name, tree)) {
+        collectionKeys.add(keyOf(c));
+        push(c);
+      }
   const cases = out.map((c, i) => ({
     id: `${name}-${String(i).padStart(5, "0")}`,
     ...c,
   }));
-  return { cases, params };
+  const collection = new Set(
+    out.flatMap((c, i) => (collectionKeys.has(keyOf(c)) ? [cases[i].id] : [])),
+  );
+  return { cases, params, collection };
 }
 
 /** Keeps about 1/step of the cases: a seeded hash of the case decides, so no option family aliases away. */

@@ -22,8 +22,9 @@ CLI="${CLI:-$("$HERE/base-cli.sh" ensure)/bin/design-data}"
 w="$(mktemp -d)"; trap 'rm -rf "$w"' EXIT
 mkdir -p "$w/a/packages" "$w/b/packages"
 # a repo-root layout is <root>/packages/design-data; node_modules is not data
-tar -C "$(git rev-parse --show-toplevel)/packages" --exclude node_modules -cf - design-data | tar -C "$w/a/packages" -xf -
-cp -R "$w/a/packages/design-data" "$w/b/packages/design-data"
+# the schema dir makes the CLI treat the tree as a repo; without it it silently uses its embedded dataset
+tar -C "$(git rev-parse --show-toplevel)/packages" --exclude node_modules -cf - design-data design-data-spec/schemas | tar -C "$w/a/packages" -xf -
+cp -R "$w/a/packages/design-data" "$w/a/packages/design-data-spec" "$w/b/packages/"
 
 rc() { node "$HERE/render-compare.mjs" --base-root "$w/a" --pr-root "$w/b" --base-cli "$CLI" --pr-cli "$CLI" \
   --components button,badge --sample 4 --png-sample 3 "$@"; }
@@ -73,6 +74,21 @@ expect 1 "an option-conditional recipe change fails with default settings" node 
   --base-root "$w/a" --pr-root "$w/c" --base-cli "$CLI" --pr-cli "$CLI" --components button --png-sample 0 --no-spec-sheet
 grep -q "render-compare: FAIL" "$w/out.txt" || { echo "FAIL: no FAIL line" >&2; exit 1; }
 rm -rf "$w/c"
+
+# the menu selected-item regression (bead 5m92.6.3): pinning the 8 single-selection start-edge ->
+# label records to isSelected=false moves a selected item's label x 40 -> 20 and the menu width
+# 276.9 -> 236.9. Only the spec sheet scene shows it (render --batch of the same request does not),
+# so the harness must fail by default and name the menu sheet block; a control with the data
+# unchanged passes. --collections-only keeps the run short (the sheet comparison always runs).
+cp -R "$w/a" "$w/m"
+jq '(.[71:79][] | .scope.options.isSelected) = false' "$w/a/packages/design-data/relationships/menu.json" >"$w/menu-rel.json"
+mv "$w/menu-rel.json" "$w/m/packages/design-data/relationships/menu.json"
+mc() { node "$HERE/render-compare.mjs" --base-root "$w/a" --pr-root "$1" --base-cli "$CLI" --pr-cli "$CLI" --components menu --png-sample 0 --collections-only "${@:2}"; }
+expect 1 "the menu isSelected pin regression fails by default" mc "$w/m"
+grep -q "menu / layout--spacing--icon-to-label-" "$w/out.txt" && grep -Eq "render.scene.(nodes|measurements)\[.*\]\.(x|w): " "$w/out.txt" || { echo "FAIL: the menu sheet scene diff is not named" >&2; exit 1; }
+echo "ok: the failure names the menu sheet block and its scene geometry"
+expect 0 "a control (same data) passes" mc "$w/a"
+rm -rf "$w/m"
 
 # wrong directory: the package dir is not a repo root, so the harness refuses (exit 2)
 expect 2 "the wrong directory fails loudly" node "$HERE/render-compare.mjs" --base-root "$w/a/packages/design-data" \
