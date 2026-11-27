@@ -2589,3 +2589,36 @@ fn a_broken_color_area_contract_fails_a_vector() {
         );
     }
 }
+
+/// Each drop zone rule (the `press` base, the `disabled` facet, the activate part, the pins) must
+/// be pinned by a vector or the pins. The drop zone has no role, so no key suite runs.
+#[test]
+fn a_broken_drop_zone_contract_fails_a_vector_or_a_pin() {
+    let (contract, vectors, patterns) = load("drop-zone");
+    assert_eq!(failures(&contract, &vectors, &patterns), 0);
+    let mut no_press = contract.clone();
+    no_press["extends"] = json!(["interactive"]);
+    assert!(failures(&no_press, &vectors, &patterns) > 0);
+    let mut no_activate = contract.clone();
+    no_activate["parts"]["container"]
+        .as_object_mut()
+        .unwrap()
+        .remove("press");
+    assert!(failures(&no_activate, &vectors, &patterns) > 0);
+    let pins = pins_of("drop-zone");
+    assert!(
+        design_data_core::behavior::check_contract(&contract, &patterns, Some(&pins)).is_empty()
+    );
+    for (pointer, value) in [
+        ("/parts/container/focus", json!("none")),
+        ("/parts/container/role", json!("button")),
+        ("/parts/container/press", json!("other")),
+        ("/state", json!([])),
+    ] {
+        let m = break_at(&contract, pointer, value);
+        assert!(
+            !design_data_core::behavior::check_contract(&m, &patterns, Some(&pins)).is_empty(),
+            "drop-zone: breaking {pointer} fails no pin"
+        );
+    }
+}
