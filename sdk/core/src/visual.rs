@@ -2055,6 +2055,28 @@ impl<'a> CompileCx<'a> {
                 expand_type_style(props);
             }
         }
+        // A ring listed in `children` is drawn around the scene its parent roots, after layout,
+        // so it leaves the flow and names that parent as its `host`.
+        let mut hosts = Vec::new();
+        for (id, part) in out_parts.iter_mut() {
+            if let Some(kids) = part.get_mut("children").and_then(Value::as_array_mut) {
+                kids.retain(|k| {
+                    let name = k.as_str().unwrap_or_default();
+                    let ring = parts
+                        .get(name)
+                        .is_some_and(|p| p.get("kind").and_then(Value::as_str) == Some("ring"));
+                    if ring {
+                        hosts.push((name.to_string(), id.clone()));
+                    }
+                    !ring
+                });
+            }
+        }
+        for (ring, host) in hosts {
+            if let Some(p) = out_parts.get_mut(&ring) {
+                p["host"] = Value::String(host);
+            }
+        }
         Ok(out_parts)
     }
 
@@ -5917,8 +5939,14 @@ fn solve_root(
     }
 
     // Rings wrap the root, or the part named by `around`, outside its box.
+    // A scene draws the rings `compile_parts` hosts on its root (the recipe root for an orphan
+    // ring), so a copy of a repeated part draws only its own.
     for (id, part) in parts {
-        if part.get("kind").and_then(Value::as_str) != Some("ring") || !cx.visible(part) {
+        let host = part.get("host").and_then(Value::as_str);
+        if part.get("kind").and_then(Value::as_str) != Some("ring")
+            || host.unwrap_or(&variant.root) != root_id
+            || !cx.visible(part)
+        {
             continue;
         }
         let stroke = rp(&mut cx, part, "stroke");
