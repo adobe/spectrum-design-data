@@ -460,6 +460,48 @@ test("payloads fit use_figma, carry no plugin shell, and render the same tree as
   }
 });
 
+test("a changelog too long for one payload is split and draws the same frame", async (t) => {
+  const commit = (n) => ({
+    date: "2026-01-01",
+    source: { type: "pr", number: n, title: `Change number ${n} `.repeat(3) },
+    entries: [{ class: "added" }, { class: "changed" }],
+  });
+  const release = (v, from) => ({
+    version: v,
+    bump: "minor",
+    release: `release-${v}`,
+    date: "2026-01-01",
+    commits: Array.from({ length: 300 }, (_, i) => commit(from + i)),
+  });
+  const long = {
+    baseline: { release: "0.0.1" },
+    releases: [release("1.0.0", 0), release("1.1.0", 1000)],
+  };
+  const sheetFor = generate("action-button");
+  const payloads = buildPayloads({
+    sheet: sheetFor,
+    changelog: long,
+    pages: ["Layout"],
+  });
+  t.true(payloads.every((p) => p.chars <= 44000));
+  t.true(
+    payloads.filter((p) => p.steps.some((s) => s === "changelog")).length > 1,
+  );
+  const plugin = mock();
+  await plugin.figma.ui.onmessage({
+    type: "render-sheet",
+    sheet: sheetFor,
+    changelog: long,
+    pages: ["Layout"],
+  });
+  const viaPayloads = fakeFigma();
+  for (const p of payloads) await runPayload(viaPayloads.figma, p);
+  t.deepEqual(
+    viaPayloads.page.children.map(dump),
+    plugin.page.children.map(dump),
+  );
+});
+
 test("payloads replace the previous render only in the last call and report counts", async (t) => {
   const payloads = payloadsFor("action-button");
   t.true(payloads.length > 1);
