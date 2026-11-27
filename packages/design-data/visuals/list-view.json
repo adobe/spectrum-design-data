@@ -104,19 +104,6 @@
           },
           {
             "when": {
-              "options": {
-                "isDisabled": true
-              }
-            },
-            "priority": 10,
-            "relationship": {
-              "property": "color",
-              "part": "list-item",
-              "attribute": "background"
-            }
-          },
-          {
-            "when": {
               "states": ["hover"]
             },
             "relationship": {
