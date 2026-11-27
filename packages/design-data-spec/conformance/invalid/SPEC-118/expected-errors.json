@@ -40,6 +40,16 @@
       "rule_id": "SPEC-118",
       "severity": "warning",
       "message_pattern": ".*checkbox.*axis.*inline item contract.*"
+    },
+    {
+      "rule_id": "SPEC-118",
+      "severity": "warning",
+      "message_pattern": ".*checkbox.*part 'ghostpart'.*inline item `parts`.*not an anatomy part.*"
+    },
+    {
+      "rule_id": "SPEC-118",
+      "severity": "warning",
+      "message_pattern": ".*checkbox.*facet 'glow'.*inline item does not declare.*"
     }
   ]
 }
