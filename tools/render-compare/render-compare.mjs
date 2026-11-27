@@ -55,6 +55,8 @@ const { values: opt } = parseArgs({
     seed: { type: "string", default: "0" },
     "png-sample": { type: "string", default: "20" },
     "no-spec-sheet": { type: "boolean", default: false },
+    "no-collections": { type: "boolean", default: false },
+    "collections-only": { type: "boolean", default: false },
     jobs: {
       type: "string",
       default: String(Math.max(1, Math.min(4, cpus().length - 1))),
@@ -203,6 +205,10 @@ function checkLayout(label, root) {
   const problems = [];
   if (!existsSync(join(d, "dataset.json")))
     problems.push(`${d}/dataset.json is missing`);
+  if (!existsSync(join(root, "packages/design-data-spec/schemas/token-types")))
+    problems.push(
+      `${root}/packages/design-data-spec/schemas/token-types is missing: without it the CLI does not see a repo and silently uses its embedded dataset instead of this tree`,
+    );
   for (const sub of ["visuals", "components", "relationships"]) {
     const p = join(d, sub);
     if (!existsSync(p) || readdirSync(p).length === 0)
@@ -300,14 +306,27 @@ comps.sort();
 const out = resolve(opt.out ?? mkdtempSync(join(tmpdir(), "render-compare-")));
 mkdirSync(out, { recursive: true });
 const plans = comps.map((name) => {
-  const { cases: all, params } = matrixFor(name, [
-    readComponent(join(baseRoot, DATA), name),
-    readComponent(join(prRoot, DATA), name),
-  ]);
-  const cases = sample(all, STEP, SEED);
+  const {
+    cases: all,
+    params,
+    collection,
+  } = matrixFor(
+    name,
+    [
+      readComponent(join(baseRoot, DATA), name),
+      readComponent(join(prRoot, DATA), name),
+    ],
+    !opt["no-collections"],
+  );
+  const cases = sample(
+    opt["collections-only"] ? all.filter((c) => collection.has(c.id)) : all,
+    STEP,
+    SEED,
+  );
   return {
     name,
     total: all.length,
+    collection: collection.size,
     cases,
     params,
     pairsAll: pairCoverage(params, all),
@@ -325,6 +344,15 @@ console.log(
   `                PR   ${prCli}\n                 root ${prRoot}${opt["same-cli"] ? " (same CLI for both)" : ""}`,
 );
 console.log(`components: ${comps.length} (${selection})`);
+const collectionTotal = plans.reduce((n, p) => n + p.collection, 0);
+console.log(
+  `collections: ${collectionTotal} cases (items selected, unselected, disabled, mixed x selection options) in ${
+    plans
+      .filter((p) => p.collection)
+      .map((p) => `${p.name} ${p.collection}`)
+      .join(", ") || "no component"
+  }`,
+);
 console.log(
   `matrix: ${totalCases} cases total, ${sampled} run${STEP > 1 ? ` (--sample ${STEP}, seed ${SEED})` : ""}; option-pair cover: ${pairCovered} of ${pairTotal} value pairs covered by the cases run`,
 );
@@ -672,10 +700,41 @@ if (PNG_N > 0) {
 
 // ---- spec sheets -----------------------------------------------------------------------
 
+const blockText = (v) => numberGradients(JSON.stringify(v));
+/** Leaf paths that differ between two block JSON strings; nodes are keyed by part name. Geometry first. */
+function leafDiff(a, b) {
+  const flat = (v, path, out) => {
+    if (Array.isArray(v))
+      v.forEach((e, i) => {
+        const part =
+          e && typeof e === "object" && typeof e.part === "string" ? e.part : i;
+        flat(e, `${path}[${part}]`, out);
+      });
+    else if (v && typeof v === "object")
+      for (const [k, e] of Object.entries(v))
+        flat(e, path ? `${path}.${k}` : k, out);
+    else out.set(path, JSON.stringify(v));
+    return out;
+  };
+  const x = flat(JSON.parse(a), "", new Map());
+  const y = flat(JSON.parse(b), "", new Map());
+  const d = [];
+  for (const k of new Set([...x.keys(), ...y.keys()]))
+    if (x.get(k) !== y.get(k))
+      d.push(`${k}: ${x.get(k) ?? "(absent)"} -> ${y.get(k) ?? "(absent)"}`);
+  const geo = (l) =>
+    /(^|\.)(x|y|w|h|width|height)(:|$)/.test(l.split(": ")[0]) ? 0 : 1;
+  d.sort((p, q) => geo(p) - geo(q));
+  return d.length > 4
+    ? [...d.slice(0, 4), `... ${d.length - 4} more leaf differences`]
+    : d;
+}
+
 const sheets = {
   run: false,
   components: 0,
   restDiff: [],
+  sceneBlocks: [],
   lost: 0,
   gained: 0,
   regrouped: 0,
@@ -724,7 +783,7 @@ if (!opt["no-spec-sheet"]) {
       : null;
   const files = wanted ? common.filter((f) => wanted.has(f)) : common;
   sheets.components = files.length;
-  const program = `input_filename as $p | ($p | split("/") | last) as $f | (${jqBody}\n) | [$f, {rest: del(.pages[]?.blocks[]?.rows), rows: [.pages[]?.blocks[]? | {b: .id, r: (.rows // [])}]}]`;
+  const program = `input_filename as $p | ($p | split("/") | last) as $f | (${jqBody}\n) | [$f, {rest: del(.pages[]?.blocks[]?.rows), blocks: [.pages[]?.blocks[]? | {b: .id, v: del(.rows)}], rows: [.pages[]?.blocks[]? | {b: .id, r: (.rows // [])}]}]`;
   const load = async (dir) => {
     const m = new Map();
     await jqHashes(
@@ -741,13 +800,34 @@ if (!opt["no-spec-sheet"]) {
   for (const f of files) {
     const x = bm.get(f);
     const y = rm.get(f);
-    if (
+    const restChanged =
       sha(numberGradients(JSON.stringify(x.rest))) !==
-      sha(numberGradients(JSON.stringify(y.rest)))
-    )
+      sha(numberGradients(JSON.stringify(y.rest)));
+    if (restChanged)
       sheets.restDiff.push(
         `${f.slice(0, -5)} (${[...new Set([...Object.keys(x.rest), ...Object.keys(y.rest)])].filter((k) => JSON.stringify(x.rest[k]) !== JSON.stringify(y.rest[k])).join("/")})`,
       );
+    if (restChanged) {
+      const yb = new Map(y.blocks.map((blk) => [blk.b, blk.v]));
+      const xb = new Map(x.blocks.map((blk) => [blk.b, blk.v]));
+      for (const [id, v] of xb) {
+        const w = yb.get(id);
+        const diffs = w ? leafDiff(blockText(v), blockText(w)) : ["block lost"];
+        if (diffs.length)
+          sheets.sceneBlocks.push({
+            component: f.slice(0, -5),
+            block: id,
+            diffs,
+          });
+      }
+      for (const id of yb.keys())
+        if (!xb.has(id))
+          sheets.sceneBlocks.push({
+            component: f.slice(0, -5),
+            block: id,
+            diffs: ["block gained"],
+          });
+    }
     const occ = (m) => {
       const o = new Map();
       for (const blk of m.rows)
@@ -842,6 +922,14 @@ if (sheets.run) {
   if (sheets.gainedComponents.length)
     console.log(`  sheets gained: ${sheets.gainedComponents.join(", ")}`);
   for (const f of sheets.failed) console.log(`  ${f}`);
+  if (sheets.sceneBlocks.length)
+    console.log(
+      `  spec-sheet scenes differ in ${sheets.sceneBlocks.length} block(s):`,
+    );
+  for (const e of sheets.sceneBlocks.slice(0, EXAMPLES))
+    console.log(
+      `    ${e.component} / ${e.block}\n      ${e.diffs.join("\n      ")}`,
+    );
   for (const e of sheets.examples)
     console.log(`  ${e.kind} row in ${e.component}: ${e.row}`);
 }

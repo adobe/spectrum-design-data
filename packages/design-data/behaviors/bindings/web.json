@@ -41,6 +41,16 @@
         { "key": "End", "down": "set-max" }
       ]
     },
+    "spinbutton": {
+      "keyboard": [
+        { "key": "ArrowUp", "down": "increment" },
+        { "key": "ArrowDown", "down": "decrement" },
+        { "key": "PageUp", "down": "increment" },
+        { "key": "PageDown", "down": "decrement" },
+        { "key": "Home", "down": "set-min" },
+        { "key": "End", "down": "set-max" }
+      ]
+    },
     "tooltip": {
       "keyboard": [{ "key": "Escape", "down": "dismiss" }]
     }

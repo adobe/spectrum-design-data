@@ -1,0 +1,703 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
+  "component": "number-field",
+  "pins": {
+    "state": ["isDisabled", "value", "minValue", "maxValue", "step"],
+    "wcag": [
+      {
+        "criterion": "1.3.1",
+        "level": "A",
+        "title": "Info and Relationships"
+      },
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ],
+    "parts": {
+      "field": {
+        "role": "spinbutton",
+        "focus": "tab-stop"
+      },
+      "in-field-button": {
+        "focus": "none"
+      }
+    }
+  },
+  "vectors": [
+    {
+      "name": "a disabled control reads as disabled",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50,
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "disabled": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "an enabled control reads as enabled",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50,
+        "isDisabled": false
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "disabled": false
+          }
+        }
+      ]
+    },
+    {
+      "name": "increment and decrement step by one",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        },
+        {
+          "intent": "decrement"
+        },
+        {
+          "intent": "decrement"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 51
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 50
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "value": 49
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "set-min and set-max go to the bounds",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "intent": "set-min"
+        },
+        {
+          "intent": "set-max"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 100
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "increment at the maximum clamps without a change",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 100
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        },
+        {
+          "intent": "set-max"
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "decrement at the minimum clamps without a change",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 0
+      },
+      "steps": [
+        {
+          "intent": "decrement"
+        },
+        {
+          "intent": "set-min"
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "every value intent is ignored while disabled",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50,
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        },
+        {
+          "intent": "decrement"
+        },
+        {
+          "intent": "set-min"
+        },
+        {
+          "intent": "set-max"
+        }
+      ],
+      "expect": [
+        {
+          "after": 4,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "focus follows the keyboard and loses the ring on blur",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        },
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "focusVisible": true
+          }
+        },
+        {
+          "after": 2,
+          "facets": {
+            "focusVisible": false
+          }
+        }
+      ]
+    },
+    {
+      "name": "the value and bounds are exposed",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 40
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-valuenow": "40",
+            "aria-valuemin": "0",
+            "aria-valuemax": "100"
+          }
+        }
+      ]
+    },
+    {
+      "name": "custom bounds are exposed",
+      "start": {
+        "minValue": -50,
+        "maxValue": 50,
+        "step": 5,
+        "value": 10
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-valuenow": "10",
+            "aria-valuemin": "-50",
+            "aria-valuemax": "50"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a keyboard step moves the exposed value",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 51
+              }
+            }
+          ],
+          "aria": {
+            "aria-valuenow": "51"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a step of 5 snaps and clamps",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 5,
+        "value": 98
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        },
+        {
+          "intent": "decrement"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 100
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 95
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a larger step moves by that step",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 10,
+        "value": 20
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        },
+        {
+          "intent": "decrement"
+        },
+        {
+          "intent": "decrement"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 30
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 20
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "value": 10
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "snapping counts from a non-zero minimum",
+      "start": {
+        "minValue": -50,
+        "maxValue": 50,
+        "step": 10,
+        "value": -10
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a decimal step has no float noise",
+      "start": {
+        "minValue": 0,
+        "maxValue": 1,
+        "step": 0.1,
+        "value": 0.2
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0.3
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "an unset value exposes no aria-valuenow",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-valuenow": null
+          }
+        }
+      ]
+    },
+    {
+      "name": "known limit: an unset minValue reads 0, so decrement at 0 clamps (pins the runner default; the owner may change it)",
+      "start": {
+        "maxValue": 100,
+        "step": 1,
+        "value": 0
+      },
+      "steps": [
+        {
+          "intent": "decrement"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "known limit: an unset minValue reads 0, so set-min goes to 0",
+      "start": {
+        "maxValue": 100,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "intent": "set-min"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "known limit: an unset maxValue reads 100, so set-max goes to 100",
+      "start": {
+        "minValue": 0,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "intent": "set-max"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 100
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "known limit: an unset maxValue reads 100, so a value of 500 steps down to 100",
+      "start": {
+        "minValue": 0,
+        "step": 1,
+        "value": 500
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 100
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "known limit: an unset value reads the minimum, so increment gives min + step (pins the runner default)",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "known limit: an unset value reads the minimum, so decrement raises nothing",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1
+      },
+      "steps": [
+        {
+          "intent": "decrement"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "known limit: an unset value reads the minimum, so set-min raises nothing",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1
+      },
+      "steps": [
+        {
+          "intent": "set-min"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "known limit: an unset value reads the minimum, so set-max goes to 100",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1
+      },
+      "steps": [
+        {
+          "intent": "set-max"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 100
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
