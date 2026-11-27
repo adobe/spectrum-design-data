@@ -832,4 +832,33 @@ mod tests {
         set(&mut g, json!([]));
         assert!(keyboard(&g, "switch").is_empty());
     }
+
+    /// `activate` is raised by either press event, in either phase; the navigation intents by
+    /// the `navigate-*` events. No web role pairs them with a contract intent yet, so inline
+    /// bindings stand in.
+    #[test]
+    fn activate_and_navigation_intents_read_their_event_names() {
+        let web = json!({ "roles": { "r": { "keyboard": [
+            { "key": "Enter", "up": "press-end" },
+            { "key": "ArrowRight", "down": "navigate-next" },
+            { "key": "ArrowLeft", "down": ["navigate-previous"] },
+            { "key": "x", "down": "blur" }
+        ] } } });
+        let rows = keyboard_rows(
+            &["activate", "navigate-items", "dismiss"],
+            Some("r"),
+            Some(&web),
+        );
+        let got: Vec<(&str, &str)> = rows
+            .iter()
+            .map(|r| (r[0].as_str(), r[1].as_str()))
+            .collect();
+        assert_eq!(
+            got,
+            [
+                ("activate", "Enter"),
+                ("navigate-items", "ArrowLeft, ArrowRight")
+            ]
+        );
+    }
 }
