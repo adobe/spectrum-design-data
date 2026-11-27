@@ -3170,6 +3170,98 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             }
         }
     }
+    // Drop zone: real copy in every scenario, a long one wrapped on mobile, and every state and
+    // option the recipe reads. The illustration has no size record, so its placeholder is not drawn.
+    if name == "drop-zone" {
+        let copy = |r: &mut RenderRequest, long: bool| {
+            r.options
+                .insert("title".into(), "Drag and drop your file".into());
+            r.options.insert(
+                "description".into(),
+                if long {
+                    "Or select a file from your computer. Images, PDFs and documents up to 20 MB are accepted, and you can add several at once."
+                } else {
+                    "Or select a file from your computer"
+                }
+                .into(),
+            );
+        };
+        for (_, r) in out.iter_mut() {
+            copy(r, false);
+        }
+        let mut long = req(vec![], HashMap::new(), "dark", "mobile");
+        copy(&mut long, true);
+        out.push(("long-copy-mobile-dark", long));
+        for (label, states, opts) in [
+            ("drag-and-drop", vec!["drag-and-drop".to_string()], vec![]),
+            ("filled", vec![], vec![("isFilled", Value::Bool(true))]),
+            ("disabled", vec![], vec![("isDisabled", Value::Bool(true))]),
+        ] {
+            let mut r = req(states, HashMap::new(), "light", "desktop");
+            copy(&mut r, false);
+            for (k, v) in opts {
+                r.options.insert(k.into(), v);
+            }
+            out.push((label, r));
+        }
+    }
+    // Select box: a label in every scenario, both orientations, the selected and disabled looks,
+    // each interaction state, and the dark mobile horizontal box.
+    if name == "select-box" {
+        for (_, r) in out.iter_mut() {
+            r.label = "Select box label".into();
+        }
+        let case = |states: Vec<String>, opts: Vec<(&str, Value)>, scheme: &str, scale: &str| {
+            let mut r = req(states, HashMap::new(), scheme, scale);
+            r.label = "Select box label".into();
+            for (k, v) in opts {
+                r.options.insert(k.into(), v);
+            }
+            r
+        };
+        let horizontal = || ("orientation", Value::from("horizontal"));
+        out.push((
+            "horizontal",
+            case(vec![], vec![horizontal()], "light", "desktop"),
+        ));
+        out.push((
+            "selected",
+            case(
+                vec![],
+                vec![("isSelected", Value::Bool(true))],
+                "light",
+                "desktop",
+            ),
+        ));
+        out.push((
+            "disabled",
+            case(
+                vec![],
+                vec![("isDisabled", Value::Bool(true))],
+                "light",
+                "desktop",
+            ),
+        ));
+        for state in ["hover", "down", "keyboard-focus"] {
+            out.push((
+                Box::leak(format!("state-{state}").into_boxed_str()),
+                case(vec![state.to_string()], vec![], "light", "desktop"),
+            ));
+        }
+        out.push((
+            "horizontal-dark-mobile",
+            case(vec![], vec![horizontal()], "dark", "mobile"),
+        ));
+        out.push((
+            "no-illustration",
+            case(
+                vec![],
+                vec![("hideIllustration", Value::Bool(true))],
+                "light",
+                "desktop",
+            ),
+        ));
+    }
     // Status light wraps its label next to the dot.
     if name == "status-light" {
         let mut r = req(vec![], HashMap::new(), "light", "desktop");

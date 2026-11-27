@@ -331,7 +331,7 @@
       "part": "label",
       "property": "font-family",
       "options": {
-        "orientation": "vertical"
+        "orientation": ["vertical", "horizontal"]
       }
     },
     "context": "Text",
@@ -356,7 +356,7 @@
       "part": "label",
       "property": "font-style",
       "options": {
-        "orientation": "vertical"
+        "orientation": ["vertical", "horizontal"]
       }
     },
     "context": "Text",
@@ -370,7 +370,7 @@
       "part": "label",
       "property": "font-size",
       "options": {
-        "orientation": "vertical"
+        "orientation": ["vertical", "horizontal"]
       }
     },
     "context": "Text",
@@ -384,7 +384,7 @@
       "part": "label",
       "property": "font-size",
       "options": {
-        "orientation": "vertical"
+        "orientation": ["vertical", "horizontal"]
       }
     },
     "context": "Text",
@@ -398,7 +398,7 @@
       "part": "label",
       "property": "line-height",
       "options": {
-        "orientation": "vertical"
+        "orientation": ["vertical", "horizontal"]
       }
     },
     "context": "Text",
@@ -412,7 +412,7 @@
       "part": "label",
       "property": "line-height",
       "options": {
-        "orientation": "vertical"
+        "orientation": ["vertical", "horizontal"]
       }
     },
     "context": "Text",

@@ -1,0 +1,191 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "drop-zone",
+  "root": "container",
+  "sizeScale": {
+    "s": 100,
+    "m": 200,
+    "l": 300
+  },
+  "notVisual": [
+    "accept",
+    "onDrop",
+    "onDragOver",
+    "onDragLeave",
+    "actionLabel",
+    "isFilled",
+    "isDisabled",
+    "drag-and-drop"
+  ],
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["illustration", "title", "description"],
+      "props": {
+        "direction": {
+          "value": "column"
+        },
+        "align": {
+          "value": "center"
+        },
+        "justify": {
+          "value": "center"
+        },
+        "width": {
+          "relationship": {
+            "property": "width",
+            "part": "container"
+          }
+        },
+        "paddingInlineStart": {
+          "relationship": {
+            "property": "spacing",
+            "part": "container"
+          }
+        },
+        "paddingInlineEnd": {
+          "relationship": {
+            "property": "spacing",
+            "part": "container"
+          }
+        },
+        "paddingBlockStart": {
+          "relationship": {
+            "property": "spacing",
+            "part": "container"
+          }
+        },
+        "paddingBlockEnd": {
+          "relationship": {
+            "property": "spacing",
+            "part": "container"
+          }
+        },
+        "cornerRadius": {
+          "relationship": {
+            "property": "corner-radius",
+            "part": "container"
+          }
+        },
+        "stroke": {
+          "relationship": {
+            "property": "color",
+            "part": "container",
+            "attribute": "border"
+          }
+        },
+        "strokeWidth": {
+          "relationship": {
+            "property": "border-width",
+            "part": "container"
+          }
+        },
+        "strokeDash": {
+          "relationship": {
+            "property": "border-dash-length",
+            "part": "container"
+          }
+        },
+        "strokeGap": {
+          "relationship": {
+            "property": "border-dash-gap",
+            "part": "container"
+          }
+        }
+      }
+    },
+    "illustration": {
+      "kind": "box",
+      "image": {
+        "source": {
+          "option": "illustration"
+        },
+        "fit": "contain"
+      },
+      "props": {}
+    },
+    "title": {
+      "kind": "text",
+      "text": {
+        "option": "title"
+      },
+      "props": {
+        "fontFamily": {
+          "relationship": {
+            "property": "font-family",
+            "part": "title"
+          }
+        },
+        "fontSize": {
+          "relationship": {
+            "property": "font-size",
+            "part": "title"
+          }
+        },
+        "fontWeight": {
+          "relationship": {
+            "property": "font-weight",
+            "part": "title"
+          }
+        },
+        "lineHeight": {
+          "relationship": {
+            "property": "line-height",
+            "part": "title"
+          }
+        },
+        "color": {
+          "relationship": {
+            "property": "color",
+            "part": "title"
+          }
+        },
+        "overflow": {
+          "value": "wrap"
+        }
+      }
+    },
+    "description": {
+      "kind": "text",
+      "text": {
+        "option": "description"
+      },
+      "props": {
+        "fontFamily": {
+          "relationship": {
+            "property": "font-family",
+            "part": "description"
+          }
+        },
+        "fontSize": {
+          "relationship": {
+            "property": "font-size",
+            "part": "description"
+          }
+        },
+        "fontWeight": {
+          "relationship": {
+            "property": "font-weight",
+            "part": "description"
+          }
+        },
+        "lineHeight": {
+          "relationship": {
+            "property": "line-height",
+            "part": "description"
+          }
+        },
+        "color": {
+          "relationship": {
+            "property": "color",
+            "part": "description"
+          }
+        },
+        "overflow": {
+          "value": "wrap"
+        }
+      }
+    }
+  }
+}

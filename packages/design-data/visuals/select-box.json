@@ -1,0 +1,315 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "select-box",
+  "root": "container",
+  "sizeScale": {
+    "m": 100
+  },
+  "notVisual": ["body", "isSelected", "showCheckbox", "multiple"],
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["illustration", "label"],
+      "props": {
+        "direction": [
+          {
+            "when": {
+              "options": {
+                "orientation": "horizontal"
+              }
+            },
+            "value": "row"
+          },
+          {
+            "value": "column"
+          }
+        ],
+        "align": {
+          "value": "center"
+        },
+        "justify": {
+          "value": "center"
+        },
+        "height": {
+          "when": {
+            "options": {
+              "orientation": "vertical"
+            }
+          },
+          "relationship": {
+            "property": "height",
+            "part": "container"
+          }
+        },
+        "minWidth": {
+          "when": {
+            "options": {
+              "orientation": "horizontal"
+            }
+          },
+          "relationship": {
+            "property": "minimum-width",
+            "part": "container"
+          }
+        },
+        "paddingInlineStart": [
+          {
+            "when": {
+              "options": {
+                "orientation": "horizontal"
+              }
+            },
+            "relationship": {
+              "property": "space-between",
+              "part": "container",
+              "between": {
+                "from": "start-edge",
+                "to": "content"
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "orientation": "vertical"
+              }
+            },
+            "relationship": {
+              "property": "padding",
+              "part": "container"
+            }
+          }
+        ],
+        "paddingInlineEnd": [
+          {
+            "when": {
+              "options": {
+                "orientation": "horizontal"
+              }
+            },
+            "relationship": {
+              "property": "space-between",
+              "part": "container",
+              "between": {
+                "from": "end-edge",
+                "to": "content"
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "orientation": "vertical"
+              }
+            },
+            "relationship": {
+              "property": "padding",
+              "part": "container"
+            }
+          }
+        ],
+        "paddingBlockStart": [
+          {
+            "when": {
+              "options": {
+                "orientation": "horizontal"
+              }
+            },
+            "relationship": {
+              "property": "space-between",
+              "part": "container",
+              "between": {
+                "from": "top-edge",
+                "to": "content"
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "orientation": "vertical"
+              }
+            },
+            "relationship": {
+              "property": "padding",
+              "part": "container"
+            }
+          }
+        ],
+        "paddingBlockEnd": [
+          {
+            "when": {
+              "options": {
+                "orientation": "horizontal"
+              }
+            },
+            "relationship": {
+              "property": "space-between",
+              "part": "container",
+              "between": {
+                "from": "top-edge",
+                "to": "content"
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "orientation": "vertical"
+              }
+            },
+            "relationship": {
+              "property": "padding",
+              "part": "container"
+            }
+          }
+        ],
+        "cornerRadius": {
+          "relationship": {
+            "property": "corner-radius",
+            "part": "container"
+          }
+        },
+        "fill": [
+          {
+            "when": {
+              "options": {
+                "isDisabled": true
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "part": "container",
+              "attribute": "background"
+            }
+          },
+          {
+            "relationship": {
+              "property": "color",
+              "part": "container",
+              "attribute": "background"
+            }
+          }
+        ],
+        "shadow": {
+          "shadow": [
+            {
+              "x": {
+                "relationship": {
+                  "property": "x",
+                  "part": "container",
+                  "attribute": "shadow"
+                }
+              },
+              "y": {
+                "relationship": {
+                  "property": "y",
+                  "part": "container",
+                  "attribute": "shadow"
+                }
+              },
+              "blur": {
+                "relationship": {
+                  "property": "blur",
+                  "part": "container",
+                  "attribute": "shadow"
+                }
+              },
+              "color": {
+                "relationship": {
+                  "property": "color",
+                  "part": "container",
+                  "attribute": "shadow"
+                }
+              }
+            }
+          ]
+        },
+        "pressDifference": {
+          "when": {
+            "states": ["down"]
+          },
+          "relationship": {
+            "property": "component-size-difference",
+            "part": "container"
+          }
+        },
+        "pressWidthRatio": {
+          "when": {
+            "states": ["down"]
+          },
+          "relationship": {
+            "property": "component-size-width-ratio",
+            "part": "container"
+          }
+        },
+        "pressMinPerspective": {
+          "when": {
+            "states": ["down"]
+          },
+          "relationship": {
+            "property": "component-size-minimum-perspective",
+            "part": "container"
+          }
+        }
+      }
+    },
+    "illustration": {
+      "kind": "box",
+      "image": {
+        "source": {
+          "option": "illustration"
+        },
+        "fit": "contain"
+      },
+      "props": {}
+    },
+    "label": {
+      "kind": "text",
+      "text": {
+        "option": "label"
+      },
+      "props": {
+        "fontFamily": {
+          "relationship": {
+            "property": "font-family",
+            "part": "label"
+          }
+        },
+        "fontSize": {
+          "relationship": {
+            "property": "font-size",
+            "part": "label"
+          }
+        },
+        "fontWeight": {
+          "relationship": {
+            "property": "font-weight",
+            "part": "label"
+          }
+        },
+        "lineHeight": {
+          "relationship": {
+            "property": "line-height",
+            "part": "label"
+          }
+        },
+        "overflow": {
+          "value": "wrap"
+        },
+        "color": {
+          "when": {
+            "options": {
+              "isDisabled": true
+            }
+          },
+          "relationship": {
+            "property": "content-color",
+            "part": "label"
+          }
+        }
+      }
+    }
+  }
+}

@@ -59,6 +59,14 @@
       "type": "string",
       "description": "Optional illustration or icon displayed above the title."
     },
+    "title": {
+      "type": "string",
+      "description": "Primary heading text of the drop zone."
+    },
+    "description": {
+      "type": "string",
+      "description": "Secondary descriptive text, such as the accepted file types."
+    },
     "accept": {
       "type": "array",
       "items": {
