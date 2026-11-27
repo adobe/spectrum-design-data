@@ -105,6 +105,8 @@ pub(crate) struct Machine {
     pub(crate) state: Vec<String>,
     /// The contract's own `range` block (decision A658), read by `do.adjust`.
     pub(crate) range: Option<Value>,
+    /// The contract's own `ranges`: one `range` block per axis (color-area `x` and `y`).
+    pub(crate) ranges: Option<Value>,
 }
 
 fn extends(raw: &Value) -> Vec<String> {
@@ -145,6 +147,7 @@ pub(crate) fn flatten(
             .cloned()
             .unwrap_or_default(),
         range: contract.get("range").cloned(),
+        ranges: contract.get("ranges").cloned(),
         state: contract
             .get("state")
             .and_then(Value::as_array)
@@ -312,6 +315,9 @@ struct Run<'a> {
     pending: Vec<(String, Option<String>)>,
     /// The logical position (0 to 1) of the `move` step being run.
     position: Option<f64>,
+    /// The `axis` of the step being run: which block of `ranges` an `adjust` without its own
+    /// `axis` addresses.
+    axis: Option<String>,
 }
 
 /// A whole number stays whole (41, never 41.0), so a value compares and reads the same however a
@@ -329,15 +335,46 @@ fn norm(v: &Value) -> Value {
 }
 
 impl Run<'_> {
+    /// The `range` block an `adjust` addresses: the contract's `range`, or one of its `ranges`
+    /// by axis (the action's own `axis`, else the step's).
+    fn block(&self, own: Option<&str>) -> Result<&Value, String> {
+        let axis = match (own, self.axis.as_deref()) {
+            (Some(a), Some(b)) if a != b => {
+                return Err(format!(
+                    "the action addresses axis '{a}', but the step names axis '{b}'"
+                ))
+            }
+            (a, b) => a.or(b),
+        };
+        match (&self.m.range, &self.m.ranges, axis) {
+            (Some(r), None, None) => Ok(r),
+            (Some(_), None, Some(a)) => Err(format!(
+                "axis '{a}', but the contract has a single `range`, not `ranges`"
+            )),
+            (None, Some(rs), Some(a)) => rs.get(a).ok_or_else(|| {
+                let known: Vec<&str> = rs
+                    .as_object()
+                    .into_iter()
+                    .flat_map(|o| o.keys().map(String::as_str))
+                    .collect();
+                format!(
+                    "unknown axis '{a}' (the `ranges` have {})",
+                    known.join(", ")
+                )
+            }),
+            (None, Some(_), None) => {
+                Err("the contract has `ranges`: the action or the step must name an `axis`".into())
+            }
+            (Some(_), Some(_), _) => Err("the contract has both `range` and `ranges`".into()),
+            (None, None, _) => Err("`do.adjust`, but the contract has no `range`".into()),
+        }
+    }
+
     /// `do.adjust` on the contract's `range`: the option, its value now and its value after. The
     /// result is snapped to the step from the minimum (half away from the minimum, rounded to 10
     /// decimals against float noise), then clamped. `min` and `max` set the bound exactly.
     fn adjust(&self, a: &Value) -> Result<(String, Value, Value), String> {
-        let r = self
-            .m
-            .range
-            .as_ref()
-            .ok_or("`do.adjust`, but the contract has no `range`")?;
+        let r = self.block(a.get("axis").and_then(Value::as_str))?;
         let name = r
             .get("value")
             .and_then(Value::as_str)
@@ -367,6 +404,13 @@ impl Run<'_> {
             let s = min + q.round() * step;
             ((s * 1e10).round() / 1e10).clamp(min, max)
         };
+        let wrap = r.get("wrap").and_then(Value::as_bool) == Some(true);
+        let span = max - min;
+        if wrap && (span <= 0.0 || ((span / step) * 1e9).round() % 1e9 != 0.0) {
+            return Err(format!(
+                "the range wraps, so its span {span} must be above 0 and a multiple of the step {step}"
+            ));
+        }
         let now = read(name, min)?;
         let next = match a.get("to").and_then(Value::as_str) {
             Some("min") => min,
@@ -393,7 +437,28 @@ impl Run<'_> {
                     },
                     _ => step,
                 };
-                snap(now + by * size)
+                if wrap {
+                    // A cycle: max is min again, so a step reduces into [min, max) and only
+                    // `to: max` or a `move` to 1 reaches max.
+                    let raw = ((now + by * size) * 1e10).round() / 1e10;
+                    let x = min + (raw - min).rem_euclid(span);
+                    if !x.is_finite() {
+                        return Err(format!(
+                            "the value {now} is too large to wrap (unsupported above 1e298)"
+                        ));
+                    }
+                    let s = ((min + (((x - min) / step * 1e9).round() / 1e9).round() * step)
+                        * 1e10)
+                        .round()
+                        / 1e10;
+                    if s >= max {
+                        s - span
+                    } else {
+                        s
+                    }
+                } else {
+                    snap(now + by * size)
+                }
             }
         };
         Ok((name.to_string(), norm(&json!(now)), norm(&json!(next))))
@@ -667,6 +732,7 @@ fn run_vector(
         in_group: false,
         pending: Vec::new(),
         position: None,
+        axis: None,
     };
     let mut failures = Vec::new();
     let expects = v.get("expect").and_then(Value::as_array);
@@ -685,6 +751,7 @@ fn run_vector(
     for (i, s) in steps.iter().enumerate() {
         let n = i + 1;
         run.position = s.get("position").and_then(Value::as_f64);
+        run.axis = s.get("axis").and_then(Value::as_str).map(String::from);
         let raised = if let Some(input) = s.get("input") {
             let field = |f: &str| input.get(f).and_then(Value::as_str).unwrap_or_default();
             let bindings = bindings.ok_or_else(|| {
@@ -989,17 +1056,30 @@ pub fn check_contract(
             }
         }
     }
-    for k in ["value", "min", "max", "step"] {
-        if let Some(o) = m
-            .range
+    if m.range.is_some() && m.ranges.is_some() {
+        out.push("the contract has both `range` and `ranges`".into());
+    }
+    let blocks = m.range.iter().map(|r| ("range".to_string(), r)).chain(
+        m.ranges
             .as_ref()
-            .and_then(|r| r.get(k))
-            .and_then(Value::as_str)
-        {
-            if !state.contains(&o) {
-                out.push(format!(
-                    "`range.{k}` names '{o}', which `state` does not list"
-                ));
+            .and_then(Value::as_object)
+            .into_iter()
+            .flatten()
+            .map(|(a, r)| (format!("ranges.{a}"), r)),
+    );
+    for (at, r) in blocks {
+        if at != "range" && r.get("mirror").is_some() {
+            out.push(format!(
+                "`{at}` has a `mirror`, which only a single `range` takes"
+            ));
+        }
+        for k in ["value", "min", "max", "step"] {
+            if let Some(o) = r.get(k).and_then(Value::as_str) {
+                if !state.contains(&o) {
+                    out.push(format!(
+                        "`{at}.{k}` names '{o}', which `state` does not list"
+                    ));
+                }
             }
         }
     }
