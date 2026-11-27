@@ -82,6 +82,11 @@
       "default": false,
       "description": "Whether the row is disabled. Per row it is items[].isDisabled."
     },
+    "isFocusVisible": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the row shows the keyboard focus ring. Only one row holds keyboard focus at a time. Per row it is items[].isFocusVisible."
+    },
     "description": {
       "type": "string",
       "description": "Secondary text under the label. Per row it is items[].description."
@@ -124,6 +129,11 @@
             "type": "boolean",
             "default": false,
             "description": "If true, the item is selected."
+          },
+          "isFocusVisible": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, the item shows the keyboard focus ring."
           },
           "overflowMode": {
             "type": "string",
@@ -238,7 +248,9 @@
       "name": "focus-indicator",
       "description": "Outline drawn around the focused item.",
       "presentWhen": {
-        "states": ["keyboard-focus"]
+        "options": {
+          "isFocusVisible": true
+        }
       }
     }
   ],
