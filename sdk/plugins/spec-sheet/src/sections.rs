@@ -861,4 +861,30 @@ mod tests {
             ]
         );
     }
+
+    /// A key that two entries bind is listed once, keys sort by the registry default order and
+    /// then by binding order, and the Note names the role.
+    #[test]
+    fn keys_are_deduplicated_ordered_and_the_note_names_the_role() {
+        let web = json!({ "roles": { "r": { "keyboard": [
+            { "key": "End", "down": "set-max" },
+            { "key": "ArrowRight", "down": "increment" },
+            { "key": "PageUp", "down": "increment" },
+            { "key": "ArrowUp", "down": "increment" },
+            { "key": "ArrowRight", "up": "increment" },
+            { "key": "Home", "down": "set-max" }
+        ] } } });
+        let rows = keyboard_rows(&["increment", "set-max"], Some("r"), Some(&web));
+        assert_eq!(
+            rows,
+            [
+                [
+                    "increment",
+                    "ArrowUp, ArrowRight, PageUp",
+                    "Web key bindings (r)"
+                ],
+                ["set-max", "End, Home", "Web key bindings (r)"],
+            ]
+        );
+    }
 }

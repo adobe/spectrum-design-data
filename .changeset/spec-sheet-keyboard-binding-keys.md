@@ -10,5 +10,7 @@ Spec sheet Keyboard table lists the keys of the web key bindings, not the regist
   ArrowRight or ArrowLeft, slider, color slider and rating gain Page and Home/End keys.
 - **sdk/plugins/spec-sheet**: color wheel and color area (no part role) drop the page and min/max
   rows that had an empty Keys cell. A contract with no bound role keeps the default keys.
+- **sdk/plugins/spec-sheet**: 18 sheets change: the 15 above plus text-field and text-area (no
+  empty `clear` and `submit` rows, so no Keyboard block) and search-field (Escape and Enter).
 - **sdk/cli**: the spec-sheet graph loads `behaviors/bindings`.
 - **packages/design-data-spec/spec/accessibility.md**: documents the rule.
