@@ -502,6 +502,10 @@
           "minProperties": 1,
           "additionalProperties": { "type": ["boolean", "string", "number"] },
           "description": "With `copy`: the attribute is absent while every listed option has the listed value (an indeterminate progress bar has no value)."
+        },
+        "axis": {
+          "$ref": "#/$defs/name",
+          "description": "A `ranges` contract: the axis this attribute belongs to, so two entries can expose the same attribute (`aria-valuenow` for x and for y). An entry with an axis is read through `axisAria` in a vector's `expect`, not `aria`. Must be a key of `ranges`; not allowed on a contract with a single `range`, and an attribute may appear once per axis."
         }
       },
       "oneOf": [
@@ -645,7 +649,18 @@
                 "type": "object",
                 "minProperties": 1,
                 "additionalProperties": { "type": ["string", "null"] },
-                "description": "Accessibility attributes the contract's `semantics` expose after the step: attribute name to its value, or `null` when it is absent."
+                "description": "Accessibility attributes the contract's `semantics` expose after the step: attribute name to its value, or `null` when it is absent. Attributes whose semantics entry names an `axis` are read through `axisAria`."
+              },
+              "axisAria": {
+                "type": "object",
+                "minProperties": 1,
+                "propertyNames": { "$ref": "#/$defs/name" },
+                "additionalProperties": {
+                  "type": "object",
+                  "minProperties": 1,
+                  "additionalProperties": { "type": ["string", "null"] }
+                },
+                "description": "A `ranges` contract: per axis (a key of `ranges`), the attributes the semantics entries that name that `axis` expose after the step, as for `aria`."
               }
             },
             "additionalProperties": false

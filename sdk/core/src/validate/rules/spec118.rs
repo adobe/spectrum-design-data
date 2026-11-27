@@ -242,6 +242,14 @@ impl ValidationRule for Rule {
                     }
                 }
             }
+            let axes: Vec<&str> = b
+                .raw
+                .get("ranges")
+                .and_then(Value::as_object)
+                .into_iter()
+                .flat_map(|o| o.keys().map(String::as_str))
+                .collect();
+            let mut exposed: Vec<(&str, &str)> = Vec::new();
             for (part, facets) in b
                 .raw
                 .get("semantics")
@@ -251,6 +259,27 @@ impl ValidationRule for Rule {
             {
                 for (facet, sem) in facets.as_object().into_iter().flatten() {
                     let path = format!("/semantics/{part}/{facet}");
+                    if let Some(axis) = sem.get("axis").and_then(Value::as_str) {
+                        if !axes.contains(&axis) {
+                            problem(
+                                &path,
+                                if b.raw.get("range").is_some() {
+                                    format!("names axis '{axis}', but the contract has a single `range`: an axis needs `ranges`")
+                                } else {
+                                    format!("names axis '{axis}', which the contract's `ranges` do not declare")
+                                },
+                            );
+                        }
+                        if let Some(attr) = sem.get("ariaState").and_then(Value::as_str) {
+                            if exposed.contains(&(axis, attr)) {
+                                problem(
+                                    &path,
+                                    format!("exposes '{attr}' for axis '{axis}' a second time"),
+                                );
+                            }
+                            exposed.push((axis, attr));
+                        }
+                    }
                     if sem.get("copy") == Some(&Value::Bool(true)) {
                         let absent = sem
                             .get("absentWhen")
@@ -447,6 +476,52 @@ mod tests {
                     |c| c["semantics"]["track"]["isSelected"] = json!({ "ariaState": "aria-valuenow", "copy": true, "absentWhen": { "isGhost": true } }),
                 ),
                 "'isGhost'",
+            ),
+        ];
+        for (edit, why) in cases {
+            let m = check(edit);
+            assert!(m.iter().any(|m| m.contains(why)), "{why}: {m:?}");
+        }
+    }
+
+    #[test]
+    fn flags_a_semantics_axis_that_does_not_resolve() {
+        let axis =
+            |attr: &str, axis: &str| json!({ "ariaState": attr, "copy": true, "axis": axis });
+        let ranged = |c: &mut serde_json::Value| {
+            c["state"] = json!(["isSelected", "isDisabled"]);
+            c["ranges"] = json!({ "x": { "value": "isSelected" }, "y": { "value": "isDisabled" } });
+        };
+        let ok = check(|c| {
+            ranged(c);
+            c["semantics"]["track"]["isSelected"] = axis("aria-valuenow", "x");
+            c["semantics"]["track"]["isDisabled"] = axis("aria-valuenow", "y");
+        });
+        assert!(ok.is_empty(), "{ok:?}");
+        let cases: Vec<Case> = vec![
+            (
+                Box::new(move |c| {
+                    ranged(c);
+                    c["semantics"]["track"]["isSelected"] = axis("aria-valuenow", "z");
+                }),
+                "'z', which the contract's `ranges` do not declare",
+            ),
+            (
+                Box::new(|c| {
+                    c["state"] = json!(["isSelected", "isDisabled"]);
+                    c["range"] = json!({ "value": "isSelected" });
+                    c["semantics"]["track"]["isSelected"] =
+                        json!({ "ariaState": "aria-valuenow", "copy": true, "axis": "x" });
+                }),
+                "single `range`",
+            ),
+            (
+                Box::new(move |c| {
+                    ranged(c);
+                    c["semantics"]["track"]["isSelected"] = axis("aria-valuenow", "x");
+                    c["semantics"]["track"]["isDisabled"] = axis("aria-valuenow", "x");
+                }),
+                "'aria-valuenow' for axis 'x' a second time",
             ),
         ];
         for (edit, why) in cases {

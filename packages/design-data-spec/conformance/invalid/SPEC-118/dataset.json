@@ -224,6 +224,25 @@
           "role": "switch",
           "focus": "tab-stop"
         }
+      },
+      "ranges": {
+        "x": {
+          "value": "isSelected"
+        }
+      },
+      "semantics": {
+        "track": {
+          "isSelected": {
+            "ariaState": "aria-valuenow",
+            "copy": true,
+            "axis": "z"
+          },
+          "isDisabled": {
+            "ariaState": "aria-valuenow",
+            "copy": true,
+            "axis": "z"
+          }
+        }
       }
     }
   ],

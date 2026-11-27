@@ -244,10 +244,13 @@ fn derive(
 /// The accessibility attributes the contract's `semantics` expose in the current state: attribute
 /// name to its value, `None` when absent. A facet entry (`map`) reads the facet's value; a `copy`
 /// entry reads the option itself and is absent while the option is unset or `absentWhen` holds.
+/// `axis` selects the entries that name that axis (`ranges` contracts); `None` selects the entries
+/// that name none.
 fn aria_state(
     m: &Machine,
     options: &Map<String, Value>,
     facets: &BTreeMap<String, String>,
+    axis: Option<&str>,
 ) -> BTreeMap<String, Option<String>> {
     let mut out = BTreeMap::new();
     for entries in m.semantics.values().filter_map(Value::as_object) {
@@ -255,6 +258,9 @@ fn aria_state(
             let Some(attr) = sem.get("ariaState").and_then(Value::as_str) else {
                 continue;
             };
+            if sem.get("axis").and_then(Value::as_str) != axis {
+                continue;
+            }
             let value = if sem.get("copy") == Some(&Value::Bool(true)) {
                 let absent = sem
                     .get("absentWhen")
@@ -272,6 +278,27 @@ fn aria_state(
         }
     }
     out
+}
+
+/// The axes the contract's `ranges` declare (none for a single `range`).
+fn axes_of(m: &Machine) -> Vec<&str> {
+    m.ranges
+        .as_ref()
+        .and_then(Value::as_object)
+        .into_iter()
+        .flat_map(|o| o.keys().map(String::as_str))
+        .collect()
+}
+
+/// Whether a semantics entry names `attr` with an axis.
+fn per_axis(m: &Machine, attr: &str) -> bool {
+    m.semantics
+        .values()
+        .filter_map(Value::as_object)
+        .flat_map(|e| e.values())
+        .any(|s| {
+            s.get("ariaState").and_then(Value::as_str) == Some(attr) && s.get("axis").is_some()
+        })
 }
 
 fn holds(guard: &Value, facets: &BTreeMap<String, String>) -> Result<bool, String> {
@@ -883,7 +910,7 @@ fn run_vector(
                     _ => {}
                 }
             }
-            let aria = aria_state(m, &run.options, &facets);
+            let aria = aria_state(m, &run.options, &facets, None);
             for (attr, want) in e
                 .get("aria")
                 .and_then(Value::as_object)
@@ -892,6 +919,9 @@ fn run_vector(
             {
                 let want = want.as_str();
                 match aria.get(attr) {
+                    None if per_axis(m, attr) => failures.push(format!(
+                        "after step {n}: the contract exposes '{attr}' per axis: read it in `axisAria`"
+                    )),
                     None => failures.push(format!(
                         "after step {n}: the contract's semantics expose no attribute '{attr}'"
                     )),
@@ -901,6 +931,34 @@ fn run_vector(
                         got.as_deref().unwrap_or("absent")
                     )),
                     _ => {}
+                }
+            }
+            for (axis, wants) in e
+                .get("axisAria")
+                .and_then(Value::as_object)
+                .into_iter()
+                .flatten()
+            {
+                if !axes_of(m).contains(&axis.as_str()) {
+                    failures.push(format!(
+                        "after step {n}: `axisAria` names axis '{axis}', which the contract's `ranges` do not declare"
+                    ));
+                    continue;
+                }
+                let aria = aria_state(m, &run.options, &facets, Some(axis));
+                for (attr, want) in wants.as_object().into_iter().flatten() {
+                    let want = want.as_str();
+                    match aria.get(attr) {
+                        None => failures.push(format!(
+                            "after step {n}: the contract's semantics expose no attribute '{attr}' for axis '{axis}'"
+                        )),
+                        Some(got) if got.as_deref() != want => failures.push(format!(
+                            "after step {n}: axis '{axis}' '{attr}' want {} got {}",
+                            want.unwrap_or("absent"),
+                            got.as_deref().unwrap_or("absent")
+                        )),
+                        _ => {}
+                    }
                 }
             }
             if let Some(g) = &group {
@@ -1117,6 +1175,30 @@ pub fn check_contract(
                         "`{at}.{k}` names '{o}', which `state` does not list"
                     ));
                 }
+            }
+        }
+    }
+    let axes = axes_of(&m);
+    let mut seen: Vec<(&str, &str)> = Vec::new();
+    for (part, entries) in &m.semantics {
+        for (key, sem) in entries.as_object().into_iter().flatten() {
+            let Some(axis) = sem.get("axis").and_then(Value::as_str) else {
+                continue;
+            };
+            if !axes.contains(&axis) {
+                out.push(if m.range.is_some() {
+                    format!("`semantics.{part}.{key}` names axis '{axis}', but the contract has a single `range`: an axis needs `ranges`")
+                } else {
+                    format!("`semantics.{part}.{key}` names axis '{axis}', which the contract's `ranges` do not declare")
+                });
+            }
+            if let Some(attr) = sem.get("ariaState").and_then(Value::as_str) {
+                if seen.contains(&(axis, attr)) {
+                    out.push(format!(
+                        "`semantics.{part}.{key}` exposes '{attr}' for axis '{axis}' a second time"
+                    ));
+                }
+                seen.push((axis, attr));
             }
         }
     }

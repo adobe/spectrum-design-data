@@ -326,7 +326,7 @@ impl<'a> Group<'a> {
                 ));
                 continue;
             };
-            let aria = aria_state(self.item_m, &item.options, &item.facets());
+            let aria = aria_state(self.item_m, &item.options, &item.facets(), None);
             for (attr, want) in want {
                 let want = want.as_str();
                 match aria.get(attr) {

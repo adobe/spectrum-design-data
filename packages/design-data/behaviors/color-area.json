@@ -31,6 +31,40 @@
       "focus": "tab-stop"
     }
   },
+  "semantics": {
+    "color-handle": {
+      "x-value": {
+        "ariaState": "aria-valuenow",
+        "copy": true,
+        "axis": "x"
+      },
+      "x-minValue": {
+        "ariaState": "aria-valuemin",
+        "copy": true,
+        "axis": "x"
+      },
+      "x-maxValue": {
+        "ariaState": "aria-valuemax",
+        "copy": true,
+        "axis": "x"
+      },
+      "y-value": {
+        "ariaState": "aria-valuenow",
+        "copy": true,
+        "axis": "y"
+      },
+      "y-minValue": {
+        "ariaState": "aria-valuemin",
+        "copy": true,
+        "axis": "y"
+      },
+      "y-maxValue": {
+        "ariaState": "aria-valuemax",
+        "copy": true,
+        "axis": "y"
+      }
+    }
+  },
   "wcag": [
     {
       "criterion": "1.3.1",
