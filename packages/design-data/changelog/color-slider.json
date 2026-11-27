@@ -305,6 +305,25 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.9.0",
+      "version": "2.2.2",
+      "bump": "patch",
+      "date": "2026-11-27",
+      "commit": "7a22cbd98e481c2d56af60373b60312c4008a14e",
+      "commits": [
+        {
+          "commit": "7161bb00cb098860da8b68a7859f4a2d5ae1c6f2",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2197,"title":"feat(sdk): show the derived legacy name for every token and drop 164 pins","url":"https://github.com/adobe/spectrum-design-data/pull/2197"},
+          "entries": [
+            {"id":"7161bb00-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (field label value to track)"],"record":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d","name":"padding-vertical[size=s,structure=base]","fields":[{"path":"name.legacyKey","before":"base-padding-vertical-small"}]},
+            {"id":"7161bb00-1","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Length"],"record":"f7cb09c8-a44c-4455-bffd-199b76fd1c25","name":"width[anatomy=bar,scale=desktop,size=l]","fields":[{"path":"name.legacyKey","before":"bar-width-large"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-2","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Length"],"record":"ec422181-d393-5f76-83c9-fc6a1a354262","name":"width[anatomy=bar,scale=mobile,size=l]","fields":[{"path":"name.legacyKey","before":"bar-width-large"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."}
+          ]
+        }
+      ]
     }
   ]
 }

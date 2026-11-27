@@ -501,6 +501,37 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.9.0",
+      "version": "2.1.2",
+      "bump": "patch",
+      "date": "2026-11-27",
+      "commit": "7a22cbd98e481c2d56af60373b60312c4008a14e",
+      "commits": [
+        {
+          "commit": "7161bb00cb098860da8b68a7859f4a2d5ae1c6f2",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2197,"title":"feat(sdk): show the derived legacy name for every token and drop 164 pins","url":"https://github.com/adobe/spectrum-design-data/pull/2197"},
+          "entries": [
+            {"id":"7161bb00-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Focus indicator"],"record":"fe914904-a368-414b-a4ac-21c0b0340d05","name":"color[object=focus-indicator]","fields":[{"path":"name.legacyKey","before":"focus-indicator-color"}]},
+            {"id":"7161bb00-1","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (icon to label)"],"record":"9898011f-a47c-4d5d-a74e-70b5f8d0b91c","name":"gap[size=m,structure=base]","fields":[{"path":"name.legacyKey","before":"base-gap-medium"}]},
+            {"id":"7161bb00-2","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (vertically between side-nav items)"],"record":"b7e1af59-753e-4059-8f46-8d862f631ad8","name":"gap[structure=list,weight=regular]","fields":[{"path":"name.legacyKey","before":"list-gap-regular"}]},
+            {"id":"7161bb00-3","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Minimum height"],"record":"61de58a3-53ed-4dd8-8937-08920b00968c","name":"height[scale=desktop,size=m,structure=base]","fields":[{"path":"name.legacyKey","before":"base-height-medium"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-4","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Minimum height"],"record":"e770bf1c-435f-5480-962d-c4cac4480ee7","name":"height[scale=mobile,size=m,structure=base]","fields":[{"path":"name.legacyKey","before":"base-height-medium"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"7161bb00-5","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (single-level, start/end to content)"],"record":"52a75511-eb1b-4de2-a1bb-959365d8dc1a","name":"padding-horizontal[scale=desktop,size=m,structure=base]","fields":[{"path":"name.legacyKey","before":"base-padding-horizontal-medium"}]},
+            {"id":"7161bb00-6","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (edge to disclosure icon)"],"record":"ba072414-2cdd-4773-86a5-11ca47c08e23","name":"padding-horizontal[scale=desktop,size=s,structure=base]","fields":[{"path":"name.legacyKey","before":"base-padding-horizontal-small"}]},
+            {"id":"7161bb00-7","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (single-level, start/end to content)"],"record":"71731484-e759-4a5f-89ed-9fe04ac19aed","name":"padding-horizontal[scale=mobile,size=m,structure=base]","fields":[{"path":"name.legacyKey","before":"base-padding-horizontal-medium"}]},
+            {"id":"7161bb00-8","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (edge to disclosure icon)"],"record":"6b43633d-8f29-4c24-b26e-687d6f161bce","name":"padding-horizontal[scale=mobile,size=s,structure=base]","fields":[{"path":"name.legacyKey","before":"base-padding-horizontal-small"}]},
+            {"id":"7161bb00-9","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (label wrapping)","Spacing (top edge to icon)","Spacing (top edge to label)","Spacing (vertically between side-nav item and side-nav title)"],"record":"5741f832-f012-45bc-9e87-6e07ab2cb87f","name":"padding-vertical[size=m,structure=base]","fields":[{"path":"name.legacyKey","before":"base-padding-vertical-medium"}]},
+            {"id":"7161bb00-10","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Side navigation indicator"],"record":"89766302-b727-438e-bf4b-7549b98569cf","name":"size[anatomy=visual,scale=desktop,size=m,structure=base]","fields":[{"path":"name.legacyKey","before":"base-visual-size-medium"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-11","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Side navigation indicator"],"record":"c70c700f-c459-5a57-8c78-42873b0727cd","name":"size[anatomy=visual,scale=mobile,size=m,structure=base]","fields":[{"path":"name.legacyKey","before":"base-visual-size-medium"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"7161bb00-12","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Side navigation indicator"],"record":"3766d95f-33c6-4b9d-84c8-1a546ee98d32","name":"thickness[anatomy=bar,size=xs]","fields":[{"path":"name.legacyKey","before":"bar-thickness-extra-small"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-13","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Width (default)"],"record":"ef6d6538-212a-45ff-9fbc-f9276af09c27","name":"width[scale=desktop,structure=list]","fields":[{"path":"name.legacyKey","before":"list-width"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-14","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Width (default)"],"record":"aa52bf54-a17a-5c95-985a-f5bb45809323","name":"width[scale=mobile,structure=list]","fields":[{"path":"name.legacyKey","before":"list-width"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."}
+          ]
+        }
+      ]
     }
   ]
 }

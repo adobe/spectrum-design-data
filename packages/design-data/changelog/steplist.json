@@ -457,6 +457,28 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.9.0",
+      "version": "2.3.2",
+      "bump": "patch",
+      "date": "2026-11-27",
+      "commit": "7a22cbd98e481c2d56af60373b60312c4008a14e",
+      "commits": [
+        {
+          "commit": "7161bb00cb098860da8b68a7859f4a2d5ae1c6f2",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2197,"title":"feat(sdk): show the derived legacy name for every token and drop 164 pins","url":"https://github.com/adobe/spectrum-design-data/pull/2197"},
+          "entries": [
+            {"id":"7161bb00-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Step visual"],"record":"95cf1481-f476-47ce-a45a-54da64b44255","name":"color[object=background,state=?,variant=neutral]","fields":[{"path":"name.legacyKey","before":"neutral-background-color-default"}]},
+            {"id":"7161bb00-1","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (text to visual)"],"record":"2f10fab2-66e0-4007-9c01-9643d472ba3b","name":"gap[size=l,structure=base]","fields":[{"path":"name.legacyKey","before":"base-gap-large"}]},
+            {"id":"7161bb00-2","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (text to visual)"],"record":"9898011f-a47c-4d5d-a74e-70b5f8d0b91c","name":"gap[size=m,structure=base]","fields":[{"path":"name.legacyKey","before":"base-gap-medium"}]},
+            {"id":"7161bb00-3","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (text to visual)"],"record":"1247c1ab-9e31-482a-832c-d32911a1e698","name":"gap[size=s,structure=base]","fields":[{"path":"name.legacyKey","before":"base-gap-small"}]},
+            {"id":"7161bb00-4","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (text to visual)"],"record":"42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd","name":"gap[size=xl,structure=base]","fields":[{"path":"name.legacyKey","before":"base-gap-extra-large"}]},
+            {"id":"7161bb00-5","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Steplist track thickness"],"record":"3766d95f-33c6-4b9d-84c8-1a546ee98d32","name":"thickness[anatomy=bar,size=xs]","fields":[{"path":"name.legacyKey","before":"bar-thickness-extra-small"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"}
+          ]
+        }
+      ]
     }
   ]
 }

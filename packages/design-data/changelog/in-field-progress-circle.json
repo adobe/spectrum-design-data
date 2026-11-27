@@ -214,6 +214,24 @@
           "metadata": {"count":17,"fields":["context","contextRole","scope.part"]}
         }
       ]
+    },
+    {
+      "release": "4.9.0",
+      "version": "2.0.3",
+      "bump": "patch",
+      "date": "2026-11-27",
+      "commit": "7a22cbd98e481c2d56af60373b60312c4008a14e",
+      "commits": [
+        {
+          "commit": "365bf9f3b8f185ae1047195f6a40b88d68d77f78",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2212,"title":"feat(design-data): bind progress, divider and label recipes to structured identity","url":"https://github.com/adobe/spectrum-design-data/pull/2212"},
+          "entries": [
+            {"id":"365bf9f3-0","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"in-field-progress-circle/visual/parts/fill","name":"fill","fields":[{"path":"props.color.relationship.context","before":"Track and fill"},{"path":"props.color.relationship.part","after":"fill"},{"path":"props.height.relationship.context","before":"Size"},{"path":"props.height.relationship.part","after":"track"},{"path":"props.strokeWidth.relationship.context","before":"Thickness"},{"path":"props.strokeWidth.relationship.part","after":"track"},{"path":"props.width.relationship.context","before":"Size"},{"path":"props.width.relationship.part","after":"track"}]},
+            {"id":"365bf9f3-1","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"in-field-progress-circle/visual/parts/track","name":"track","fields":[{"path":"props.height.relationship.context","before":"Size"},{"path":"props.height.relationship.part","after":"track"},{"path":"props.stroke.relationship.context","before":"Track and fill"},{"path":"props.stroke.relationship.part","after":"track"},{"path":"props.strokeWidth.relationship.context","before":"Thickness"},{"path":"props.strokeWidth.relationship.part","after":"track"},{"path":"props.width.relationship.context","before":"Size"},{"path":"props.width.relationship.part","after":"track"}]}
+          ]
+        }
+      ]
     }
   ]
 }

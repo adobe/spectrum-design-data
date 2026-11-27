@@ -364,6 +364,40 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.9.0",
+      "version": "2.0.6",
+      "bump": "patch",
+      "date": "2026-11-27",
+      "commit": "7a22cbd98e481c2d56af60373b60312c4008a14e",
+      "commits": [
+        {
+          "commit": "7161bb00cb098860da8b68a7859f4a2d5ae1c6f2",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2197,"title":"feat(sdk): show the derived legacy name for every token and drop 164 pins","url":"https://github.com/adobe/spectrum-design-data/pull/2197"},
+          "entries": [
+            {"id":"7161bb00-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Track and indicator"],"record":"6f2bb13a-8579-495c-8fe3-0046b1f99b01","name":"color[object=track]","fields":[{"path":"name.legacyKey","before":"track-color"}]},
+            {"id":"7161bb00-1","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (field label to progress bar)"],"record":"2f10fab2-66e0-4007-9c01-9643d472ba3b","name":"gap[size=l,structure=base]","fields":[{"path":"name.legacyKey","before":"base-gap-large"}]},
+            {"id":"7161bb00-2","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (field label to progress bar)"],"record":"9898011f-a47c-4d5d-a74e-70b5f8d0b91c","name":"gap[size=m,structure=base]","fields":[{"path":"name.legacyKey","before":"base-gap-medium"}]},
+            {"id":"7161bb00-3","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (field label to progress bar)"],"record":"1247c1ab-9e31-482a-832c-d32911a1e698","name":"gap[size=s,structure=base]","fields":[{"path":"name.legacyKey","before":"base-gap-small"}]},
+            {"id":"7161bb00-4","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (field label to progress bar)"],"record":"42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd","name":"gap[size=xl,structure=base]","fields":[{"path":"name.legacyKey","before":"base-gap-extra-large"}]},
+            {"id":"7161bb00-5","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Minimum width"],"record":"3f50af14-ea93-4819-a04f-49b17139b0a0","name":"minimum-width[anatomy=bar,size=xl]","fields":[{"path":"name.legacyKey","before":"bar-minimum-width-extra-large"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-6","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (top edge to text)"],"record":"cc707192-e70f-4965-8582-55fa97d02184","name":"padding-vertical[size=l,structure=base]","fields":[{"path":"name.legacyKey","before":"base-padding-vertical-large"}]},
+            {"id":"7161bb00-7","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (top edge to text)"],"record":"5741f832-f012-45bc-9e87-6e07ab2cb87f","name":"padding-vertical[size=m,structure=base]","fields":[{"path":"name.legacyKey","before":"base-padding-vertical-medium"}]},
+            {"id":"7161bb00-8","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (top edge to text)"],"record":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d","name":"padding-vertical[size=s,structure=base]","fields":[{"path":"name.legacyKey","before":"base-padding-vertical-small"}]},
+            {"id":"7161bb00-9","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (top edge to text)"],"record":"62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc","name":"padding-vertical[size=xl,structure=base]","fields":[{"path":"name.legacyKey","before":"base-padding-vertical-extra-large"}]},
+            {"id":"7161bb00-10","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Thickness (track)"],"record":"46d32810-88b6-4c89-9536-965e85455bb0","name":"thickness[anatomy=bar,scale=desktop,size=l]","fields":[{"path":"name.legacyKey","before":"bar-thickness-large"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-11","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Thickness (track)"],"record":"11c5fc3c-1430-4d10-a3fb-76ef0aac0b3e","name":"thickness[anatomy=bar,scale=desktop,size=m]","fields":[{"path":"name.legacyKey","before":"bar-thickness-medium"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-12","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Thickness (track)"],"record":"5952b589-51da-4733-8606-6a8a93738df1","name":"thickness[anatomy=bar,scale=desktop,size=s]","fields":[{"path":"name.legacyKey","before":"bar-thickness-small"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-13","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Thickness (track)"],"record":"7bf2ad53-7c4f-4412-bb4a-7d6667e763bc","name":"thickness[anatomy=bar,scale=desktop,size=xl]","fields":[{"path":"name.legacyKey","before":"bar-thickness-extra-large"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-14","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Thickness (track)"],"record":"1167f6f4-6069-5158-af7e-4486c1abff3c","name":"thickness[anatomy=bar,scale=mobile,size=l]","fields":[{"path":"name.legacyKey","before":"bar-thickness-large"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"7161bb00-15","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Thickness (track)"],"record":"c426f1ca-5b7f-560a-9a83-d6fbba88e8bf","name":"thickness[anatomy=bar,scale=mobile,size=m]","fields":[{"path":"name.legacyKey","before":"bar-thickness-medium"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"7161bb00-16","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Thickness (track)"],"record":"2680a852-162b-527c-a292-35a053f8bd54","name":"thickness[anatomy=bar,scale=mobile,size=s]","fields":[{"path":"name.legacyKey","before":"bar-thickness-small"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"7161bb00-17","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Thickness (track)"],"record":"20a5f904-581b-5438-ace0-a0f9bfa76018","name":"thickness[anatomy=bar,scale=mobile,size=xl]","fields":[{"path":"name.legacyKey","before":"bar-thickness-extra-large"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."}
+          ]
+        }
+      ]
     }
   ]
 }

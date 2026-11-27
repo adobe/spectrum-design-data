@@ -197,6 +197,35 @@
           "metadata": {"count":14,"fields":["scope.part"]}
         }
       ]
+    },
+    {
+      "release": "4.9.0",
+      "version": "2.1.2",
+      "bump": "patch",
+      "date": "2026-11-27",
+      "commit": "7a22cbd98e481c2d56af60373b60312c4008a14e",
+      "commits": [
+        {
+          "commit": "7161bb00cb098860da8b68a7859f4a2d5ae1c6f2",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2197,"title":"feat(sdk): show the derived legacy name for every token and drop 164 pins","url":"https://github.com/adobe/spectrum-design-data/pull/2197"},
+          "entries": [
+            {"id":"7161bb00-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Horizontal","Vertical"],"record":"f639e3fe-0a2d-45be-8392-ee1e587f4840","name":"minimum-width[anatomy=bar,size=xxs]","fields":[{"path":"name.legacyKey","before":"bar-minimum-width-2x-small"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-1","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Thickness"],"record":"5952b589-51da-4733-8606-6a8a93738df1","name":"thickness[anatomy=bar,scale=desktop,size=s]","fields":[{"path":"name.legacyKey","before":"bar-thickness-small"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-2","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Thickness"],"record":"2680a852-162b-527c-a292-35a053f8bd54","name":"thickness[anatomy=bar,scale=mobile,size=s]","fields":[{"path":"name.legacyKey","before":"bar-thickness-small"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"7161bb00-3","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Thickness"],"record":"3766d95f-33c6-4b9d-84c8-1a546ee98d32","name":"thickness[anatomy=bar,size=xs]","fields":[{"path":"name.legacyKey","before":"bar-thickness-extra-small"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-4","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Thickness"],"record":"a53172f2-1e81-4691-9129-5b680f0b9863","name":"thickness[anatomy=bar,size=xxs]","fields":[{"path":"name.legacyKey","before":"bar-thickness-2x-small"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"}
+          ]
+        },
+        {
+          "commit": "365bf9f3b8f185ae1047195f6a40b88d68d77f78",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2212,"title":"feat(design-data): bind progress, divider and label recipes to structured identity","url":"https://github.com/adobe/spectrum-design-data/pull/2212"},
+          "entries": [
+            {"id":"365bf9f3-0","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"divider/visual/parts/line","name":"line","fields":[{"path":"props.fill.relationship.context","before":"Fill"},{"path":"props.fill.relationship.part","after":"line"},{"path":"props.height.relationship.context","before":"Thickness"},{"path":"props.height.relationship.part","after":"line"},{"path":"props.minHeight.relationship.context","before":"Vertical"},{"path":"props.minHeight.relationship.part","after":"line"},{"path":"props.minWidth.relationship.context","before":"Horizontal"},{"path":"props.minWidth.relationship.part","after":"line"},{"path":"props.width.relationship.context","before":"Thickness"},{"path":"props.width.relationship.part","after":"line"}]}
+          ]
+        }
+      ]
     }
   ]
 }
