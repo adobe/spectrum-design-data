@@ -27,11 +27,22 @@
           {
             "relationship": {
               "property": "corner-radius",
-              "part": "container"
+              "context": "Rounding (dialog option)"
             },
             "when": {
               "options": {
                 "variant": "dialog"
+              }
+            }
+          },
+          {
+            "relationship": {
+              "property": "corner-radius",
+              "context": "Rounding (full screen)"
+            },
+            "when": {
+              "options": {
+                "variant": "full screen"
               }
             }
           }
@@ -46,6 +57,18 @@
             "when": {
               "options": {
                 "variant": "dialog"
+              }
+            }
+          },
+          {
+            "relationship": {
+              "property": "color",
+              "part": "container",
+              "attribute": "background"
+            },
+            "when": {
+              "options": {
+                "variant": "full screen"
               }
             }
           }

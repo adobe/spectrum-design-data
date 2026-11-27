@@ -102,6 +102,72 @@
   {
     "scope": {
       "component": "takeover-dialog",
+      "part": "container",
+      "property": "corner-radius",
+      "options": {
+        "variant": "full screen"
+      }
+    },
+    "context": "Rounding (full screen)",
+    "contextRole": ["rounding"],
+    "contextQualifier": "full screen",
+    "$ref": "7a11b308-bed2-4b6f-bb4a-c9ae4ef8e03d",
+    "uuid": "5160e9bd-23ce-57f2-899e-f99b5b374435"
+  },
+  {
+    "scope": {
+      "component": "takeover-dialog",
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "light",
+        "variant": "full screen"
+      }
+    },
+    "context": "Background (full screen)",
+    "contextRole": ["background"],
+    "contextQualifier": "full screen",
+    "$ref": "b7b2bf98-b96a-40ca-b51e-5876d3418085",
+    "uuid": "ded4be6e-50d7-5fad-9cc5-874571e437f4"
+  },
+  {
+    "scope": {
+      "component": "takeover-dialog",
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "dark",
+        "variant": "full screen"
+      }
+    },
+    "context": "Background (full screen)",
+    "contextRole": ["background"],
+    "contextQualifier": "full screen",
+    "$ref": "e30b7936-6ae7-4ada-8892-94a1f67d55c9",
+    "uuid": "53be34bf-a52b-56d7-ab70-cec299dbe13d"
+  },
+  {
+    "scope": {
+      "component": "takeover-dialog",
+      "part": "container",
+      "property": "color",
+      "attribute": "background",
+      "options": {
+        "colorScheme": "wireframe",
+        "variant": "full screen"
+      }
+    },
+    "context": "Background (full screen)",
+    "contextRole": ["background"],
+    "contextQualifier": "full screen",
+    "$ref": "b834a6a5-e582-4450-b87a-57fa23e12179",
+    "uuid": "fa5818a9-0e79-5ba1-8060-3d17022119b7"
+  },
+  {
+    "scope": {
+      "component": "takeover-dialog",
       "part": "overlay",
       "property": "color"
     },
