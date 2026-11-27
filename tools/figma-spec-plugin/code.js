@@ -464,43 +464,48 @@ function tokenList(block) {
 }
 
 // Metadata-class changes are only counted per commit in the changelog JSON; rows list the rest.
-function changelogFrame(changelog, rev8) {
-  const f = auto("VERTICAL", { itemSpacing: 8 });
-  f.name = "Changelog";
-  f.appendChild(text("Changelog", 32, "Bold"));
-  const first = changelog.baseline
-    ? changelog.baseline.release
-    : "first release";
-  const latest = changelog.releases[changelog.releases.length - 1];
-  f.appendChild(
-    text(
-      "Version " +
-        (latest ? latest.version : "") +
-        " · from " +
-        first +
-        " · dataset " +
-        rev8,
-      13,
-    ),
-  );
+function changelogFrame(changelog, rev8, into) {
+  const f = into || auto("VERTICAL", { itemSpacing: 8 });
+  if (!into) {
+    f.name = "Changelog";
+    f.appendChild(text("Changelog", 32, "Bold"));
+    const first = changelog.baseline
+      ? changelog.baseline.release
+      : "first release";
+    const latest = changelog.version
+      ? { version: changelog.version }
+      : changelog.releases[changelog.releases.length - 1];
+    f.appendChild(
+      text(
+        "Version " +
+          (latest ? latest.version : "") +
+          " · from " +
+          first +
+          " · dataset " +
+          rev8,
+        13,
+      ),
+    );
+  }
   for (const rel of changelog.releases.slice().reverse()) {
     const commits = rel.commits
       .map((c) => ({ c, shown: c.entries }))
       .filter((x) => x.shown.length);
     if (!commits.length) continue;
-    f.appendChild(
-      text(
-        rel.version +
-          " · " +
-          (rel.bump || "first release") +
-          " · release " +
-          rel.release +
-          " · " +
-          rel.date,
-        16,
-        "Bold",
-      ),
-    );
+    if (!rel.cont)
+      f.appendChild(
+        text(
+          rel.version +
+            " · " +
+            (rel.bump || "first release") +
+            " · release " +
+            rel.release +
+            " · " +
+            rel.date,
+          16,
+          "Bold",
+        ),
+      );
     for (const { c, shown } of commits) {
       const by = {};
       for (const e of shown) by[e.class] = (by[e.class] || 0) + 1;
@@ -889,9 +894,18 @@ async function beginSheet(sheet, pageTitles) {
   return { step: "begin", pages: pages.map((p) => p.title), warning };
 }
 
-async function appendChangelog(sheet, changelog) {
+// `more` adds releases to the changelog frame an earlier call made (a changelog too long for
+// one payload is drawn in several, newest first).
+async function appendChangelog(sheet, changelog, more) {
   await loadFonts();
   const root = findBuilding(sheet);
+  if (more) {
+    const existing = root.children.find((n) => n.name === "Changelog");
+    if (!existing)
+      throw new Error("No changelog frame: run the earlier payload.");
+    changelogFrame(changelog, revOf(sheet), existing);
+    return { step: "changelog", items: existing.children.length };
+  }
   const frame = changelogFrame(changelog, revOf(sheet));
   root.insertChild(1, frame);
   return { step: "changelog", items: frame.children.length };
