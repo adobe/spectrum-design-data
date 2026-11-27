@@ -1,0 +1,299 @@
+{
+  "platform": "web",
+  "role": "textbox",
+  "vectors": [
+    {
+      "name": "Escape does nothing",
+      "needs": ["keyboard"],
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Escape",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Enter does nothing",
+      "needs": ["keyboard"],
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Enter",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Escape and Enter on an empty input do nothing",
+      "needs": ["keyboard"],
+      "start": {},
+      "steps": [
+        {
+          "input": {
+            "key": "Escape",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Enter",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "emit": [],
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Escape and Enter on key up do nothing",
+      "needs": ["keyboard"],
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Escape",
+            "phase": "up"
+          }
+        },
+        {
+          "input": {
+            "key": "Enter",
+            "phase": "up"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a disabled textbox ignores Escape and Enter",
+      "needs": ["keyboard"],
+      "start": {
+        "value": "abc",
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Escape",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Enter",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        }
+      ]
+    },
+    {
+      "name": "no key is bound: Space, Tab, the arrows, Home, End and the page keys do nothing",
+      "needs": ["keyboard"],
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Space",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Tab",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "ArrowDown",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "ArrowLeft",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "ArrowUp",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "ArrowRight",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Home",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "End",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "PageUp",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "PageDown",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 10,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        }
+      ]
+    },
+    {
+      "name": "the clear and submit intents still work as intents",
+      "needs": ["keyboard"],
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "intent": "clear"
+        },
+        {
+          "intent": "submit"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": ""
+              }
+            }
+          ],
+          "facets": {
+            "hasValue": "false"
+          }
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "submit": {}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a key then an intent: Escape changes nothing, clear clears",
+      "needs": ["keyboard"],
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Escape",
+            "phase": "down"
+          }
+        },
+        {
+          "intent": "clear"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": ""
+              }
+            }
+          ],
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    }
+  ]
+}

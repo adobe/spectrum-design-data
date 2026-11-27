@@ -171,7 +171,7 @@
   },
   "lifecycle": { "introduced": "1.0.0-draft" },
   "accessibility": {
-    "role": "textbox",
+    "role": "searchbox",
     "intents": ["input"],
     "focusable": true,
     "wcag": [
