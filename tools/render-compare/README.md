@@ -40,6 +40,14 @@ tools/render-compare/base-cli.sh prune 3    # keep the 3 most recent, delete the
 
 `RC_CACHE` moves the cache. Prune after a review round; a cached commit is only reused until `origin/main` moves.
 
+## CI (advisory)
+
+`.github/workflows/render-compare.yml` runs on pull requests that touch design-data components, visuals, relationships, tokens, registry, mode-sets, `dataset.json`, the spec schemas, `sdk/` or this tool. Docs-only changes skip it. It runs `--changed --sample 10` (about 1 in 10 of the matrix; raise `RC_SAMPLE` in the workflow for more) against the merge base. A PR that does not change `sdk/` uses `--same-cli` (the PR CLI draws both data trees); a PR that changes `sdk/` builds a second BASE CLI, into `sdk/target` so the restored rust-cache dependencies are reused, and caches it per merge-base sha (`actions/cache`).
+
+Read it: the job summary (Actions run page) shows the PASS/FAIL line, the cache hit and the last 120 log lines, which hold the counts and the first differing cases (`<component> / <block>` with geometry). The `render-compare-report` artifact has the full log, the JSON report and the case outputs of a failure. A FAIL is expected when the PR changes how something draws: check that every named difference is intended. The job is `continue-on-error` and not a required check. It uses `pull_request` (no secrets for forks) and `contents: read`.
+
+To make it required: let it run on PRs for a while and fix the false FAILs, then add `Render compare` to the branch protection required checks and remove `continue-on-error`. Because of the path filter a required check never reports on PRs that skip it, so also make the workflow always run (drop `paths`, and exit early in a first step) before requiring it.
+
 ## Self-test
 
 `tools/render-compare/selftest.sh` (about two minutes, needs the cached BASE CLI or `CLI=<path>`) proves the matrix keeps option values, arrays and wireframe and covers every option pair; the harness passes on identical data, fails when a recipe color or an option-conditional fill (disabled + outline) changes, reproduces the menu `isSelected` regression (pinning the 8 single-selection `start-edge -> label` records to `isSelected: false`, which moves the menu sheet's label x and width) and requires a FAIL that names the menu sheet block, with an unchanged-data control that passes; fails loudly (exit 2) from the wrong directory, on a layout without relationships, and on a vacuous run; and a stale lock is taken over. It is not wired into CI: it needs a CLI build.
