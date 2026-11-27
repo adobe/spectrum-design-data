@@ -10,7 +10,9 @@
     "documentationUrl": "https://spectrum.adobe.com/page/triple-calendar/"
   },
   "lifecycle": {
-    "introduced": "1.0.0-draft"
+    "introduced": "1.0.0-draft",
+    "deprecatedIn": "1.0.0-draft",
+    "deprecatedComment": "Use calendar with its months slot (option visibleMonths) instead. Archive-only: the two legacy records stay frozen and keep their legacy keys, so they are not marked deprecated (legacy output must not change)."
   },
   "anatomy": [
     {
@@ -22,6 +24,6 @@
   "anatomyReview": {
     "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "A9 (2026-11-21), owner decision C2: a frozen legacy holder (three months), not deprecated. calendar is the only anatomy (option visibleMonths). The two legacy records keep their keys and move from part popover to container; no Figma, RSP or SWC source draws this component on its own. Same precedent as color-control."
+    "notes": "A9 (2026-11-21), owner decision C2: a frozen legacy holder (three months), deprecated in favour of calendar's months slot. calendar is the only anatomy (option visibleMonths). The two legacy records keep their keys and move from part popover to container; no Figma, RSP or SWC source draws this component on its own. Same precedent as color-control."
   }
 }
