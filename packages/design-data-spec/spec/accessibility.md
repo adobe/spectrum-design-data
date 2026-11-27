@@ -117,6 +117,8 @@ and `navigate-items` have no `intents` counterpart and are keyboard-only.
 
 The "Default key(s)" column is informative. Platform adapters determine actual key bindings; the foundation layer declares intent only.
 
+The generated spec sheet's Keyboard table lists an intent only when a key gives it. When the component's behavior contract names a part role that the web key bindings (`behaviors/bindings/web.json`) list, the table shows the keys of those bindings and omits an intent no binding maps to a key (a `textbox` binds none). A component whose contract names no such role, or names more than one role-carrying part (none today), shows the default keys above, and an intent with no default key is omitted.
+
 ### `wcag`
 
 The `wcag` array lists the WCAG 2.x success criteria applicable to this component. Entries are objects with the following fields:

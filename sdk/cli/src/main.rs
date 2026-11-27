@@ -1600,6 +1600,12 @@ fn load_visual_graph(
                         .into_diagnostic()
                         .wrap_err("failed to load behavior patterns")?;
             }
+            if dir.join("bindings").is_dir() {
+                graph.behavior_bindings =
+                    TokenGraph::load_spec_behavior_bindings(&dir.join("bindings"))
+                        .into_diagnostic()
+                        .wrap_err("failed to load behavior key bindings")?;
+            }
         }
     }
     // Foundation→Platform cascade, after the relationships and recipes load so

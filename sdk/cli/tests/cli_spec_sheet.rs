@@ -1051,3 +1051,40 @@ fn a_recipe_without_repeat_gets_no_default_items() {
         }
     }
 }
+
+/// The CLI loads `behaviors/bindings` for the sheet: a checkbox (role `checkbox`) shows the Space
+/// binding only, where the registry default would read "Enter, Space"; search-field (role
+/// `searchbox`) shows its Escape and Enter bindings; text-field (a `textbox` binds no key) has
+/// no Keyboard block.
+#[test]
+fn keyboard_table_shows_the_keys_of_the_web_bindings() {
+    let keyboard = |component: &str| -> Vec<Vec<String>> {
+        sheet_of(component)["sections"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .flat_map(|sec| sec["blocks"].as_array().unwrap().clone())
+            .filter(|b| b["id"] == "accessibility--keyboard")
+            .flat_map(|b| b["rows"].as_array().unwrap().clone())
+            .map(|r| {
+                r.as_array()
+                    .unwrap()
+                    .iter()
+                    .map(|c| c.as_str().unwrap().to_string())
+                    .collect()
+            })
+            .collect()
+    };
+    assert_eq!(
+        keyboard("checkbox"),
+        [["activate", "Space", "Web key bindings (checkbox)"]]
+    );
+    assert_eq!(
+        keyboard("search-field"),
+        [
+            ["clear", "Escape", "Web key bindings (searchbox)"],
+            ["submit", "Enter", "Web key bindings (searchbox)"]
+        ]
+    );
+    assert!(keyboard("text-field").is_empty());
+}
