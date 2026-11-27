@@ -2008,3 +2008,91 @@ fn a_broken_range_contract_or_slider_binding_fails_a_vector() {
         }
     }
 }
+
+/// Each number field rule (the range block, the semantics, the part pins) must be pinned by a
+/// component vector, and each web `spinbutton` key binding by the key suite.
+#[test]
+fn a_broken_number_field_contract_or_spinbutton_binding_fails_a_vector() {
+    let (contract, vectors, patterns) = load("number-field");
+    assert_eq!(failures(&contract, &vectors, &patterns), 0);
+    let edits = [
+        ("/range/max", json!("step")),
+        ("/range/min", json!("step")),
+        ("/range/step", json!("minValue")),
+        ("/semantics/field/value/ariaState", json!("aria-valuemin")),
+        (
+            "/semantics/field/minValue/ariaState",
+            json!("aria-valuemax"),
+        ),
+        (
+            "/semantics/field/maxValue/ariaState",
+            json!("aria-valuemin"),
+        ),
+    ];
+    for (pointer, value) in edits {
+        let mut m = contract.clone();
+        match m.pointer_mut(pointer) {
+            Some(slot) => *slot = value,
+            None => {
+                let (parent, key) = pointer.rsplit_once('/').unwrap();
+                m.pointer_mut(parent).unwrap()[key] = value;
+            }
+        }
+        assert!(
+            failures(&m, &vectors, &patterns) > 0,
+            "number-field: breaking {pointer} failed no vector"
+        );
+    }
+    // Part, state and wcag pins are checked by `check_contract`, not by a vector.
+    let pins = pins_of("number-field");
+    assert!(
+        design_data_core::behavior::check_contract(&contract, &patterns, Some(&pins)).is_empty()
+    );
+    for (pointer, value) in [
+        ("/parts/field/role", json!("slider")),
+        ("/parts/field/focus", json!("roving")),
+        ("/parts/in-field-button/focus", json!("tab-stop")),
+        ("/state", json!(["isDisabled"])),
+    ] {
+        let mut m = contract.clone();
+        *m.pointer_mut(pointer).unwrap() = value;
+        assert!(
+            !design_data_core::behavior::check_contract(&m, &patterns, Some(&pins)).is_empty(),
+            "number-field: breaking {pointer} fails no pin"
+        );
+    }
+    let mut no_stepper = contract.clone();
+    no_stepper["parts"]
+        .as_object_mut()
+        .unwrap()
+        .remove("in-field-button");
+    assert!(
+        !design_data_core::behavior::check_contract(&no_stepper, &patterns, Some(&pins)).is_empty()
+    );
+    let keys = key_suite("spinbutton");
+    let run = |bindings: &Value| {
+        run_vectors(
+            &contract,
+            &patterns,
+            &keys,
+            RegistryData::embedded(),
+            &all_capabilities(),
+            Some(bindings),
+        )
+        .iter()
+        .filter(|r| matches!(r.status, Status::Fail(_)))
+        .count()
+    };
+    assert_eq!(run(&web_bindings()), 0);
+    for i in 0..6 {
+        let mut b = web_bindings();
+        b["roles"]["spinbutton"]["keyboard"][i]["down"] = json!("blur");
+        assert!(run(&b) > 0, "spinbutton binding {i} is not pinned");
+    }
+    let mut extra = web_bindings();
+    extra["roles"]["spinbutton"]["keyboard"]
+        .as_array_mut()
+        .unwrap()
+        .push(json!({ "key": "ArrowRight", "down": "increment" }));
+    assert!(run(&extra) > 0, "a bound ArrowRight is not pinned");
+}
