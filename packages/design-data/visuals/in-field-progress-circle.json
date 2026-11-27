@@ -17,13 +17,13 @@
         "width": {
           "relationship": {
             "property": "size",
-            "context": "Size"
+            "part": "track"
           }
         },
         "height": {
           "relationship": {
             "property": "size",
-            "context": "Size"
+            "part": "track"
           }
         },
         "cornerRadius": {
@@ -33,13 +33,13 @@
         "stroke": {
           "relationship": {
             "property": "color",
-            "context": "Track and fill"
+            "part": "track"
           }
         },
         "strokeWidth": {
           "relationship": {
             "property": "thickness",
-            "context": "Thickness"
+            "part": "track"
           }
         }
       }
@@ -50,25 +50,25 @@
         "width": {
           "relationship": {
             "property": "size",
-            "context": "Size"
+            "part": "track"
           }
         },
         "height": {
           "relationship": {
             "property": "size",
-            "context": "Size"
+            "part": "track"
           }
         },
         "strokeWidth": {
           "relationship": {
             "property": "thickness",
-            "context": "Thickness"
+            "part": "track"
           }
         },
         "color": {
           "relationship": {
             "property": "content-color",
-            "context": "Track and fill"
+            "part": "fill"
           }
         }
       }

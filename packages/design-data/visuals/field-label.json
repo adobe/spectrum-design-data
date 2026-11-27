@@ -39,7 +39,7 @@
         "color": {
           "relationship": {
             "property": "content-color",
-            "context": "Label and asterisk icon"
+            "part": "container"
           }
         }
       }
@@ -55,7 +55,7 @@
           {
             "relationship": {
               "property": "size",
-              "context": "Asterisk UI icon asset"
+              "part": "necessity-indicator"
             }
           }
         ],
@@ -63,14 +63,14 @@
           {
             "relationship": {
               "property": "size",
-              "context": "Asterisk UI icon asset"
+              "part": "necessity-indicator"
             }
           }
         ],
         "color": {
           "relationship": {
             "property": "content-color",
-            "context": "Label and asterisk icon"
+            "part": "container"
           }
         }
       }

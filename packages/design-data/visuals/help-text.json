@@ -32,14 +32,14 @@
           {
             "relationship": {
               "property": "content-color",
-              "context": "Text and alert icon (warning)"
+              "part": "icon"
             }
           },
           {
             "when": { "options": { "isDisabled": true } },
             "relationship": {
               "property": "content-color",
-              "context": "Text and alert icon"
+              "part": "container"
             }
           }
         ]
@@ -56,20 +56,20 @@
         },
         "color": [
           {
-            "relationship": { "property": "content-color", "context": "Text" }
+            "relationship": { "property": "content-color", "part": "text" }
           },
           {
             "when": { "options": { "variant": "negative" } },
             "relationship": {
               "property": "content-color",
-              "context": "Text and alert icon (warning)"
+              "part": "icon"
             }
           },
           {
             "when": { "options": { "isDisabled": true } },
             "relationship": {
               "property": "content-color",
-              "context": "Text and alert icon"
+              "part": "container"
             }
           }
         ]

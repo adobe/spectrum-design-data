@@ -2,12 +2,7 @@
   "avatar": 10,
   "clear-button": 16,
   "close-button": 30,
-  "divider": 5,
-  "field-label": 4,
-  "help-text": 5,
-  "in-field-progress-circle": 8,
   "link": 15,
-  "progress-circle": 9,
   "swatch": 1,
   "thumbnail": 7
 }
