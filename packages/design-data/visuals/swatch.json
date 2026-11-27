@@ -21,7 +21,7 @@
         "width": {
           "relationship": {
             "property": "size",
-            "context": "Size"
+            "part": "container"
           }
         },
         "minWidth": [
@@ -33,7 +33,7 @@
             },
             "relationship": {
               "property": "width-multiplier",
-              "context": "Width"
+              "part": "container"
             },
             "relativeTo": "height"
           }
@@ -41,7 +41,7 @@
         "height": {
           "relationship": {
             "property": "size",
-            "context": "Size"
+            "part": "container"
           }
         },
         "cornerRadius": [
@@ -61,7 +61,7 @@
             },
             "relationship": {
               "property": "corner-radius",
-              "context": "Rounding"
+              "part": "container"
             }
           },
           {
@@ -77,14 +77,15 @@
         "stroke": {
           "relationship": {
             "property": "color",
-            "context": "Border"
+            "attribute": "border",
+            "part": "container"
           }
         },
         "strokeOpacity": [
           {
             "relationship": {
               "property": "opacity",
-              "context": "Border"
+              "part": "container"
             }
           },
           {
@@ -100,7 +101,8 @@
           {
             "relationship": {
               "property": "border-width",
-              "context": "Border"
+              "attribute": "border",
+              "part": "container"
             }
           },
           {
@@ -111,7 +113,8 @@
             },
             "relationship": {
               "property": "border-width",
-              "context": "Border"
+              "attribute": "border",
+              "part": "container"
             }
           }
         ],
@@ -162,7 +165,7 @@
         "height": {
           "relationship": {
             "property": "size",
-            "context": "Size"
+            "part": "container"
           }
         },
         "cornerRadius": [
@@ -174,7 +177,7 @@
             },
             "relationship": {
               "property": "corner-radius",
-              "context": "Rounding"
+              "part": "container"
             }
           },
           {
@@ -202,19 +205,19 @@
         "color": {
           "relationship": {
             "property": "color",
-            "context": "Slash"
+            "part": "slash"
           }
         },
         "width": {
           "relationship": {
             "property": "size",
-            "context": "Size"
+            "part": "container"
           }
         },
         "height": {
           "relationship": {
             "property": "size",
-            "context": "Size"
+            "part": "container"
           }
         }
       }
@@ -235,13 +238,13 @@
         "width": {
           "relationship": {
             "property": "size",
-            "context": "Disabled icon asset"
+            "part": "icon"
           }
         },
         "height": {
           "relationship": {
             "property": "size",
-            "context": "Disabled icon asset"
+            "part": "icon"
           }
         }
       }
@@ -252,19 +255,19 @@
         "stroke": {
           "relationship": {
             "property": "color",
-            "context": "Focus ring"
+            "part": "focus-indicator"
           }
         },
         "strokeWidth": {
           "relationship": {
             "property": "thickness",
-            "context": "Focus ring"
+            "part": "focus-indicator"
           }
         },
         "gapToParent": {
           "relationship": {
             "property": "gap",
-            "context": "Focus ring"
+            "part": "focus-indicator"
           }
         }
       }
