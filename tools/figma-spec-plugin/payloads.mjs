@@ -184,6 +184,37 @@ export function slimChangelog(c) {
   };
 }
 
+/** The changelog as pieces drawn in order, newest release first, so none outgrows a payload. */
+export function changelogPieces(c, budget) {
+  const version = c.releases.length
+    ? c.releases[c.releases.length - 1].version
+    : "";
+  const pieces = [];
+  for (const rel of c.releases.slice().reverse()) {
+    const groups = [[]];
+    let size = 0;
+    for (const cm of rel.commits) {
+      const n = JSON.stringify(cm).length;
+      if (size + n > budget && groups.at(-1).length) {
+        groups.push([]);
+        size = 0;
+      }
+      groups.at(-1).push(cm);
+      size += n;
+    }
+    groups.forEach((commits, i) =>
+      pieces.push({
+        baseline: c.baseline,
+        version,
+        releases: [{ ...rel, commits, ...(i ? { cont: true } : {}) }],
+      }),
+    );
+  }
+  return pieces.length
+    ? pieces
+    : [{ baseline: c.baseline, version, releases: [] }];
+}
+
 const json = (v) => JSON.stringify(v);
 
 function callSource(c) {
@@ -191,7 +222,7 @@ function callSource(c) {
     case "begin":
       return `results.push(await beginSheet(META, ${json(c.pages)}));`;
     case "changelog":
-      return `results.push(await appendChangelog(META, ${json(c.data)}));`;
+      return `results.push(await appendChangelog(META, ${json(c.data)}${c.more ? ", true" : ""}));`;
     case "section":
       return `results.push(await appendSection(META, ${json(c.section)}${c.more ? ", true" : ""}));`;
     case "blocks":
@@ -227,7 +258,9 @@ export function buildPayloads({ sheet, changelog, pages, limit = LIMIT }) {
 
   const units = [{ fn: "begin", pages: drawn.map((p) => p.title) }];
   if (changelog)
-    units.push({ fn: "changelog", data: slimChangelog(changelog) });
+    changelogPieces(slimChangelog(changelog), limit - base - 1000).forEach(
+      (data, i) => units.push({ fn: "changelog", more: i > 0, data }),
+    );
   for (const p of drawn)
     for (const b of p.blocks)
       units.push({ fn: "blocks", page: p.title, blocks: [slimBlock(b)] });
