@@ -494,6 +494,69 @@
       ],
       "expect": [
         {
+          "after": 1,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        },
+        {
+          "after": 2,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        },
+        {
+          "after": 3,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        },
+        {
+          "after": 4,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        },
+        {
+          "after": 5,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        },
+        {
+          "after": 6,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        },
+        {
+          "after": 7,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        },
+        {
+          "after": 8,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        },
+        {
+          "after": 9,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        },
+        {
           "after": 10,
           "emit": [],
           "facets": {

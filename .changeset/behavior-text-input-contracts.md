@@ -16,4 +16,6 @@ Behavior contracts for text field, text area and search field, built on the text
 - The search field component's `accessibility.role` changes from `textbox` to `searchbox`, so its
   spec sheet role row changes. Text field and text area list the `clear` and `submit` intents in
   their keyboard intents.
+- Known: the spec sheet Keyboard table lists `clear` and `submit` rows with empty keys for text
+  field and text area, and no Escape or Enter row for search field (a later Rust change may fix).
 - Conformance: a suite per component and the web key suites `searchbox` and `textbox`.

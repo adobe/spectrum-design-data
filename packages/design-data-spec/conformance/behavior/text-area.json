@@ -1151,6 +1151,66 @@
           ]
         }
       ]
+    },
+    {
+      "name": "known limit: a hidden label with an empty text exposes an empty aria-label",
+      "start": {
+        "label": "",
+        "hideLabel": true
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-label": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "known limit: a hidden label that is null exposes the text 'null' as aria-label",
+      "start": {
+        "label": null,
+        "hideLabel": true
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-label": "null"
+          }
+        }
+      ]
+    },
+    {
+      "name": "the interactive base: hover and focus-visible facets are published",
+      "needs": ["pointer-hover"],
+      "start": {
+        "value": "a"
+      },
+      "steps": [
+        {
+          "intent": "pointer-enter"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "hovered": true
+          }
+        }
+      ]
     }
   ]
 }

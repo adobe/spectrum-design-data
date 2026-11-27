@@ -189,6 +189,30 @@ for (const { id, reason } of readJson(
   }
 }
 
+// A contract whose parts carry exactly one role agrees with the component's `accessibility.role`
+// (the spec sheet reads the contract's, so a drifted component block would be a silent lie).
+for (const [name, contract] of contracts.filter(([n]) =>
+  n.startsWith("behaviors/"),
+)) {
+  const roles = Object.values(contract.parts ?? {})
+    .map((p) => p.role)
+    .filter(Boolean);
+  const file = join(
+    __dirname,
+    "..",
+    "components",
+    `${contract.component}.json`,
+  );
+  if (roles.length !== 1 || !existsSync(file)) continue;
+  const role = readJson(file).accessibility?.role;
+  if (role !== undefined && role !== roles[0]) {
+    hasErrors = true;
+    console.error(
+      `❌ ${name}: part role '${roles[0]}' differs from ${contract.component} accessibility.role '${role}'`,
+    );
+  }
+}
+
 if (hasErrors) process.exit(1);
 console.log(
   `\n✅ ${contracts.length + patterns.length + bindings.length + bindingSuites.length} behavior file(s) match their schemas\n`,
