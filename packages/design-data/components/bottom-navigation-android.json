@@ -50,7 +50,9 @@
     }
   },
   "lifecycle": {
-    "introduced": "1.0.0-draft"
+    "introduced": "1.0.0-draft",
+    "deprecatedIn": "1.0.0-draft",
+    "deprecatedComment": "Archive-only: it has no records, no anatomy and no recipe, and the structured migration dropped it (owner decision A733 a). Revive it only from a current Spectrum 2 source."
   },
   "accessibility": {
     "intents": ["navigate"],
