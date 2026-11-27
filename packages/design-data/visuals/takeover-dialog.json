@@ -1,0 +1,127 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "takeover-dialog",
+  "root": "container",
+  "sizeScale": {
+    "m": 100
+  },
+  "notVisual": [
+    "description",
+    "primaryActionLabel",
+    "secondaryActionLabel",
+    "cancelActionLabel"
+  ],
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["header", "body"],
+      "props": {
+        "direction": {
+          "value": "column"
+        },
+        "align": {
+          "value": "start"
+        },
+        "cornerRadius": [
+          {
+            "relationship": {
+              "property": "corner-radius",
+              "part": "container"
+            },
+            "when": {
+              "options": {
+                "variant": "dialog"
+              }
+            }
+          }
+        ],
+        "fill": [
+          {
+            "relationship": {
+              "property": "color",
+              "part": "container",
+              "attribute": "background"
+            },
+            "when": {
+              "options": {
+                "variant": "dialog"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "header": {
+      "kind": "box",
+      "children": ["title", "header-content", "button-group"],
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "center"
+        }
+      }
+    },
+    "title": {
+      "kind": "text",
+      "text": {
+        "option": "title"
+      },
+      "props": {
+        "overflow": {
+          "value": "wrap"
+        },
+        "color": {
+          "relationship": {
+            "property": "color",
+            "part": "title"
+          }
+        },
+        "grow": {
+          "value": true
+        }
+      }
+    },
+    "header-content": {
+      "kind": "slot",
+      "sizeMap": {
+        "m": "m"
+      },
+      "props": {
+        "direction": {
+          "value": "row"
+        }
+      }
+    },
+    "button-group": {
+      "kind": "slot",
+      "sizeMap": {
+        "m": "m"
+      },
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "gap": {
+          "token": {
+            "property": "spacing",
+            "scaleIndex": 200
+          }
+        }
+      }
+    },
+    "body": {
+      "kind": "slot",
+      "sizeMap": {
+        "m": "m"
+      },
+      "props": {
+        "direction": {
+          "value": "column"
+        }
+      }
+    }
+  }
+}

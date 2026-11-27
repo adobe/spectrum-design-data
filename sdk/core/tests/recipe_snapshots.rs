@@ -290,7 +290,7 @@ fn fixed_options(name: &str) -> Vec<(String, Value)> {
 /// three items (an empty group draws nothing and hides a gap binding).
 fn group_fills(name: &str) -> HashMap<String, Vec<design_data_core::visual::SlotFill>> {
     let (slot, item) = match name {
-        "alert-dialog" | "standard-dialog" => ("button-group", "button"),
+        "alert-dialog" | "standard-dialog" | "takeover-dialog" => ("button-group", "button"),
         _ => (
             "default",
             match name {
@@ -467,6 +467,7 @@ recipe_tests! {
     switch => "switch",
     tabs => "tabs",
     tag => "tag",
+    takeover_dialog => "takeover-dialog",
     text_area => "text-area",
     text_field => "text-field",
     thumbnail => "thumbnail",

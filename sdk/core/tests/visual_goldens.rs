@@ -1654,6 +1654,104 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             out.push(("footer-checkbox", r));
         }
     }
+    // Takeover dialog: every golden carries a title and buttons (an empty dialog hides the
+    // slot bindings). These cover each variant, the button count, the header and body slots filled
+    // with a steplist and fields, the dark scheme and the mobile wireframe.
+    if name == "takeover-dialog" {
+        let fill =
+            |component: &str, options: &[(&str, Value)]| design_data_core::visual::SlotFill {
+                component: component.into(),
+                options: options
+                    .iter()
+                    .map(|(k, v)| (k.to_string(), v.clone()))
+                    .collect(),
+            };
+        let buttons = |labels: &[&str]| -> Vec<design_data_core::visual::SlotFill> {
+            labels
+                .iter()
+                .map(|l| {
+                    let (variant, style) = match *l {
+                        "Cancel" => ("secondary", "outline"),
+                        "Back" => ("secondary", "fill"),
+                        _ => ("accent", "fill"),
+                    };
+                    fill(
+                        "button",
+                        &[
+                            ("label", Value::from(*l)),
+                            ("variant", Value::from(variant)),
+                            ("style", Value::from(style)),
+                        ],
+                    )
+                })
+                .collect()
+        };
+        let steps = serde_json::json!([
+            { "label": "Details", "stepState": "completed default" },
+            { "label": "Review", "stepState": "current default" },
+            { "label": "Done", "stepState": "incomplete default" }
+        ]);
+        let fields = || {
+            vec![
+                fill("text-field", &[("label", "Name".into())]),
+                fill("text-field", &[("label", "Email".into())]),
+            ]
+        };
+        let copy = |r: &mut RenderRequest, labels: &[&str], full: bool| {
+            r.options
+                .insert("title".into(), "Create a new project".into());
+            r.slots.insert("button-group".into(), buttons(labels));
+            r.slots.insert("default".into(), fields());
+            r.slots.insert(
+                "header-content".into(),
+                vec![fill("steplist", &[("items", steps.clone())])],
+            );
+            if full {
+                r.options.insert("variant".into(), "full screen".into());
+            }
+        };
+        for (_, r) in out.iter_mut() {
+            copy(r, &["Cancel", "Create"], false);
+        }
+        let size = out[0].1.size.clone();
+        let mut case =
+            |label: &'static str, full: bool, scheme: &str, scale: &str, labels: &[&str]| {
+                let mut r = req(vec![], HashMap::new(), scheme, scale);
+                copy(&mut r, labels, full);
+                r.size = size.clone();
+                out.push((label, r));
+            };
+        case(
+            "variant-dialog",
+            false,
+            "light",
+            "desktop",
+            &["Cancel", "Create"],
+        );
+        case(
+            "variant-full-screen",
+            true,
+            "light",
+            "desktop",
+            &["Cancel", "Create"],
+        );
+        case("one-button", false, "light", "desktop", &["Create"]);
+        case(
+            "three-buttons",
+            false,
+            "light",
+            "desktop",
+            &["Cancel", "Back", "Create"],
+        );
+        case("dark", false, "dark", "desktop", &["Cancel", "Create"]);
+        case(
+            "mobile-wireframe",
+            false,
+            "wireframe",
+            "mobile",
+            &["Cancel", "Create"],
+        );
+    }
     // Message family (in-line alert, alert banner, toast): the defaults draw an empty message,
     // so these set the copy and cover each variant, the in-line alert styles, a dismissible
     // banner, the dark and wireframe schemes, the mobile scale and a wrapped message.
@@ -2994,7 +3092,7 @@ fn demo_slots_draw_every_fill_they_declare() {
             }
         }
     }
-    assert_eq!(hosts, 13);
+    assert_eq!(hosts, 14);
 }
 
 #[test]
