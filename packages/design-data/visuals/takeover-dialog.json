@@ -38,7 +38,7 @@
           {
             "relationship": {
               "property": "corner-radius",
-              "context": "Rounding (full screen)"
+              "context": "Rounding"
             },
             "when": {
               "options": {
@@ -47,32 +47,13 @@
             }
           }
         ],
-        "fill": [
-          {
-            "relationship": {
-              "property": "color",
-              "part": "container",
-              "attribute": "background"
-            },
-            "when": {
-              "options": {
-                "variant": "dialog"
-              }
-            }
-          },
-          {
-            "relationship": {
-              "property": "color",
-              "part": "container",
-              "attribute": "background"
-            },
-            "when": {
-              "options": {
-                "variant": "full screen"
-              }
-            }
+        "fill": {
+          "relationship": {
+            "property": "color",
+            "part": "container",
+            "attribute": "background"
           }
-        ]
+        }
       }
     },
     "header": {
