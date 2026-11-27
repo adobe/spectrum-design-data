@@ -45,10 +45,9 @@
         "variant": "dialog"
       }
     },
-    "context": "Rounding (dialog option)",
+    "context": "Rounding",
     "contextRole": ["rounding"],
-    "contextQualifier": "dialog option",
-    "$ref": "d639a0b5-16b4-4d75-ab37-d87815c7b500",
+    "$ref": "8fc023ca-8aec-40fe-9130-087aa035bac7",
     "uuid": "2d2cf941-77a6-5b40-bb19-06e144090be8"
   },
   {
@@ -59,7 +58,7 @@
       "attribute": "background",
       "options": {
         "colorScheme": "light",
-        "variant": "dialog"
+        "variant": ["dialog", "full screen"]
       }
     },
     "context": "Background",
@@ -75,7 +74,7 @@
       "attribute": "background",
       "options": {
         "colorScheme": "dark",
-        "variant": "dialog"
+        "variant": ["dialog", "full screen"]
       }
     },
     "context": "Background",
@@ -91,13 +90,27 @@
       "attribute": "background",
       "options": {
         "colorScheme": "wireframe",
-        "variant": "dialog"
+        "variant": ["dialog", "full screen"]
       }
     },
     "context": "Background",
     "contextRole": ["background"],
     "$ref": "b834a6a5-e582-4450-b87a-57fa23e12179",
     "uuid": "983b4b23-823b-56f8-964b-e870cd811f8c"
+  },
+  {
+    "scope": {
+      "component": "takeover-dialog",
+      "part": "container",
+      "property": "corner-radius",
+      "options": {
+        "variant": "full screen"
+      }
+    },
+    "context": "Rounding",
+    "contextRole": ["rounding"],
+    "$ref": "7a11b308-bed2-4b6f-bb4a-c9ae4ef8e03d",
+    "uuid": "5160e9bd-23ce-57f2-899e-f99b5b374435"
   },
   {
     "scope": {

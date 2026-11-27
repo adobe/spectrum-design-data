@@ -34,22 +34,26 @@
                 "variant": "dialog"
               }
             }
-          }
-        ],
-        "fill": [
+          },
           {
             "relationship": {
-              "property": "color",
-              "part": "container",
-              "attribute": "background"
+              "property": "corner-radius",
+              "part": "container"
             },
             "when": {
               "options": {
-                "variant": "dialog"
+                "variant": "full screen"
               }
             }
           }
-        ]
+        ],
+        "fill": {
+          "relationship": {
+            "property": "color",
+            "part": "container",
+            "attribute": "background"
+          }
+        }
       }
     },
     "header": {

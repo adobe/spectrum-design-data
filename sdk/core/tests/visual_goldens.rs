@@ -1877,6 +1877,13 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             "desktop",
             &["Cancel", "Create"],
         );
+        case(
+            "variant-full-screen-dark",
+            true,
+            "dark",
+            "desktop",
+            &["Cancel", "Create"],
+        );
         case("one-button", false, "light", "desktop", &["Create"]);
         case(
             "three-buttons",
