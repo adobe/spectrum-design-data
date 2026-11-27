@@ -1516,6 +1516,61 @@
           "emit": []
         }
       ]
+    },
+    {
+      "name": "an empty-string value reads as unset (a cleared text input)",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": ""
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0
+              }
+            }
+          ],
+          "aria": {
+            "aria-valuenow": "0"
+          }
+        }
+      ]
+    },
+    {
+      "name": "an empty-string value goes to the maximum on decrement",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1,
+        "value": ""
+      },
+      "steps": [
+        {
+          "intent": "decrement"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 100
+              }
+            }
+          ]
+        }
+      ]
     }
   ]
 }

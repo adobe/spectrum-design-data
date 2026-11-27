@@ -226,11 +226,13 @@ fn derive(
             .iter()
             .find(|(_, want)| match (want, from.as_slice()) {
                 (Value::Object(o), _) => o.iter().all(|(k, v)| option(options, k) == *v),
+                (Value::Array(any), [only]) => any.contains(&option(options, only)),
                 (v, [only]) => option(options, only) == **v,
                 _ => false,
             });
-        if let Some((id, _)) = hit {
-            out.insert(name.clone(), id.clone());
+        let otherwise = f.get("otherwise").and_then(Value::as_str);
+        if let Some(id) = hit.map(|(id, _)| id.as_str()).or(otherwise) {
+            out.insert(name.clone(), id.to_string());
         }
     }
     for (name, on) in interaction {
@@ -379,9 +381,11 @@ impl Run<'_> {
             .get("value")
             .and_then(Value::as_str)
             .ok_or("the `range` names no `value` option")?;
-        // An unset option is None; one that is set but not a number is an error.
+        // An unset, null or empty-string option is None (a cleared text input is `""`); one that
+        // is set but not a number is an error.
         let read = |name: &str| match self.options.get(name) {
             None | Some(Value::Null) => Ok(None),
+            Some(Value::String(s)) if s.is_empty() => Ok(None),
             Some(v) => v
                 .as_f64()
                 .map(Some)
@@ -1491,6 +1495,11 @@ pub fn facet_match(
         Some(Value::Array(a)) => a.iter().filter_map(Value::as_str).collect(),
         _ => vec![],
     };
+    if decl.get("otherwise").is_some() || values.values().any(Value::is_array) {
+        return Err(format!(
+            "facet '{facet}' uses an any-of list or `otherwise`, so options alone cannot select it"
+        ));
+    }
     let spec = |v: &Value| -> Map<String, Value> {
         match (v, from.as_slice()) {
             (Value::Object(o), _) => o.clone(),

@@ -106,6 +106,18 @@
       "usedAs": ["keyboardIntents"]
     },
     {
+      "id": "clear",
+      "label": "Clear",
+      "description": "Empties a text input's value",
+      "usedAs": ["keyboardIntents"]
+    },
+    {
+      "id": "submit",
+      "label": "Submit",
+      "description": "Submits a text input's value without changing it",
+      "usedAs": ["keyboardIntents"]
+    },
+    {
       "id": "select-all",
       "label": "Select all",
       "description": "Selects all items in a collection",
