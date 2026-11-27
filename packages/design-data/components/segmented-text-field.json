@@ -18,8 +18,13 @@
     },
     {
       "name": "segment",
-      "description": "One editable piece of a structured value, drawn as its own rounded cell (RSP DateSegment, 2px radius).",
-      "required": true
+      "description": "One editable piece of a structured value, drawn as its own rounded cell (RSP DateSegment, 2px radius). Repeated once per entry of the segments option.",
+      "required": true,
+      "contains": ["value"]
+    },
+    {
+      "name": "value",
+      "description": "Text of a segment: its value, or its format text while the segment is empty (isPlaceholder). A separator entry (isLiteral) draws only this text."
     }
   ],
   "anatomyReview": {
@@ -29,5 +34,70 @@
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "options": {
+    "size": {
+      "type": "string",
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "segments": {
+      "type": "array",
+      "description": "The segments, in reading order. Each entry is drawn as one copy of the segment part; the request supplies them. A literal entry is a separator drawn as plain text.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "The text drawn in the segment, or the separator when isLiteral is true."
+          },
+          "isPlaceholder": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the segment is empty and shows its format text."
+          },
+          "isLiteral": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the entry is a separator between segments, drawn as plain text without a segment cell."
+          }
+        }
+      }
+    },
+    "isPlaceholder": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered segment is empty and shows its format text. Per-segment in a data-driven component is segments[].isPlaceholder."
+    },
+    "isLiteral": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered entry is a separator. Per-segment in a data-driven component is segments[].isLiteral."
+    }
+  },
+  "slots": [
+    {
+      "name": "default",
+      "part": "segment",
+      "collection": "segments",
+      "description": "The segments. Each entry of the segments option is drawn as one copy of the segment part, in order."
+    }
+  ]
 }

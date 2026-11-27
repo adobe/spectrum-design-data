@@ -17,6 +17,79 @@
     }
   ],
   "options": {
+    "label": {
+      "type": "string"
+    },
+    "size": {
+      "type": "string",
+      "default": "m",
+      "values": [
+        {
+          "value": "s"
+        },
+        {
+          "value": "m"
+        },
+        {
+          "value": "l"
+        },
+        {
+          "value": "xl"
+        }
+      ]
+    },
+    "necessityIndicator": {
+      "type": "string",
+      "default": "icon",
+      "values": [
+        {
+          "value": "text"
+        },
+        {
+          "value": "icon"
+        }
+      ]
+    },
+    "isRequired": {
+      "type": "boolean",
+      "default": false
+    },
+    "helpText": {
+      "type": "string"
+    },
+    "segments": {
+      "type": "array",
+      "description": "The segments of the field, in reading order. Each entry is drawn as one copy of the segment part. The request supplies them: the field does not build them from the granularity, the hour cycle or the locale. A placeholder segment shows its format text (for example mm) instead of a value, and a literal entry is a separator such as a slash or a colon.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "The text drawn in the segment, or the separator when isLiteral is true."
+          },
+          "isPlaceholder": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the segment is empty and shows its format text."
+          },
+          "isLiteral": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the entry is a separator between segments, drawn as plain text without a segment cell."
+          }
+        }
+      }
+    },
+    "isPlaceholder": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered segment is empty and shows its format text. Per-segment in a data-driven component is segments[].isPlaceholder."
+    },
+    "isLiteral": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered entry is a separator. Per-segment in a data-driven component is segments[].isLiteral."
+    },
     "granularity": {
       "type": "string",
       "default": "day",
@@ -67,6 +140,10 @@
       "trigger": "interaction"
     },
     {
+      "name": "focus",
+      "trigger": "interaction"
+    },
+    {
       "name": "keyboard-focus",
       "trigger": "interaction"
     }
@@ -91,8 +168,13 @@
     },
     {
       "name": "segment",
-      "description": "One editable unit of the date (month, day, year), drawn as its own rounded cell and showing a placeholder when empty.",
-      "required": true
+      "description": "One editable unit of the date (month, day, year), drawn as its own rounded cell and showing a placeholder when empty. Repeated once per entry of the segments option.",
+      "required": true,
+      "contains": ["value"]
+    },
+    {
+      "name": "value",
+      "description": "Text of a segment: its value, or its format text while the segment is empty (isPlaceholder). A separator entry (isLiteral) draws only this text."
     },
     {
       "name": "error-icon",
@@ -101,7 +183,9 @@
     {
       "name": "focus-indicator",
       "description": "Outline drawn around the field for keyboard focus.",
-      "presentWhen": { "states": ["keyboard-focus"] }
+      "presentWhen": {
+        "states": ["keyboard-focus"]
+      }
     },
     {
       "name": "help-text",
@@ -116,5 +200,13 @@
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"
-  }
+  },
+  "slots": [
+    {
+      "name": "default",
+      "part": "segment",
+      "collection": "segments",
+      "description": "The segments of the field. Each entry of the segments option is drawn as one copy of the segment part, in order, inside the field."
+    }
+  ]
 }
