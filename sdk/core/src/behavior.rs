@@ -413,7 +413,7 @@ impl Run<'_> {
         let wrap = r.get("wrap").and_then(Value::as_bool) == Some(true);
         let bounds = min.zip(max);
         let span = bounds.map_or(0.0, |(a, b)| b - a);
-        if wrap && (bounds.is_none() || span <= 0.0 || ((span / step) * 1e9).round() % 1e9 != 0.0) {
+        if wrap && (span <= 0.0 || ((span / step) * 1e9).round() % 1e9 != 0.0) {
             return Err(format!(
                 "the range wraps, so it needs both bounds and its span {span} must be above 0 and a multiple of the step {step}"
             ));

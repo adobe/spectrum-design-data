@@ -1432,7 +1432,7 @@
       "start": {
         "minValue": 0,
         "step": 1,
-        "value": 50
+        "value": 10
       },
       "steps": [
         {
@@ -1452,7 +1452,7 @@
       "start": {
         "maxValue": 100,
         "step": 1,
-        "value": 50
+        "value": 10
       },
       "steps": [
         {
