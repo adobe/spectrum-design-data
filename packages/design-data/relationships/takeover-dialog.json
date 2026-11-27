@@ -45,10 +45,9 @@
         "variant": "dialog"
       }
     },
-    "context": "Rounding (dialog option)",
+    "context": "Rounding",
     "contextRole": ["rounding"],
-    "contextQualifier": "dialog option",
-    "$ref": "d639a0b5-16b4-4d75-ab37-d87815c7b500",
+    "$ref": "8fc023ca-8aec-40fe-9130-087aa035bac7",
     "uuid": "2d2cf941-77a6-5b40-bb19-06e144090be8"
   },
   {

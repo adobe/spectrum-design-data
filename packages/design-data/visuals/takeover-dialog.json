@@ -27,7 +27,7 @@
           {
             "relationship": {
               "property": "corner-radius",
-              "context": "Rounding (dialog option)"
+              "part": "container"
             },
             "when": {
               "options": {
@@ -38,7 +38,7 @@
           {
             "relationship": {
               "property": "corner-radius",
-              "context": "Rounding"
+              "part": "container"
             },
             "when": {
               "options": {
