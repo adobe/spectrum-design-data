@@ -1219,7 +1219,7 @@ pub fn check_contract(
             let Some(axis) = sem.get("axis") else {
                 continue;
             };
-            let Some(axis) = axis.as_str().filter(|a| !a.is_empty()) else {
+            let Some(axis) = axis.as_str() else {
                 out.push(format!(
                     "`semantics.{part}.{key}` has an `axis` that is not a name: {axis}"
                 ));
