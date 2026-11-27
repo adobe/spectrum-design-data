@@ -179,12 +179,10 @@
       "contains": [
         "drag-handle",
         "checkbox",
-        "icon",
         "thumbnail",
-        "label",
+        "row",
         "description",
         "actions",
-        "drill-in-chevron",
         "focus-indicator"
       ]
     },
@@ -205,6 +203,11 @@
       "name": "thumbnail",
       "component": "thumbnail",
       "description": "Thumbnail image of a list view item."
+    },
+    {
+      "name": "row",
+      "description": "The row of the leading icon, the label and the navigation chevron; the description sits below it.",
+      "contains": ["icon", "label", "drill-in-chevron"]
     },
     {
       "name": "label",

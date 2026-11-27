@@ -617,12 +617,13 @@
       "part": "list-item",
       "property": "opacity",
       "options": {
-        "state": ["selected", "hover"]
+        "state": ["selected", "hover"],
+        "isSelected": true
       }
     },
-    "context": "Background (selected, highlight)",
+    "context": "Background (highlight)",
     "contextRole": ["background"],
-    "contextQualifier": "selected, highlight",
+    "contextQualifier": "highlight",
     "$ref": "2d07949e-416d-4ab6-b36e-15dde4df78b0",
     "uuid": "e2ef3a7a-3e10-5060-8227-41bd70089386"
   },
@@ -630,11 +631,14 @@
     "scope": {
       "component": "list-view",
       "part": "list-item",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isSelected": true
+      }
     },
-    "context": "Border (selected, highlight)",
+    "context": "Border (highlight)",
     "contextRole": ["border"],
-    "contextQualifier": "selected, highlight",
+    "contextQualifier": "highlight",
     "$ref": "9cfbf8bc-e4f3-4658-922e-9421e2ed126b",
     "uuid": "3b824456-d68b-54bb-abc1-73794e23d052"
   },
