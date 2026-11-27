@@ -379,89 +379,122 @@ impl Run<'_> {
             .get("value")
             .and_then(Value::as_str)
             .ok_or("the `range` names no `value` option")?;
-        // An unset option reads the default; one that is set but not a number is an error.
-        let read = |name: &str, default: f64| match self.options.get(name) {
-            None | Some(Value::Null) => Ok(default),
+        // An unset option is None; one that is set but not a number is an error.
+        let read = |name: &str| match self.options.get(name) {
+            None | Some(Value::Null) => Ok(None),
             Some(v) => v
                 .as_f64()
+                .map(Some)
                 .ok_or_else(|| format!("option '{name}' is {v}, which is not a number")),
         };
+        // A key the block leaves out reads the default (rating has no `min`: 0); a key naming an
+        // option that is unset means unbounded on that side (the step falls back to 1).
         let num = |k: &str, default: f64| match r.get(k).and_then(Value::as_str) {
-            Some(o) => read(o, default),
-            None => Ok(default),
+            Some(o) => read(o),
+            None => Ok(Some(default)),
         };
-        let (min, max, step) = (num("min", 0.0)?, num("max", 100.0)?, num("step", 1.0)?);
-        if step <= 0.0 || min > max {
+        let (min, max) = (num("min", 0.0)?, num("max", 100.0)?);
+        let step = num("step", 1.0)?.unwrap_or(1.0);
+        if step <= 0.0 || min.zip(max).is_some_and(|(a, b)| a > b) {
             return Err(format!(
-                "the range is min {min}, max {max}, step {step}: the step must be above 0 and min at most max"
+                "the range is min {min:?}, max {max:?}, step {step}: the step must be above 0 and min at most max"
             ));
         }
         // The quotient is rounded to 9 decimals first, so an exact decimal half (0.35 / 0.1) is
-        // not pushed below .5 by float noise.
+        // not pushed below .5 by float noise. Snapping counts from the minimum, else from 0.
         // shortcut: values above 1e298 overflow and steps below 1e-10 never move; upgrade with a decimal type.
+        let origin = min.unwrap_or(0.0);
         let snap = |x: f64| {
-            let q = (((x - min) / step) * 1e9).round() / 1e9;
-            let s = min + q.round() * step;
-            ((s * 1e10).round() / 1e10).clamp(min, max)
+            let q = (((x - origin) / step) * 1e9).round() / 1e9;
+            let s = ((origin + q.round() * step) * 1e10).round() / 1e10;
+            let s = min.map_or(s, |m| s.max(m));
+            max.map_or(s, |m| s.min(m))
         };
         let wrap = r.get("wrap").and_then(Value::as_bool) == Some(true);
-        let span = max - min;
+        let bounds = min.zip(max);
+        let span = bounds.map_or(0.0, |(a, b)| b - a);
         if wrap && (span <= 0.0 || ((span / step) * 1e9).round() % 1e9 != 0.0) {
             return Err(format!(
-                "the range wraps, so its span {span} must be above 0 and a multiple of the step {step}"
+                "the range wraps, so it needs both bounds and its span {span} must be above 0 and a multiple of the step {step}"
             ));
         }
-        let now = read(name, min)?;
+        let value = read(name)?;
+        let now = value.unwrap_or(origin);
+        let mut from_empty = false;
+        // With a bound missing, set-min, set-max, a move and a page by a fraction change nothing.
         let next = match a.get("to").and_then(Value::as_str) {
-            Some("min") => min,
-            Some("max") => max,
+            Some("min") => min.unwrap_or(now),
+            Some("max") => max.unwrap_or(now),
             Some("position") => {
                 let p = self
                     .position
                     .filter(|p| (0.0..=1.0).contains(p))
                     .ok_or("`move` needs a step `position` from 0 to 1")?;
-                snap(min + p * (max - min))
+                bounds.map_or(now, |(a, b)| snap(a + p * (b - a)))
             }
             _ => {
                 let by = a.get("by").and_then(Value::as_f64).unwrap_or(0.0);
-                let size = match a.get("unit").and_then(Value::as_str) {
-                    Some("page") => match r.pointer("/page/size").and_then(Value::as_f64) {
-                        Some(n) => n,
-                        None => {
+                let page = a.get("unit").and_then(Value::as_str) == Some("page");
+                // A page is a fixed `page.size`, else a fraction of the span (both bounds needed).
+                let size = if page {
+                    match (r.pointer("/page/size").and_then(Value::as_f64), bounds) {
+                        (Some(n), _) => Some(n),
+                        (None, Some((lo, hi))) => {
                             let f = r
                                 .pointer("/page/fraction")
                                 .and_then(Value::as_f64)
                                 .unwrap_or(0.1);
-                            (((max - min) * f / step).round() * step).max(step)
+                            Some((((hi - lo) * f / step).round() * step).max(step))
                         }
-                    },
-                    _ => step,
+                        _ => None,
+                    }
+                } else {
+                    Some(step)
+                };
+                let Some(size) = size else {
+                    return Ok((name.to_string(), norm(&json!(now)), norm(&json!(now))));
                 };
                 if wrap {
                     // A cycle: max is min again, so a step reduces into [min, max) and only
                     // `to: max` or a `move` to 1 reaches max.
                     let raw = ((now + by * size) * 1e10).round() / 1e10;
-                    let x = min + (raw - min).rem_euclid(span);
+                    let lo = origin;
+                    let x = lo + (raw - lo).rem_euclid(span);
                     if !x.is_finite() {
                         return Err(format!(
                             "the value {now} is too large to wrap (unsupported above 1e298)"
                         ));
                     }
-                    let s = ((min + (((x - min) / step * 1e9).round() / 1e9).round() * step)
-                        * 1e10)
+                    let s = ((lo + (((x - lo) / step * 1e9).round() / 1e9).round() * step) * 1e10)
                         .round()
                         / 1e10;
-                    if s >= max {
+                    if s >= lo + span {
                         s - span
                     } else {
                         s
                     }
+                } else if value.is_none() && by != 0.0 && !page {
+                    // An empty field (React Aria `safeNextStep`): up goes to the minimum, down
+                    // to the maximum, 0 with no such bound; clamped to the bounds that exist,
+                    // then snapped to the step, a snap past the maximum stepping back inside (the minimum is
+                    // the lattice origin, so it never snaps below it).
+                    from_empty = true;
+                    let t = if by > 0.0 { min } else { max }.unwrap_or(0.0);
+                    let t = min.map_or(t, |m| t.max(m));
+                    let t = max.map_or(t, |m| t.min(m));
+                    let q = (((t - origin) / step) * 1e9).round() / 1e9;
+                    let mut s = origin + q.round() * step;
+                    if max.is_some_and(|m| s > m + 1e-9) {
+                        s -= step;
+                    }
+                    (s * 1e10).round() / 1e10
                 } else {
                     snap(now + by * size)
                 }
             }
         };
-        Ok((name.to_string(), norm(&json!(now)), norm(&json!(next))))
+        let was = if from_empty { Value::Null } else { json!(now) };
+        Ok((name.to_string(), norm(&was), norm(&json!(next))))
     }
 }
 
