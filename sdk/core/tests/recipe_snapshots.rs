@@ -260,6 +260,30 @@ fn fixed_options(name: &str) -> Vec<(String, Value)> {
         // its own color binding (disabled grey when `isDisabled`), so it is part of every snapshot.
         return vec![("content".into(), Value::String("Content text".into()))];
     }
+    if name == "illustrated-message" {
+        // The text parts draw nothing without copy, so every snapshot carries both.
+        return vec![
+            ("title".into(), Value::String("No results found".into())),
+            (
+                "description".into(),
+                Value::String(
+                    "Try a different search term or remove some of the filters you applied.".into(),
+                ),
+            ),
+        ];
+    }
+    if name == "list-view" {
+        // Rows draw only from `items`: a description row, selected, disabled and plain rows.
+        return vec![(
+            "items".into(),
+            serde_json::json!([
+                { "label": "Home", "description": "Start page", "isSelected": true },
+                { "label": "Projects" },
+                { "label": "Settings", "isDisabled": true },
+                { "label": "Archive", "isSelected": true, "isDisabled": true }
+            ]),
+        )];
+    }
     if name != "calendar" {
         return Vec::new();
     }
@@ -287,10 +311,12 @@ fn fixed_options(name: &str) -> Vec<(String, Value)> {
 }
 
 /// A group recipe is only drawn through its slot, so its snapshots fill the default slot with
-/// three items (an empty group draws nothing and hides a gap binding).
+/// three items (two for the illustrated message, whose slot takes at most two; an empty group draws nothing and hides a gap binding).
 fn group_fills(name: &str) -> HashMap<String, Vec<design_data_core::visual::SlotFill>> {
     let (slot, item) = match name {
-        "alert-dialog" | "standard-dialog" | "takeover-dialog" => ("button-group", "button"),
+        "alert-dialog" | "standard-dialog" | "illustrated-message" | "takeover-dialog" => {
+            ("button-group", "button")
+        }
         _ => (
             "default",
             match name {
@@ -305,7 +331,7 @@ fn group_fills(name: &str) -> HashMap<String, Vec<design_data_core::visual::Slot
     };
     HashMap::from([(
         slot.to_string(),
-        (0..3)
+        (0..if name == "illustrated-message" { 2 } else { 3 })
             .map(|_| design_data_core::visual::SlotFill {
                 component: item.into(),
                 ..Default::default()
@@ -439,10 +465,12 @@ recipe_tests! {
     divider => "divider",
     field_label => "field-label",
     help_text => "help-text",
+    illustrated_message => "illustrated-message",
     in_field_button => "in-field-button",
     in_field_progress_circle => "in-field-progress-circle",
     in_line_alert => "in-line-alert",
     link => "link",
+    list_view => "list-view",
     menu => "menu",
     meter => "meter",
     number_field => "number-field",

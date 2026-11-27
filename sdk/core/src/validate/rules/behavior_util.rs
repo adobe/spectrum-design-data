@@ -130,11 +130,16 @@ pub(crate) fn facet_values_of(
     registry: &RegistryData,
     name: &str,
 ) -> Option<HashSet<String>> {
-    if let Some(f) = crate::behavior::flatten(raw, &graph.behavior_patterns)
+    let declared = crate::behavior::flatten(raw, &graph.behavior_patterns)
         .ok()
-        .and_then(|m| m.facets.get(name)?.get("values")?.as_object().cloned())
-    {
-        return Some(f.keys().cloned().collect());
+        .and_then(|m| m.facets.get(name).cloned())
+        .and_then(|f| {
+            let mut ids: HashSet<String> = f.get("values")?.as_object()?.keys().cloned().collect();
+            ids.extend(f.get("otherwise").and_then(Value::as_str).map(String::from));
+            Some(ids)
+        });
+    if declared.is_some() {
+        return declared;
     }
     registry
         .facet(name)

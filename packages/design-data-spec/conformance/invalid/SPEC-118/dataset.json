@@ -30,6 +30,32 @@
           "required": true
         }
       ]
+    },
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/switch.json",
+      "name": "switch",
+      "displayName": "Switch",
+      "meta": {
+        "category": "inputs",
+        "documentationUrl": "https://spectrum.adobe.com/page/switch/"
+      },
+      "options": {
+        "isSelected": {
+          "type": "boolean",
+          "default": false
+        },
+        "isDisabled": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "anatomy": [
+        {
+          "name": "track",
+          "description": "The track.",
+          "required": true
+        }
+      ]
     }
   ],
   "behaviors": [
@@ -164,6 +190,41 @@
           ]
         }
       ]
+    },
+    {
+      "component": "switch",
+      "extends": ["interactive"],
+      "state": ["isSelected", "isDisabled"],
+      "facets": {
+        "checked": {
+          "from": "isSelected",
+          "values": {
+            "unchecked": false,
+            "checked": true
+          },
+          "otherwise": "checked"
+        },
+        "disabled": {
+          "from": "isDisabled",
+          "values": {
+            "false": false
+          },
+          "otherwise": "ghosty"
+        },
+        "selected": {
+          "from": ["isSelected", "isDisabled"],
+          "values": {
+            "unselected": [false, true]
+          },
+          "otherwise": "selected"
+        }
+      },
+      "parts": {
+        "track": {
+          "role": "switch",
+          "focus": "tab-stop"
+        }
+      }
     }
   ],
   "behaviorPatterns": [

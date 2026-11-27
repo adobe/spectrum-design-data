@@ -53,6 +53,13 @@
     },
     "tooltip": {
       "keyboard": [{ "key": "Escape", "down": "dismiss" }]
-    }
+    },
+    "searchbox": {
+      "keyboard": [
+        { "key": "Escape", "down": "clear" },
+        { "key": "Enter", "down": "submit" }
+      ]
+    },
+    "textbox": { "keyboard": [] }
   }
 }

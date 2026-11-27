@@ -2287,6 +2287,198 @@ fn wrap_and_a_zero_step_need_what_they_need() {
     assert!(fail(&contract, json!({ "step": 0, "value": 1 })).contains("the step must be above 0"));
 }
 
+fn text_patterns() -> Vec<design_data_core::graph::BehaviorPatternRecord> {
+    range_patterns()
+}
+
+fn text_fixture() -> (Value, Vec<Value>, Vec<Value>) {
+    let f: Value = serde_json::from_str(
+        &std::fs::read_to_string(
+            PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/behavior-text.json"),
+        )
+        .unwrap(),
+    )
+    .unwrap();
+    (
+        f["contract"].clone(),
+        f["vectors"].as_array().unwrap().clone(),
+        f["textboxVectors"].as_array().unwrap().clone(),
+    )
+}
+
+fn textbox(contract: &Value) -> Value {
+    let mut c = contract.clone();
+    c["parts"]["field"]["role"] = json!("textbox");
+    c
+}
+
+fn text_failures(
+    contract: &Value,
+    vectors: &[Value],
+    patterns: &[design_data_core::graph::BehaviorPatternRecord],
+    bindings: &Value,
+) -> usize {
+    run_vectors(
+        contract,
+        patterns,
+        vectors,
+        RegistryData::embedded(),
+        &all_capabilities(),
+        Some(bindings),
+    )
+    .iter()
+    .filter(|r| matches!(r.status, Status::Fail(_)))
+    .count()
+}
+
+#[test]
+fn the_text_vectors_pass_with_the_web_searchbox_and_textbox_bindings() {
+    let (contract, vectors, textbox_vectors) = text_fixture();
+    let patterns = text_patterns();
+    let results = run_range(&contract, &vectors, &patterns);
+    assert_eq!(results.len(), vectors.len());
+    let bad: Vec<_> = results
+        .iter()
+        .filter(|r| r.status != Status::Pass)
+        .collect();
+    assert!(bad.is_empty(), "{bad:?}");
+    let results = run_range(&textbox(&contract), &textbox_vectors, &patterns);
+    assert_eq!(results.len(), textbox_vectors.len());
+    let bad: Vec<_> = results
+        .iter()
+        .filter(|r| r.status != Status::Pass)
+        .collect();
+    assert!(bad.is_empty(), "{bad:?}");
+}
+
+/// Each break of the text pattern, of the `hasValue` facet or of the searchbox and textbox
+/// bindings must fail a vector. A pointer starting `text:` edits the pattern.
+#[test]
+fn a_broken_text_rule_fails_a_vector() {
+    let (contract, vectors, textbox_vectors) = text_fixture();
+    let patterns = text_patterns();
+    let bindings = web_bindings();
+    let on = json!({ "facet": "hasValue", "is": "true" });
+    let off = json!({ "facet": "disabled", "is": "true" });
+    let pattern_edits = [
+        ("text:/facets/hasValue/values/false", json!([false, null])),
+        ("text:/facets/hasValue/values/false", json!([false, ""])),
+        ("text:/facets/hasValue/values/false", json!([null, ""])),
+        ("text:/facets/hasValue/values/false", json!([""])),
+        ("text:/facets/hasValue/otherwise", json!("false")),
+        ("text:/facets/hasValue/from", json!("isDisabled")),
+        ("text:/facets/disabled/values/true", json!(false)),
+        ("text:/transitions/0/guard", off.clone()),
+        ("text:/transitions/0/guard", on.clone()),
+        (
+            "text:/transitions/0/guard",
+            json!({ "all": [{ "facet": "hasValue", "is": "false" }, { "facet": "disabled", "is": "false" }] }),
+        ),
+        ("text:/transitions/0/do/set/value", json!("x")),
+        ("text:/transitions/0/do/set", json!({ "isDisabled": true })),
+        ("text:/transitions/0/emit", json!("changed")),
+        ("text:/transitions/1/guard", on),
+        ("text:/transitions/1/guard", off),
+        ("text:/transitions/1/emit", json!("change")),
+        ("text:/transitions/1/do", json!({ "set": { "value": "" } })),
+        ("text:/transitions/1/on", json!("clear")),
+    ];
+    let all = |c: &Value, p: &[design_data_core::graph::BehaviorPatternRecord], b: &Value| {
+        text_failures(c, &vectors, p, b) + text_failures(&textbox(c), &textbox_vectors, p, b)
+    };
+    assert_eq!(all(&contract, &patterns, &bindings), 0);
+    for (pointer, value) in pattern_edits {
+        let mut broken = patterns.clone();
+        let p = pointer.strip_prefix("text:").unwrap();
+        let t = broken.iter_mut().find(|p| p.pattern == "text").unwrap();
+        *t.raw.pointer_mut(p).unwrap() = value;
+        assert!(
+            all(&contract, &broken, &bindings) > 0,
+            "breaking {pointer} failed no vector"
+        );
+    }
+    for (pointer, value) in [
+        ("/roles/searchbox/keyboard/0/down", json!("submit")),
+        ("/roles/searchbox/keyboard/1/down", json!("clear")),
+        ("/roles/searchbox/keyboard/0/key", json!("Space")),
+        ("/roles/searchbox/keyboard/1/key", json!("Tab")),
+        ("/roles/searchbox/keyboard/0/up", json!("clear")),
+        ("/roles/searchbox/keyboard/1/up", json!("submit")),
+    ] {
+        let mut broken = bindings.clone();
+        let (parent, key) = pointer.rsplit_once('/').unwrap();
+        broken
+            .pointer_mut(parent)
+            .unwrap()
+            .as_object_mut()
+            .unwrap()
+            .insert(key.to_string(), value);
+        assert!(
+            all(&contract, &patterns, &broken) > 0,
+            "breaking {pointer} failed no vector"
+        );
+    }
+    let mut textbox_keys = bindings.clone();
+    for (key, intent) in [("Escape", "clear"), ("Enter", "submit")] {
+        let mut b = bindings.clone();
+        b["roles"]["textbox"]["keyboard"] = json!([{ "key": key, "down": intent }]);
+        assert!(
+            all(&contract, &patterns, &b) > 0,
+            "a textbox {key} binding failed no vector"
+        );
+    }
+    textbox_keys["roles"]["searchbox"]["keyboard"]
+        .as_array_mut()
+        .unwrap()
+        .push(json!({ "key": "Space", "down": "clear" }));
+    assert!(all(&contract, &patterns, &textbox_keys) > 0);
+}
+
+#[test]
+fn the_text_registry_entries_and_bindings_are_wired() {
+    let registry = RegistryData::embedded();
+    assert!(registry.facet("hasValue").is_some());
+    for i in ["clear", "submit"] {
+        assert!(registry.intents().contains(i), "{i}");
+    }
+    let b = web_bindings();
+    assert_eq!(b["roles"]["textbox"]["keyboard"], json!([]));
+    assert_eq!(
+        b["roles"]["searchbox"]["keyboard"],
+        json!([
+            { "key": "Escape", "down": "clear" },
+            { "key": "Enter", "down": "submit" }
+        ])
+    );
+}
+
+/// A contract that extends both `range` and `text` (a clearable number input): `clear` writes
+/// the empty string, which the range reads as an unset value, so the next step goes to a bound.
+#[test]
+fn clear_on_a_range_and_text_contract_leaves_an_empty_value_the_range_reads() {
+    let (mut contract, _) = range_fixture();
+    contract["extends"] = json!(["range", "text"]);
+    let v = json!([
+        { "name": "clear, then step", "start": { "minValue": 0, "maxValue": 100, "step": 1, "value": 5 },
+          "steps": [{ "intent": "clear" }, { "intent": "increment" }, { "intent": "clear" }, { "intent": "decrement" }],
+          "expect": [
+            { "after": 1, "emit": [{ "change": { "value": "" } }], "facets": { "hasValue": "false" } },
+            { "after": 2, "emit": [{ "change": { "value": 0 } }], "facets": { "hasValue": "true" } },
+            { "after": 3, "emit": [{ "change": { "value": "" } }] },
+            { "after": 4, "emit": [{ "change": { "value": 100 } }] }
+          ] },
+        { "name": "a non-empty string is still not a number", "start": { "value": "50" },
+          "steps": [{ "intent": "increment" }], "expect": [{ "after": 1, "emit": [] }] }
+    ]);
+    let r = run_range(&contract, v.as_array().unwrap(), &range_patterns());
+    assert_eq!(r[0].status, Status::Pass, "{:?}", r[0]);
+    assert!(
+        matches!(&r[1].status, Status::Fail(f) if f[0].contains("not a number")),
+        "{:?}",
+        r[1]
+    );
+}
+
 fn break_at(contract: &Value, pointer: &str, value: Value) -> Value {
     let mut m = contract.clone();
     match m.pointer_mut(pointer) {
@@ -2394,6 +2586,39 @@ fn a_broken_color_area_contract_fails_a_vector() {
         assert!(
             !design_data_core::behavior::check_contract(&m, &patterns, Some(&pins)).is_empty(),
             "color-area: breaking {pointer} fails no pin"
+        );
+    }
+}
+
+/// Each drop zone rule (the `press` base, the `disabled` facet, the activate part, the pins) must
+/// be pinned by a vector or the pins. The drop zone has no role, so no key suite runs.
+#[test]
+fn a_broken_drop_zone_contract_fails_a_vector_or_a_pin() {
+    let (contract, vectors, patterns) = load("drop-zone");
+    assert_eq!(failures(&contract, &vectors, &patterns), 0);
+    let mut no_press = contract.clone();
+    no_press["extends"] = json!(["interactive"]);
+    assert!(failures(&no_press, &vectors, &patterns) > 0);
+    let mut no_activate = contract.clone();
+    no_activate["parts"]["container"]
+        .as_object_mut()
+        .unwrap()
+        .remove("press");
+    assert!(failures(&no_activate, &vectors, &patterns) > 0);
+    let pins = pins_of("drop-zone");
+    assert!(
+        design_data_core::behavior::check_contract(&contract, &patterns, Some(&pins)).is_empty()
+    );
+    for (pointer, value) in [
+        ("/parts/container/focus", json!("none")),
+        ("/parts/container/role", json!("button")),
+        ("/parts/container/press", json!("other")),
+        ("/state", json!([])),
+    ] {
+        let m = break_at(&contract, pointer, value);
+        assert!(
+            !design_data_core::behavior::check_contract(&m, &patterns, Some(&pins)).is_empty(),
+            "drop-zone: breaking {pointer} fails no pin"
         );
     }
 }

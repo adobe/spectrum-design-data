@@ -3941,6 +3941,14 @@ const FACETS_JSON: &str = r##"{
       "blocksInteraction": ["focus", "press-start", "pointer-enter"]
     },
     {
+      "id": "hasValue",
+      "label": "Has value",
+      "description": "Whether a text input holds a value: `false` while `value` is unset, null or an empty string, else `true`. A contract writes it as an any-of list plus `otherwise` (spec/behavior-contract.md, Text inputs), which a recipe cannot select.",
+      "source": "state-group",
+      "values": ["false", "true"],
+      "from": ["value"]
+    },
+    {
       "id": "readOnly",
       "label": "Read only",
       "description": "Whether the control keeps focus and announces its state but ignores activation.",
@@ -4154,6 +4162,18 @@ const INTENTS_JSON: &str = r##"{
       "id": "set-max",
       "label": "Set max",
       "description": "Sets a ranged value to its maximum",
+      "usedAs": ["keyboardIntents"]
+    },
+    {
+      "id": "clear",
+      "label": "Clear",
+      "description": "Empties a text input's value",
+      "usedAs": ["keyboardIntents"]
+    },
+    {
+      "id": "submit",
+      "label": "Submit",
+      "description": "Submits a text input's value without changing it",
       "usedAs": ["keyboardIntents"]
     },
     {
@@ -4448,6 +4468,12 @@ const BEHAVIOR_EXEMPTIONS_JSON: &str = r##"{
       "label": "Color handle",
       "reason": "sub-part",
       "description": "A sub-part of color-area, color-slider and color-wheel, covered by their contracts."
+    },
+    {
+      "id": "color-control",
+      "label": "Color control",
+      "reason": "sub-part",
+      "description": "The shared track base under color-slider, color-area and color-wheel (it declares a track part only), covered by their contracts."
     }
   ]
 }

@@ -17,7 +17,7 @@
         "cornerRadius": {
           "relationship": {
             "property": "corner-radius",
-            "context": "Focus ring"
+            "part": "container"
           }
         }
       }
@@ -26,33 +26,33 @@
       "kind": "text",
       "props": {
         "fontFamily": {
-          "relationship": { "property": "font-family", "context": "Text" }
+          "relationship": { "property": "font-family", "part": "text" }
         },
         "fontSize": {
-          "relationship": { "property": "font-size", "context": "Text" }
+          "relationship": { "property": "font-size", "part": "text" }
         },
         "fontWeight": {
-          "relationship": { "property": "font-weight", "context": "Text" }
+          "relationship": { "property": "font-weight", "part": "text" }
         },
         "lineHeight": {
-          "relationship": { "property": "line-height", "context": "Text" }
+          "relationship": { "property": "line-height", "part": "text" }
         },
         "color": [
           {
-            "relationship": { "property": "content-color", "context": "Text" }
+            "relationship": { "property": "content-color", "part": "text" }
           },
           {
             "when": { "options": { "staticColor": "white" } },
             "relationship": {
               "property": "color",
-              "context": "Text"
+              "part": "text"
             }
           },
           {
             "when": { "options": { "staticColor": "black" } },
             "relationship": {
               "property": "color",
-              "context": "Text"
+              "part": "text"
             }
           }
         ],
@@ -93,13 +93,13 @@
         "underlineThickness": {
           "relationship": {
             "property": "underline-thickness",
-            "context": "Text"
+            "part": "text"
           }
         },
         "underlineOffset": {
           "relationship": {
             "property": "gap",
-            "context": "Text"
+            "part": "text"
           }
         }
       }
@@ -108,27 +108,29 @@
       "kind": "ring",
       "props": {
         "stroke": [
-          { "relationship": { "property": "color", "context": "Focus ring" } },
+          {
+            "relationship": { "property": "color", "part": "focus-indicator" }
+          },
           {
             "when": { "options": { "staticColor": "white" } },
             "relationship": {
               "property": "color",
-              "context": "Focus ring"
+              "part": "focus-indicator"
             }
           },
           {
             "when": { "options": { "staticColor": "black" } },
             "relationship": {
               "property": "color",
-              "context": "Focus ring"
+              "part": "focus-indicator"
             }
           }
         ],
         "strokeWidth": {
-          "relationship": { "property": "thickness", "context": "Focus ring" }
+          "relationship": { "property": "thickness", "part": "focus-indicator" }
         },
         "gapToParent": {
-          "relationship": { "property": "gap", "context": "Focus ring" }
+          "relationship": { "property": "gap", "part": "focus-indicator" }
         }
       }
     }
