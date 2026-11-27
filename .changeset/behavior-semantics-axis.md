@@ -18,3 +18,5 @@ Key behavior contract `semantics` per axis, and give Color area its accessibilit
   absent while the option is unset). The part keeps no `role` (decision A721).
 - 12 new Color area vectors: set and unset per axis, axis independence, bounds, disabled.
 - The embedded dataset changes, so wasm gets a patch.
+- An older CLI runs the new Color area suite without reading `axisAria` (it never checks those
+  expectations), so a release that ships this needs `requires.cli` raised to the CLI that has it.

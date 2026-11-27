@@ -249,6 +249,23 @@ impl ValidationRule for Rule {
                 .into_iter()
                 .flat_map(|o| o.keys().map(String::as_str))
                 .collect();
+            for (part, facets) in b
+                .raw
+                .pointer("/collection/item/semantics")
+                .and_then(Value::as_object)
+                .into_iter()
+                .flatten()
+            {
+                for (facet, sem) in facets.as_object().into_iter().flatten() {
+                    if sem.get("axis").is_some() {
+                        problem(
+                            &format!("/collection/item/semantics/{part}/{facet}"),
+                            "names an `axis` in an inline item contract, which has no `ranges`"
+                                .into(),
+                        );
+                    }
+                }
+            }
             let mut exposed: Vec<(&str, &str)> = Vec::new();
             for (part, facets) in b
                 .raw
@@ -528,6 +545,19 @@ mod tests {
             let m = check(edit);
             assert!(m.iter().any(|m| m.contains(why)), "{why}: {m:?}");
         }
+    }
+
+    #[test]
+    fn flags_an_axis_on_inline_item_semantics() {
+        let m = check(|c| {
+            c["collection"] = json!({ "slot": "default", "item": { "semantics": { "track": {
+                "isSelected": { "ariaState": "aria-valuenow", "copy": true, "axis": "x" } } } } });
+        });
+        assert!(
+            m.iter()
+                .any(|m| m.contains("inline item contract, which has no `ranges`")),
+            "{m:?}"
+        );
     }
 
     #[test]

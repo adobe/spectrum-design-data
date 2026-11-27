@@ -258,7 +258,14 @@ fn aria_state(
             let Some(attr) = sem.get("ariaState").and_then(Value::as_str) else {
                 continue;
             };
-            if sem.get("axis").and_then(Value::as_str) != axis {
+            let own = match sem.get("axis") {
+                None => None,
+                Some(v) => match v.as_str() {
+                    Some(a) => Some(a),
+                    None => continue,
+                },
+            };
+            if own != axis {
                 continue;
             }
             let value = if sem.get("copy") == Some(&Value::Bool(true)) {
@@ -910,6 +917,19 @@ fn run_vector(
                     _ => {}
                 }
             }
+            for (part, entries) in &m.semantics {
+                for (key, sem) in entries.as_object().into_iter().flatten() {
+                    if sem
+                        .get("axis")
+                        .is_some_and(|a| a.as_str().is_none_or(str::is_empty))
+                    {
+                        failures.push(format!(
+                            "after step {n}: `semantics.{part}.{key}` has an `axis` that is not a name: {}",
+                            sem["axis"]
+                        ));
+                    }
+                }
+            }
             let aria = aria_state(m, &run.options, &facets, None);
             for (attr, want) in e
                 .get("aria")
@@ -933,12 +953,26 @@ fn run_vector(
                     _ => {}
                 }
             }
+            if let Some(v) = e.get("axisAria") {
+                match v.as_object() {
+                    Some(o) if !o.is_empty() => {}
+                    _ => failures.push(format!(
+                        "after step {n}: `axisAria` must be an object naming at least one axis, got {v}"
+                    )),
+                }
+            }
             for (axis, wants) in e
                 .get("axisAria")
                 .and_then(Value::as_object)
                 .into_iter()
                 .flatten()
             {
+                if wants.as_object().is_none_or(|w| w.is_empty()) {
+                    failures.push(format!(
+                        "after step {n}: `axisAria` for axis '{axis}' must name at least one attribute, got {wants}"
+                    ));
+                    continue;
+                }
                 if !axes_of(m).contains(&axis.as_str()) {
                     failures.push(format!(
                         "after step {n}: `axisAria` names axis '{axis}', which the contract's `ranges` do not declare"
@@ -1182,7 +1216,13 @@ pub fn check_contract(
     let mut seen: Vec<(&str, &str)> = Vec::new();
     for (part, entries) in &m.semantics {
         for (key, sem) in entries.as_object().into_iter().flatten() {
-            let Some(axis) = sem.get("axis").and_then(Value::as_str) else {
+            let Some(axis) = sem.get("axis") else {
+                continue;
+            };
+            let Some(axis) = axis.as_str().filter(|a| !a.is_empty()) else {
+                out.push(format!(
+                    "`semantics.{part}.{key}` has an `axis` that is not a name: {axis}"
+                ));
                 continue;
             };
             if !axes.contains(&axis) {
@@ -1199,6 +1239,20 @@ pub fn check_contract(
                     ));
                 }
                 seen.push((axis, attr));
+            }
+        }
+    }
+    for (part, entries) in contract
+        .pointer("/collection/item/semantics")
+        .and_then(Value::as_object)
+        .into_iter()
+        .flatten()
+    {
+        for (key, sem) in entries.as_object().into_iter().flatten() {
+            if sem.get("axis").is_some() {
+                out.push(format!(
+                    "`collection.item.semantics.{part}.{key}` names an `axis`, which an inline item contract cannot have (an item has no `ranges`)"
+                ));
             }
         }
     }

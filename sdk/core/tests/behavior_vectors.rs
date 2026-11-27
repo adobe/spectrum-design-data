@@ -2801,3 +2801,55 @@ fn a_broken_drop_zone_contract_fails_a_vector_or_a_pin() {
         );
     }
 }
+
+/// A malformed `axis` or `axisAria` is rejected by the runner, as the schema does.
+#[test]
+fn a_malformed_axis_or_empty_axis_aria_is_rejected() {
+    let (contract, _, _) = load("color-area");
+    let got = axis_reason(&contract, json!({ "after": 1, "axisAria": {} }));
+    assert!(
+        got.contains("`axisAria` must be an object naming at least one axis"),
+        "{got}"
+    );
+    let got = axis_reason(&contract, json!({ "after": 1, "axisAria": { "x": {} } }));
+    assert!(
+        got.contains("for axis 'x' must name at least one attribute"),
+        "{got}"
+    );
+    let got = axis_reason(&contract, json!({ "after": 1, "axisAria": [] }));
+    assert!(got.contains("must be an object"), "{got}");
+    let mut bad = contract.clone();
+    bad["semantics"]["color-handle"]["x-value"]["axis"] = json!(3);
+    let got = axis_reason(
+        &bad,
+        json!({ "after": 1, "axisAria": { "y": { "aria-valuenow": "70" } } }),
+    );
+    assert!(got.contains("has an `axis` that is not a name: 3"), "{got}");
+    let patterns = range_patterns();
+    let pins = pins_of("color-area");
+    assert!(
+        design_data_core::behavior::check_contract(&bad, &patterns, Some(&pins))
+            .iter()
+            .any(|e| e.contains("not a name: 3"))
+    );
+}
+
+/// An `axis` in an inline collection item's semantics has no `ranges` to name: reject it.
+#[test]
+fn an_axis_on_inline_item_semantics_is_reported() {
+    let (mut contract, _, patterns) = load("accordion");
+    let item = contract["collection"]["item"].clone();
+    if !item.is_object() {
+        contract["collection"]["item"] = json!({ "semantics": {} });
+    }
+    contract["collection"]["item"]["semantics"] = json!({ "header": {
+        "isExpanded": { "ariaState": "aria-expanded", "copy": true, "axis": "x" } } });
+    let issues = design_data_core::behavior::check_contract(&contract, &patterns, None);
+    assert!(
+        issues.iter().any(
+            |e| e.contains("collection.item.semantics.header.isExpanded")
+                && e.contains("inline item contract")
+        ),
+        "{issues:?}"
+    );
+}

@@ -35,6 +35,11 @@
       "rule_id": "SPEC-118",
       "severity": "warning",
       "message_pattern": ".*switch.*'aria-valuenow' for axis 'z' a second time.*"
+    },
+    {
+      "rule_id": "SPEC-118",
+      "severity": "warning",
+      "message_pattern": ".*checkbox.*axis.*inline item contract.*"
     }
   ]
 }

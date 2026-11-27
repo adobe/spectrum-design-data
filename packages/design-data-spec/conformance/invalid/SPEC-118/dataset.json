@@ -189,7 +189,21 @@
             }
           ]
         }
-      ]
+      ],
+      "collection": {
+        "slot": "default",
+        "item": {
+          "semantics": {
+            "box": {
+              "isSelected": {
+                "ariaState": "aria-checked",
+                "copy": true,
+                "axis": "x"
+              }
+            }
+          }
+        }
+      }
     },
     {
       "component": "switch",
