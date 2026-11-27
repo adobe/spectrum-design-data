@@ -1,0 +1,1216 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
+  "component": "text-field",
+  "pins": {
+    "state": [
+      "isDisabled",
+      "value",
+      "isError",
+      "isRequired",
+      "label",
+      "hideLabel"
+    ],
+    "wcag": [
+      {
+        "criterion": "1.3.1",
+        "level": "A",
+        "title": "Info and Relationships"
+      },
+      {
+        "criterion": "1.3.5",
+        "level": "AA",
+        "title": "Identify Input Purpose"
+      },
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ],
+    "parts": {
+      "field": {
+        "role": "textbox",
+        "focus": "tab-stop"
+      }
+    }
+  },
+  "vectors": [
+    {
+      "name": "a disabled input reads as disabled",
+      "start": {
+        "value": "abc",
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "disabled": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "an enabled input reads as enabled",
+      "start": {
+        "value": "abc",
+        "isDisabled": false
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "disabled": false
+          }
+        }
+      ]
+    },
+    {
+      "name": "hasValue: unset value reads as empty",
+      "start": {},
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "hasValue: an empty string value reads as empty",
+      "start": {
+        "value": ""
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "hasValue: null value reads as empty",
+      "start": {
+        "value": null
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "hasValue: text is a value",
+      "start": {
+        "value": "a"
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        }
+      ]
+    },
+    {
+      "name": "hasValue: a space value reads as a value",
+      "start": {
+        "value": " "
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        }
+      ]
+    },
+    {
+      "name": "hasValue: zero value reads as a value",
+      "start": {
+        "value": 0
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        }
+      ]
+    },
+    {
+      "name": "clear empties a value and emits change",
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "intent": "clear"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": ""
+              }
+            }
+          ],
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "clear on an empty string emits nothing",
+      "start": {
+        "value": ""
+      },
+      "steps": [
+        {
+          "intent": "clear"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "clear on an unset value emits nothing",
+      "start": {},
+      "steps": [
+        {
+          "intent": "clear"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "clear on a null value emits nothing",
+      "start": {
+        "value": null
+      },
+      "steps": [
+        {
+          "intent": "clear"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "clear twice emits once",
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "intent": "clear"
+        },
+        {
+          "intent": "clear"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": ""
+              }
+            }
+          ],
+          "facets": {
+            "hasValue": "false"
+          }
+        },
+        {
+          "after": 2,
+          "emit": [],
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "clear a value of zero",
+      "start": {
+        "value": 0
+      },
+      "steps": [
+        {
+          "intent": "clear"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": ""
+              }
+            }
+          ],
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "submit with a value emits submit and keeps the value",
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "intent": "submit"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "submit": {}
+            }
+          ],
+          "facets": {
+            "hasValue": "true"
+          }
+        }
+      ]
+    },
+    {
+      "name": "submit with no value still emits submit",
+      "start": {},
+      "steps": [
+        {
+          "intent": "submit"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "submit": {}
+            }
+          ],
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "submit with an empty string emits submit",
+      "start": {
+        "value": ""
+      },
+      "steps": [
+        {
+          "intent": "submit"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "submit": {}
+            }
+          ],
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "submit twice emits twice",
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "intent": "submit"
+        },
+        {
+          "intent": "submit"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "submit": {}
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "submit": {}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "clear then submit submits the empty value",
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "intent": "clear"
+        },
+        {
+          "intent": "submit"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": ""
+              }
+            }
+          ],
+          "facets": {
+            "hasValue": "false"
+          }
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "submit": {}
+            }
+          ],
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "submit then clear still clears",
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "intent": "submit"
+        },
+        {
+          "intent": "clear"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "submit": {}
+            }
+          ],
+          "facets": {
+            "hasValue": "true"
+          }
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": ""
+              }
+            }
+          ],
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a disabled input ignores clear",
+      "start": {
+        "value": "abc",
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "clear"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a disabled empty input ignores clear",
+      "start": {
+        "value": "",
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "clear"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a disabled input ignores submit",
+      "start": {
+        "value": "abc",
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "submit"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a disabled empty input ignores submit",
+      "start": {
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "submit"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "an input that is explicitly enabled clears",
+      "start": {
+        "value": "abc",
+        "isDisabled": false
+      },
+      "steps": [
+        {
+          "intent": "clear"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": ""
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "focus, blur and hover change no value and emit nothing",
+      "needs": ["pointer-hover"],
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "intent": "focus"
+        },
+        {
+          "intent": "pointer-enter"
+        },
+        {
+          "intent": "pointer-leave"
+        },
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 4,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        }
+      ]
+    },
+    {
+      "name": "isError is aria-invalid",
+      "start": {
+        "isError": true
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-invalid": "true"
+          }
+        }
+      ]
+    },
+    {
+      "name": "no error has no aria-invalid",
+      "start": {
+        "isError": false
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-invalid": null
+          }
+        }
+      ]
+    },
+    {
+      "name": "an unset isError has no aria-invalid",
+      "start": {},
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-invalid": null
+          }
+        }
+      ]
+    },
+    {
+      "name": "isRequired is aria-required",
+      "start": {
+        "isRequired": true
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-required": "true"
+          }
+        }
+      ]
+    },
+    {
+      "name": "not required has no aria-required",
+      "start": {
+        "isRequired": false
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-required": null
+          }
+        }
+      ]
+    },
+    {
+      "name": "error and required are independent",
+      "start": {
+        "isError": true,
+        "isRequired": false
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-invalid": "true",
+            "aria-required": null
+          }
+        }
+      ]
+    },
+    {
+      "name": "an error keeps aria-invalid after clear and submit",
+      "start": {
+        "isError": true,
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "intent": "clear"
+        },
+        {
+          "intent": "submit"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": ""
+              }
+            }
+          ],
+          "aria": {
+            "aria-invalid": "true"
+          }
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "submit": {}
+            }
+          ],
+          "aria": {
+            "aria-invalid": "true"
+          }
+        }
+      ]
+    },
+    {
+      "name": "an error does not block clear",
+      "start": {
+        "isError": true,
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "intent": "clear"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": ""
+              }
+            }
+          ],
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a required empty input still submits",
+      "start": {
+        "isRequired": true
+      },
+      "steps": [
+        {
+          "intent": "submit"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "submit": {}
+            }
+          ],
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a disabled error input keeps aria-invalid and ignores clear",
+      "start": {
+        "isError": true,
+        "isDisabled": true,
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "intent": "clear"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          },
+          "aria": {
+            "aria-invalid": "true"
+          }
+        }
+      ]
+    },
+    {
+      "name": "an error hides nothing: the label stays the name when hidden",
+      "start": {
+        "isError": true,
+        "label": "Name",
+        "hideLabel": true
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-invalid": "true",
+            "aria-label": "Name"
+          }
+        }
+      ]
+    },
+    {
+      "name": "the label is the accessible name while it is hidden",
+      "start": {
+        "label": "Name",
+        "hideLabel": true
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-label": "Name"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a visible label adds no aria-label",
+      "start": {
+        "label": "Name",
+        "hideLabel": false
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-label": null
+          }
+        }
+      ]
+    },
+    {
+      "name": "a hidden label with no text has no aria-label",
+      "start": {
+        "hideLabel": true
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-label": null
+          }
+        }
+      ]
+    },
+    {
+      "name": "clear keeps the aria-label",
+      "start": {
+        "label": "Name",
+        "hideLabel": true,
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "intent": "clear"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": ""
+              }
+            }
+          ],
+          "aria": {
+            "aria-label": "Name"
+          }
+        }
+      ]
+    },
+    {
+      "name": "the clear and submit intents work as intents on a textbox that binds no keys",
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "intent": "clear"
+        },
+        {
+          "intent": "submit"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": ""
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "submit": {}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a boolean false value reads as empty",
+      "start": {
+        "value": false
+      },
+      "steps": [
+        {
+          "intent": "clear"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a boolean true value is a value",
+      "start": {
+        "value": true
+      },
+      "steps": [
+        {
+          "intent": "clear"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": ""
+              }
+            }
+          ],
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "the text '0' is a value",
+      "start": {
+        "value": "0"
+      },
+      "steps": [
+        {
+          "intent": "clear"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": ""
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "the text 'null' is a value",
+      "start": {
+        "value": "null"
+      },
+      "steps": [
+        {
+          "intent": "clear"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": ""
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "whitespace is a value",
+      "start": {
+        "value": "   "
+      },
+      "steps": [
+        {
+          "intent": "clear"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": ""
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "known limit: a hidden label with an empty text exposes an empty aria-label",
+      "start": {
+        "label": "",
+        "hideLabel": true
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-label": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "known limit: a hidden label that is null exposes the text 'null' as aria-label",
+      "start": {
+        "label": null,
+        "hideLabel": true
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-label": "null"
+          }
+        }
+      ]
+    },
+    {
+      "name": "the interactive base: hover and focus-visible facets are published",
+      "needs": ["pointer-hover"],
+      "start": {
+        "value": "a"
+      },
+      "steps": [
+        {
+          "intent": "pointer-enter"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "hovered": true
+          }
+        }
+      ]
+    }
+  ]
+}
