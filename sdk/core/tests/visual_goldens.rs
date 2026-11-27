@@ -581,6 +581,48 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
                 "desktop",
             ),
         ));
+        // The state applies to every row; one row shows the ring of a single focused row.
+        out.push((
+            "one-item-keyboard-focus",
+            with(
+                vec!["keyboard-focus".into()],
+                &serde_json::json!([{ "label": "Only row", "isSelected": true }]),
+                "light",
+                "desktop",
+            ),
+        ));
+        // Checkbox column: absent in single selection (rows do not shift), drawn for every row
+        // in multiple selection (one row, five rows with checked and disabled rows).
+        let single = |states: Vec<String>, items: &Value| {
+            let mut o = HashMap::from([("items".to_string(), items.clone())]);
+            o.insert("selectionMode".into(), "single".into());
+            req(states, o, "light", "desktop")
+        };
+        out.push(("four-items-single", single(vec![], &items)));
+        out.push((
+            "one-item-multiple-checked",
+            with(
+                vec![],
+                &serde_json::json!([{ "label": "Only row", "isSelected": true }]),
+                "light",
+                "desktop",
+            ),
+        ));
+        out.push((
+            "five-items-multiple",
+            with(
+                vec![],
+                &serde_json::json!([
+                    { "label": "Home", "isSelected": true },
+                    { "label": "Projects", "description": "Shared with you" },
+                    { "label": "Settings", "isDisabled": true },
+                    { "label": "Archive", "isSelected": true, "isDisabled": true },
+                    { "label": "Trash" }
+                ]),
+                "light",
+                "desktop",
+            ),
+        ));
     }
     // Stack item: a row with a checkbox, a visual and two trailing action buttons (nested
     // recipes and slot fills), selected, unselected and disabled, light and dark mobile.

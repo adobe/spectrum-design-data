@@ -1495,10 +1495,18 @@
     "isQuiet=true,isStandalone=true,staticColor=\"white\",variant=\"secondary\"": "ba8807317d35a2b6"
   },
   "list-view": {
-    "isDisabled=false,isSelected=false": "98166d6fe2fc6ae5",
-    "isDisabled=false,isSelected=true": "4121d2245626b5b7",
-    "isDisabled=true,isSelected=false": "7eb8008154e227fb",
-    "isDisabled=true,isSelected=true": "ac4cdd823de3bf63"
+    "isDisabled=false,isSelected=false,selectionMode=\"multiple\"": "69959bea3d97c7ae",
+    "isDisabled=false,isSelected=false,selectionMode=\"none\"": "6c6fe6523d41a59a",
+    "isDisabled=false,isSelected=false,selectionMode=\"single\"": "a2daa2169156d71a",
+    "isDisabled=false,isSelected=true,selectionMode=\"multiple\"": "5f5a27c01fe593e4",
+    "isDisabled=false,isSelected=true,selectionMode=\"none\"": "21f731f6eff4c480",
+    "isDisabled=false,isSelected=true,selectionMode=\"single\"": "2e6809bc7bce83ac",
+    "isDisabled=true,isSelected=false,selectionMode=\"multiple\"": "ff9c88914d73d542",
+    "isDisabled=true,isSelected=false,selectionMode=\"none\"": "601e889a0d35338e",
+    "isDisabled=true,isSelected=false,selectionMode=\"single\"": "d3b5e3c702b4f99a",
+    "isDisabled=true,isSelected=true,selectionMode=\"multiple\"": "e63defc02136ad1e",
+    "isDisabled=true,isSelected=true,selectionMode=\"none\"": "2346c5c6c90249b2",
+    "isDisabled=true,isSelected=true,selectionMode=\"single\"": "08c2a7ffa494645e"
   },
   "menu": {
     "hasIcon=false,hasThumbnail=false,isDisabled=false,isSelected=false,selectionMode=\"multiple\",selectionStyle=\"checkbox\"": "3f163dec10284a19",
