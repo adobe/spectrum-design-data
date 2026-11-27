@@ -2478,3 +2478,114 @@ fn clear_on_a_range_and_text_contract_leaves_an_empty_value_the_range_reads() {
         r[1]
     );
 }
+
+fn break_at(contract: &Value, pointer: &str, value: Value) -> Value {
+    let mut m = contract.clone();
+    match m.pointer_mut(pointer) {
+        Some(slot) => *slot = value,
+        None => {
+            let (parent, key) = pointer.rsplit_once('/').unwrap();
+            m.pointer_mut(parent).unwrap()[key] = value;
+        }
+    }
+    m
+}
+
+/// Each color wheel rule (the wrapping hue range, the page of 15, the semantics, the part pins)
+/// must be pinned by a component vector or the pins, and the wheel has no key suite.
+#[test]
+fn a_broken_color_wheel_contract_fails_a_vector() {
+    let (contract, vectors, patterns) = load("color-wheel");
+    assert_eq!(failures(&contract, &vectors, &patterns), 0);
+    let edits = [
+        ("/range/wrap", json!(false)),
+        ("/range/page", json!({ "size": 10 })),
+        ("/range/page", json!({ "fraction": 0.1 })),
+        ("/range/min", json!("step")),
+        ("/range/max", json!("step")),
+        ("/range/step", json!("minValue")),
+        ("/range/value", json!("minValue")),
+        (
+            "/semantics/color-handle/value/ariaState",
+            json!("aria-valuemin"),
+        ),
+        (
+            "/semantics/color-handle/minValue/ariaState",
+            json!("aria-valuemax"),
+        ),
+        (
+            "/semantics/color-handle/maxValue/ariaState",
+            json!("aria-valuemin"),
+        ),
+    ];
+    for (pointer, value) in edits {
+        let m = break_at(&contract, pointer, value);
+        assert!(
+            failures(&m, &vectors, &patterns) > 0,
+            "color-wheel: breaking {pointer} failed no vector"
+        );
+    }
+    let pins = pins_of("color-wheel");
+    assert!(
+        design_data_core::behavior::check_contract(&contract, &patterns, Some(&pins)).is_empty()
+    );
+    for (pointer, value) in [
+        ("/parts/color-handle/focus", json!("none")),
+        ("/parts/color-handle/role", json!("slider")),
+        ("/state", json!(["isDisabled"])),
+    ] {
+        let m = break_at(&contract, pointer, value);
+        assert!(
+            !design_data_core::behavior::check_contract(&m, &patterns, Some(&pins)).is_empty(),
+            "color-wheel: breaking {pointer} fails no pin"
+        );
+    }
+}
+
+/// Each color area rule (one block per axis, the options each axis reads) must be pinned by a
+/// component vector or the pins.
+#[test]
+fn a_broken_color_area_contract_fails_a_vector() {
+    let (contract, vectors, patterns) = load("color-area");
+    assert_eq!(failures(&contract, &vectors, &patterns), 0);
+    let mut edits = vec![
+        ("/ranges/x/value", json!("y-value")),
+        ("/ranges/y/value", json!("x-value")),
+        ("/ranges/x/min", json!("y-minValue")),
+        ("/ranges/y/min", json!("x-minValue")),
+        ("/ranges/x/max", json!("y-maxValue")),
+        ("/ranges/y/max", json!("x-maxValue")),
+        ("/ranges/x/step", json!("x-minValue")),
+        ("/ranges/y/step", json!("y-minValue")),
+        ("/ranges/x/wrap", json!(true)),
+        ("/ranges/y/wrap", json!(true)),
+        ("/ranges/x/page", json!({ "size": 7 })),
+        ("/ranges/y/page", json!({ "size": 7 })),
+    ];
+    edits.push(("/ranges/x/min", json!("x-maxValue")));
+    for (pointer, value) in edits {
+        let m = break_at(&contract, pointer, value);
+        assert!(
+            failures(&m, &vectors, &patterns) > 0,
+            "color-area: breaking {pointer} failed no vector"
+        );
+    }
+    let mut one_axis = contract.clone();
+    one_axis["ranges"].as_object_mut().unwrap().remove("y");
+    assert!(failures(&one_axis, &vectors, &patterns) > 0);
+    let pins = pins_of("color-area");
+    assert!(
+        design_data_core::behavior::check_contract(&contract, &patterns, Some(&pins)).is_empty()
+    );
+    for (pointer, value) in [
+        ("/parts/color-handle/focus", json!("none")),
+        ("/parts/color-handle/role", json!("slider")),
+        ("/state", json!(["isDisabled"])),
+    ] {
+        let m = break_at(&contract, pointer, value);
+        assert!(
+            !design_data_core::behavior::check_contract(&m, &patterns, Some(&pins)).is_empty(),
+            "color-area: breaking {pointer} fails no pin"
+        );
+    }
+}
