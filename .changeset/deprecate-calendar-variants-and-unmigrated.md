@@ -1,5 +1,6 @@
 ---
 "@adobe/spectrum-design-data": minor
+"@adobe/design-data-wasm": patch
 ---
 
 Deprecate five components (`lifecycle.deprecatedIn` on the component files).
