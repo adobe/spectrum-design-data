@@ -1464,6 +1464,416 @@
           ]
         }
       ]
+    },
+    {
+      "name": "each axis exposes its own value, minimum and maximum",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 100,
+        "y-minValue": 0,
+        "y-maxValue": 100,
+        "step": 1,
+        "x-value": 40,
+        "y-value": 70
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "axisAria": {
+            "x": {
+              "aria-valuenow": "40",
+              "aria-valuemin": "0",
+              "aria-valuemax": "100"
+            },
+            "y": {
+              "aria-valuenow": "70",
+              "aria-valuemin": "0",
+              "aria-valuemax": "100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "an axis with its own span exposes that span",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 255,
+        "y-minValue": -50,
+        "y-maxValue": 50,
+        "step": 1,
+        "x-value": 10,
+        "y-value": 0
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "axisAria": {
+            "x": {
+              "aria-valuemin": "0",
+              "aria-valuemax": "255"
+            },
+            "y": {
+              "aria-valuemin": "-50",
+              "aria-valuemax": "50",
+              "aria-valuenow": "0"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "an unset x value is absent and y keeps its value",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 100,
+        "y-minValue": 0,
+        "y-maxValue": 100,
+        "step": 1,
+        "y-value": 30
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "axisAria": {
+            "x": {
+              "aria-valuenow": null
+            },
+            "y": {
+              "aria-valuenow": "30"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "an unset y value is absent and x keeps its value",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 100,
+        "y-minValue": 0,
+        "y-maxValue": 100,
+        "step": 1,
+        "x-value": 30
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "axisAria": {
+            "x": {
+              "aria-valuenow": "30"
+            },
+            "y": {
+              "aria-valuenow": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "a value set on one axis appears on that axis only",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 100,
+        "y-minValue": 0,
+        "y-maxValue": 100,
+        "step": 1
+      },
+      "steps": [
+        {
+          "intent": "set-max",
+          "axis": "y"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "axisAria": {
+            "x": {
+              "aria-valuenow": null
+            },
+            "y": {
+              "aria-valuenow": "100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "an x step changes the x attribute and leaves the y attribute",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 100,
+        "y-minValue": 0,
+        "y-maxValue": 100,
+        "step": 1,
+        "x-value": 40,
+        "y-value": 70
+      },
+      "steps": [
+        {
+          "intent": "increment",
+          "axis": "x"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "axisAria": {
+            "x": {
+              "aria-valuenow": "41"
+            },
+            "y": {
+              "aria-valuenow": "70"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "a y step changes the y attribute and leaves the x attribute",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 100,
+        "y-minValue": 0,
+        "y-maxValue": 100,
+        "step": 1,
+        "x-value": 40,
+        "y-value": 70
+      },
+      "steps": [
+        {
+          "intent": "decrement",
+          "axis": "y"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "axisAria": {
+            "x": {
+              "aria-valuenow": "40"
+            },
+            "y": {
+              "aria-valuenow": "69"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "a two-axis drag updates each axis attribute in turn",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 100,
+        "y-minValue": 0,
+        "y-maxValue": 100,
+        "step": 1,
+        "x-value": 10,
+        "y-value": 10
+      },
+      "steps": [
+        {
+          "intent": "press-start"
+        },
+        {
+          "intent": "move",
+          "axis": "x",
+          "position": 0.25
+        },
+        {
+          "intent": "move",
+          "axis": "y",
+          "position": 0.75
+        },
+        {
+          "intent": "press-end"
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "axisAria": {
+            "x": {
+              "aria-valuenow": "25"
+            },
+            "y": {
+              "aria-valuenow": "10"
+            }
+          }
+        },
+        {
+          "after": 3,
+          "axisAria": {
+            "x": {
+              "aria-valuenow": "25"
+            },
+            "y": {
+              "aria-valuenow": "75"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "an unset x minimum is absent and y keeps its minimum",
+      "start": {
+        "x-maxValue": 100,
+        "y-minValue": 5,
+        "y-maxValue": 100,
+        "step": 1,
+        "x-value": 50,
+        "y-value": 50
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "axisAria": {
+            "x": {
+              "aria-valuemin": null,
+              "aria-valuemax": "100"
+            },
+            "y": {
+              "aria-valuemin": "5",
+              "aria-valuemax": "100"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "an unset y maximum is absent and x keeps its maximum",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 100,
+        "y-minValue": 0,
+        "step": 1,
+        "x-value": 50,
+        "y-value": 50
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "axisAria": {
+            "x": {
+              "aria-valuemax": "100"
+            },
+            "y": {
+              "aria-valuemax": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "a clamp on one axis shows in that attribute only",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 100,
+        "y-minValue": 0,
+        "y-maxValue": 100,
+        "step": 1,
+        "x-value": 99,
+        "y-value": 5
+      },
+      "steps": [
+        {
+          "intent": "increment-page",
+          "axis": "x"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "axisAria": {
+            "x": {
+              "aria-valuenow": "100"
+            },
+            "y": {
+              "aria-valuenow": "5"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "a disabled area still exposes both axes and a step changes neither",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 100,
+        "y-minValue": 0,
+        "y-maxValue": 100,
+        "step": 1,
+        "x-value": 40,
+        "y-value": 70,
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "increment",
+          "axis": "x"
+        },
+        {
+          "intent": "decrement",
+          "axis": "y"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "axisAria": {
+            "x": {
+              "aria-valuenow": "40"
+            },
+            "y": {
+              "aria-valuenow": "70"
+            }
+          },
+          "emit": []
+        },
+        {
+          "after": 2,
+          "axisAria": {
+            "x": {
+              "aria-valuenow": "40"
+            },
+            "y": {
+              "aria-valuenow": "70"
+            }
+          },
+          "emit": []
+        }
+      ]
     }
   ]
 }

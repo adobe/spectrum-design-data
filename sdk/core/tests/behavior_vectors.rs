@@ -2590,6 +2590,185 @@ fn a_broken_color_area_contract_fails_a_vector() {
     }
 }
 
+/// Color area's per-axis semantics: each of the six entries (one attribute per axis) must be
+/// pinned by a vector, and the entries must stay addressed by axis.
+#[test]
+fn a_broken_color_area_semantics_entry_fails_a_vector() {
+    let (contract, vectors, patterns) = load("color-area");
+    assert_eq!(failures(&contract, &vectors, &patterns), 0);
+    let entries = contract["semantics"]["color-handle"].as_object().unwrap();
+    assert_eq!(entries.len(), 6);
+    assert!(contract["parts"]["color-handle"].get("role").is_none());
+    for (key, entry) in entries {
+        let other = if entry["axis"] == "x" { "y" } else { "x" };
+        for (field, value) in [
+            ("axis", json!(other)),
+            ("ariaState", json!("aria-valuetext")),
+            ("copy", json!(true)),
+        ] {
+            let mut m = contract.clone();
+            if field == "copy" {
+                m["semantics"]["color-handle"]
+                    .as_object_mut()
+                    .unwrap()
+                    .remove(key);
+            } else {
+                m["semantics"]["color-handle"][key][field] = value;
+            }
+            assert!(
+                failures(&m, &vectors, &patterns) > 0,
+                "color-area: changing {key} {field} failed no vector"
+            );
+        }
+        let mut m = contract.clone();
+        m["semantics"]["color-handle"][key]
+            .as_object_mut()
+            .unwrap()
+            .remove("axis");
+        assert!(
+            failures(&m, &vectors, &patterns) > 0,
+            "color-area: dropping the axis of {key} failed no vector"
+        );
+    }
+    let mut none = contract.clone();
+    none.as_object_mut().unwrap().remove("semantics");
+    assert!(failures(&none, &vectors, &patterns) > 0);
+}
+
+fn axis_reason(contract: &Value, expect: Value) -> String {
+    let patterns = range_patterns();
+    let v = json!([{ "name": "v",
+        "start": { "x-value": 40, "y-value": 70, "x-minValue": 0, "x-maxValue": 100,
+            "y-minValue": 0, "y-maxValue": 100, "step": 1 },
+        "steps": [{ "intent": "blur" }], "expect": [expect] }]);
+    let r = failures_detail(contract, v.as_array().unwrap(), &patterns);
+    r.unwrap_or_else(|| "not a failure".into())
+}
+
+fn failures_detail(
+    contract: &Value,
+    vectors: &[Value],
+    patterns: &[design_data_core::graph::BehaviorPatternRecord],
+) -> Option<String> {
+    match &run_range(contract, vectors, patterns)[0].status {
+        Status::Fail(f) => Some(f.join("; ")),
+        _ => None,
+    }
+}
+
+/// Adversarial `axisAria` and `aria` expectations against the color area contract.
+#[test]
+fn an_axis_aria_expectation_is_checked_per_axis() {
+    let (contract, _, _) = load("color-area");
+    let ok = |expect: Value| axis_reason(&contract, expect) == "not a failure";
+    assert!(ok(
+        json!({ "after": 1, "axisAria": { "x": { "aria-valuenow": "40" },
+        "y": { "aria-valuenow": "70" } } })
+    ));
+    // The same attribute reads a different value per axis.
+    let got = axis_reason(
+        &contract,
+        json!({ "after": 1,
+        "axisAria": { "x": { "aria-valuenow": "70" } } }),
+    );
+    assert!(
+        got.contains("axis 'x' 'aria-valuenow' want 70 got 40"),
+        "{got}"
+    );
+    let got = axis_reason(
+        &contract,
+        json!({ "after": 1,
+        "axisAria": { "y": { "aria-valuenow": "40" } } }),
+    );
+    assert!(
+        got.contains("axis 'y' 'aria-valuenow' want 40 got 70"),
+        "{got}"
+    );
+    // An axis the ranges do not declare.
+    let got = axis_reason(
+        &contract,
+        json!({ "after": 1,
+        "axisAria": { "z": { "aria-valuenow": "40" } } }),
+    );
+    assert!(
+        got.contains("axis 'z', which the contract's `ranges` do not declare"),
+        "{got}"
+    );
+    // A per-axis attribute is not read by name alone.
+    let got = axis_reason(
+        &contract,
+        json!({ "after": 1, "aria": { "aria-valuenow": "40" } }),
+    );
+    assert!(got.contains("per axis: read it in `axisAria`"), "{got}");
+    // An attribute the axis does not expose.
+    let got = axis_reason(
+        &contract,
+        json!({ "after": 1,
+        "axisAria": { "x": { "aria-orientation": "horizontal" } } }),
+    );
+    assert!(
+        got.contains("no attribute 'aria-orientation' for axis 'x'"),
+        "{got}"
+    );
+    // Absent is `null`, not "".
+    let got = axis_reason(
+        &contract,
+        json!({ "after": 1,
+        "axisAria": { "x": { "aria-valuenow": null } } }),
+    );
+    assert!(got.contains("want absent got 40"), "{got}");
+    // `axisAria` on a single `range` contract has no axis to name.
+    let (slider, _, _) = load("slider");
+    let got = axis_reason(
+        &slider,
+        json!({ "after": 1,
+        "axisAria": { "x": { "aria-valuenow": "40" } } }),
+    );
+    assert!(got.contains("do not declare"), "{got}");
+}
+
+/// A contract that names an axis it cannot have, or the same attribute twice for one axis, is
+/// reported by the runner's contract check.
+#[test]
+fn a_semantics_axis_that_cannot_resolve_is_reported() {
+    let (contract, _, patterns) = load("color-area");
+    let pins = pins_of("color-area");
+    let check = |c: &Value| design_data_core::behavior::check_contract(c, &patterns, Some(&pins));
+    assert!(check(&contract).is_empty());
+    let mut m = contract.clone();
+    m["semantics"]["color-handle"]["x-value"]["axis"] = json!("z");
+    assert!(check(&m)
+        .iter()
+        .any(|e| e.contains("'z', which the contract's `ranges` do not declare")));
+    let mut m = contract.clone();
+    m["semantics"]["color-handle"]["y-value"]["axis"] = json!("x");
+    assert!(check(&m)
+        .iter()
+        .any(|e| e.contains("'aria-valuenow' for axis 'x' a second time")));
+    // A single `range` takes no axis.
+    let (mut slider, _, patterns) = load("slider");
+    let part = slider["semantics"]
+        .as_object()
+        .unwrap()
+        .keys()
+        .next()
+        .unwrap()
+        .clone();
+    let key = slider["semantics"][&part]
+        .as_object()
+        .unwrap()
+        .keys()
+        .next()
+        .unwrap()
+        .clone();
+    slider["semantics"][&part][&key]["axis"] = json!("x");
+    assert!(
+        design_data_core::behavior::check_contract(&slider, &patterns, None)
+            .iter()
+            .any(|e| e.contains("single `range`")),
+    );
+}
+
 /// Each drop zone rule (the `press` base, the `disabled` facet, the activate part, the pins) must
 /// be pinned by a vector or the pins. The drop zone has no role, so no key suite runs.
 #[test]
@@ -2621,4 +2800,56 @@ fn a_broken_drop_zone_contract_fails_a_vector_or_a_pin() {
             "drop-zone: breaking {pointer} fails no pin"
         );
     }
+}
+
+/// A malformed `axis` or `axisAria` is rejected by the runner, as the schema does.
+#[test]
+fn a_malformed_axis_or_empty_axis_aria_is_rejected() {
+    let (contract, _, _) = load("color-area");
+    let got = axis_reason(&contract, json!({ "after": 1, "axisAria": {} }));
+    assert!(
+        got.contains("`axisAria` must be an object naming at least one axis"),
+        "{got}"
+    );
+    let got = axis_reason(&contract, json!({ "after": 1, "axisAria": { "x": {} } }));
+    assert!(
+        got.contains("for axis 'x' must name at least one attribute"),
+        "{got}"
+    );
+    let got = axis_reason(&contract, json!({ "after": 1, "axisAria": [] }));
+    assert!(got.contains("must be an object"), "{got}");
+    let mut bad = contract.clone();
+    bad["semantics"]["color-handle"]["x-value"]["axis"] = json!(3);
+    let got = axis_reason(
+        &bad,
+        json!({ "after": 1, "axisAria": { "y": { "aria-valuenow": "70" } } }),
+    );
+    assert!(got.contains("has an `axis` that is not a name: 3"), "{got}");
+    let patterns = range_patterns();
+    let pins = pins_of("color-area");
+    assert!(
+        design_data_core::behavior::check_contract(&bad, &patterns, Some(&pins))
+            .iter()
+            .any(|e| e.contains("not a name: 3"))
+    );
+}
+
+/// An `axis` in an inline collection item's semantics has no `ranges` to name: reject it.
+#[test]
+fn an_axis_on_inline_item_semantics_is_reported() {
+    let (mut contract, _, patterns) = load("accordion");
+    let item = contract["collection"]["item"].clone();
+    if !item.is_object() {
+        contract["collection"]["item"] = json!({ "semantics": {} });
+    }
+    contract["collection"]["item"]["semantics"] = json!({ "header": {
+        "isExpanded": { "ariaState": "aria-expanded", "copy": true, "axis": "x" } } });
+    let issues = design_data_core::behavior::check_contract(&contract, &patterns, None);
+    assert!(
+        issues.iter().any(
+            |e| e.contains("collection.item.semantics.header.isExpanded")
+                && e.contains("inline item contract")
+        ),
+        "{issues:?}"
+    );
 }

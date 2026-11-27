@@ -189,7 +189,21 @@
             }
           ]
         }
-      ]
+      ],
+      "collection": {
+        "slot": "default",
+        "item": {
+          "semantics": {
+            "box": {
+              "isSelected": {
+                "ariaState": "aria-checked",
+                "copy": true,
+                "axis": "x"
+              }
+            }
+          }
+        }
+      }
     },
     {
       "component": "switch",
@@ -223,6 +237,25 @@
         "track": {
           "role": "switch",
           "focus": "tab-stop"
+        }
+      },
+      "ranges": {
+        "x": {
+          "value": "isSelected"
+        }
+      },
+      "semantics": {
+        "track": {
+          "isSelected": {
+            "ariaState": "aria-valuenow",
+            "copy": true,
+            "axis": "z"
+          },
+          "isDisabled": {
+            "ariaState": "aria-valuenow",
+            "copy": true,
+            "axis": "z"
+          }
         }
       }
     }

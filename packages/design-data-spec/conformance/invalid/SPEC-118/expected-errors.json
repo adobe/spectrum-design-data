@@ -25,6 +25,21 @@
       "rule_id": "SPEC-118",
       "severity": "warning",
       "message_pattern": ".*selected.*any-of list.*single source.*"
+    },
+    {
+      "rule_id": "SPEC-118",
+      "severity": "warning",
+      "message_pattern": ".*switch.*axis 'z'.*`ranges` do not declare.*"
+    },
+    {
+      "rule_id": "SPEC-118",
+      "severity": "warning",
+      "message_pattern": ".*switch.*'aria-valuenow' for axis 'z' a second time.*"
+    },
+    {
+      "rule_id": "SPEC-118",
+      "severity": "warning",
+      "message_pattern": ".*checkbox.*axis.*inline item contract.*"
     }
   ]
 }

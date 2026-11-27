@@ -13,7 +13,8 @@ Add the behavior contracts for Color wheel and Color area on the range runner, c
   drag to the end.
 - Color area: two axes, `x` and `y`, in `ranges` (`x-value`, `y-value` and their bounds, one
   `step`), no wrap, a page of a tenth of each span. Every intent names its `axis`, a drag is one
-  `move` per axis. No `semantics`: one contract cannot name two `aria-valuenow`.
+  `move` per axis. Its `semantics` (an `axis` on each entry) come with the per-axis semantics
+  change.
 - `isDisabled` ignores every value intent. An unset value reads the minimum on a step.
 - Component suites only. The `color-handle` part has focus `tab-stop` and no `role`, so no web
   key suite runs (decision A662: a `slider` role would run the shared slider suite). Spec sheets
