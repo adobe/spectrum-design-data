@@ -26,13 +26,13 @@
         "width": {
           "relationship": {
             "property": "height",
-            "context": "Button size"
+            "part": "container"
           }
         },
         "height": {
           "relationship": {
             "property": "height",
-            "context": "Button size"
+            "part": "container"
           }
         },
         "cornerRadius": {
@@ -49,7 +49,8 @@
             },
             "relationship": {
               "property": "color",
-              "context": "Background"
+              "attribute": "background",
+              "part": "container"
             }
           },
           {
@@ -64,7 +65,8 @@
             },
             "relationship": {
               "property": "color",
-              "context": "Background"
+              "attribute": "background",
+              "part": "container"
             }
           },
           {
@@ -79,7 +81,8 @@
             },
             "relationship": {
               "property": "color",
-              "context": "Background"
+              "attribute": "background",
+              "part": "container"
             }
           },
           {
@@ -91,7 +94,8 @@
             },
             "relationship": {
               "property": "color",
-              "context": "Background"
+              "attribute": "background",
+              "part": "container"
             }
           },
           {
@@ -106,7 +110,8 @@
             },
             "relationship": {
               "property": "color",
-              "context": "Background"
+              "attribute": "background",
+              "part": "container"
             }
           },
           {
@@ -121,7 +126,8 @@
             },
             "relationship": {
               "property": "color",
-              "context": "Background"
+              "attribute": "background",
+              "part": "container"
             }
           },
           {
@@ -133,7 +139,8 @@
             },
             "relationship": {
               "property": "color",
-              "context": "Background"
+              "attribute": "background",
+              "part": "container"
             }
           },
           {
@@ -148,7 +155,8 @@
             },
             "relationship": {
               "property": "color",
-              "context": "Background"
+              "attribute": "background",
+              "part": "container"
             }
           },
           {
@@ -163,7 +171,8 @@
             },
             "relationship": {
               "property": "color",
-              "context": "Background"
+              "attribute": "background",
+              "part": "container"
             }
           }
         ],
@@ -175,7 +184,7 @@
           },
           "relationship": {
             "property": "component-size-difference",
-            "context": "Button size (down)"
+            "part": "container"
           }
         },
         "pressWidthRatio": {
@@ -186,7 +195,7 @@
           },
           "relationship": {
             "property": "component-size-width-ratio",
-            "context": "Button size (down)"
+            "part": "container"
           }
         },
         "pressMinPerspective": {
@@ -197,7 +206,7 @@
           },
           "relationship": {
             "property": "component-size-minimum-perspective",
-            "context": "Button size (down)"
+            "part": "container"
           }
         }
       }
@@ -218,7 +227,7 @@
             },
             "relationship": {
               "property": "size",
-              "context": "Cross icon size"
+              "part": "icon"
             }
           },
           {
@@ -229,7 +238,7 @@
             },
             "relationship": {
               "property": "size",
-              "context": "Cross icon size"
+              "part": "icon"
             }
           },
           {
@@ -240,7 +249,7 @@
             },
             "relationship": {
               "property": "size",
-              "context": "Cross icon size"
+              "part": "icon"
             }
           },
           {
@@ -251,7 +260,7 @@
             },
             "relationship": {
               "property": "size",
-              "context": "Cross icon size"
+              "part": "icon"
             }
           }
         ],
@@ -264,7 +273,7 @@
             },
             "relationship": {
               "property": "size",
-              "context": "Cross icon size"
+              "part": "icon"
             }
           },
           {
@@ -275,7 +284,7 @@
             },
             "relationship": {
               "property": "size",
-              "context": "Cross icon size"
+              "part": "icon"
             }
           },
           {
@@ -286,7 +295,7 @@
             },
             "relationship": {
               "property": "size",
-              "context": "Cross icon size"
+              "part": "icon"
             }
           },
           {
@@ -297,7 +306,7 @@
             },
             "relationship": {
               "property": "size",
-              "context": "Cross icon size"
+              "part": "icon"
             }
           }
         ],
@@ -305,7 +314,7 @@
           {
             "relationship": {
               "property": "content-color",
-              "context": "Cross icon"
+              "part": "icon"
             }
           },
           {
@@ -316,7 +325,7 @@
             },
             "relationship": {
               "property": "color",
-              "context": "Cross icon"
+              "part": "icon"
             }
           },
           {
@@ -327,7 +336,7 @@
             },
             "relationship": {
               "property": "color",
-              "context": "Cross icon"
+              "part": "icon"
             }
           }
         ]
@@ -340,7 +349,7 @@
           {
             "relationship": {
               "property": "color",
-              "context": "Focus ring"
+              "part": "focus-indicator"
             }
           },
           {
@@ -351,7 +360,7 @@
             },
             "relationship": {
               "property": "color",
-              "context": "Focus ring"
+              "part": "focus-indicator"
             }
           },
           {
@@ -362,20 +371,20 @@
             },
             "relationship": {
               "property": "color",
-              "context": "Focus ring"
+              "part": "focus-indicator"
             }
           }
         ],
         "strokeWidth": {
           "relationship": {
             "property": "thickness",
-            "context": "Focus ring"
+            "part": "focus-indicator"
           }
         },
         "gapToParent": {
           "relationship": {
             "property": "gap",
-            "context": "Focus ring"
+            "part": "focus-indicator"
           }
         }
       }

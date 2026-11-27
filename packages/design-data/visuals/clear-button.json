@@ -26,13 +26,13 @@
         "width": {
           "relationship": {
             "property": "height",
-            "context": "Button size"
+            "part": "container"
           }
         },
         "height": {
           "relationship": {
             "property": "height",
-            "context": "Button size"
+            "part": "container"
           }
         },
         "cornerRadius": {
@@ -57,7 +57,7 @@
             },
             "relationship": {
               "property": "size",
-              "context": "Cross icon size"
+              "part": "icon"
             }
           },
           {
@@ -68,7 +68,7 @@
             },
             "relationship": {
               "property": "size",
-              "context": "Cross icon size"
+              "part": "icon"
             }
           },
           {
@@ -79,7 +79,7 @@
             },
             "relationship": {
               "property": "size",
-              "context": "Cross icon size"
+              "part": "icon"
             }
           },
           {
@@ -90,7 +90,7 @@
             },
             "relationship": {
               "property": "size",
-              "context": "Cross icon size"
+              "part": "icon"
             }
           }
         ],
@@ -103,7 +103,7 @@
             },
             "relationship": {
               "property": "size",
-              "context": "Cross icon size"
+              "part": "icon"
             }
           },
           {
@@ -114,7 +114,7 @@
             },
             "relationship": {
               "property": "size",
-              "context": "Cross icon size"
+              "part": "icon"
             }
           },
           {
@@ -125,7 +125,7 @@
             },
             "relationship": {
               "property": "size",
-              "context": "Cross icon size"
+              "part": "icon"
             }
           },
           {
@@ -136,7 +136,7 @@
             },
             "relationship": {
               "property": "size",
-              "context": "Cross icon size"
+              "part": "icon"
             }
           }
         ],
@@ -144,7 +144,7 @@
           {
             "relationship": {
               "property": "content-color",
-              "context": "Cross icon"
+              "part": "icon"
             }
           },
           {
@@ -155,7 +155,7 @@
             },
             "relationship": {
               "property": "color",
-              "context": "Cross icon"
+              "part": "icon"
             }
           },
           {
@@ -169,7 +169,7 @@
             },
             "relationship": {
               "property": "content-color",
-              "context": "Cross icon"
+              "part": "icon"
             }
           }
         ]
@@ -181,19 +181,19 @@
         "stroke": {
           "relationship": {
             "property": "color",
-            "context": "Focus ring"
+            "part": "focus-indicator"
           }
         },
         "strokeWidth": {
           "relationship": {
             "property": "thickness",
-            "context": "Focus ring"
+            "part": "focus-indicator"
           }
         },
         "gapToParent": {
           "relationship": {
             "property": "gap",
-            "context": "Focus ring"
+            "part": "focus-indicator"
           }
         }
       }
