@@ -2153,6 +2153,19 @@ fn axis_and_wrap_mistakes_fail_with_a_reason() {
         json!({ "intent": "increment", "axis": "x" }),
     );
     assert!(got.contains("span 0 must be above 0"), "{got}");
+    let got = reason(
+        &contract,
+        json!({ "xValue": 1e300, "xMin": 0, "xMax": 360, "step": 1 }),
+        json!({ "intent": "increment", "axis": "x" }),
+    );
+    assert!(got.contains("too large to wrap"), "{got}");
+    let mut mirrored = contract.clone();
+    mirrored["ranges"]["x"]["mirror"] = json!({ "facet": "disabled", "is": "true" });
+    assert!(
+        design_data_core::behavior::check_contract(&mirrored, &patterns, None)
+            .iter()
+            .any(|m| m.contains("which only a single `range` takes"))
+    );
     let mut ghost = contract.clone();
     ghost["ranges"]["y"]["max"] = json!("isGhost");
     assert!(

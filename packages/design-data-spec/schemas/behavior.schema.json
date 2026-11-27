@@ -116,7 +116,10 @@
       "type": "object",
       "minProperties": 1,
       "propertyNames": { "$ref": "#/$defs/name" },
-      "additionalProperties": { "$ref": "#/properties/range" },
+      "additionalProperties": {
+        "$ref": "#/properties/range",
+        "not": { "required": ["mirror"] }
+      },
       "description": "One `range` block per axis (color-area `x` and `y`), keyed by axis name; an alternative to `range`, not an addition. Each axis holds its value in its own option. A `do.adjust` names its `axis`, or takes the `axis` of the vector step that runs it."
     },
     "wcag": { "$ref": "#/$defs/wcag" },

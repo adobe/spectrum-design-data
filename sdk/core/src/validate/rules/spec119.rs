@@ -671,6 +671,11 @@ mod tests {
             });
         }
         assert!(check(axes).is_empty());
+        assert!(check(|c| {
+            axes(c);
+            c["transitions"][0]["do"] = json!({ "adjust": { "to": "min", "axis": "y" } });
+        })
+        .is_empty());
         let cases: Vec<Case> = vec![
             (
                 Box::new(|c| {
@@ -697,6 +702,22 @@ mod tests {
                 Box::new(|c| {
                     axes(c);
                     c["ranges"]["y"]["wrap"] = json!(true);
+                }),
+                "`wrap` range without a `min` and a `max`",
+            ),
+            (
+                Box::new(|c| {
+                    axes(c);
+                    c["ranges"]["y"]["wrap"] = json!(true);
+                    c["ranges"]["y"]["min"] = json!("isDisabled");
+                }),
+                "`wrap` range without a `min` and a `max`",
+            ),
+            (
+                Box::new(|c| {
+                    axes(c);
+                    c["ranges"]["y"]["wrap"] = json!(true);
+                    c["ranges"]["y"]["max"] = json!("isDisabled");
                 }),
                 "`wrap` range without a `min` and a `max`",
             ),

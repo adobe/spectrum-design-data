@@ -80,7 +80,7 @@ A single-thumb value range (slider) is one contract with a `range` block and the
 * Page: a fraction of the span rounded to the step and never below one step, or the fixed `size`.
 * Numbers stay whole: `41.0` in a vector or a platform's value is `41`, in options, events and attributes.
 * Emit only on change: an adjust that leaves the value as it is raises no event. Otherwise it emits `change` with the new `value`.
-* Axes: a contract with two or more values (color-area) declares `ranges` instead of `range`, one block per axis keyed by axis name (`{ "x": { "value": "xValue", ... }, "y": { ... } }`); both together is an error, and each axis holds its value in its own option. The same `range` pattern serves it: `do.adjust` takes an `axis` of its own, or else the `axis` of the vector step (or event) that runs it, so `{ "intent": "increment", "axis": "x" }` steps x only and leaves y untouched. A contract with `ranges` and an action with no axis, an axis the `ranges` do not list, an `axis` on a single `range`, or an action and a step that name different axes fails the vector. A `move` carries one axis and one `position`, so a two-axis pointer drag is one `move` per axis, each raising `change` only for its own axis and only when it changed. Key bindings do not name axes; color-area and color-wheel are covered by intent (decision A662).
+* Axes: a contract with two or more values (color-area) declares `ranges` instead of `range`, one block per axis keyed by axis name (`{ "x": { "value": "xValue", ... }, "y": { ... } }`); both together is an error, and each axis holds its value in its own option. The same `range` pattern serves it: `do.adjust` takes an `axis` of its own, or else the `axis` of the vector step (or event) that runs it, so `{ "intent": "increment", "axis": "x" }` steps x only and leaves y untouched. A contract with `ranges` and an action with no axis, an axis the `ranges` do not list, an `axis` on a single `range`, or an action and a step that name different axes fails the vector. A `move` carries one axis and one `position`, so a two-axis pointer drag is one `move` per axis, each raising `change` only for its own axis and only when it changed. A `ranges` block takes no `mirror` (a mirror swaps keys, and a key names no axis; the schema and `check_contract` reject it). Key bindings do not name axes; color-area and color-wheel are covered by intent (decision A662).
 * Wrap: `"wrap": true` on a block makes the range a cycle (color-wheel hue 0 to 360), as in `{ "value": "hue", "min": "minHue", "max": "maxHue", "step": "step", "wrap": true }`. `max` is `min` again, so a step or page step reduces into `[min, max)` after it is snapped from the minimum: with 0 to 360 and step 1, 359 up gives 0, 0 down gives 359, 360 up gives 1 and 360 down gives 359; a page of 36 from 350 gives 26 and from 10 down gives 334; with 0 to 1 and step 0.1, 0.9 up gives 0 and 0 down gives 0.9. Max is reached only by `to: max` (`End`) and by a `move` to position 1 (hue 360, not 0); `to: min` and `to: max` never wrap, and a value outside the range reduces the same way on its next step. A wrap range needs `min` and `max` options (SPEC-119) and a span above 0 that is a multiple of the step (the vector fails otherwise). Wrap, snap and emit-only-on-change otherwise follow the rules above: a step that lands on the current value raises no event.
 * A `move` step carries `position`, the logical position from 0 at the minimum to 1 at the maximum (a vector with a position outside 0 to 1, or a `move` with none, fails). The adapter turns pointer geometry and right-to-left into that position, so `mirror` does not touch it. A pointer drag is `press-start`, any number of `move` steps, then `press-end`; the pattern's own `press-end` raises no `press`, because a range has no press.
 * `mirror` is a guard over the contract's own facets: while it holds the runner swaps ArrowLeft and ArrowRight before it looks the key up, as for a collection. A disabled range (`disabled` facet, from `isDisabled`) ignores every value intent.
@@ -218,12 +218,8 @@ A contract names intents, never keys (principle 12). Which key raises which inte
   "platform": "web",
   "capabilities": ["pointer-hover", "keyboard", "assistive-activation"],
   "roles": {
-    "switch": {
-      "keyboard": [{ "key": "Space", "down": "press-start", "up": "press-end" }]
-    },
-    "checkbox": {
-      "keyboard": [{ "key": "Space", "down": "press-start", "up": "press-end" }]
-    }
+    "switch": { "keyboard": [{ "key": "Space", "down": "press-start", "up": "press-end" }] },
+    "checkbox": { "keyboard": [{ "key": "Space", "down": "press-start", "up": "press-end" }] }
   }
 }
 ```

@@ -442,6 +442,11 @@ impl Run<'_> {
                     // `to: max` or a `move` to 1 reaches max.
                     let raw = ((now + by * size) * 1e10).round() / 1e10;
                     let x = min + (raw - min).rem_euclid(span);
+                    if !x.is_finite() {
+                        return Err(format!(
+                            "the value {now} is too large to wrap (unsupported above 1e298)"
+                        ));
+                    }
                     let s = ((min + (((x - min) / step * 1e9).round() / 1e9).round() * step)
                         * 1e10)
                         .round()
@@ -1063,6 +1068,11 @@ pub fn check_contract(
             .map(|(a, r)| (format!("ranges.{a}"), r)),
     );
     for (at, r) in blocks {
+        if at != "range" && r.get("mirror").is_some() {
+            out.push(format!(
+                "`{at}` has a `mirror`, which only a single `range` takes"
+            ));
+        }
         for k in ["value", "min", "max", "step"] {
             if let Some(o) = r.get(k).and_then(Value::as_str) {
                 if !state.contains(&o) {

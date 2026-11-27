@@ -1175,6 +1175,35 @@
           ]
         }
       ]
+    },
+    {
+      "name": "a decimal half inside the wrap rounds away from min",
+      "start": {
+        "xMin": 0,
+        "xMax": 1,
+        "yMin": 0,
+        "yMax": 100,
+        "step": 0.1,
+        "xValue": 0.05
+      },
+      "steps": [
+        {
+          "intent": "increment",
+          "axis": "x"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "xValue": 0.2
+              }
+            }
+          ]
+        }
+      ]
     }
   ]
 }
