@@ -2329,6 +2329,10 @@
     "hasAvatar=true,isDisabled=true,isEmphasized=true,isRemovable=true,isSelected=false": "bf3a8b33c4a077c8",
     "hasAvatar=true,isDisabled=true,isEmphasized=true,isRemovable=true,isSelected=true": "5bfc82b5c976ef52"
   },
+  "takeover-dialog": {
+    "variant=\"dialog\"": "9c7bdc8bbb27fa2f",
+    "variant=\"full screen\"": "6b934b0297d9f317"
+  },
   "text-area": {
     "hideLabel=false,isDisabled=false,isError=false,isRequired=false,labelPosition=\"side\",necessityIndicator=\"icon\",showValidIcon=false": "77cba7b18d1b99c8",
     "hideLabel=false,isDisabled=false,isError=false,isRequired=false,labelPosition=\"side\",necessityIndicator=\"icon\",showValidIcon=true": "c8be64b200873b88",
