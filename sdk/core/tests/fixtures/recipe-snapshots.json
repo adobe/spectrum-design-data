@@ -1444,6 +1444,10 @@
     "hideIcon=true,isDisabled=true,variant=\"negative\"": "f3b3335576f4719c",
     "hideIcon=true,isDisabled=true,variant=\"neutral\"": "85aab138ceadeb76"
   },
+  "illustrated-message": {
+    "orientation=\"horizontal\"": "26552595d724ddad",
+    "orientation=\"vertical\"": "2f29140725787845"
+  },
   "in-field-button": {
     "isDisabled=false": "fabe08fb220cfb83",
     "isDisabled=true": "18aea6062c1d933f"

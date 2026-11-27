@@ -119,6 +119,35 @@
       "description": "Label for the secondary action button. If undefined, no secondary action is shown."
     }
   },
+  "slots": [
+    {
+      "name": "button-group",
+      "part": "button-group",
+      "accepts": ["button"],
+      "acceptsOnly": true,
+      "min": 0,
+      "max": 2,
+      "description": "The actions below the description: up to two buttons, primary and secondary. Temporary: a slot of buttons stands in for a nested button-group, because nested slot fills inside a slot-hosting component are not solved yet (bead 5m92.32.22).",
+      "demo": [
+        {
+          "component": "button",
+          "options": {
+            "label": "Label",
+            "variant": "secondary",
+            "style": "outline"
+          }
+        },
+        {
+          "component": "button",
+          "options": {
+            "label": "Label",
+            "variant": "accent",
+            "style": "fill"
+          }
+        }
+      ]
+    }
+  ],
   "anatomy": [
     {
       "name": "container",
