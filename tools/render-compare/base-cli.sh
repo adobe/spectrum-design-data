@@ -20,6 +20,8 @@
 #                            bin/design-data (the CLI), target/ (removed after the build
 #                            unless KEEP_TARGET=1).
 # Env: RC_CACHE (default ~/.cache/sdd-render-compare), RC_MIN_FREE_GB (default 15),
+#      RC_TARGET_DIR (build into this Cargo target dir instead of <cache>/<sha>/target and keep it,
+#      so CI can reuse the dependencies a restored rust-cache already compiled),
 #      KEEP_TARGET=1, RC_LOCK_WAIT (seconds to wait for another builder, default 1800).
 # Two callers building the same commit do not build twice: the second waits on the lock dir
 # (mkdir is atomic; macOS has no flock) and then reuses the first one's result.
@@ -71,9 +73,10 @@ ensure() {
   fi
   if [ "$want_bin" != 1 ]; then echo "$dir"; return; fi
   echo "base-cli: building $ref ($sha) into $dir" >&2
-  (cd "$dir/src/sdk" && CARGO_TARGET_DIR="$dir/target" cargo build -p design-data-cli) >&2
-  cp -f "$dir/target/debug/design-data" "$dir/bin/design-data"
-  [ "${KEEP_TARGET:-0}" = 1 ] || rm -rf "$dir/target"
+  local target="${RC_TARGET_DIR:-$dir/target}"
+  (cd "$dir/src/sdk" && CARGO_TARGET_DIR="$target" cargo build -p design-data-cli) >&2
+  cp -f "$target/debug/design-data" "$dir/bin/design-data"
+  [ -n "${RC_TARGET_DIR:-}" ] || [ "${KEEP_TARGET:-0}" = 1 ] || rm -rf "$dir/target"
   echo "$dir"
 }
 
