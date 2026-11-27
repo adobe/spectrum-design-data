@@ -55,6 +55,10 @@
     }
   ],
   "options": {
+    "illustration": {
+      "type": "string",
+      "description": "Optional illustration or icon displayed above the title."
+    },
     "accept": {
       "type": "array",
       "items": {
@@ -87,6 +91,10 @@
       "type": "boolean",
       "default": false,
       "description": "Whether the zone already holds content. With state drag-and-drop it shows the banner that offers to replace it."
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
     }
   },
   "anatomy": [
