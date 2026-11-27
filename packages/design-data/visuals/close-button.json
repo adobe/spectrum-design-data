@@ -49,7 +49,6 @@
             },
             "relationship": {
               "property": "color",
-              "attribute": "background",
               "part": "container"
             }
           },
@@ -65,7 +64,6 @@
             },
             "relationship": {
               "property": "color",
-              "attribute": "background",
               "part": "container"
             }
           },
@@ -81,7 +79,6 @@
             },
             "relationship": {
               "property": "color",
-              "attribute": "background",
               "part": "container"
             }
           },
@@ -94,7 +91,6 @@
             },
             "relationship": {
               "property": "color",
-              "attribute": "background",
               "part": "container"
             }
           },
@@ -110,7 +106,6 @@
             },
             "relationship": {
               "property": "color",
-              "attribute": "background",
               "part": "container"
             }
           },
@@ -126,7 +121,6 @@
             },
             "relationship": {
               "property": "color",
-              "attribute": "background",
               "part": "container"
             }
           },
@@ -139,7 +133,6 @@
             },
             "relationship": {
               "property": "color",
-              "attribute": "background",
               "part": "container"
             }
           },
@@ -155,7 +148,6 @@
             },
             "relationship": {
               "property": "color",
-              "attribute": "background",
               "part": "container"
             }
           },
@@ -171,7 +163,6 @@
             },
             "relationship": {
               "property": "color",
-              "attribute": "background",
               "part": "container"
             }
           }

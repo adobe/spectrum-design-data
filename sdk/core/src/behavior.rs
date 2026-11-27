@@ -105,6 +105,8 @@ pub(crate) struct Machine {
     pub(crate) state: Vec<String>,
     /// The contract's own `range` block (decision A658), read by `do.adjust`.
     pub(crate) range: Option<Value>,
+    /// The contract's own `ranges`: one `range` block per axis (color-area `x` and `y`).
+    pub(crate) ranges: Option<Value>,
 }
 
 fn extends(raw: &Value) -> Vec<String> {
@@ -145,6 +147,7 @@ pub(crate) fn flatten(
             .cloned()
             .unwrap_or_default(),
         range: contract.get("range").cloned(),
+        ranges: contract.get("ranges").cloned(),
         state: contract
             .get("state")
             .and_then(Value::as_array)
@@ -312,6 +315,9 @@ struct Run<'a> {
     pending: Vec<(String, Option<String>)>,
     /// The logical position (0 to 1) of the `move` step being run.
     position: Option<f64>,
+    /// The `axis` of the step being run: which block of `ranges` an `adjust` without its own
+    /// `axis` addresses.
+    axis: Option<String>,
 }
 
 /// A whole number stays whole (41, never 41.0), so a value compares and reads the same however a
@@ -329,74 +335,166 @@ fn norm(v: &Value) -> Value {
 }
 
 impl Run<'_> {
+    /// The `range` block an `adjust` addresses: the contract's `range`, or one of its `ranges`
+    /// by axis (the action's own `axis`, else the step's).
+    fn block(&self, own: Option<&str>) -> Result<&Value, String> {
+        let axis = match (own, self.axis.as_deref()) {
+            (Some(a), Some(b)) if a != b => {
+                return Err(format!(
+                    "the action addresses axis '{a}', but the step names axis '{b}'"
+                ))
+            }
+            (a, b) => a.or(b),
+        };
+        match (&self.m.range, &self.m.ranges, axis) {
+            (Some(r), None, None) => Ok(r),
+            (Some(_), None, Some(a)) => Err(format!(
+                "axis '{a}', but the contract has a single `range`, not `ranges`"
+            )),
+            (None, Some(rs), Some(a)) => rs.get(a).ok_or_else(|| {
+                let known: Vec<&str> = rs
+                    .as_object()
+                    .into_iter()
+                    .flat_map(|o| o.keys().map(String::as_str))
+                    .collect();
+                format!(
+                    "unknown axis '{a}' (the `ranges` have {})",
+                    known.join(", ")
+                )
+            }),
+            (None, Some(_), None) => {
+                Err("the contract has `ranges`: the action or the step must name an `axis`".into())
+            }
+            (Some(_), Some(_), _) => Err("the contract has both `range` and `ranges`".into()),
+            (None, None, _) => Err("`do.adjust`, but the contract has no `range`".into()),
+        }
+    }
+
     /// `do.adjust` on the contract's `range`: the option, its value now and its value after. The
     /// result is snapped to the step from the minimum (half away from the minimum, rounded to 10
     /// decimals against float noise), then clamped. `min` and `max` set the bound exactly.
     fn adjust(&self, a: &Value) -> Result<(String, Value, Value), String> {
-        let r = self
-            .m
-            .range
-            .as_ref()
-            .ok_or("`do.adjust`, but the contract has no `range`")?;
+        let r = self.block(a.get("axis").and_then(Value::as_str))?;
         let name = r
             .get("value")
             .and_then(Value::as_str)
             .ok_or("the `range` names no `value` option")?;
-        // An unset option reads the default; one that is set but not a number is an error.
-        let read = |name: &str, default: f64| match self.options.get(name) {
-            None | Some(Value::Null) => Ok(default),
+        // An unset option is None; one that is set but not a number is an error.
+        let read = |name: &str| match self.options.get(name) {
+            None | Some(Value::Null) => Ok(None),
             Some(v) => v
                 .as_f64()
+                .map(Some)
                 .ok_or_else(|| format!("option '{name}' is {v}, which is not a number")),
         };
+        // A key the block leaves out reads the default (rating has no `min`: 0); a key naming an
+        // option that is unset means unbounded on that side (the step falls back to 1).
         let num = |k: &str, default: f64| match r.get(k).and_then(Value::as_str) {
-            Some(o) => read(o, default),
-            None => Ok(default),
+            Some(o) => read(o),
+            None => Ok(Some(default)),
         };
-        let (min, max, step) = (num("min", 0.0)?, num("max", 100.0)?, num("step", 1.0)?);
-        if step <= 0.0 || min > max {
+        let (min, max) = (num("min", 0.0)?, num("max", 100.0)?);
+        let step = num("step", 1.0)?.unwrap_or(1.0);
+        if step <= 0.0 || min.zip(max).is_some_and(|(a, b)| a > b) {
             return Err(format!(
-                "the range is min {min}, max {max}, step {step}: the step must be above 0 and min at most max"
+                "the range is min {min:?}, max {max:?}, step {step}: the step must be above 0 and min at most max"
             ));
         }
         // The quotient is rounded to 9 decimals first, so an exact decimal half (0.35 / 0.1) is
-        // not pushed below .5 by float noise.
+        // not pushed below .5 by float noise. Snapping counts from the minimum, else from 0.
         // shortcut: values above 1e298 overflow and steps below 1e-10 never move; upgrade with a decimal type.
+        let origin = min.unwrap_or(0.0);
         let snap = |x: f64| {
-            let q = (((x - min) / step) * 1e9).round() / 1e9;
-            let s = min + q.round() * step;
-            ((s * 1e10).round() / 1e10).clamp(min, max)
+            let q = (((x - origin) / step) * 1e9).round() / 1e9;
+            let s = ((origin + q.round() * step) * 1e10).round() / 1e10;
+            let s = min.map_or(s, |m| s.max(m));
+            max.map_or(s, |m| s.min(m))
         };
-        let now = read(name, min)?;
+        let wrap = r.get("wrap").and_then(Value::as_bool) == Some(true);
+        let bounds = min.zip(max);
+        let span = bounds.map_or(0.0, |(a, b)| b - a);
+        if wrap && (span <= 0.0 || ((span / step) * 1e9).round() % 1e9 != 0.0) {
+            return Err(format!(
+                "the range wraps, so it needs both bounds and its span {span} must be above 0 and a multiple of the step {step}"
+            ));
+        }
+        let value = read(name)?;
+        let now = value.unwrap_or(origin);
+        let mut from_empty = false;
+        // With a bound missing, set-min, set-max, a move and a page by a fraction change nothing.
         let next = match a.get("to").and_then(Value::as_str) {
-            Some("min") => min,
-            Some("max") => max,
+            Some("min") => min.unwrap_or(now),
+            Some("max") => max.unwrap_or(now),
             Some("position") => {
                 let p = self
                     .position
                     .filter(|p| (0.0..=1.0).contains(p))
                     .ok_or("`move` needs a step `position` from 0 to 1")?;
-                snap(min + p * (max - min))
+                bounds.map_or(now, |(a, b)| snap(a + p * (b - a)))
             }
             _ => {
                 let by = a.get("by").and_then(Value::as_f64).unwrap_or(0.0);
-                let size = match a.get("unit").and_then(Value::as_str) {
-                    Some("page") => match r.pointer("/page/size").and_then(Value::as_f64) {
-                        Some(n) => n,
-                        None => {
+                let page = a.get("unit").and_then(Value::as_str) == Some("page");
+                // A page is a fixed `page.size`, else a fraction of the span (both bounds needed).
+                let size = if page {
+                    match (r.pointer("/page/size").and_then(Value::as_f64), bounds) {
+                        (Some(n), _) => Some(n),
+                        (None, Some((lo, hi))) => {
                             let f = r
                                 .pointer("/page/fraction")
                                 .and_then(Value::as_f64)
                                 .unwrap_or(0.1);
-                            (((max - min) * f / step).round() * step).max(step)
+                            Some((((hi - lo) * f / step).round() * step).max(step))
                         }
-                    },
-                    _ => step,
+                        _ => None,
+                    }
+                } else {
+                    Some(step)
                 };
-                snap(now + by * size)
+                let Some(size) = size else {
+                    return Ok((name.to_string(), norm(&json!(now)), norm(&json!(now))));
+                };
+                if wrap {
+                    // A cycle: max is min again, so a step reduces into [min, max) and only
+                    // `to: max` or a `move` to 1 reaches max.
+                    let raw = ((now + by * size) * 1e10).round() / 1e10;
+                    let lo = origin;
+                    let x = lo + (raw - lo).rem_euclid(span);
+                    if !x.is_finite() {
+                        return Err(format!(
+                            "the value {now} is too large to wrap (unsupported above 1e298)"
+                        ));
+                    }
+                    let s = ((lo + (((x - lo) / step * 1e9).round() / 1e9).round() * step) * 1e10)
+                        .round()
+                        / 1e10;
+                    if s >= lo + span {
+                        s - span
+                    } else {
+                        s
+                    }
+                } else if value.is_none() && by != 0.0 && !page {
+                    // An empty field (React Aria `safeNextStep`): up goes to the minimum, down
+                    // to the maximum, 0 with no such bound; clamped to the bounds that exist,
+                    // then snapped to the step, a snap past the maximum stepping back inside (the minimum is
+                    // the lattice origin, so it never snaps below it).
+                    from_empty = true;
+                    let t = if by > 0.0 { min } else { max }.unwrap_or(0.0);
+                    let t = min.map_or(t, |m| t.max(m));
+                    let t = max.map_or(t, |m| t.min(m));
+                    let q = (((t - origin) / step) * 1e9).round() / 1e9;
+                    let mut s = origin + q.round() * step;
+                    if max.is_some_and(|m| s > m + 1e-9) {
+                        s -= step;
+                    }
+                    (s * 1e10).round() / 1e10
+                } else {
+                    snap(now + by * size)
+                }
             }
         };
-        Ok((name.to_string(), norm(&json!(now)), norm(&json!(next))))
+        let was = if from_empty { Value::Null } else { json!(now) };
+        Ok((name.to_string(), norm(&was), norm(&json!(next))))
     }
 }
 
@@ -667,6 +765,7 @@ fn run_vector(
         in_group: false,
         pending: Vec::new(),
         position: None,
+        axis: None,
     };
     let mut failures = Vec::new();
     let expects = v.get("expect").and_then(Value::as_array);
@@ -685,6 +784,7 @@ fn run_vector(
     for (i, s) in steps.iter().enumerate() {
         let n = i + 1;
         run.position = s.get("position").and_then(Value::as_f64);
+        run.axis = s.get("axis").and_then(Value::as_str).map(String::from);
         let raised = if let Some(input) = s.get("input") {
             let field = |f: &str| input.get(f).and_then(Value::as_str).unwrap_or_default();
             let bindings = bindings.ok_or_else(|| {
@@ -989,17 +1089,30 @@ pub fn check_contract(
             }
         }
     }
-    for k in ["value", "min", "max", "step"] {
-        if let Some(o) = m
-            .range
+    if m.range.is_some() && m.ranges.is_some() {
+        out.push("the contract has both `range` and `ranges`".into());
+    }
+    let blocks = m.range.iter().map(|r| ("range".to_string(), r)).chain(
+        m.ranges
             .as_ref()
-            .and_then(|r| r.get(k))
-            .and_then(Value::as_str)
-        {
-            if !state.contains(&o) {
-                out.push(format!(
-                    "`range.{k}` names '{o}', which `state` does not list"
-                ));
+            .and_then(Value::as_object)
+            .into_iter()
+            .flatten()
+            .map(|(a, r)| (format!("ranges.{a}"), r)),
+    );
+    for (at, r) in blocks {
+        if at != "range" && r.get("mirror").is_some() {
+            out.push(format!(
+                "`{at}` has a `mirror`, which only a single `range` takes"
+            ));
+        }
+        for k in ["value", "min", "max", "step"] {
+            if let Some(o) = r.get(k).and_then(Value::as_str) {
+                if !state.contains(&o) {
+                    out.push(format!(
+                        "`{at}.{k}` names '{o}', which `state` does not list"
+                    ));
+                }
             }
         }
     }

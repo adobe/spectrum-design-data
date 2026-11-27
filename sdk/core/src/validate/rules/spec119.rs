@@ -261,32 +261,87 @@ impl ValidationRule for Rule {
         for b in &ctx.graph.behaviors {
             let state = state_ids(b);
             let range = b.raw.get("range");
-            for k in ["value", "min", "max", "step"] {
-                let Some(o) = range.and_then(|r| r.get(k)).and_then(Value::as_str) else {
-                    continue;
-                };
-                if !state.contains(o) {
+            let ranges = b.raw.get("ranges").and_then(Value::as_object);
+            if range.is_some() && ranges.is_some() {
+                out.push(warning(
+                    self.id(),
+                    b,
+                    "/ranges",
+                    format!(
+                        "Behavior contract of '{}' has both `range` and `ranges`",
+                        b.component
+                    ),
+                ));
+            }
+            let blocks = range.into_iter().map(|r| ("/range".to_string(), r)).chain(
+                ranges
+                    .into_iter()
+                    .flatten()
+                    .map(|(a, r)| (format!("/ranges/{a}"), r)),
+            );
+            let mut values: Vec<&str> = Vec::new();
+            for (at, r) in blocks {
+                for k in ["value", "min", "max", "step"] {
+                    let Some(o) = r.get(k).and_then(Value::as_str) else {
+                        continue;
+                    };
+                    if !state.contains(o) {
+                        out.push(warning(
+                            self.id(),
+                            b,
+                            &format!("{at}/{k}"),
+                            format!("Behavior contract of '{}' has a `range` naming '{o}', which is not in `state`", b.component),
+                        ));
+                    }
+                }
+                if let Some(o) = r.get("value").and_then(Value::as_str) {
+                    if values.contains(&o) {
+                        out.push(warning(
+                            self.id(),
+                            b,
+                            &format!("{at}/value"),
+                            format!("Behavior contract of '{}' has two axes holding their value in '{o}'", b.component),
+                        ));
+                    }
+                    values.push(o);
+                }
+                if r.get("wrap").and_then(Value::as_bool) == Some(true)
+                    && (r.get("min").is_none() || r.get("max").is_none())
+                {
                     out.push(warning(
                         self.id(),
                         b,
-                        &format!("/range/{k}"),
-                        format!("Behavior contract of '{}' has a `range` naming '{o}', which is not in `state`", b.component),
+                        &format!("{at}/wrap"),
+                        format!("Behavior contract of '{}' has a `wrap` range without a `min` and a `max` option: a cycle needs both bounds", b.component),
                     ));
                 }
             }
-            let adjusts =
-                crate::behavior::flatten(&b.raw, &ctx.graph.behavior_patterns).is_ok_and(|m| {
-                    m.transitions
-                        .iter()
-                        .any(|t| t.pointer("/do/adjust").is_some())
-                });
-            if adjusts && range.is_none() {
+            let flat = crate::behavior::flatten(&b.raw, &ctx.graph.behavior_patterns).ok();
+            let adjusts: Vec<&Value> = flat
+                .iter()
+                .flat_map(|m| &m.transitions)
+                .filter_map(|t| t.pointer("/do/adjust"))
+                .collect();
+            if !adjusts.is_empty() && range.is_none() && ranges.is_none() {
                 out.push(warning(
                     self.id(),
                     b,
                     "/range",
                     format!("Behavior contract of '{}' has a transition with `do.adjust` and no `range` block", b.component),
                 ));
+            }
+            for axis in adjusts
+                .iter()
+                .filter_map(|a| a.get("axis").and_then(Value::as_str))
+            {
+                if !ranges.is_some_and(|r| r.contains_key(axis)) {
+                    out.push(warning(
+                        self.id(),
+                        b,
+                        "/ranges",
+                        format!("Behavior contract of '{}' has a `do.adjust` on axis '{axis}', which its `ranges` do not declare", b.component),
+                    ));
+                }
             }
         }
         for b in &ctx.graph.behaviors {
@@ -605,6 +660,79 @@ mod tests {
             "{m:?}"
         );
         assert!(check(|c| c["range"] = json!({ "value": "isSelected" })).is_empty());
+    }
+
+    #[test]
+    fn flags_axis_and_wrap_mistakes_in_ranges() {
+        fn axes(c: &mut serde_json::Value) {
+            c["ranges"] = json!({
+                "x": { "value": "isSelected", "min": "isSelected", "max": "isSelected" },
+                "y": { "value": "isDisabled" }
+            });
+        }
+        assert!(check(axes).is_empty());
+        assert!(check(|c| {
+            axes(c);
+            c["transitions"][0]["do"] = json!({ "adjust": { "to": "min", "axis": "y" } });
+        })
+        .is_empty());
+        let cases: Vec<Case> = vec![
+            (
+                Box::new(|c| {
+                    axes(c);
+                    c["range"] = json!({ "value": "isSelected" });
+                }),
+                "both `range` and `ranges`",
+            ),
+            (
+                Box::new(|c| {
+                    axes(c);
+                    c["ranges"]["y"]["value"] = json!("isSelected");
+                }),
+                "two axes holding their value in 'isSelected'",
+            ),
+            (
+                Box::new(|c| {
+                    axes(c);
+                    c["ranges"]["x"]["step"] = json!("isGhost");
+                }),
+                "naming 'isGhost'",
+            ),
+            (
+                Box::new(|c| {
+                    axes(c);
+                    c["ranges"]["y"]["wrap"] = json!(true);
+                }),
+                "`wrap` range without a `min` and a `max`",
+            ),
+            (
+                Box::new(|c| {
+                    axes(c);
+                    c["ranges"]["y"]["wrap"] = json!(true);
+                    c["ranges"]["y"]["min"] = json!("isDisabled");
+                }),
+                "`wrap` range without a `min` and a `max`",
+            ),
+            (
+                Box::new(|c| {
+                    axes(c);
+                    c["ranges"]["y"]["wrap"] = json!(true);
+                    c["ranges"]["y"]["max"] = json!("isDisabled");
+                }),
+                "`wrap` range without a `min` and a `max`",
+            ),
+            (
+                Box::new(|c| {
+                    axes(c);
+                    c["transitions"][0]["do"] = json!({ "adjust": { "to": "min", "axis": "z" } });
+                }),
+                "axis 'z', which its `ranges` do not declare",
+            ),
+        ];
+        for (edit, why) in cases {
+            let m = check(edit);
+            assert!(m.iter().any(|m| m.contains(why)), "{why}: {m:?}");
+        }
     }
 
     #[test]

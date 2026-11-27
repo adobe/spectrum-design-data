@@ -1638,9 +1638,15 @@ fn item_aria_on_a_vector_with_no_items_fails() {
 }
 
 fn range_fixture() -> (Value, Vec<Value>) {
+    fixture("behavior-range.json")
+}
+
+fn fixture(name: &str) -> (Value, Vec<Value>) {
     let f: Value = serde_json::from_str(
         &std::fs::read_to_string(
-            PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/behavior-range.json"),
+            PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+                .join("tests/fixtures")
+                .join(name),
         )
         .unwrap(),
     )
@@ -1868,7 +1874,7 @@ fn a_fixed_page_size_and_a_bad_range_are_pinned() {
     assert!(reason(&no_range, &any).contains("has no `range`"));
 
     // Defaults: only `value` and `min` are named, so max (100), step (1), the page (a tenth of
-    // the span) and an unset value (reads the minimum) all come from the runner.
+    // the span) come from the runner, and an unset value goes to the minimum on ArrowRight.
     let mut bare = contract.clone();
     bare["range"] = json!({ "value": "value", "min": "minValue" });
     let defaults = vector(
@@ -1888,7 +1894,7 @@ fn a_fixed_page_size_and_a_bad_range_are_pinned() {
     let unset = vector(
         json!({ "minValue": 10 }),
         vec![key("ArrowRight")],
-        json!([{ "after": 1, "emit": [{ "change": { "value": 11 } }] }]),
+        json!([{ "after": 1, "emit": [{ "change": { "value": 10 } }] }]),
     );
     assert_eq!(
         range_failures(&bare, unset.as_array().unwrap(), &patterns),
@@ -2009,6 +2015,166 @@ fn a_broken_range_contract_or_slider_binding_fails_a_vector() {
     }
 }
 
+#[test]
+fn the_axis_and_wrap_vectors_pass() {
+    let (contract, vectors) = fixture("behavior-axes.json");
+    let results = run_range(&contract, &vectors, &range_patterns());
+    assert_eq!(results.len(), vectors.len());
+    let bad: Vec<_> = results
+        .iter()
+        .filter(|r| r.status != Status::Pass)
+        .collect();
+    assert!(bad.is_empty(), "{bad:?}");
+}
+
+/// Each break of the axes contract, of the range pattern or of the wrap rule must fail a vector.
+#[test]
+fn a_broken_axis_or_wrap_rule_fails_a_vector() {
+    let (contract, vectors) = fixture("behavior-axes.json");
+    let patterns = range_patterns();
+    let edits = [
+        ("/ranges/x/wrap", json!(false)),
+        (
+            "/ranges/y",
+            json!({ "value": "yValue", "min": "yMin", "max": "yMax", "step": "step", "wrap": true }),
+        ),
+        ("/ranges/x/value", json!("yValue")),
+        ("/ranges/y/value", json!("xValue")),
+        ("/ranges/x/min", json!("yMin")),
+        ("/ranges/x/max", json!("yMax")),
+        ("/ranges/y/min", json!("xMin")),
+        ("/ranges/y/max", json!("xMax")),
+        ("/ranges/x/page", json!({ "fraction": 0.5 })),
+        ("/ranges/x/page", json!({ "size": 7 })),
+        ("/ranges/y/page", json!({ "fraction": 0.5 })),
+        ("range:/transitions/1/do/adjust/by", json!(-1)),
+        ("range:/transitions/2/do/adjust/by", json!(1)),
+        ("range:/transitions/3/do/adjust/unit", json!("step")),
+        ("range:/transitions/5/do/adjust/to", json!("max")),
+        ("range:/transitions/6/do/adjust/to", json!("min")),
+        ("range:/transitions/7/do/adjust/to", json!("min")),
+        ("range:/transitions/1/emit", json!("changed")),
+        (
+            "range:/transitions/1/guard",
+            json!({ "facet": "disabled", "is": "true" }),
+        ),
+    ];
+    assert_eq!(range_failures(&contract, &vectors, &patterns), 0);
+    for (pointer, value) in edits {
+        let (mut broken, mut broken_patterns) = (contract.clone(), patterns.clone());
+        match pointer.strip_prefix("range:") {
+            Some(p) => {
+                let r = broken_patterns
+                    .iter_mut()
+                    .find(|p| p.pattern == "range")
+                    .unwrap();
+                *r.raw.pointer_mut(p).unwrap() = value;
+            }
+            None => *broken.pointer_mut(pointer).unwrap() = value,
+        }
+        assert!(
+            range_failures(&broken, &vectors, &broken_patterns) > 0,
+            "breaking {pointer} failed no vector"
+        );
+    }
+}
+
+#[test]
+fn axis_and_wrap_mistakes_fail_with_a_reason() {
+    let (contract, _) = fixture("behavior-axes.json");
+    let patterns = range_patterns();
+    let reason = |contract: &Value, start: Value, step: Value| -> String {
+        let v = json!([{ "name": "v", "start": start, "steps": [step],
+            "expect": [{ "after": 1, "emit": [] }] }]);
+        let r = run_range(contract, v.as_array().unwrap(), &patterns);
+        match &r[0].status {
+            Status::Fail(f) => f.join("; "),
+            other => format!("not a failure: {other:?}"),
+        }
+    };
+    let start = json!({ "xValue": 5, "xMin": 0, "xMax": 360, "step": 1 });
+    let cases = [
+        (
+            &contract,
+            json!({ "intent": "increment", "axis": "z" }),
+            "unknown axis 'z' (the `ranges` have x, y)",
+        ),
+        (
+            &contract,
+            json!({ "intent": "increment" }),
+            "must name an `axis`",
+        ),
+    ];
+    for (c, step, why) in cases {
+        let got = reason(c, start.clone(), step);
+        assert!(got.contains(why), "{why}: {got}");
+    }
+    let mut single = contract.clone();
+    single["range"] = single["ranges"]["x"].clone();
+    single.as_object_mut().unwrap().remove("ranges");
+    let got = reason(
+        &single,
+        start.clone(),
+        json!({ "intent": "increment", "axis": "x" }),
+    );
+    assert!(got.contains("single `range`, not `ranges`"), "{got}");
+    let mut both = contract.clone();
+    both["range"] = contract["ranges"]["x"].clone();
+    let got = reason(&both, start.clone(), json!({ "intent": "increment" }));
+    assert!(got.contains("both `range` and `ranges`"), "{got}");
+    assert!(
+        design_data_core::behavior::check_contract(&both, &patterns, None)
+            .iter()
+            .any(|m| m.contains("both `range` and `ranges`"))
+    );
+    let mut fixed = patterns.clone();
+    fixed.iter_mut().find(|p| p.pattern == "range").unwrap().raw["transitions"][1]["do"]
+        ["adjust"]["axis"] = json!("y");
+    let v = json!([{ "name": "v", "start": start,
+        "steps": [{ "intent": "increment", "axis": "x" }], "expect": [{ "after": 1, "emit": [] }] }]);
+    let r = run_range(&contract, v.as_array().unwrap(), &fixed);
+    assert!(
+        matches!(&r[0].status, Status::Fail(f) if f[0].contains("addresses axis 'y', but the step names axis 'x'")),
+        "{:?}",
+        r[0].status
+    );
+    let got = reason(
+        &contract,
+        json!({ "xValue": 1, "xMin": 0, "xMax": 10, "step": 3 }),
+        json!({ "intent": "increment", "axis": "x" }),
+    );
+    assert!(
+        got.contains("span 10 must be above 0 and a multiple of the step 3"),
+        "{got}"
+    );
+    let got = reason(
+        &contract,
+        json!({ "xValue": 1, "xMin": 5, "xMax": 5, "step": 1 }),
+        json!({ "intent": "increment", "axis": "x" }),
+    );
+    assert!(got.contains("span 0 must be above 0"), "{got}");
+    let got = reason(
+        &contract,
+        json!({ "xValue": 1e300, "xMin": 0, "xMax": 360, "step": 1 }),
+        json!({ "intent": "increment", "axis": "x" }),
+    );
+    assert!(got.contains("too large to wrap"), "{got}");
+    let mut mirrored = contract.clone();
+    mirrored["ranges"]["x"]["mirror"] = json!({ "facet": "disabled", "is": "true" });
+    assert!(
+        design_data_core::behavior::check_contract(&mirrored, &patterns, None)
+            .iter()
+            .any(|m| m.contains("which only a single `range` takes"))
+    );
+    let mut ghost = contract.clone();
+    ghost["ranges"]["y"]["max"] = json!("isGhost");
+    assert!(
+        design_data_core::behavior::check_contract(&ghost, &patterns, None)
+            .iter()
+            .any(|m| m.contains("`ranges.y.max` names 'isGhost'"))
+    );
+}
+
 /// Each number field rule (the range block, the semantics, the part pins) must be pinned by a
 /// component vector, and each web `spinbutton` key binding by the key suite.
 #[test]
@@ -2095,4 +2261,139 @@ fn a_broken_number_field_contract_or_spinbutton_binding_fails_a_vector() {
         .unwrap()
         .push(json!({ "key": "ArrowRight", "down": "increment" }));
     assert!(run(&extra) > 0, "a bound ArrowRight is not pinned");
+}
+
+#[test]
+fn wrap_and_a_zero_step_need_what_they_need() {
+    let (mut contract, _) = range_fixture();
+    let patterns = range_patterns();
+    contract["range"]["wrap"] = json!(true);
+    let fail = |contract: &Value, start: Value| -> String {
+        let v = json!([{ "name": "v", "start": start, "steps": [{ "intent": "increment" }],
+            "expect": [{ "after": 1, "emit": [] }] }]);
+        match &run_range(contract, v.as_array().unwrap(), &patterns)[0].status {
+            Status::Fail(f) => f[0].clone(),
+            s => panic!("{s:?}"),
+        }
+    };
+    for start in [
+        json!({ "maxValue": 10, "value": 1 }),
+        json!({ "minValue": 0, "value": 1 }),
+        json!({ "value": 1 }),
+    ] {
+        assert!(fail(&contract, start).contains("needs both bounds"));
+    }
+    contract["range"]["wrap"] = json!(false);
+    assert!(fail(&contract, json!({ "step": 0, "value": 1 })).contains("the step must be above 0"));
+}
+
+fn break_at(contract: &Value, pointer: &str, value: Value) -> Value {
+    let mut m = contract.clone();
+    match m.pointer_mut(pointer) {
+        Some(slot) => *slot = value,
+        None => {
+            let (parent, key) = pointer.rsplit_once('/').unwrap();
+            m.pointer_mut(parent).unwrap()[key] = value;
+        }
+    }
+    m
+}
+
+/// Each color wheel rule (the wrapping hue range, the page of 15, the semantics, the part pins)
+/// must be pinned by a component vector or the pins, and the wheel has no key suite.
+#[test]
+fn a_broken_color_wheel_contract_fails_a_vector() {
+    let (contract, vectors, patterns) = load("color-wheel");
+    assert_eq!(failures(&contract, &vectors, &patterns), 0);
+    let edits = [
+        ("/range/wrap", json!(false)),
+        ("/range/page", json!({ "size": 10 })),
+        ("/range/page", json!({ "fraction": 0.1 })),
+        ("/range/min", json!("step")),
+        ("/range/max", json!("step")),
+        ("/range/step", json!("minValue")),
+        ("/range/value", json!("minValue")),
+        (
+            "/semantics/color-handle/value/ariaState",
+            json!("aria-valuemin"),
+        ),
+        (
+            "/semantics/color-handle/minValue/ariaState",
+            json!("aria-valuemax"),
+        ),
+        (
+            "/semantics/color-handle/maxValue/ariaState",
+            json!("aria-valuemin"),
+        ),
+    ];
+    for (pointer, value) in edits {
+        let m = break_at(&contract, pointer, value);
+        assert!(
+            failures(&m, &vectors, &patterns) > 0,
+            "color-wheel: breaking {pointer} failed no vector"
+        );
+    }
+    let pins = pins_of("color-wheel");
+    assert!(
+        design_data_core::behavior::check_contract(&contract, &patterns, Some(&pins)).is_empty()
+    );
+    for (pointer, value) in [
+        ("/parts/color-handle/focus", json!("none")),
+        ("/parts/color-handle/role", json!("slider")),
+        ("/state", json!(["isDisabled"])),
+    ] {
+        let m = break_at(&contract, pointer, value);
+        assert!(
+            !design_data_core::behavior::check_contract(&m, &patterns, Some(&pins)).is_empty(),
+            "color-wheel: breaking {pointer} fails no pin"
+        );
+    }
+}
+
+/// Each color area rule (one block per axis, the options each axis reads) must be pinned by a
+/// component vector or the pins.
+#[test]
+fn a_broken_color_area_contract_fails_a_vector() {
+    let (contract, vectors, patterns) = load("color-area");
+    assert_eq!(failures(&contract, &vectors, &patterns), 0);
+    let mut edits = vec![
+        ("/ranges/x/value", json!("y-value")),
+        ("/ranges/y/value", json!("x-value")),
+        ("/ranges/x/min", json!("y-minValue")),
+        ("/ranges/y/min", json!("x-minValue")),
+        ("/ranges/x/max", json!("y-maxValue")),
+        ("/ranges/y/max", json!("x-maxValue")),
+        ("/ranges/x/step", json!("x-minValue")),
+        ("/ranges/y/step", json!("y-minValue")),
+        ("/ranges/x/wrap", json!(true)),
+        ("/ranges/y/wrap", json!(true)),
+        ("/ranges/x/page", json!({ "size": 7 })),
+        ("/ranges/y/page", json!({ "size": 7 })),
+    ];
+    edits.push(("/ranges/x/min", json!("x-maxValue")));
+    for (pointer, value) in edits {
+        let m = break_at(&contract, pointer, value);
+        assert!(
+            failures(&m, &vectors, &patterns) > 0,
+            "color-area: breaking {pointer} failed no vector"
+        );
+    }
+    let mut one_axis = contract.clone();
+    one_axis["ranges"].as_object_mut().unwrap().remove("y");
+    assert!(failures(&one_axis, &vectors, &patterns) > 0);
+    let pins = pins_of("color-area");
+    assert!(
+        design_data_core::behavior::check_contract(&contract, &patterns, Some(&pins)).is_empty()
+    );
+    for (pointer, value) in [
+        ("/parts/color-handle/focus", json!("none")),
+        ("/parts/color-handle/role", json!("slider")),
+        ("/state", json!(["isDisabled"])),
+    ] {
+        let m = break_at(&contract, pointer, value);
+        assert!(
+            !design_data_core::behavior::check_contract(&m, &patterns, Some(&pins)).is_empty(),
+            "color-area: breaking {pointer} fails no pin"
+        );
+    }
 }

@@ -1,0 +1,1209 @@
+{
+  "contract": {
+    "component": "axes-fixture",
+    "extends": ["range"],
+    "state": [
+      "isDisabled",
+      "xValue",
+      "xMin",
+      "xMax",
+      "yValue",
+      "yMin",
+      "yMax",
+      "step"
+    ],
+    "ranges": {
+      "x": {
+        "value": "xValue",
+        "min": "xMin",
+        "max": "xMax",
+        "step": "step",
+        "page": {
+          "fraction": 0.1
+        },
+        "wrap": true
+      },
+      "y": {
+        "value": "yValue",
+        "min": "yMin",
+        "max": "yMax",
+        "step": "step",
+        "page": {
+          "fraction": 0.1
+        }
+      }
+    },
+    "parts": {
+      "thumb": {
+        "role": "slider",
+        "focus": "tab-stop"
+      }
+    }
+  },
+  "vectors": [
+    {
+      "name": "an x step leaves y alone and a y step leaves x alone",
+      "start": {
+        "xMin": 0,
+        "xMax": 360,
+        "yMin": 0,
+        "yMax": 100,
+        "step": 1,
+        "xValue": 10,
+        "yValue": 20
+      },
+      "steps": [
+        {
+          "intent": "increment",
+          "axis": "x"
+        },
+        {
+          "intent": "increment",
+          "axis": "y"
+        },
+        {
+          "intent": "decrement",
+          "axis": "x"
+        },
+        {
+          "intent": "decrement",
+          "axis": "y"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "xValue": 11
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "yValue": 21
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "xValue": 10
+              }
+            }
+          ]
+        },
+        {
+          "after": 4,
+          "emit": [
+            {
+              "change": {
+                "yValue": 20
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "each axis has its own page and bounds",
+      "start": {
+        "xMin": 0,
+        "xMax": 360,
+        "yMin": 0,
+        "yMax": 10,
+        "step": 1,
+        "xValue": 10,
+        "yValue": 20
+      },
+      "steps": [
+        {
+          "intent": "increment-page",
+          "axis": "y"
+        },
+        {
+          "intent": "increment-page",
+          "axis": "x"
+        },
+        {
+          "intent": "decrement-page",
+          "axis": "y"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "yValue": 10
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "xValue": 46
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "yValue": 9
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "each axis has its own min and set-min set-max",
+      "start": {
+        "xMin": 20,
+        "xMax": 360,
+        "yMin": 30,
+        "yMax": 100,
+        "step": 1,
+        "xValue": 100,
+        "yValue": 50
+      },
+      "steps": [
+        {
+          "intent": "set-min",
+          "axis": "x"
+        },
+        {
+          "intent": "set-min",
+          "axis": "y"
+        },
+        {
+          "intent": "set-max",
+          "axis": "y"
+        },
+        {
+          "intent": "set-max",
+          "axis": "x"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "xValue": 20
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "yValue": 30
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "yValue": 100
+              }
+            }
+          ]
+        },
+        {
+          "after": 4,
+          "emit": [
+            {
+              "change": {
+                "xValue": 360
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a move names an axis and a position",
+      "start": {
+        "xMin": 0,
+        "xMax": 360,
+        "yMin": 0,
+        "yMax": 100,
+        "step": 1,
+        "xValue": 10,
+        "yValue": 10
+      },
+      "steps": [
+        {
+          "intent": "move",
+          "axis": "x",
+          "position": 0.5
+        },
+        {
+          "intent": "move",
+          "axis": "y",
+          "position": 0.25
+        },
+        {
+          "intent": "move",
+          "axis": "x",
+          "position": 0.25
+        },
+        {
+          "intent": "move",
+          "axis": "y",
+          "position": 1
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "xValue": 180
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "yValue": 25
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "xValue": 90
+              }
+            }
+          ]
+        },
+        {
+          "after": 4,
+          "emit": [
+            {
+              "change": {
+                "yValue": 100
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a move to the same place, or at a clamp, raises nothing",
+      "start": {
+        "xMin": 0,
+        "xMax": 360,
+        "yMin": 0,
+        "yMax": 100,
+        "step": 1,
+        "xValue": 180,
+        "yValue": 100
+      },
+      "steps": [
+        {
+          "intent": "move",
+          "axis": "x",
+          "position": 0.5
+        },
+        {
+          "intent": "move",
+          "axis": "y",
+          "position": 1
+        },
+        {
+          "intent": "increment",
+          "axis": "y"
+        },
+        {
+          "intent": "increment-page",
+          "axis": "y"
+        },
+        {
+          "intent": "set-max",
+          "axis": "y"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        },
+        {
+          "after": 2,
+          "emit": []
+        },
+        {
+          "after": 3,
+          "emit": []
+        },
+        {
+          "after": 4,
+          "emit": []
+        },
+        {
+          "after": 5,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "a wrapping axis steps past max to min and past min to max",
+      "start": {
+        "xMin": 0,
+        "xMax": 360,
+        "yMin": 0,
+        "yMax": 100,
+        "step": 1,
+        "xValue": 359,
+        "yValue": 0
+      },
+      "steps": [
+        {
+          "intent": "increment",
+          "axis": "x"
+        },
+        {
+          "intent": "decrement",
+          "axis": "x"
+        },
+        {
+          "intent": "decrement",
+          "axis": "y"
+        },
+        {
+          "intent": "increment",
+          "axis": "x"
+        },
+        {
+          "intent": "decrement",
+          "axis": "x"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "xValue": 0
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "xValue": 359
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": []
+        },
+        {
+          "after": 4,
+          "emit": [
+            {
+              "change": {
+                "xValue": 0
+              }
+            }
+          ]
+        },
+        {
+          "after": 5,
+          "emit": [
+            {
+              "change": {
+                "xValue": 359
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a wrapping axis goes round on a step and on a decimal step",
+      "start": {
+        "xMin": 0,
+        "xMax": 1,
+        "yMin": 0,
+        "yMax": 100,
+        "step": 0.1,
+        "xValue": 0.9
+      },
+      "steps": [
+        {
+          "intent": "increment",
+          "axis": "x"
+        },
+        {
+          "intent": "decrement",
+          "axis": "x"
+        },
+        {
+          "intent": "increment",
+          "axis": "x"
+        },
+        {
+          "intent": "increment",
+          "axis": "x"
+        },
+        {
+          "intent": "increment",
+          "axis": "x"
+        },
+        {
+          "intent": "increment",
+          "axis": "x"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "xValue": 0
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "xValue": 0.9
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "xValue": 0
+              }
+            }
+          ]
+        },
+        {
+          "after": 4,
+          "emit": [
+            {
+              "change": {
+                "xValue": 0.1
+              }
+            }
+          ]
+        },
+        {
+          "after": 5,
+          "emit": [
+            {
+              "change": {
+                "xValue": 0.2
+              }
+            }
+          ]
+        },
+        {
+          "after": 6,
+          "emit": [
+            {
+              "change": {
+                "xValue": 0.3
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a decimal step on a wrapping axis keeps no float noise",
+      "start": {
+        "xMin": 0,
+        "xMax": 1,
+        "yMin": 0,
+        "yMax": 100,
+        "step": 0.1,
+        "xValue": 0.7
+      },
+      "steps": [
+        {
+          "intent": "increment",
+          "axis": "x"
+        },
+        {
+          "intent": "increment",
+          "axis": "x"
+        },
+        {
+          "intent": "increment",
+          "axis": "x"
+        },
+        {
+          "intent": "decrement",
+          "axis": "x"
+        },
+        {
+          "intent": "decrement-page",
+          "axis": "x"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "xValue": 0.8
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "xValue": 0.9
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "xValue": 0
+              }
+            }
+          ]
+        },
+        {
+          "after": 4,
+          "emit": [
+            {
+              "change": {
+                "xValue": 0.9
+              }
+            }
+          ]
+        },
+        {
+          "after": 5,
+          "emit": [
+            {
+              "change": {
+                "xValue": 0.8
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a page step wraps by its size",
+      "start": {
+        "xMin": 0,
+        "xMax": 360,
+        "yMin": 0,
+        "yMax": 100,
+        "step": 1,
+        "xValue": 350
+      },
+      "steps": [
+        {
+          "intent": "increment-page",
+          "axis": "x"
+        },
+        {
+          "intent": "decrement-page",
+          "axis": "x"
+        },
+        {
+          "intent": "decrement-page",
+          "axis": "x"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "xValue": 26
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "xValue": 350
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "xValue": 314
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a page step down from near min wraps",
+      "start": {
+        "xMin": 0,
+        "xMax": 360,
+        "yMin": 0,
+        "yMax": 100,
+        "step": 1,
+        "xValue": 10
+      },
+      "steps": [
+        {
+          "intent": "decrement-page",
+          "axis": "x"
+        },
+        {
+          "intent": "increment-page",
+          "axis": "x"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "xValue": 334
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "xValue": 10
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "max is reached only by set-max and a move to 1, and is not min",
+      "start": {
+        "xMin": 0,
+        "xMax": 360,
+        "yMin": 0,
+        "yMax": 100,
+        "step": 1,
+        "xValue": 0
+      },
+      "steps": [
+        {
+          "intent": "set-max",
+          "axis": "x"
+        },
+        {
+          "intent": "set-max",
+          "axis": "x"
+        },
+        {
+          "intent": "increment",
+          "axis": "x"
+        },
+        {
+          "intent": "move",
+          "axis": "x",
+          "position": 1
+        },
+        {
+          "intent": "decrement",
+          "axis": "x"
+        },
+        {
+          "intent": "move",
+          "axis": "x",
+          "position": 1
+        },
+        {
+          "intent": "move",
+          "axis": "x",
+          "position": 0
+        },
+        {
+          "intent": "set-min",
+          "axis": "x"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "xValue": 360
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": []
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "xValue": 1
+              }
+            }
+          ]
+        },
+        {
+          "after": 4,
+          "emit": [
+            {
+              "change": {
+                "xValue": 360
+              }
+            }
+          ]
+        },
+        {
+          "after": 5,
+          "emit": [
+            {
+              "change": {
+                "xValue": 359
+              }
+            }
+          ]
+        },
+        {
+          "after": 6,
+          "emit": [
+            {
+              "change": {
+                "xValue": 360
+              }
+            }
+          ]
+        },
+        {
+          "after": 7,
+          "emit": [
+            {
+              "change": {
+                "xValue": 0
+              }
+            }
+          ]
+        },
+        {
+          "after": 8,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "set-min and set-max never wrap and a move near 1 snaps to max",
+      "start": {
+        "xMin": 0,
+        "xMax": 360,
+        "yMin": 0,
+        "yMax": 100,
+        "step": 1,
+        "xValue": 5
+      },
+      "steps": [
+        {
+          "intent": "set-min",
+          "axis": "x"
+        },
+        {
+          "intent": "move",
+          "axis": "x",
+          "position": 0.9999
+        },
+        {
+          "intent": "increment",
+          "axis": "x"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "xValue": 0
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "xValue": 360
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "xValue": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a wrapping axis with a non-zero min wraps into min to max",
+      "start": {
+        "xMin": 10,
+        "xMax": 20,
+        "yMin": 0,
+        "yMax": 100,
+        "step": 1,
+        "xValue": 19
+      },
+      "steps": [
+        {
+          "intent": "increment",
+          "axis": "x"
+        },
+        {
+          "intent": "decrement",
+          "axis": "x"
+        },
+        {
+          "intent": "decrement-page",
+          "axis": "x"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "xValue": 10
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "xValue": 19
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "xValue": 18
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a value off the lattice snaps and then wraps",
+      "start": {
+        "xMin": 0,
+        "xMax": 360,
+        "yMin": 0,
+        "yMax": 100,
+        "step": 1,
+        "xValue": 359.5
+      },
+      "steps": [
+        {
+          "intent": "increment",
+          "axis": "x"
+        },
+        {
+          "intent": "decrement",
+          "axis": "x"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "xValue": 1
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "xValue": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a value outside the range reduces on the next step",
+      "start": {
+        "xMin": 0,
+        "xMax": 360,
+        "yMin": 0,
+        "yMax": 100,
+        "step": 1,
+        "xValue": 400
+      },
+      "steps": [
+        {
+          "intent": "increment",
+          "axis": "x"
+        },
+        {
+          "intent": "decrement",
+          "axis": "x"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "xValue": 41
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "xValue": 40
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a value below min reduces on the next step",
+      "start": {
+        "xMin": 0,
+        "xMax": 360,
+        "yMin": 0,
+        "yMax": 100,
+        "step": 1,
+        "xValue": -5
+      },
+      "steps": [
+        {
+          "intent": "decrement",
+          "axis": "x"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "xValue": 354
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a disabled range ignores every axis",
+      "start": {
+        "xMin": 0,
+        "xMax": 360,
+        "yMin": 0,
+        "yMax": 100,
+        "step": 1,
+        "xValue": 10,
+        "yValue": 10,
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "increment",
+          "axis": "x"
+        },
+        {
+          "intent": "increment",
+          "axis": "y"
+        },
+        {
+          "intent": "increment-page",
+          "axis": "x"
+        },
+        {
+          "intent": "set-max",
+          "axis": "y"
+        },
+        {
+          "intent": "move",
+          "axis": "x",
+          "position": 0.5
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        },
+        {
+          "after": 2,
+          "emit": []
+        },
+        {
+          "after": 3,
+          "emit": []
+        },
+        {
+          "after": 4,
+          "emit": []
+        },
+        {
+          "after": 5,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "a value that snaps onto max wraps to min",
+      "start": {
+        "xMin": 0,
+        "xMax": 360,
+        "yMin": 0,
+        "yMax": 100,
+        "step": 1,
+        "xValue": 358.6
+      },
+      "steps": [
+        {
+          "intent": "increment",
+          "axis": "x"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "xValue": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a decimal half inside the wrap rounds away from min",
+      "start": {
+        "xMin": 0,
+        "xMax": 1,
+        "yMin": 0,
+        "yMax": 100,
+        "step": 0.1,
+        "xValue": 0.05
+      },
+      "steps": [
+        {
+          "intent": "increment",
+          "axis": "x"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "xValue": 0.2
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
