@@ -16,5 +16,5 @@ Key behavior contract `semantics` per axis, and give Color area its accessibilit
 - Data: Color area exposes `aria-valuenow`, `aria-valuemin` and `aria-valuemax` per axis on the
   `color-handle` part (copies of `x-value`, `x-minValue`, `x-maxValue` and the `y` equivalents,
   absent while the option is unset). The part keeps no `role` (decision A721).
-- 13 new Color area vectors: set and unset per axis, axis independence, bounds, disabled.
+- 12 new Color area vectors: set and unset per axis, axis independence, bounds, disabled.
 - The embedded dataset changes, so wasm gets a patch.
