@@ -4468,6 +4468,12 @@ const BEHAVIOR_EXEMPTIONS_JSON: &str = r##"{
       "label": "Color handle",
       "reason": "sub-part",
       "description": "A sub-part of color-area, color-slider and color-wheel, covered by their contracts."
+    },
+    {
+      "id": "color-control",
+      "label": "Color control",
+      "reason": "sub-part",
+      "description": "The shared track base under color-slider, color-area and color-wheel (it declares a track part only), covered by their contracts."
     }
   ]
 }
