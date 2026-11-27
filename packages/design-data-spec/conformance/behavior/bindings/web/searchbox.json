@@ -1,0 +1,569 @@
+{
+  "platform": "web",
+  "role": "searchbox",
+  "vectors": [
+    {
+      "name": "Escape clears a value",
+      "needs": ["keyboard"],
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Escape",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": ""
+              }
+            }
+          ],
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Escape on an empty string does nothing",
+      "needs": ["keyboard"],
+      "start": {
+        "value": ""
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Escape",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Escape on an unset value does nothing",
+      "needs": ["keyboard"],
+      "start": {},
+      "steps": [
+        {
+          "input": {
+            "key": "Escape",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Escape on a null value does nothing",
+      "needs": ["keyboard"],
+      "start": {
+        "value": null
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Escape",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Escape twice clears once",
+      "needs": ["keyboard"],
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Escape",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Escape",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": ""
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "Escape on key up does nothing",
+      "needs": ["keyboard"],
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Escape",
+            "phase": "up"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Enter submits and keeps the value",
+      "needs": ["keyboard"],
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Enter",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "submit": {}
+            }
+          ],
+          "facets": {
+            "hasValue": "true"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Enter on an empty input still submits",
+      "needs": ["keyboard"],
+      "start": {},
+      "steps": [
+        {
+          "input": {
+            "key": "Enter",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "submit": {}
+            }
+          ],
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Enter on key up does nothing",
+      "needs": ["keyboard"],
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Enter",
+            "phase": "up"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Enter twice submits twice",
+      "needs": ["keyboard"],
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Enter",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Enter",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "submit": {}
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "submit": {}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Escape then Enter clears, then submits the empty value",
+      "needs": ["keyboard"],
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Escape",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Enter",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": ""
+              }
+            }
+          ],
+          "facets": {
+            "hasValue": "false"
+          }
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "submit": {}
+            }
+          ],
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Enter then Escape submits, then clears",
+      "needs": ["keyboard"],
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Enter",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Escape",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "submit": {}
+            }
+          ],
+          "facets": {
+            "hasValue": "true"
+          }
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": ""
+              }
+            }
+          ],
+          "facets": {
+            "hasValue": "false"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a disabled searchbox ignores Escape",
+      "needs": ["keyboard"],
+      "start": {
+        "value": "abc",
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Escape",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a disabled searchbox ignores Enter",
+      "needs": ["keyboard"],
+      "start": {
+        "value": "abc",
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Enter",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Space, Tab, the arrows, Home, End and the page keys do nothing",
+      "needs": ["keyboard"],
+      "start": {
+        "value": "abc"
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Space",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Tab",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "ArrowDown",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "ArrowLeft",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "ArrowUp",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "ArrowRight",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "Home",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "End",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "PageUp",
+            "phase": "down"
+          }
+        },
+        {
+          "input": {
+            "key": "PageDown",
+            "phase": "down"
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        },
+        {
+          "after": 2,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        },
+        {
+          "after": 3,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        },
+        {
+          "after": 4,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        },
+        {
+          "after": 5,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        },
+        {
+          "after": 6,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        },
+        {
+          "after": 7,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        },
+        {
+          "after": 8,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        },
+        {
+          "after": 9,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        },
+        {
+          "after": 10,
+          "emit": [],
+          "facets": {
+            "hasValue": "true"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -994,6 +994,65 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
         copy(&mut long, true);
         out.push(("long-copy-mobile-dark", long));
     }
+    // Illustrated message: real copy and two actions in every scenario; the cases cover the
+    // sizes, the horizontal width, wrapped copy on mobile and a message without actions. The
+    // illustration has no size record yet (qkj5.243), so its placeholder is not drawn.
+    if name == "illustrated-message" {
+        let fills = || {
+            let fill = |label: &str, variant: &str, style: &str| SlotFill {
+                component: "button".to_string(),
+                options: HashMap::from([
+                    ("label".to_string(), Value::from(label)),
+                    ("variant".to_string(), Value::from(variant)),
+                    ("style".to_string(), Value::from(style)),
+                ]),
+            };
+            HashMap::from([(
+                "button-group".to_string(),
+                vec![
+                    fill("Clear filters", "secondary", "outline"),
+                    fill("Retry", "accent", "fill"),
+                ],
+            )])
+        };
+        let copy = |r: &mut RenderRequest, long: bool| {
+            r.options.insert("title".into(), "No results found".into());
+            r.options.insert(
+                "description".into(),
+                if long {
+                    "Try a different search term, or remove some of the filters you applied to see more of the items in this list."
+                } else {
+                    "Try a different search term or remove some of the filters."
+                }
+                .into(),
+            );
+            r.slots = fills();
+        };
+        for (_, r) in out.iter_mut() {
+            copy(r, false);
+        }
+        for (label, size) in [("size-s", "s"), ("size-l", "l")] {
+            let mut r = req(vec![], HashMap::new(), "light", "desktop");
+            copy(&mut r, false);
+            r.size = size.into();
+            out.push((label, r));
+        }
+        let mut horizontal = req(
+            vec![],
+            HashMap::from([("orientation".to_string(), Value::from("horizontal"))]),
+            "light",
+            "desktop",
+        );
+        copy(&mut horizontal, false);
+        out.push(("horizontal", horizontal));
+        let mut long = req(vec![], HashMap::new(), "dark", "mobile");
+        copy(&mut long, true);
+        out.push(("long-copy-mobile-dark", long));
+        let mut bare = req(vec![], HashMap::new(), "light", "desktop");
+        copy(&mut bare, false);
+        bare.slots = HashMap::new();
+        out.push(("no-actions", bare));
+    }
     // Group recipes draw only their slot fills: three items at the default size, and a small
     // vertical one (compact for the action group), so the gap bindings show.
     if let Some(item) = match name {
@@ -1694,6 +1753,104 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             );
             out.push(("footer-checkbox", r));
         }
+    }
+    // Takeover dialog: every golden carries a title and buttons (an empty dialog hides the
+    // slot bindings). These cover each variant, the button count, the header and body slots filled
+    // with a steplist and fields, the dark scheme and the mobile wireframe.
+    if name == "takeover-dialog" {
+        let fill =
+            |component: &str, options: &[(&str, Value)]| design_data_core::visual::SlotFill {
+                component: component.into(),
+                options: options
+                    .iter()
+                    .map(|(k, v)| (k.to_string(), v.clone()))
+                    .collect(),
+            };
+        let buttons = |labels: &[&str]| -> Vec<design_data_core::visual::SlotFill> {
+            labels
+                .iter()
+                .map(|l| {
+                    let (variant, style) = match *l {
+                        "Cancel" => ("secondary", "outline"),
+                        "Back" => ("secondary", "fill"),
+                        _ => ("accent", "fill"),
+                    };
+                    fill(
+                        "button",
+                        &[
+                            ("label", Value::from(*l)),
+                            ("variant", Value::from(variant)),
+                            ("style", Value::from(style)),
+                        ],
+                    )
+                })
+                .collect()
+        };
+        let steps = serde_json::json!([
+            { "label": "Details", "stepState": "completed default" },
+            { "label": "Review", "stepState": "current default" },
+            { "label": "Done", "stepState": "incomplete default" }
+        ]);
+        let fields = || {
+            vec![
+                fill("text-field", &[("label", "Name".into())]),
+                fill("text-field", &[("label", "Email".into())]),
+            ]
+        };
+        let copy = |r: &mut RenderRequest, labels: &[&str], full: bool| {
+            r.options
+                .insert("title".into(), "Create a new project".into());
+            r.slots.insert("button-group".into(), buttons(labels));
+            r.slots.insert("default".into(), fields());
+            r.slots.insert(
+                "header-content".into(),
+                vec![fill("steplist", &[("items", steps.clone())])],
+            );
+            if full {
+                r.options.insert("variant".into(), "full screen".into());
+            }
+        };
+        for (_, r) in out.iter_mut() {
+            copy(r, &["Cancel", "Create"], false);
+        }
+        let size = out[0].1.size.clone();
+        let mut case =
+            |label: &'static str, full: bool, scheme: &str, scale: &str, labels: &[&str]| {
+                let mut r = req(vec![], HashMap::new(), scheme, scale);
+                copy(&mut r, labels, full);
+                r.size = size.clone();
+                out.push((label, r));
+            };
+        case(
+            "variant-dialog",
+            false,
+            "light",
+            "desktop",
+            &["Cancel", "Create"],
+        );
+        case(
+            "variant-full-screen",
+            true,
+            "light",
+            "desktop",
+            &["Cancel", "Create"],
+        );
+        case("one-button", false, "light", "desktop", &["Create"]);
+        case(
+            "three-buttons",
+            false,
+            "light",
+            "desktop",
+            &["Cancel", "Back", "Create"],
+        );
+        case("dark", false, "dark", "desktop", &["Cancel", "Create"]);
+        case(
+            "mobile-wireframe",
+            false,
+            "wireframe",
+            "mobile",
+            &["Cancel", "Create"],
+        );
     }
     // Message family (in-line alert, alert banner, toast): the defaults draw an empty message,
     // so these set the copy and cover each variant, the in-line alert styles, a dismissible
@@ -3035,7 +3192,7 @@ fn demo_slots_draw_every_fill_they_declare() {
             }
         }
     }
-    assert_eq!(hosts, 13);
+    assert_eq!(hosts, 15);
 }
 
 #[test]
