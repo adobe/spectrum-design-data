@@ -318,6 +318,34 @@
     "scope": {
       "component": "drop-zone",
       "part": "description",
+      "property": "font-size",
+      "options": {
+        "scale": "desktop"
+      }
+    },
+    "context": "Title area and body area",
+    "contextRole": ["label", "label"],
+    "$ref": "1194f7e3-e4c3-4a3a-bd19-50f4b48e1a6e",
+    "uuid": "345f3d86-14c0-599b-968c-55e19a2f9a68"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "part": "description",
+      "property": "font-size",
+      "options": {
+        "scale": "mobile"
+      }
+    },
+    "context": "Title area and body area",
+    "contextRole": ["label", "label"],
+    "$ref": "25e93322-8f0b-45f8-ae9a-18668251f064",
+    "uuid": "4031cdf4-ca35-5fe8-b2a6-a1d4035f5ff5"
+  },
+  {
+    "scope": {
+      "component": "drop-zone",
+      "part": "description",
       "property": "line-height"
     },
     "context": "Title area and body area",

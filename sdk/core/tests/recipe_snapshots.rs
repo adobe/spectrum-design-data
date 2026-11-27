@@ -272,6 +272,19 @@ fn fixed_options(name: &str) -> Vec<(String, Value)> {
             ),
         ];
     }
+    if name == "drop-zone" {
+        // The text parts draw nothing without copy, so every snapshot carries both.
+        return vec![
+            (
+                "title".into(),
+                Value::String("Drag and drop your file".into()),
+            ),
+            (
+                "description".into(),
+                Value::String("Or select a file from your computer".into()),
+            ),
+        ];
+    }
     if name == "list-view" {
         // Rows draw only from `items`: a description row, selected, disabled and plain rows,
         // each with its checkbox (multiple selection).
@@ -467,6 +480,7 @@ recipe_tests! {
     combo_box => "combo-box",
     contextual_help => "contextual-help",
     divider => "divider",
+    drop_zone => "drop-zone",
     field_label => "field-label",
     help_text => "help-text",
     illustrated_message => "illustrated-message",
@@ -487,6 +501,7 @@ recipe_tests! {
     radio_group => "radio-group",
     search_field => "search-field",
     segmented_control => "segmented-control",
+    select_box => "select-box",
     side_navigation => "side-navigation",
     slider => "slider",
     stack_item => "stack-item",

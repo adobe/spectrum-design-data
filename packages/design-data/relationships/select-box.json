@@ -329,10 +329,7 @@
     "scope": {
       "component": "select-box",
       "part": "label",
-      "property": "font-family",
-      "options": {
-        "orientation": "vertical"
-      }
+      "property": "font-family"
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -354,10 +351,7 @@
     "scope": {
       "component": "select-box",
       "part": "label",
-      "property": "font-style",
-      "options": {
-        "orientation": "vertical"
-      }
+      "property": "font-style"
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -368,10 +362,7 @@
     "scope": {
       "component": "select-box",
       "part": "label",
-      "property": "font-size",
-      "options": {
-        "orientation": "vertical"
-      }
+      "property": "font-size"
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -382,10 +373,7 @@
     "scope": {
       "component": "select-box",
       "part": "label",
-      "property": "font-size",
-      "options": {
-        "orientation": "vertical"
-      }
+      "property": "font-size"
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -396,10 +384,7 @@
     "scope": {
       "component": "select-box",
       "part": "label",
-      "property": "line-height",
-      "options": {
-        "orientation": "vertical"
-      }
+      "property": "line-height"
     },
     "context": "Text",
     "contextRole": ["label"],
@@ -410,10 +395,7 @@
     "scope": {
       "component": "select-box",
       "part": "label",
-      "property": "line-height",
-      "options": {
-        "orientation": "vertical"
-      }
+      "property": "line-height"
     },
     "context": "Text",
     "contextRole": ["label"],
