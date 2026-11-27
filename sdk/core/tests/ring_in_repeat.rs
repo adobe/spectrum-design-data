@@ -241,8 +241,9 @@ fn a_ring_in_a_floating_part_wraps_the_floating_part() {
             c.retain(|v| v != "ring");
         }
         r["parts"]["item"]["children"] = json!(["label"]);
+        r["parts"]["tag"] = json!({ "kind": "text", "props": { "fontSize": { "value": 8 } } });
         r["parts"]["pop"] = json!({
-            "kind": "box", "floating": { "side": "bottom" }, "children": ["ring"],
+            "kind": "box", "floating": { "side": "bottom" }, "children": ["tag", "ring"],
             "props": { "width": { "value": 20 }, "height": { "value": 10 } }
         });
         let s = draw(&r, if repeated { two() } else { Value::Null }, &[]);

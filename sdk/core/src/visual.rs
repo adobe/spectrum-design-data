@@ -269,23 +269,6 @@ pub fn reads_prop(part: &Value, is_root: bool, name: &str) -> bool {
     has(role) || (matches!(role, "text" | "progress") && has("box")) || (subtree && has("root"))
 }
 
-/// The ids a part lists in `children`, without rings: a ring is drawn around the scene's root
-/// (or its `around` part) after layout, so it never takes part in the flow.
-fn flow_children(parts: &serde_json::Map<String, Value>, part: &Value) -> Vec<String> {
-    part.get("children")
-        .and_then(Value::as_array)
-        .into_iter()
-        .flatten()
-        .filter_map(Value::as_str)
-        .filter(|c| !parts.get(*c).is_some_and(is_ring))
-        .map(String::from)
-        .collect()
-}
-
-fn is_ring(part: &Value) -> bool {
-    part.get("kind").and_then(Value::as_str) == Some("ring")
-}
-
 /// The role that selects a part's entry in `READ_PROPS`.
 pub fn part_role(part: &Value, is_root: bool) -> &str {
     if is_root {
@@ -2070,6 +2053,28 @@ impl<'a> CompileCx<'a> {
                     }
                 }
                 expand_type_style(props);
+            }
+        }
+        // A ring listed in `children` is drawn around the scene its parent roots, after layout,
+        // so it leaves the flow and names that parent as its `host`.
+        let mut hosts = Vec::new();
+        for (id, part) in out_parts.iter_mut() {
+            if let Some(kids) = part.get_mut("children").and_then(Value::as_array_mut) {
+                kids.retain(|k| {
+                    let name = k.as_str().unwrap_or_default();
+                    let ring = parts
+                        .get(name)
+                        .is_some_and(|p| p.get("kind").and_then(Value::as_str) == Some("ring"));
+                    if ring {
+                        hosts.push((name.to_string(), id.clone()));
+                    }
+                    !ring
+                });
+            }
+        }
+        for (ring, host) in hosts {
+            if let Some(p) = out_parts.get_mut(&ring) {
+                p["host"] = Value::String(host);
             }
         }
         Ok(out_parts)
@@ -4369,7 +4374,15 @@ fn solve_root(
     let mut flow: Vec<Child> = Vec::new();
     let mut nested_out: Vec<SceneNode> = Vec::new();
     let mut placed: Vec<(String, &Value)> = Vec::new();
-    let child_ids = flow_children(parts, root);
+    let child_ids: Vec<String> = root
+        .get("children")
+        .and_then(Value::as_array)
+        .map(|a| {
+            a.iter()
+                .filter_map(|v| v.as_str().map(String::from))
+                .collect()
+        })
+        .unwrap_or_default();
     for id in &child_ids {
         let Some(part) = parts.get(id) else { continue };
         if let Some(rep) = root
@@ -4584,7 +4597,15 @@ fn solve_root(
                     let rgap = rp(&mut cx, part, "gap");
                     track(&mut c.tokens, "gap", &rgap);
                     let rgap = rgap.as_ref().and_then(Resolved::num).unwrap_or(0.0);
-                    let ids = flow_children(parts, part);
+                    let ids: Vec<String> = part
+                        .get("children")
+                        .and_then(Value::as_array)
+                        .map(|a| {
+                            a.iter()
+                                .filter_map(|v| v.as_str().map(String::from))
+                                .collect()
+                        })
+                        .unwrap_or_default();
                     let mut items: Vec<RowItem> = Vec::new();
                     for nid in ids {
                         let Some(np) = parts.get(&nid) else { continue };
@@ -5306,9 +5327,16 @@ fn solve_root(
         }
         let row = c.row.take();
         let lines = std::mem::take(&mut c.lines);
-        let nested_ids = parts
+        let nested_ids: Vec<String> = parts
             .get(&c.id)
-            .map_or_else(Vec::new, |p| flow_children(parts, p));
+            .and_then(|p| p.get("children"))
+            .and_then(Value::as_array)
+            .map(|a| {
+                a.iter()
+                    .filter_map(|v| v.as_str().map(String::from))
+                    .collect()
+            })
+            .unwrap_or_default();
         let mut own = SceneNode {
             part: c.id.clone(),
             kind: c.kind.clone(),
@@ -5911,17 +5939,12 @@ fn solve_root(
     }
 
     // Rings wrap the root, or the part named by `around`, outside its box.
-    // A scene draws the rings that are children of its root, and the orphan rings when it is the
-    // recipe's own root, so a copy of a repeated part draws only its own.
-    let lists = |p: &Value, id: &str| {
-        p.get("children")
-            .and_then(Value::as_array)
-            .is_some_and(|a| a.iter().any(|c| c.as_str() == Some(id)))
-    };
+    // A scene draws the rings `compile_parts` hosts on its root (the recipe root for an orphan
+    // ring), so a copy of a repeated part draws only its own.
     for (id, part) in parts {
-        if !is_ring(part)
-            || !(lists(root, id)
-                || (root_id == variant.root && !parts.values().any(|p| lists(p, id))))
+        let host = part.get("host").and_then(Value::as_str);
+        if part.get("kind").and_then(Value::as_str) != Some("ring")
+            || host.unwrap_or(&variant.root) != root_id
             || !cx.visible(part)
         {
             continue;
