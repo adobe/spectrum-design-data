@@ -17,6 +17,7 @@
         "with": {
           "isSelected": "isSelected",
           "isDisabled": "isDisabled",
+          "isFocusVisible": "isFocusVisible",
           "description": "description"
         }
       },

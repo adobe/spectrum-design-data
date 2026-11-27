@@ -568,9 +568,28 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             "four-items-hover",
             with(vec!["hover".into()], &items, "light", "desktop"),
         ));
+        // Focus is per row: the flagged row draws the ring, the others do not.
+        let focus_row = |row: usize| {
+            let mut rows = items.clone();
+            rows[row]["isFocusVisible"] = Value::Bool(true);
+            rows
+        };
         out.push((
             "four-items-keyboard-focus",
-            with(vec!["keyboard-focus".into()], &items, "light", "desktop"),
+            with(
+                vec!["keyboard-focus".into()],
+                &focus_row(1),
+                "light",
+                "desktop",
+            ),
+        ));
+        out.push((
+            "four-items-focus-selected-description",
+            with(vec![], &focus_row(0), "light", "desktop"),
+        ));
+        out.push((
+            "four-items-focus-dark-mobile",
+            with(vec![], &focus_row(1), "dark", "mobile"),
         ));
         out.push((
             "one-item",
@@ -581,12 +600,12 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
                 "desktop",
             ),
         ));
-        // The state applies to every row; one row shows the ring of a single focused row.
+        // One row shows the ring of a single focused row.
         out.push((
             "one-item-keyboard-focus",
             with(
-                vec!["keyboard-focus".into()],
-                &serde_json::json!([{ "label": "Only row", "isSelected": true }]),
+                vec![],
+                &serde_json::json!([{ "label": "Only row", "isSelected": true, "isFocusVisible": true }]),
                 "light",
                 "desktop",
             ),
