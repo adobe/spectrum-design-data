@@ -273,16 +273,20 @@ fn fixed_options(name: &str) -> Vec<(String, Value)> {
         ];
     }
     if name == "list-view" {
-        // Rows draw only from `items`: a description row, selected, disabled and plain rows.
-        return vec![(
-            "items".into(),
-            serde_json::json!([
-                { "label": "Home", "description": "Start page", "isSelected": true },
-                { "label": "Projects" },
-                { "label": "Settings", "isDisabled": true },
-                { "label": "Archive", "isSelected": true, "isDisabled": true }
-            ]),
-        )];
+        // Rows draw only from `items`: a description row, selected, disabled and plain rows,
+        // each with its checkbox (multiple selection).
+        return vec![
+            (
+                "items".into(),
+                serde_json::json!([
+                    { "label": "Home", "description": "Start page", "isSelected": true },
+                    { "label": "Projects" },
+                    { "label": "Settings", "isDisabled": true },
+                    { "label": "Archive", "isSelected": true, "isDisabled": true }
+                ]),
+            ),
+            ("selectionMode".into(), "multiple".into()),
+        ];
     }
     if name != "calendar" {
         return Vec::new();

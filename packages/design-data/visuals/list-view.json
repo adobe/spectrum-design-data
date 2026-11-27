@@ -6,7 +6,7 @@
   "sizeScale": {
     "m": 100
   },
-  "notVisual": ["selectionMode", "isQuiet"],
+  "notVisual": ["isQuiet"],
   "parts": {
     "container": {
       "kind": "box",
@@ -34,7 +34,7 @@
     },
     "list-item": {
       "kind": "box",
-      "children": ["row", "description"],
+      "children": ["row", "description", "focus-indicator"],
       "props": {
         "direction": {
           "value": "column"
@@ -179,16 +179,6 @@
               "property": "content-color",
               "part": "list-item"
             }
-          },
-          {
-            "when": {
-              "states": ["keyboard-focus"]
-            },
-            "priority": 10,
-            "relationship": {
-              "property": "color",
-              "part": "focus-indicator"
-            }
           }
         ],
         "strokeWidth": [
@@ -202,23 +192,13 @@
               "property": "border-width",
               "part": "list-item"
             }
-          },
-          {
-            "when": {
-              "states": ["keyboard-focus"]
-            },
-            "priority": 10,
-            "relationship": {
-              "property": "thickness",
-              "part": "focus-indicator"
-            }
           }
         ]
       }
     },
     "row": {
       "kind": "box",
-      "children": ["icon", "label", "drill-in-chevron"],
+      "children": ["checkbox", "icon", "label", "drill-in-chevron"],
       "props": {
         "direction": {
           "value": "row"
@@ -234,6 +214,20 @@
               "to": "text"
             }
           }
+        }
+      }
+    },
+    "checkbox": {
+      "kind": "component",
+      "sizeMap": {
+        "m": "m"
+      },
+      "with": {
+        "isSelected": {
+          "option": "isSelected"
+        },
+        "isDisabled": {
+          "option": "isDisabled"
         }
       }
     },
@@ -341,6 +335,30 @@
           "relationship": {
             "property": "content-color",
             "part": "label"
+          }
+        }
+      }
+    },
+    "focus-indicator": {
+      "kind": "ring",
+      "around": "list-item",
+      "props": {
+        "stroke": {
+          "relationship": {
+            "property": "color",
+            "part": "focus-indicator"
+          }
+        },
+        "strokeWidth": {
+          "relationship": {
+            "property": "thickness",
+            "part": "focus-indicator"
+          }
+        },
+        "gapToParent": {
+          "relationship": {
+            "property": "gap",
+            "part": "focus-indicator"
           }
         }
       }

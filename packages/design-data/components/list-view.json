@@ -178,7 +178,6 @@
       "required": true,
       "contains": [
         "drag-handle",
-        "checkbox",
         "thumbnail",
         "row",
         "description",
@@ -193,7 +192,12 @@
     {
       "name": "checkbox",
       "component": "checkbox",
-      "description": "Checkbox control for a list view item in checkbox selection style."
+      "description": "Checkbox control for a list view item in checkbox selection style.",
+      "presentWhen": {
+        "options": {
+          "selectionMode": "multiple"
+        }
+      }
     },
     {
       "name": "icon",
@@ -206,8 +210,8 @@
     },
     {
       "name": "row",
-      "description": "The row of the leading icon, the label and the navigation chevron; the description sits below it.",
-      "contains": ["icon", "label", "drill-in-chevron"]
+      "description": "The row of the selection checkbox, the leading icon, the label and the navigation chevron; the description sits below it.",
+      "contains": ["checkbox", "icon", "label", "drill-in-chevron"]
     },
     {
       "name": "label",
