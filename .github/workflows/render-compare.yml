@@ -1,0 +1,124 @@
+# Copyright 2026 Adobe. All rights reserved.
+# This file is licensed to you under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License. You may obtain a copy
+# of the License at http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software distributed under
+# the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+# OF ANY KIND, either express or implied. See the License for the specific language
+# governing permissions and limitations under the License.
+
+# ADVISORY: renders the option x state matrix with BASE (the merge base) and the PR and
+# reports any difference in SVG, scenes or spec-sheet rows. Never blocks a merge
+# (continue-on-error, not a required check). See tools/render-compare/README.md.
+# pull_request, not pull_request_target: fork PRs get no secrets and a read-only token.
+name: Render compare (advisory)
+on:
+  pull_request:
+    paths:
+      - "packages/design-data/components/**"
+      - "packages/design-data/visuals/**"
+      - "packages/design-data/relationships/**"
+      - "packages/design-data/tokens/**"
+      - "packages/design-data/registry/**"
+      - "packages/design-data/mode-sets/**"
+      - "packages/design-data/dataset.json"
+      - "packages/design-data-spec/schemas/**"
+      - "sdk/**"
+      - "tools/render-compare/**"
+      - "tools/cli-minimum-gate/normalize.jq"
+      - ".github/workflows/render-compare.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  render-compare:
+    name: Render compare
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    timeout-minutes: 25
+    env:
+      # Case-sampling: about 1 in 10 of the matrix keeps the run under ~15 minutes.
+      RC_SAMPLE: "10"
+      RC_CACHE: ${{ github.workspace }}/../rc-cache
+    steps:
+      # The checkout is the PR merged into the base branch; full history for the merge base.
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          filter: blob:none
+      - name: Resolve BASE and what changed
+        id: base
+        run: |
+          git fetch -q origin main
+          mb="$(git merge-base origin/main HEAD)"
+          echo "sha=$(git rev-parse --short=12 "$mb")" >> "$GITHUB_OUTPUT"
+          if [ -n "$(git diff --name-only "$mb" HEAD -- sdk)" ]; then
+            echo "sdk=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "sdk=false" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: dtolnay/rust-toolchain@1.88.0
+      # lld is the linker sdk/.cargo/config.toml sets for x86_64-unknown-linux-gnu.
+      - name: Install lld
+        run: sudo apt-get update && sudo apt-get install -y lld
+      # Restore only: main saves this cache (rust-cache-warm.yml), same key as the Rust job.
+      - name: Cache Cargo build
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: sdk
+          shared-key: rust-ci-${{ hashFiles('sdk/Cargo.toml') }}
+          save-if: false
+      # Only a PR that changes sdk/ needs a second binary; a data-only PR draws both data
+      # trees with the PR CLI (--same-cli).
+      - name: Restore the BASE CLI
+        id: base-cache
+        if: steps.base.outputs.sdk == 'true'
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.RC_CACHE }}/${{ steps.base.outputs.sha }}
+          key: render-compare-base-${{ steps.base.outputs.sha }}-${{ hashFiles('sdk/Cargo.toml') }}
+      # Builds into sdk/target so the dependencies rust-cache restored are reused.
+      - name: Build the BASE CLI
+        if: steps.base.outputs.sdk == 'true' && steps.base-cache.outputs.cache-hit != 'true'
+        env:
+          RC_TARGET_DIR: ${{ github.workspace }}/sdk/target
+          RC_MIN_FREE_GB: "5"
+        run: time tools/render-compare/base-cli.sh ensure "${{ steps.base.outputs.sha }}"
+      - name: Build the PR CLI
+        run: time cargo build --manifest-path sdk/Cargo.toml -p design-data-cli
+      - name: Compare renders
+        run: |
+          args=(--changed --sample "$RC_SAMPLE" --base-ref "${{ steps.base.outputs.sha }}" --no-fetch --report "$RUNNER_TEMP/render-compare.json" --out "$RUNNER_TEMP/render-compare-out")
+          [ "${{ steps.base.outputs.sdk }}" = true ] || args+=(--same-cli)
+          set +e
+          node tools/render-compare/render-compare.mjs "${args[@]}" 2>&1 | tee "$RUNNER_TEMP/render-compare.log"
+          rc="${PIPESTATUS[0]}"
+          set -e
+          {
+            echo "## Render compare (advisory)"
+            echo "BASE \`${{ steps.base.outputs.sha }}\`, sdk changed: \`${{ steps.base.outputs.sdk }}\`, base CLI cache hit: \`${{ steps.base-cache.outputs.cache-hit || 'n/a' }}\`"
+            echo
+            echo "**$(grep '^render-compare: ' "$RUNNER_TEMP/render-compare.log" | tail -1)**"
+            echo
+            echo '```'
+            tail -n 120 "$RUNNER_TEMP/render-compare.log"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          exit "$rc"
+      - name: Upload the full report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: render-compare-report
+          path: |
+            ${{ runner.temp }}/render-compare.log
+            ${{ runner.temp }}/render-compare.json
+            ${{ runner.temp }}/render-compare-out
+          if-no-files-found: ignore
+          retention-days: 14
