@@ -1490,6 +1490,12 @@
     "isQuiet=true,isStandalone=true,staticColor=\"white\",variant=\"primary\"": "5a638621ac9a21ae",
     "isQuiet=true,isStandalone=true,staticColor=\"white\",variant=\"secondary\"": "ba8807317d35a2b6"
   },
+  "list-view": {
+    "isDisabled=false,isSelected=false": "4a4e560a14fcbec5",
+    "isDisabled=false,isSelected=true": "2447b0a3a0947833",
+    "isDisabled=true,isSelected=false": "19ad024fb38f7d4b",
+    "isDisabled=true,isSelected=true": "ac4cdd823de3bf63"
+  },
   "menu": {
     "hasIcon=false,hasThumbnail=false,isDisabled=false,isSelected=false,selectionMode=\"multiple\",selectionStyle=\"checkbox\"": "3f163dec10284a19",
     "hasIcon=false,hasThumbnail=false,isDisabled=false,isSelected=false,selectionMode=\"multiple\",selectionStyle=\"switch\"": "7ecf5dd10ea0188b",

@@ -72,6 +72,20 @@
       "default": false,
       "description": "If true, the list view uses a quiet visual style."
     },
+    "isSelected": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the row is selected. Draws the selected background and label color. Per row it is items[].isSelected."
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the row is disabled. Per row it is items[].isDisabled."
+    },
+    "description": {
+      "type": "string",
+      "description": "Secondary text under the label. Per row it is items[].description."
+    },
     "items": {
       "type": "array",
       "description": "An array of list view items.",
@@ -198,7 +212,12 @@
     },
     {
       "name": "description",
-      "description": "Secondary descriptive text of a list view item."
+      "description": "Secondary descriptive text of a list view item.",
+      "presentWhen": {
+        "options": {
+          "description": true
+        }
+      }
     },
     {
       "name": "actions",
@@ -211,7 +230,9 @@
     {
       "name": "focus-indicator",
       "description": "Outline drawn around the focused item.",
-      "presentWhen": { "states": ["keyboard-focus"] }
+      "presentWhen": {
+        "states": ["keyboard-focus"]
+      }
     }
   ],
   "anatomyReview": {
@@ -221,8 +242,24 @@
   },
   "states": [
     {
+      "name": "hover",
+      "trigger": "interaction"
+    },
+    {
+      "name": "down",
+      "trigger": "interaction"
+    },
+    {
       "name": "keyboard-focus",
       "trigger": "interaction"
+    },
+    {
+      "name": "default",
+      "trigger": "prop"
+    },
+    {
+      "name": "selected",
+      "trigger": "prop"
     }
   ],
   "lifecycle": {

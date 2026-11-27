@@ -216,7 +216,10 @@
     "scope": {
       "component": "list-view",
       "part": "list-item",
-      "property": "minimum-padding-vertical"
+      "property": "minimum-padding-vertical",
+      "options": {
+        "scale": "desktop"
+      }
     },
     "context": "Spacing (vertical)",
     "contextRole": ["spacing"],
@@ -228,7 +231,10 @@
     "scope": {
       "component": "list-view",
       "part": "list-item",
-      "property": "minimum-padding-vertical"
+      "property": "minimum-padding-vertical",
+      "options": {
+        "scale": "mobile"
+      }
     },
     "context": "Spacing (vertical)",
     "contextRole": ["spacing"],
@@ -491,9 +497,12 @@
   {
     "scope": {
       "component": "list-view",
-      "part": "container",
+      "part": "list-item",
       "property": "color",
-      "attribute": "background"
+      "attribute": "background",
+      "options": {
+        "state": ["hover"]
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -503,9 +512,12 @@
   {
     "scope": {
       "component": "list-view",
-      "part": "container",
+      "part": "list-item",
       "property": "color",
-      "attribute": "background"
+      "attribute": "background",
+      "options": {
+        "state": ["down"]
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -515,9 +527,12 @@
   {
     "scope": {
       "component": "list-view",
-      "part": "container",
+      "part": "list-item",
       "property": "color",
-      "attribute": "background"
+      "attribute": "background",
+      "options": {
+        "state": ["keyboard-focus"]
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -529,7 +544,10 @@
       "component": "list-view",
       "part": "list-item",
       "property": "color",
-      "attribute": "background"
+      "attribute": "background",
+      "options": {
+        "state": ["selected", "default"]
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -541,7 +559,10 @@
       "component": "list-view",
       "part": "list-item",
       "property": "color",
-      "attribute": "background"
+      "attribute": "background",
+      "options": {
+        "state": ["selected", "hover"]
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -553,7 +574,10 @@
       "component": "list-view",
       "part": "list-item",
       "property": "color",
-      "attribute": "background"
+      "attribute": "background",
+      "options": {
+        "state": ["selected", "down"]
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -565,7 +589,10 @@
       "component": "list-view",
       "part": "list-item",
       "property": "color",
-      "attribute": "background"
+      "attribute": "background",
+      "options": {
+        "state": ["selected", "keyboard-focus"]
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -588,7 +615,10 @@
     "scope": {
       "component": "list-view",
       "part": "list-item",
-      "property": "opacity"
+      "property": "opacity",
+      "options": {
+        "state": ["selected", "hover"]
+      }
     },
     "context": "Background (selected, highlight)",
     "contextRole": ["background"],
@@ -648,7 +678,10 @@
     "scope": {
       "component": "list-view",
       "part": "label",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "state": ["default"]
+      }
     },
     "context": "Label and icon",
     "contextRole": ["label", "icon"],
@@ -659,7 +692,10 @@
     "scope": {
       "component": "list-view",
       "part": "label",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "state": ["hover"]
+      }
     },
     "context": "Label and icon",
     "contextRole": ["label", "icon"],
@@ -670,7 +706,10 @@
     "scope": {
       "component": "list-view",
       "part": "label",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "state": ["down"]
+      }
     },
     "context": "Label and icon",
     "contextRole": ["label", "icon"],
@@ -681,7 +720,10 @@
     "scope": {
       "component": "list-view",
       "part": "label",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "state": ["keyboard-focus"]
+      }
     },
     "context": "Label and icon",
     "contextRole": ["label", "icon"],
@@ -692,7 +734,10 @@
     "scope": {
       "component": "list-view",
       "part": "label",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "state": ["selected", "default"]
+      }
     },
     "context": "Label and icon",
     "contextRole": ["label", "icon"],
@@ -703,7 +748,10 @@
     "scope": {
       "component": "list-view",
       "part": "label",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "state": ["selected", "hover"]
+      }
     },
     "context": "Label and icon",
     "contextRole": ["label", "icon"],
@@ -714,7 +762,10 @@
     "scope": {
       "component": "list-view",
       "part": "label",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "state": ["selected", "down"]
+      }
     },
     "context": "Label and icon",
     "contextRole": ["label", "icon"],
@@ -725,7 +776,10 @@
     "scope": {
       "component": "list-view",
       "part": "label",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "state": ["selected", "keyboard-focus"]
+      }
     },
     "context": "Label and icon",
     "contextRole": ["label", "icon"],
@@ -737,7 +791,10 @@
       "component": "list-view",
       "part": "list-item",
       "property": "color",
-      "attribute": "background"
+      "attribute": "background",
+      "options": {
+        "isDisabled": true
+      }
     },
     "context": "Background",
     "contextRole": ["background"],
@@ -748,7 +805,10 @@
     "scope": {
       "component": "list-view",
       "part": "label",
-      "property": "content-color"
+      "property": "content-color",
+      "options": {
+        "isDisabled": true
+      }
     },
     "context": "Label and icon",
     "contextRole": ["label", "icon"],
