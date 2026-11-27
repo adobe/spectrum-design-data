@@ -12,8 +12,8 @@ Add the behavior contract for Number field on the range runner.
 - The `in-field-button` part (the stepper buttons) has focus `none`, so it is not in the tab order.
 - `value`, `minValue` and `maxValue` are exposed as `aria-valuenow`, `aria-valuemin` and
   `aria-valuemax`; `aria-valuenow` is absent while `value` is unset. `isDisabled` ignores every
-  value intent. The caller passes `minValue`, `maxValue` and `step` (an unset bound reads the
-  runner default 0 or 100).
+  value intent. An unset `minValue` or `maxValue` is unbounded and an unset
+  `value` follows React Aria (see range-unbounded-empty-value).
 - A component suite and a web `spinbutton` key suite. Spec sheets gain the number field value
   keyboard-intent rows. No render change. Read-only, hold to repeat, wheel, IME and number
   formatting are not modeled. The embedded dataset changes, so wasm gets a patch.

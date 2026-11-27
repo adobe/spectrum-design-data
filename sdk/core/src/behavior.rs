@@ -475,13 +475,19 @@ impl Run<'_> {
                     }
                 } else if value.is_none() && by != 0.0 && !page {
                     // An empty field (React Aria `safeNextStep`): up goes to the minimum, down
-                    // to the maximum, 0 with no such bound.
+                    // to the maximum, 0 with no such bound; clamped to the bounds that exist,
+                    // then snapped to the step, a snap past the maximum stepping back inside (the minimum is
+                    // the lattice origin, so it never snaps below it).
                     from_empty = true;
-                    if by > 0.0 {
-                        min.unwrap_or(0.0)
-                    } else {
-                        max.unwrap_or(0.0)
+                    let t = if by > 0.0 { min } else { max }.unwrap_or(0.0);
+                    let t = min.map_or(t, |m| t.max(m));
+                    let t = max.map_or(t, |m| t.min(m));
+                    let q = (((t - origin) / step) * 1e9).round() / 1e9;
+                    let mut s = origin + q.round() * step;
+                    if max.is_some_and(|m| s > m + 1e-9) {
+                        s -= step;
                     }
+                    (s * 1e10).round() / 1e10
                 } else {
                     snap(now + by * size)
                 }
