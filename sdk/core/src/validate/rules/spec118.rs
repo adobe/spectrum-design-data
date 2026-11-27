@@ -13,14 +13,16 @@
 //! Warning. A behavior contract names things the rest of the dataset declares: its component
 //! and the `state` options exist, each facet derives from a `state` option and is a registered
 //! facet whose values are registry values, and each `parts` and `semantics` key is an anatomy
-//! part. Skipped for a component that is not loaded.
+//! part. The same holds for the `parts` and `semantics` of an inline collection item (its parts
+//! are anatomy parts; a semantic exposes a facet the item declares, a copied option it lists in
+//! its `state`). Skipped for a component that is not loaded.
 
 use serde_json::Value;
 
 use crate::report::Diagnostic;
 use crate::validate::rule::{ValidationContext, ValidationRule};
 use crate::validate::rules::behavior_util::{
-    extends_of, facet_values, option_names, part_names, state_ids, warning,
+    extends_of, facet_values, facet_values_of, option_names, part_names, state_ids, warning,
 };
 
 pub struct Rule;
@@ -249,20 +251,74 @@ impl ValidationRule for Rule {
                 .into_iter()
                 .flat_map(|o| o.keys().map(String::as_str))
                 .collect();
-            for (part, facets) in b
-                .raw
-                .pointer("/collection/item/semantics")
-                .and_then(Value::as_object)
-                .into_iter()
-                .flatten()
-            {
-                for (facet, sem) in facets.as_object().into_iter().flatten() {
-                    if sem.get("axis").is_some() {
-                        problem(
-                            &format!("/collection/item/semantics/{part}/{facet}"),
-                            "names an `axis` in an inline item contract, which has no `ranges`"
-                                .into(),
-                        );
+            if let Some(item @ Value::Object(_)) = b.raw.pointer("/collection/item") {
+                let parts = part_names(ctx.graph, b);
+                let item_state = item
+                    .get("state")
+                    .and_then(Value::as_array)
+                    .into_iter()
+                    .flatten()
+                    .filter_map(Value::as_str)
+                    .collect::<Vec<_>>();
+                for key in ["parts", "semantics"] {
+                    for part in item
+                        .get(key)
+                        .and_then(Value::as_object)
+                        .into_iter()
+                        .flat_map(|o| o.keys())
+                    {
+                        if parts.as_ref().is_some_and(|p| !p.contains(part)) {
+                            problem(
+                                &format!("/collection/item/{key}/{part}"),
+                                format!("names part '{part}' in the inline item `{key}`, which is not an anatomy part"),
+                            );
+                        }
+                    }
+                }
+                for (part, facets) in item
+                    .get("semantics")
+                    .and_then(Value::as_object)
+                    .into_iter()
+                    .flatten()
+                {
+                    for (facet, sem) in facets.as_object().into_iter().flatten() {
+                        let path = format!("/collection/item/semantics/{part}/{facet}");
+                        if sem.get("axis").is_some() {
+                            problem(
+                                &path,
+                                "names an `axis` in an inline item contract, which has no `ranges`"
+                                    .into(),
+                            );
+                        }
+                        if sem.get("copy") == Some(&Value::Bool(true)) {
+                            if !item_state.contains(&facet.as_str()) {
+                                problem(
+                                    &path,
+                                    format!("copies '{facet}' into an attribute, but the inline item `state` does not list it"),
+                                );
+                            }
+                            continue;
+                        }
+                        let Some(values) = facet_values_of(ctx.graph, item, ctx.registry, facet)
+                        else {
+                            problem(
+                                &path,
+                                format!("exposes facet '{facet}', which the inline item does not declare"),
+                            );
+                            continue;
+                        };
+                        for v in sem
+                            .get("map")
+                            .and_then(Value::as_object)
+                            .into_iter()
+                            .flat_map(|m| m.keys())
+                            .filter(|v| !values.contains(*v))
+                        {
+                            problem(
+                                &path,
+                                format!("maps '{v}', which is not a value of inline item facet '{facet}'"),
+                            );
+                        }
                     }
                 }
             }
@@ -558,6 +614,50 @@ mod tests {
                 .any(|m| m.contains("inline item contract, which has no `ranges`")),
             "{m:?}"
         );
+    }
+
+    #[test]
+    fn flags_inline_item_parts_and_facets_that_do_not_resolve() {
+        let inline = |c: &mut serde_json::Value, edit: serde_json::Value| {
+            let mut item = json!({
+                "state": ["isSelected"],
+                "facets": { "checked": { "from": "isSelected", "values": { "unchecked": false, "checked": true } } },
+                "parts": { "track": { "role": "switch" } },
+                "semantics": { "track": { "checked": { "ariaState": "aria-checked", "map": { "unchecked": "false", "checked": "true" } } } }
+            });
+            for (k, v) in edit.as_object().unwrap() {
+                item[k] = v.clone();
+            }
+            c["collection"] = json!({ "slot": "default", "item": item });
+        };
+        let ok = check(|c| inline(c, json!({})));
+        assert!(!ok.iter().any(|m| m.contains("inline item")), "{ok:?}");
+        let cases: Vec<(serde_json::Value, &str)> = vec![
+            (
+                json!({ "parts": { "ghost": { "role": "switch" } } }),
+                "inline item `parts`",
+            ),
+            (
+                json!({ "semantics": { "ghost": {} } }),
+                "inline item `semantics`",
+            ),
+            (
+                json!({ "semantics": { "track": { "glow": { "ariaState": "aria-x", "map": {} } } } }),
+                "inline item does not declare",
+            ),
+            (
+                json!({ "semantics": { "track": { "checked": { "ariaState": "aria-checked", "map": { "maybe": "x" } } } } }),
+                "inline item facet 'checked'",
+            ),
+            (
+                json!({ "semantics": { "track": { "isGhost": { "ariaState": "aria-x", "copy": true } } } }),
+                "inline item `state` does not list",
+            ),
+        ];
+        for (edit, why) in cases {
+            let m = check(|c| inline(c, edit));
+            assert!(m.iter().any(|m| m.contains(why)), "{why}: {m:?}");
+        }
     }
 
     #[test]
