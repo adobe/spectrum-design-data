@@ -91,6 +91,10 @@
       "type": "boolean",
       "default": false
     },
+    "illustration": {
+      "type": "string",
+      "description": "Optional illustration or icon displayed in the box."
+    },
     "hideIllustration": {
       "type": "boolean",
       "default": false
