@@ -1,0 +1,54 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
+  "component": "color-wheel",
+  "extends": ["range"],
+  "state": ["isDisabled", "value", "minValue", "maxValue", "step"],
+  "range": {
+    "value": "value",
+    "min": "minValue",
+    "max": "maxValue",
+    "step": "step",
+    "page": {
+      "size": 15
+    },
+    "wrap": true
+  },
+  "parts": {
+    "color-handle": {
+      "focus": "tab-stop"
+    }
+  },
+  "semantics": {
+    "color-handle": {
+      "value": {
+        "ariaState": "aria-valuenow",
+        "copy": true
+      },
+      "minValue": {
+        "ariaState": "aria-valuemin",
+        "copy": true
+      },
+      "maxValue": {
+        "ariaState": "aria-valuemax",
+        "copy": true
+      }
+    }
+  },
+  "wcag": [
+    {
+      "criterion": "1.3.1",
+      "level": "A",
+      "title": "Info and Relationships"
+    },
+    {
+      "criterion": "2.1.1",
+      "level": "A",
+      "title": "Keyboard"
+    },
+    {
+      "criterion": "4.1.2",
+      "level": "A",
+      "title": "Name, Role, Value"
+    }
+  ]
+}
