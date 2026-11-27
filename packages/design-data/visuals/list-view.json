@@ -1,0 +1,349 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "list-view",
+  "root": "container",
+  "sizeScale": {
+    "m": 100
+  },
+  "notVisual": ["selectionMode", "isQuiet"],
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["list-item"],
+      "repeat": {
+        "slot": "default",
+        "label": "label",
+        "with": {
+          "isSelected": "isSelected",
+          "isDisabled": "isDisabled",
+          "description": "description"
+        }
+      },
+      "props": {
+        "direction": {
+          "value": "column"
+        },
+        "width": {
+          "relationship": {
+            "property": "minimum-width",
+            "part": "list-item"
+          }
+        }
+      }
+    },
+    "list-item": {
+      "kind": "box",
+      "children": ["row", "description"],
+      "props": {
+        "direction": {
+          "value": "column"
+        },
+        "minHeight": {
+          "relationship": {
+            "property": "minimum-height",
+            "part": "list-item"
+          }
+        },
+        "cornerRadiusStartStart": [
+          {
+            "when": {
+              "position": ["first", "only"]
+            },
+            "relationship": {
+              "property": "corner-radius",
+              "part": "list-item"
+            }
+          }
+        ],
+        "cornerRadiusStartEnd": [
+          {
+            "when": {
+              "position": ["first", "only"]
+            },
+            "relationship": {
+              "property": "corner-radius",
+              "part": "list-item"
+            }
+          }
+        ],
+        "cornerRadiusEndStart": [
+          {
+            "when": {
+              "position": ["last", "only"]
+            },
+            "relationship": {
+              "property": "corner-radius",
+              "part": "list-item"
+            }
+          }
+        ],
+        "cornerRadiusEndEnd": [
+          {
+            "when": {
+              "position": ["last", "only"]
+            },
+            "relationship": {
+              "property": "corner-radius",
+              "part": "list-item"
+            }
+          }
+        ],
+        "fill": [
+          {
+            "when": {
+              "options": {
+                "isSelected": true
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "part": "list-item",
+              "attribute": "background"
+            }
+          },
+          {
+            "when": {
+              "states": ["hover"]
+            },
+            "relationship": {
+              "property": "color",
+              "part": "list-item",
+              "attribute": "background"
+            }
+          },
+          {
+            "when": {
+              "states": ["down"]
+            },
+            "relationship": {
+              "property": "color",
+              "part": "list-item",
+              "attribute": "background"
+            }
+          },
+          {
+            "when": {
+              "states": ["keyboard-focus"]
+            },
+            "relationship": {
+              "property": "color",
+              "part": "list-item",
+              "attribute": "background"
+            }
+          }
+        ],
+        "paddingInlineStart": {
+          "relationship": {
+            "property": "space-between",
+            "part": "list-item",
+            "between": {
+              "from": "start-edge",
+              "to": "text"
+            }
+          }
+        },
+        "paddingInlineEnd": {
+          "relationship": {
+            "property": "space-between",
+            "part": "list-item",
+            "between": {
+              "from": "end-edge",
+              "to": "drill-in-chevron"
+            }
+          }
+        },
+        "paddingBlockStart": {
+          "relationship": {
+            "property": "minimum-padding-vertical",
+            "part": "list-item"
+          }
+        },
+        "paddingBlockEnd": {
+          "relationship": {
+            "property": "minimum-padding-vertical",
+            "part": "list-item"
+          }
+        },
+        "align": {
+          "value": "start"
+        },
+        "stroke": [
+          {
+            "when": {
+              "options": {
+                "isSelected": true
+              }
+            },
+            "relationship": {
+              "property": "content-color",
+              "part": "list-item"
+            }
+          },
+          {
+            "when": {
+              "states": ["keyboard-focus"]
+            },
+            "priority": 10,
+            "relationship": {
+              "property": "color",
+              "part": "focus-indicator"
+            }
+          }
+        ],
+        "strokeWidth": [
+          {
+            "when": {
+              "options": {
+                "isSelected": true
+              }
+            },
+            "relationship": {
+              "property": "border-width",
+              "part": "list-item"
+            }
+          },
+          {
+            "when": {
+              "states": ["keyboard-focus"]
+            },
+            "priority": 10,
+            "relationship": {
+              "property": "thickness",
+              "part": "focus-indicator"
+            }
+          }
+        ]
+      }
+    },
+    "row": {
+      "kind": "box",
+      "children": ["icon", "label", "drill-in-chevron"],
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "center"
+        },
+        "gap": {
+          "relationship": {
+            "property": "space-between",
+            "part": "list-item",
+            "between": {
+              "to": "text"
+            }
+          }
+        }
+      }
+    },
+    "icon": {
+      "kind": "icon",
+      "icon": {
+        "set": "workflow",
+        "name": "add",
+        "content": true,
+        "optional": true
+      },
+      "props": {
+        "width": {
+          "relationship": {
+            "property": "size",
+            "part": "icon"
+          }
+        },
+        "height": {
+          "relationship": {
+            "property": "size",
+            "part": "icon"
+          }
+        },
+        "color": {
+          "relationship": {
+            "property": "content-color",
+            "part": "label"
+          }
+        }
+      }
+    },
+    "label": {
+      "kind": "text",
+      "props": {
+        "fontFamily": {
+          "relationship": {
+            "property": "font-family",
+            "part": "label"
+          }
+        },
+        "fontSize": {
+          "relationship": {
+            "property": "font-size",
+            "part": "label"
+          }
+        },
+        "fontWeight": {
+          "relationship": {
+            "property": "font-weight",
+            "part": "label"
+          }
+        },
+        "lineHeight": {
+          "relationship": {
+            "property": "line-height",
+            "part": "label"
+          }
+        },
+        "color": {
+          "relationship": {
+            "property": "content-color",
+            "part": "label"
+          }
+        },
+        "grow": {
+          "value": true
+        }
+      }
+    },
+    "description": {
+      "kind": "text",
+      "text": {
+        "option": "description"
+      },
+      "props": {
+        "fontFamily": {
+          "relationship": {
+            "property": "font-family",
+            "part": "label"
+          }
+        },
+        "fontSize": {
+          "relationship": {
+            "property": "font-size",
+            "part": "description"
+          }
+        },
+        "color": {
+          "relationship": {
+            "property": "content-color",
+            "part": "label"
+          }
+        }
+      }
+    },
+    "drill-in-chevron": {
+      "kind": "icon",
+      "icon": {
+        "set": "ui",
+        "name": "chevron"
+      },
+      "props": {
+        "color": {
+          "relationship": {
+            "property": "content-color",
+            "part": "label"
+          }
+        }
+      }
+    }
+  }
+}
