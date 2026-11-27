@@ -92,6 +92,15 @@
             "property": "border-dash-gap",
             "part": "container"
           }
+        },
+        "gap": {
+          "relationship": {
+            "property": "space-between",
+            "between": {
+              "from": "illustration",
+              "to": "title"
+            }
+          }
         }
       }
     },

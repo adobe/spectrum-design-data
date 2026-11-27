@@ -171,27 +171,13 @@
             "part": "container"
           }
         },
-        "fill": [
-          {
-            "when": {
-              "options": {
-                "isDisabled": true
-              }
-            },
-            "relationship": {
-              "property": "color",
-              "part": "container",
-              "attribute": "background"
-            }
-          },
-          {
-            "relationship": {
-              "property": "color",
-              "part": "container",
-              "attribute": "background"
-            }
+        "fill": {
+          "relationship": {
+            "property": "color",
+            "part": "container",
+            "attribute": "background"
           }
-        ],
+        },
         "shadow": {
           "shadow": [
             {
