@@ -1988,6 +1988,32 @@ fn a_broken_number_field_contract_or_spinbutton_binding_fails_a_vector() {
             "number-field: breaking {pointer} failed no vector"
         );
     }
+    // Part, state and wcag pins are checked by `check_contract`, not by a vector.
+    let pins = pins_of("number-field");
+    assert!(
+        design_data_core::behavior::check_contract(&contract, &patterns, Some(&pins)).is_empty()
+    );
+    for (pointer, value) in [
+        ("/parts/field/role", json!("slider")),
+        ("/parts/field/focus", json!("roving")),
+        ("/parts/in-field-button/focus", json!("tab-stop")),
+        ("/state", json!(["isDisabled"])),
+    ] {
+        let mut m = contract.clone();
+        *m.pointer_mut(pointer).unwrap() = value;
+        assert!(
+            !design_data_core::behavior::check_contract(&m, &patterns, Some(&pins)).is_empty(),
+            "number-field: breaking {pointer} fails no pin"
+        );
+    }
+    let mut no_stepper = contract.clone();
+    no_stepper["parts"]
+        .as_object_mut()
+        .unwrap()
+        .remove("in-field-button");
+    assert!(
+        !design_data_core::behavior::check_contract(&no_stepper, &patterns, Some(&pins)).is_empty()
+    );
     let keys = key_suite("spinbutton");
     let run = |bindings: &Value| {
         run_vectors(

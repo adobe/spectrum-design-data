@@ -516,6 +516,188 @@
           }
         }
       ]
+    },
+    {
+      "name": "known limit: an unset minValue reads 0, so decrement at 0 clamps (pins the runner default; the owner may change it)",
+      "start": {
+        "maxValue": 100,
+        "step": 1,
+        "value": 0
+      },
+      "steps": [
+        {
+          "intent": "decrement"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "known limit: an unset minValue reads 0, so set-min goes to 0",
+      "start": {
+        "maxValue": 100,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "intent": "set-min"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "known limit: an unset maxValue reads 100, so set-max goes to 100",
+      "start": {
+        "minValue": 0,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "intent": "set-max"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 100
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "known limit: an unset maxValue reads 100, so a value of 500 steps down to 100",
+      "start": {
+        "minValue": 0,
+        "step": 1,
+        "value": 500
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 100
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "known limit: an unset value reads the minimum, so increment gives min + step (pins the runner default)",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "known limit: an unset value reads the minimum, so decrement raises nothing",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1
+      },
+      "steps": [
+        {
+          "intent": "decrement"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "known limit: an unset value reads the minimum, so set-min raises nothing",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1
+      },
+      "steps": [
+        {
+          "intent": "set-min"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "known limit: an unset value reads the minimum, so set-max goes to 100",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1
+      },
+      "steps": [
+        {
+          "intent": "set-max"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 100
+              }
+            }
+          ]
+        }
+      ]
     }
   ]
 }
