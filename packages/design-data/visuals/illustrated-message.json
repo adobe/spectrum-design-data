@@ -1,0 +1,150 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "illustrated-message",
+  "root": "container",
+  "sizeScale": {
+    "s": 100,
+    "m": 200,
+    "l": 300
+  },
+  "notVisual": ["primaryActionLabel", "secondaryActionLabel"],
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["illustration", "title", "description", "button-group"],
+      "props": {
+        "direction": {
+          "value": "column"
+        },
+        "align": {
+          "value": "center"
+        },
+        "width": [
+          {
+            "when": {
+              "options": {
+                "orientation": "horizontal"
+              }
+            },
+            "relationship": {
+              "property": "horizontal-maximum-width",
+              "part": "container"
+            }
+          },
+          {
+            "relationship": {
+              "property": "vertical-maximum-width",
+              "part": "container"
+            }
+          }
+        ]
+      }
+    },
+    "illustration": {
+      "kind": "box",
+      "image": {
+        "source": {
+          "option": "illustration"
+        },
+        "fit": "contain"
+      },
+      "props": {}
+    },
+    "title": {
+      "kind": "text",
+      "text": {
+        "option": "title"
+      },
+      "props": {
+        "fontFamily": {
+          "relationship": {
+            "property": "font-family",
+            "part": "title"
+          }
+        },
+        "fontSize": {
+          "relationship": {
+            "property": "font-size",
+            "part": "title"
+          }
+        },
+        "fontWeight": {
+          "relationship": {
+            "property": "font-weight",
+            "part": "title"
+          }
+        },
+        "lineHeight": {
+          "relationship": {
+            "property": "line-height",
+            "part": "title"
+          }
+        },
+        "color": {
+          "relationship": {
+            "property": "color",
+            "part": "title"
+          }
+        },
+        "overflow": {
+          "value": "wrap"
+        }
+      }
+    },
+    "description": {
+      "kind": "text",
+      "text": {
+        "option": "description"
+      },
+      "props": {
+        "fontFamily": {
+          "relationship": {
+            "property": "font-family",
+            "part": "description"
+          }
+        },
+        "fontSize": {
+          "relationship": {
+            "property": "font-size",
+            "part": "description"
+          }
+        },
+        "fontWeight": {
+          "relationship": {
+            "property": "font-weight",
+            "part": "description"
+          }
+        },
+        "lineHeight": {
+          "relationship": {
+            "property": "line-height",
+            "part": "description"
+          }
+        },
+        "color": {
+          "relationship": {
+            "property": "color",
+            "part": "description"
+          }
+        },
+        "overflow": {
+          "value": "wrap"
+        }
+      }
+    },
+    "button-group": {
+      "kind": "slot",
+      "sizeMap": {
+        "s": "m",
+        "m": "m",
+        "l": "m"
+      },
+      "props": {
+        "direction": {
+          "value": "row"
+        }
+      }
+    }
+  }
+}

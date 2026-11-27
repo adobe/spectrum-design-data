@@ -953,6 +953,65 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
         copy(&mut long, true);
         out.push(("long-copy-mobile-dark", long));
     }
+    // Illustrated message: real copy and two actions in every scenario; the cases cover the
+    // sizes, the horizontal width, wrapped copy on mobile and a message without actions. The
+    // illustration has no size record yet (qkj5.243), so its placeholder is not drawn.
+    if name == "illustrated-message" {
+        let fills = || {
+            let fill = |label: &str, variant: &str, style: &str| SlotFill {
+                component: "button".to_string(),
+                options: HashMap::from([
+                    ("label".to_string(), Value::from(label)),
+                    ("variant".to_string(), Value::from(variant)),
+                    ("style".to_string(), Value::from(style)),
+                ]),
+            };
+            HashMap::from([(
+                "button-group".to_string(),
+                vec![
+                    fill("Clear filters", "secondary", "outline"),
+                    fill("Retry", "accent", "fill"),
+                ],
+            )])
+        };
+        let copy = |r: &mut RenderRequest, long: bool| {
+            r.options.insert("title".into(), "No results found".into());
+            r.options.insert(
+                "description".into(),
+                if long {
+                    "Try a different search term, or remove some of the filters you applied to see more of the items in this list."
+                } else {
+                    "Try a different search term or remove some of the filters."
+                }
+                .into(),
+            );
+            r.slots = fills();
+        };
+        for (_, r) in out.iter_mut() {
+            copy(r, false);
+        }
+        for (label, size) in [("size-s", "s"), ("size-l", "l")] {
+            let mut r = req(vec![], HashMap::new(), "light", "desktop");
+            copy(&mut r, false);
+            r.size = size.into();
+            out.push((label, r));
+        }
+        let mut horizontal = req(
+            vec![],
+            HashMap::from([("orientation".to_string(), Value::from("horizontal"))]),
+            "light",
+            "desktop",
+        );
+        copy(&mut horizontal, false);
+        out.push(("horizontal", horizontal));
+        let mut long = req(vec![], HashMap::new(), "dark", "mobile");
+        copy(&mut long, true);
+        out.push(("long-copy-mobile-dark", long));
+        let mut bare = req(vec![], HashMap::new(), "light", "desktop");
+        copy(&mut bare, false);
+        bare.slots = HashMap::new();
+        out.push(("no-actions", bare));
+    }
     // Group recipes draw only their slot fills: three items at the default size, and a small
     // vertical one (compact for the action group), so the gap bindings show.
     if let Some(item) = match name {
@@ -2994,7 +3053,7 @@ fn demo_slots_draw_every_fill_they_declare() {
             }
         }
     }
-    assert_eq!(hosts, 13);
+    assert_eq!(hosts, 14);
 }
 
 #[test]
