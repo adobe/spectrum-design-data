@@ -20,7 +20,7 @@
           },
           "relationship": {
             "property": "thickness",
-            "context": "Thickness"
+            "part": "line"
           }
         },
         "width": {
@@ -31,7 +31,7 @@
           },
           "relationship": {
             "property": "thickness",
-            "context": "Thickness"
+            "part": "line"
           }
         },
         "minWidth": {
@@ -42,7 +42,7 @@
           },
           "relationship": {
             "property": "minimum-width",
-            "context": "Horizontal"
+            "part": "line"
           }
         },
         "minHeight": {
@@ -53,7 +53,7 @@
           },
           "relationship": {
             "property": "minimum-height",
-            "context": "Vertical"
+            "part": "line"
           }
         },
         "cornerRadius": {
@@ -63,7 +63,7 @@
         "fill": {
           "relationship": {
             "property": "color",
-            "context": "Fill"
+            "part": "line"
           }
         }
       }
