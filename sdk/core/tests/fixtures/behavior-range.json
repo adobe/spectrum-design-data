@@ -1181,6 +1181,341 @@
           ]
         }
       ]
+    },
+    {
+      "name": "unbounded decimals have no float noise",
+      "start": {
+        "step": 0.1,
+        "value": 0.2
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        },
+        {
+          "intent": "decrement"
+        },
+        {
+          "intent": "decrement"
+        },
+        {
+          "intent": "decrement"
+        },
+        {
+          "intent": "decrement"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0.3
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 0.2
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "value": 0.1
+              }
+            }
+          ]
+        },
+        {
+          "after": 4,
+          "emit": [
+            {
+              "change": {
+                "value": 0
+              }
+            }
+          ]
+        },
+        {
+          "after": 5,
+          "emit": [
+            {
+              "change": {
+                "value": -0.1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "unbounded negative values step down",
+      "start": {
+        "step": 1,
+        "value": -1000000
+      },
+      "steps": [
+        {
+          "intent": "decrement"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": -1000001
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "unbounded huge values still step",
+      "start": {
+        "step": 1,
+        "value": 1000000000000000
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 1000000000000001
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a value beyond a one-sided max clamps to it",
+      "start": {
+        "maxValue": 10,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "intent": "decrement"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 10
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a value beyond a one-sided min clamps to it",
+      "start": {
+        "minValue": 10,
+        "step": 1,
+        "value": 5
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 10
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "negative bounds snap from the minimum",
+      "start": {
+        "minValue": -10,
+        "maxValue": 10,
+        "step": 5,
+        "value": -3
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a page by a fraction needs both bounds: nothing without a max",
+      "start": {
+        "minValue": 0,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "intent": "increment-page"
+        },
+        {
+          "intent": "decrement-page"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        },
+        {
+          "after": 2,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "a page by a fraction needs both bounds: nothing without a min",
+      "start": {
+        "maxValue": 100,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "intent": "increment-page"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "a move needs both bounds: nothing without a max",
+      "start": {
+        "minValue": 0,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "intent": "move",
+          "position": 0.5
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "a move needs both bounds: nothing without a min",
+      "start": {
+        "maxValue": 100,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "intent": "move",
+          "position": 0.5
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "an unset value on a page step reads the minimum",
+      "start": {
+        "minValue": 0,
+        "maxValue": 100,
+        "step": 1
+      },
+      "steps": [
+        {
+          "intent": "increment-page"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 10
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "set-min and set-max with neither bound change nothing",
+      "start": {
+        "step": 1,
+        "value": 7
+      },
+      "steps": [
+        {
+          "intent": "set-min"
+        },
+        {
+          "intent": "set-max"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        },
+        {
+          "after": 2,
+          "emit": []
+        }
+      ]
     }
   ]
 }

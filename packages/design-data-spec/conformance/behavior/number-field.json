@@ -518,7 +518,7 @@
       ]
     },
     {
-      "name": "known limit: an unset minValue reads 0, so decrement at 0 clamps (pins the runner default; the owner may change it)",
+      "name": "an unset minValue is unbounded, so decrement below 0 does not clamp",
       "start": {
         "maxValue": 100,
         "step": 1,
@@ -532,16 +532,47 @@
       "expect": [
         {
           "after": 1,
-          "emit": []
+          "emit": [
+            {
+              "change": {
+                "value": -1
+              }
+            }
+          ]
         }
       ]
     },
     {
-      "name": "known limit: an unset minValue reads 0, so set-min goes to 0",
+      "name": "an unset minValue is unbounded, so a negative value steps up by one",
       "start": {
         "maxValue": 100,
         "step": 1,
-        "value": 50
+        "value": -5
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": -4
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "an unset minValue has nothing to go to, so set-min changes nothing",
+      "start": {
+        "maxValue": 100,
+        "step": 1,
+        "value": 7
       },
       "steps": [
         {
@@ -551,26 +582,20 @@
       "expect": [
         {
           "after": 1,
-          "emit": [
-            {
-              "change": {
-                "value": 0
-              }
-            }
-          ]
+          "emit": []
         }
       ]
     },
     {
-      "name": "known limit: an unset maxValue reads 100, so set-max goes to 100",
+      "name": "an unset maxValue is unbounded, so increment above 100 does not clamp",
       "start": {
         "minValue": 0,
         "step": 1,
-        "value": 50
+        "value": 100
       },
       "steps": [
         {
-          "intent": "set-max"
+          "intent": "increment"
         }
       ],
       "expect": [
@@ -579,7 +604,7 @@
           "emit": [
             {
               "change": {
-                "value": 100
+                "value": 101
               }
             }
           ]
@@ -587,7 +612,7 @@
       ]
     },
     {
-      "name": "known limit: an unset maxValue reads 100, so a value of 500 steps down to 100",
+      "name": "an unset maxValue is unbounded, so a value of 500 steps up to 501",
       "start": {
         "minValue": 0,
         "step": 1,
@@ -604,7 +629,7 @@
           "emit": [
             {
               "change": {
-                "value": 100
+                "value": 501
               }
             }
           ]
@@ -612,9 +637,96 @@
       ]
     },
     {
-      "name": "known limit: an unset value reads the minimum, so increment gives min + step (pins the runner default)",
+      "name": "an unset maxValue has nothing to go to, so set-max changes nothing",
       "start": {
         "minValue": 0,
+        "step": 1,
+        "value": 50
+      },
+      "steps": [
+        {
+          "intent": "set-max"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "with both bounds unset a step snaps from 0",
+      "start": {
+        "step": 5,
+        "value": 3
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 10
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "with min set and max unset a step snaps from the minimum",
+      "start": {
+        "minValue": 2,
+        "step": 5,
+        "value": 2
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 7
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "an unset minValue still clamps at a set maxValue",
+      "start": {
+        "maxValue": 10,
+        "step": 1,
+        "value": 10
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "an unset value goes to the minimum on increment",
+      "start": {
+        "minValue": 5,
         "maxValue": 100,
         "step": 1
       },
@@ -629,7 +741,7 @@
           "emit": [
             {
               "change": {
-                "value": 1
+                "value": 5
               }
             }
           ]
@@ -637,7 +749,31 @@
       ]
     },
     {
-      "name": "known limit: an unset value reads the minimum, so decrement raises nothing",
+      "name": "an unset value goes to 0 on increment without a minimum",
+      "start": {
+        "maxValue": 100,
+        "step": 1
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "an unset value goes to the maximum on decrement",
       "start": {
         "minValue": 0,
         "maxValue": 100,
@@ -651,12 +787,42 @@
       "expect": [
         {
           "after": 1,
-          "emit": []
+          "emit": [
+            {
+              "change": {
+                "value": 100
+              }
+            }
+          ]
         }
       ]
     },
     {
-      "name": "known limit: an unset value reads the minimum, so set-min raises nothing",
+      "name": "an unset value goes to 0 on decrement without a maximum",
+      "start": {
+        "minValue": 0,
+        "step": 1
+      },
+      "steps": [
+        {
+          "intent": "decrement"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "an unset value leaves set-min with no change",
       "start": {
         "minValue": 0,
         "maxValue": 100,
@@ -675,7 +841,7 @@
       ]
     },
     {
-      "name": "known limit: an unset value reads the minimum, so set-max goes to 100",
+      "name": "an unset value goes to the maximum on set-max",
       "start": {
         "minValue": 0,
         "maxValue": 100,

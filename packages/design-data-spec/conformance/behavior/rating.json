@@ -298,7 +298,31 @@
       ]
     },
     {
-      "name": "an unset rating reads as zero stars",
+      "name": "a rating of zero stars steps to one",
+      "start": {
+        "maxValue": 5,
+        "value": 0
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "an unset rating goes to the minimum 0 on increment",
       "start": {
         "maxValue": 5
       },
@@ -313,7 +337,7 @@
           "emit": [
             {
               "change": {
-                "value": 1
+                "value": 0
               }
             }
           ]
@@ -553,7 +577,7 @@
       ]
     },
     {
-      "name": "an unset maxValue reads the runner default of 100: the caller applies the component default of 5",
+      "name": "an unset maxValue is unbounded, so set-max changes nothing: the caller applies the component default of 5",
       "start": {
         "value": 5
       },
@@ -565,13 +589,7 @@
       "expect": [
         {
           "after": 1,
-          "emit": [
-            {
-              "change": {
-                "value": 100
-              }
-            }
-          ]
+          "emit": []
         }
       ]
     },

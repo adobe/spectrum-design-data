@@ -1874,7 +1874,7 @@ fn a_fixed_page_size_and_a_bad_range_are_pinned() {
     assert!(reason(&no_range, &any).contains("has no `range`"));
 
     // Defaults: only `value` and `min` are named, so max (100), step (1), the page (a tenth of
-    // the span) and an unset value (reads the minimum) all come from the runner.
+    // the span) come from the runner, and an unset value goes to the minimum on ArrowRight.
     let mut bare = contract.clone();
     bare["range"] = json!({ "value": "value", "min": "minValue" });
     let defaults = vector(
@@ -1894,7 +1894,7 @@ fn a_fixed_page_size_and_a_bad_range_are_pinned() {
     let unset = vector(
         json!({ "minValue": 10 }),
         vec![key("ArrowRight")],
-        json!([{ "after": 1, "emit": [{ "change": { "value": 11 } }] }]),
+        json!([{ "after": 1, "emit": [{ "change": { "value": 10 } }] }]),
     );
     assert_eq!(
         range_failures(&bare, unset.as_array().unwrap(), &patterns),
@@ -2261,4 +2261,28 @@ fn a_broken_number_field_contract_or_spinbutton_binding_fails_a_vector() {
         .unwrap()
         .push(json!({ "key": "ArrowRight", "down": "increment" }));
     assert!(run(&extra) > 0, "a bound ArrowRight is not pinned");
+}
+
+#[test]
+fn wrap_and_a_zero_step_need_what_they_need() {
+    let (mut contract, _) = range_fixture();
+    let patterns = range_patterns();
+    contract["range"]["wrap"] = json!(true);
+    let fail = |contract: &Value, start: Value| -> String {
+        let v = json!([{ "name": "v", "start": start, "steps": [{ "intent": "increment" }],
+            "expect": [{ "after": 1, "emit": [] }] }]);
+        match &run_range(contract, v.as_array().unwrap(), &patterns)[0].status {
+            Status::Fail(f) => f[0].clone(),
+            s => panic!("{s:?}"),
+        }
+    };
+    for start in [
+        json!({ "maxValue": 10, "value": 1 }),
+        json!({ "minValue": 0, "value": 1 }),
+        json!({ "value": 1 }),
+    ] {
+        assert!(fail(&contract, start).contains("needs both bounds"));
+    }
+    contract["range"]["wrap"] = json!(false);
+    assert!(fail(&contract, json!({ "step": 0, "value": 1 })).contains("the step must be above 0"));
 }
