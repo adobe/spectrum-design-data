@@ -1,6 +1,6 @@
 // Copyright 2026 Adobe. All rights reserved.
 
-import { readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import test from "ava";
 import {
   demoSlots,
@@ -121,7 +121,7 @@ const FREE_SLOTS = [
 
 test("every slot-hosting component declares demo fills the slot accepts, within min and max", (t) => {
   const problems = [];
-  let hosts = 0;
+  const hosts = [];
   for (const f of readdirSync(new URL("visuals/", dataDir))) {
     const name = f.replace(/\.json$/, "");
     const recipe = readJson(`visuals/${f}`);
@@ -129,7 +129,7 @@ test("every slot-hosting component declares demo fills the slot accepts, within 
       .filter(([, p]) => p.kind === "slot")
       .map(([id]) => id);
     if (!slotParts.length) continue;
-    hosts++;
+    hosts.push(name);
     const fills = demoSlots(byName[name], byName);
     for (const s of byName[name].slots.filter((x) =>
       slotParts.includes(x.part),
@@ -148,7 +148,18 @@ test("every slot-hosting component declares demo fills the slot accepts, within 
         problems.push(`${key}: ${list.length} fills outside min and max`);
     }
   }
-  t.is(hosts, 13);
+  const expected = readdirSync(new URL("components/", dataDir))
+    .map((f) => f.replace(/\.json$/, ""))
+    .filter(
+      (n) =>
+        byName[n].slots?.length &&
+        existsSync(new URL(`visuals/${n}.json`, dataDir)) &&
+        Object.values(readJson(`visuals/${n}.json`).parts ?? {}).some(
+          (p) => p.kind === "slot",
+        ),
+    );
+  t.true(hosts.length > 0);
+  t.deepEqual(hosts.sort(), expected.sort());
   t.deepEqual(problems, []);
 });
 

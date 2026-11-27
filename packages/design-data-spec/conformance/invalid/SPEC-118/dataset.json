@@ -199,7 +199,17 @@
                 "ariaState": "aria-checked",
                 "copy": true,
                 "axis": "x"
+              },
+              "glow": {
+                "ariaState": "aria-x",
+                "map": {}
               }
+            }
+          },
+          "state": ["isSelected"],
+          "parts": {
+            "ghostpart": {
+              "role": "checkbox"
             }
           }
         }
