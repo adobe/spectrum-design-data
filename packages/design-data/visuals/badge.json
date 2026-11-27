@@ -33,7 +33,10 @@
   "parts": {
     "container": {
       "kind": "box",
-      "children": ["icon", "label"],
+      "children": [
+        "icon",
+        "label"
+      ],
       "props": {
         "direction": {
           "value": "row"
@@ -122,30 +125,7 @@
         },
         "fill": [
           {
-            "relationship": {
-              "property": "color",
-              "attribute": "background",
-              "part": "container"
-            }
-          },
-          {
-            "when": {
-              "options": {
-                "variant": [
-                  "neutral",
-                  "informative",
-                  "positive",
-                  "negative",
-                  "accent",
-                  "notice"
-                ]
-              }
-            },
-            "relationship": {
-              "property": "color",
-              "attribute": "background",
-              "part": "container"
-            }
+            "value": "#ff0000"
           }
         ],
         "stroke": [
@@ -163,7 +143,9 @@
                   "accent",
                   "notice"
                 ],
-                "style": ["outline"]
+                "style": [
+                  "outline"
+                ]
               }
             },
             "relationship": {
@@ -188,7 +170,9 @@
                   "accent",
                   "notice"
                 ],
-                "style": ["outline"]
+                "style": [
+                  "outline"
+                ]
               }
             },
             "relationship": {
