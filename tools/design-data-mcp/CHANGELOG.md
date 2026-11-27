@@ -1,5 +1,29 @@
 # @adobe/design-data-mcp
 
+## 1.19.0
+
+### Minor Changes
+
+- [#2197](https://github.com/adobe/spectrum-design-data/pull/2197) [`7161bb0`](https://github.com/adobe/spectrum-design-data/commit/7161bb00cb098860da8b68a7859f4a2d5ae1c6f2) Thanks [@GarthDB](https://github.com/GarthDB)! - Every place that shows or matches a token name now uses the legacy name the engine
+  derives (`extract_legacy_key`), pinned or not (proposal 023, slice 1).
+  - Wasm `TokenResult` gains `legacyName`.
+  - Recipe renders, scene `token` labels, the site and spec sheets show legacy names for
+    unpinned tokens (about 1,808 live token rows, 930 distinct names; pixels do not).
+  - A recipe selector's `legacyKey` matches the derived legacy name, and `rank_key` no
+    longer counts the `legacyKey` pin as a name field, so site `candidates[].rank`
+    changes for pinned tokens and pinned and unpinned tokens can now tie.
+  - MCP `design-data-query`, `token-usage` and friends return the legacy name, resolve
+    mode-dependent aliases through it, and still accept the old `field=value` text.
+  - Removes 164 token `legacyKey` pins that now equal the derived name. Legacy output
+    (`@adobe/spectrum-tokens`) is byte-identical.
+
+### Patch Changes
+
+- Updated dependencies [[`e562a93`](https://github.com/adobe/spectrum-design-data/commit/e562a932cd3a026fd9b822fe4a75263883cf5f8c), [`5317fa5`](https://github.com/adobe/spectrum-design-data/commit/5317fa5872af945bb60382908eaf0beb1862180e), [`e7ce3e2`](https://github.com/adobe/spectrum-design-data/commit/e7ce3e20426ed7809dbf428d97ca8969d8a2c28a), [`c46cf6e`](https://github.com/adobe/spectrum-design-data/commit/c46cf6eebf93a9e11d401c8c5093855db5bb12fe), [`3c88728`](https://github.com/adobe/spectrum-design-data/commit/3c887287d06b810fcc8d08d32ceab5dc742c78ce), [`be416a9`](https://github.com/adobe/spectrum-design-data/commit/be416a95f6630f10528118bacab2932042185d4f), [`a8c2821`](https://github.com/adobe/spectrum-design-data/commit/a8c28218ef86fc755f997cc7d3ff221092c61c3e), [`6f12d24`](https://github.com/adobe/spectrum-design-data/commit/6f12d245d062e6f892c216e33a714bfcc80e0eab), [`33161dc`](https://github.com/adobe/spectrum-design-data/commit/33161dce8ed8f68ccd4054131c7b85d063571e85), [`335e55c`](https://github.com/adobe/spectrum-design-data/commit/335e55cddfa2dd35ed97c9f8fa4e848487bcc300), [`1eb5fb9`](https://github.com/adobe/spectrum-design-data/commit/1eb5fb94759c238d21e97b273c3238d308b76499), [`82a1b1d`](https://github.com/adobe/spectrum-design-data/commit/82a1b1dcb80bbef7cfe0946e190167bc579162ea), [`365bf9f`](https://github.com/adobe/spectrum-design-data/commit/365bf9f3b8f185ae1047195f6a40b88d68d77f78), [`37a8405`](https://github.com/adobe/spectrum-design-data/commit/37a8405aacbd838417eca0378fc8fe98729aa8e1), [`00620bb`](https://github.com/adobe/spectrum-design-data/commit/00620bb8d94d9e80347692e5f82c36384d09cee1), [`3f4c588`](https://github.com/adobe/spectrum-design-data/commit/3f4c5884c886cfebdef8a17384b19093cc7764f7), [`9f22db7`](https://github.com/adobe/spectrum-design-data/commit/9f22db7215a4717a582c18742c14eda930984274), [`1d15af6`](https://github.com/adobe/spectrum-design-data/commit/1d15af6649c9608a16a5da0831080140c1788c5e), [`ed99a50`](https://github.com/adobe/spectrum-design-data/commit/ed99a50ff4a1d96acf6192e54f4e2d153e85685d), [`e9efde3`](https://github.com/adobe/spectrum-design-data/commit/e9efde3608f392c6b21d1d2ba81b04a1223b6f26), [`ebc93d2`](https://github.com/adobe/spectrum-design-data/commit/ebc93d2844fe357dd9bff2b407b460913da3bf6e), [`3839b90`](https://github.com/adobe/spectrum-design-data/commit/3839b90d11459e815ab2665495fa6700825f9f45), [`523e156`](https://github.com/adobe/spectrum-design-data/commit/523e156068b9ff7bad4cc24391cc559a32993282), [`6c09a68`](https://github.com/adobe/spectrum-design-data/commit/6c09a68a1a5349f4769ba9fb4f1d459bc44dc0b8), [`b47404c`](https://github.com/adobe/spectrum-design-data/commit/b47404c4d050457146073ec3bfc0478afe8954c5), [`8d8c79e`](https://github.com/adobe/spectrum-design-data/commit/8d8c79ec0131dd7fc7abbaf20844bf80472cc630), [`7161bb0`](https://github.com/adobe/spectrum-design-data/commit/7161bb00cb098860da8b68a7859f4a2d5ae1c6f2)]:
+  - @adobe/spectrum-design-data@4.9.0
+  - @adobe/design-data-wasm@0.41.0
+  - @adobe/design-data@3.5.0
+
 ## 1.18.2
 
 ### Patch Changes

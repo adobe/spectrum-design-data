@@ -408,6 +408,36 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.9.0",
+      "version": "2.0.3",
+      "bump": "patch",
+      "date": "2026-11-27",
+      "commit": "7a22cbd98e481c2d56af60373b60312c4008a14e",
+      "commits": [
+        {
+          "commit": "7161bb00cb098860da8b68a7859f4a2d5ae1c6f2",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2197,"title":"feat(sdk): show the derived legacy name for every token and drop 164 pins","url":"https://github.com/adobe/spectrum-design-data/pull/2197"},
+          "entries": [
+            {"id":"7161bb00-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"record":"da3a7c08-7f54-4486-bb66-146db21f0627","name":"color[colorScheme=dark,object=background,state=?,variant=informative]","fields":[{"path":"name.legacyKey","before":"informative-background-color-default"}]},
+            {"id":"7161bb00-1","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"record":"1117b73b-42e3-4ad6-8b26-af76859a27bb","name":"color[colorScheme=dark,object=background,state=?,variant=negative]","fields":[{"path":"name.legacyKey","before":"negative-background-color-default"}]},
+            {"id":"7161bb00-2","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"record":"82b54f71-7c9e-4388-9e3b-4d13f12fad60","name":"color[colorScheme=dark,object=background,state=?,variant=positive]","fields":[{"path":"name.legacyKey","before":"positive-background-color-default"}]},
+            {"id":"7161bb00-3","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"record":"3acd52f0-d19c-4174-9ad5-42885ec9d49d","name":"color[colorScheme=light,object=background,state=?,variant=informative]","fields":[{"path":"name.legacyKey","before":"informative-background-color-default"}]},
+            {"id":"7161bb00-4","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"record":"46204746-7fe7-4f22-887e-2c9b85c3b7bc","name":"color[colorScheme=light,object=background,state=?,variant=negative]","fields":[{"path":"name.legacyKey","before":"negative-background-color-default"}]},
+            {"id":"7161bb00-5","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"record":"d878d795-2292-4d90-a9e2-37af1d97a532","name":"color[colorScheme=light,object=background,state=?,variant=positive]","fields":[{"path":"name.legacyKey","before":"positive-background-color-default"}]},
+            {"id":"7161bb00-6","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"record":"02e7121e-71eb-4228-a61a-963d7f2a531b","name":"color[colorScheme=wireframe,object=background,state=?,variant=informative]","fields":[{"path":"name.legacyKey","before":"informative-background-color-default"}]},
+            {"id":"7161bb00-7","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"record":"ebadb88b-90a3-492e-ba3c-e9f1232b5ce5","name":"color[colorScheme=wireframe,object=background,state=?,variant=negative]","fields":[{"path":"name.legacyKey","before":"negative-background-color-default"}]},
+            {"id":"7161bb00-8","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"record":"27688f39-6b46-4b40-a3c5-67694a0ff672","name":"color[colorScheme=wireframe,object=background,state=?,variant=positive]","fields":[{"path":"name.legacyKey","before":"positive-background-color-default"}]},
+            {"id":"7161bb00-9","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"record":"95cf1481-f476-47ce-a45a-54da64b44255","name":"color[object=background,state=?,variant=neutral]","fields":[{"path":"name.legacyKey","before":"neutral-background-color-default"}]},
+            {"id":"7161bb00-10","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (icon to text)"],"record":"42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd","name":"gap[size=xl,structure=base]","fields":[{"path":"name.legacyKey","before":"base-gap-extra-large"}]},
+            {"id":"7161bb00-11","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Height"],"record":"b9e67494-44bb-48d9-b4e6-d2385c6ab41d","name":"height[scale=desktop,structure=banner]","fields":[{"path":"name.legacyKey","before":"banner-height"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-12","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Height"],"record":"29848bbc-2cd1-5ca9-a0ee-238b841b1a28","name":"height[scale=mobile,structure=banner]","fields":[{"path":"name.legacyKey","before":"banner-height"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"7161bb00-13","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["18px (desktop), 20px (mobile)","20px (desktop), 22px (mobile)"],"record":"64fa4ab7-be93-4420-8cdc-a6ef91499852","name":"padding-vertical[structure=banner]","fields":[{"path":"name.legacyKey","before":"banner-padding-vertical"}]}
+          ]
+        }
+      ]
     }
   ]
 }

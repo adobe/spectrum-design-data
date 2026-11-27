@@ -366,6 +366,47 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.9.0",
+      "version": "3.0.3",
+      "bump": "patch",
+      "date": "2026-11-27",
+      "commit": "7a22cbd98e481c2d56af60373b60312c4008a14e",
+      "commits": [
+        {
+          "commit": "7161bb00cb098860da8b68a7859f4a2d5ae1c6f2",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2197,"title":"feat(sdk): show the derived legacy name for every token and drop 164 pins","url":"https://github.com/adobe/spectrum-design-data/pull/2197"},
+          "entries": [
+            {"id":"7161bb00-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (label to asterisk icon)"],"record":"2f10fab2-66e0-4007-9c01-9643d472ba3b","name":"gap[size=l,structure=base]","fields":[{"path":"name.legacyKey","before":"base-gap-large"}]},
+            {"id":"7161bb00-1","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (label to asterisk icon)"],"record":"9898011f-a47c-4d5d-a74e-70b5f8d0b91c","name":"gap[size=m,structure=base]","fields":[{"path":"name.legacyKey","before":"base-gap-medium"}]},
+            {"id":"7161bb00-2","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (label to asterisk icon)"],"record":"1247c1ab-9e31-482a-832c-d32911a1e698","name":"gap[size=s,structure=base]","fields":[{"path":"name.legacyKey","before":"base-gap-small"}]},
+            {"id":"7161bb00-3","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (label to asterisk icon)"],"record":"42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd","name":"gap[size=xl,structure=base]","fields":[{"path":"name.legacyKey","before":"base-gap-extra-large"}]},
+            {"id":"7161bb00-4","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Minimum height"],"record":"865f1ee3-4e60-433f-9685-1bf0ea9403de","name":"height[scale=desktop,size=l,structure=base]","fields":[{"path":"name.legacyKey","before":"base-height-large"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-5","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Minimum height"],"record":"61de58a3-53ed-4dd8-8937-08920b00968c","name":"height[scale=desktop,size=m,structure=base]","fields":[{"path":"name.legacyKey","before":"base-height-medium"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-6","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Minimum height"],"record":"e41a0142-7428-43bf-aedc-3b8d9c70bdf1","name":"height[scale=desktop,size=s,structure=base]","fields":[{"path":"name.legacyKey","before":"base-height-small"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-7","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Minimum height"],"record":"7b41adba-a18a-41c8-841f-b199f807e0a9","name":"height[scale=desktop,size=xl,structure=base]","fields":[{"path":"name.legacyKey","before":"base-height-extra-large"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-8","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Minimum height"],"record":"7b98b58f-4270-5191-81ce-a4f7a6917d40","name":"height[scale=mobile,size=l,structure=base]","fields":[{"path":"name.legacyKey","before":"base-height-large"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"7161bb00-9","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Minimum height"],"record":"e770bf1c-435f-5480-962d-c4cac4480ee7","name":"height[scale=mobile,size=m,structure=base]","fields":[{"path":"name.legacyKey","before":"base-height-medium"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"7161bb00-10","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Minimum height"],"record":"7e113a29-1713-5fba-9ecc-72edf3b2cbd9","name":"height[scale=mobile,size=s,structure=base]","fields":[{"path":"name.legacyKey","before":"base-height-small"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"7161bb00-11","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Minimum height"],"record":"9b0fc8da-fc8a-5694-b5d5-b51775c8fb19","name":"height[scale=mobile,size=xl,structure=base]","fields":[{"path":"name.legacyKey","before":"base-height-extra-large"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"7161bb00-12","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (top edge to asterisk icon)","Spacing (top/bottom edge to label)"],"record":"cc707192-e70f-4965-8582-55fa97d02184","name":"padding-vertical[size=l,structure=base]","fields":[{"path":"name.legacyKey","before":"base-padding-vertical-large"}]},
+            {"id":"7161bb00-13","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (top edge to asterisk icon)","Spacing (top/bottom edge to label)"],"record":"5741f832-f012-45bc-9e87-6e07ab2cb87f","name":"padding-vertical[size=m,structure=base]","fields":[{"path":"name.legacyKey","before":"base-padding-vertical-medium"}]},
+            {"id":"7161bb00-14","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (top edge to asterisk icon)","Spacing (top/bottom edge to label)"],"record":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d","name":"padding-vertical[size=s,structure=base]","fields":[{"path":"name.legacyKey","before":"base-padding-vertical-small"}]},
+            {"id":"7161bb00-15","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (top edge to asterisk icon)","Spacing (top/bottom edge to label)"],"record":"62ea5f0e-3cb5-4535-8cd1-a7f30ba932fc","name":"padding-vertical[size=xl,structure=base]","fields":[{"path":"name.legacyKey","before":"base-padding-vertical-extra-large"}]}
+          ]
+        },
+        {
+          "commit": "365bf9f3b8f185ae1047195f6a40b88d68d77f78",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2212,"title":"feat(design-data): bind progress, divider and label recipes to structured identity","url":"https://github.com/adobe/spectrum-design-data/pull/2212"},
+          "entries": [
+            {"id":"365bf9f3-0","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"field-label/visual/parts/label","name":"label","fields":[{"path":"props.color.relationship.context","before":"Label and asterisk icon"},{"path":"props.color.relationship.part","after":"container"}]},
+            {"id":"365bf9f3-1","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"field-label/visual/parts/necessity-indicator","name":"necessity-indicator","fields":[{"path":"props.color.relationship.context","before":"Label and asterisk icon"},{"path":"props.color.relationship.part","after":"container"},{"path":"props.height","before":[{"relationship":{"property":"size","context":"Asterisk UI icon asset"}}],"after":[{"relationship":{"property":"size","part":"necessity-indicator"}}]},{"path":"props.width","before":[{"relationship":{"property":"size","context":"Asterisk UI icon asset"}}],"after":[{"relationship":{"property":"size","part":"necessity-indicator"}}]}]}
+          ]
+        }
+      ]
     }
   ]
 }

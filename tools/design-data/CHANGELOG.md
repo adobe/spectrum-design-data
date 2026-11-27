@@ -1,5 +1,26 @@
 # @adobe/design-data
 
+## 3.5.0
+
+### Minor Changes
+
+- [#2195](https://github.com/adobe/spectrum-design-data/pull/2195) [`3f4c588`](https://github.com/adobe/spectrum-design-data/commit/3f4c5884c886cfebdef8a17384b19093cc7764f7) Thanks [@GarthDB](https://github.com/GarthDB)! - The behavior runner supports single-thumb value ranges (slider), decisions A658 and A661.
+  - A contract may carry a `range` block (value, min, max, step options, `page`, `mirror`) and the
+    one action `do.adjust` (`by` one step or page, or `to` min, max or a pointer position).
+  - The runner snaps to the step (half away from the minimum), clamps, keeps whole numbers whole
+    and emits `change` only when the value changed.
+  - New intents `increment-page`, `decrement-page`, `set-min`, `set-max` and the event `move`
+    (a step carries `position`, 0 to 1); a new `range` pattern; web binds the `slider` role.
+  - SPEC-119 warns on a `range` option missing from `state` and on `do.adjust` with no `range`.
+  - No component has a range contract yet.
+  - A decimal half snaps away from the minimum despite float noise; a non-numeric option fails.
+
+### Patch Changes
+
+- Updated dependencies [[`e562a93`](https://github.com/adobe/spectrum-design-data/commit/e562a932cd3a026fd9b822fe4a75263883cf5f8c), [`5317fa5`](https://github.com/adobe/spectrum-design-data/commit/5317fa5872af945bb60382908eaf0beb1862180e), [`34e9eaf`](https://github.com/adobe/spectrum-design-data/commit/34e9eaf5eff2be192d392b3cd231d9281f5f3471), [`e7ce3e2`](https://github.com/adobe/spectrum-design-data/commit/e7ce3e20426ed7809dbf428d97ca8969d8a2c28a), [`c46cf6e`](https://github.com/adobe/spectrum-design-data/commit/c46cf6eebf93a9e11d401c8c5093855db5bb12fe), [`3c88728`](https://github.com/adobe/spectrum-design-data/commit/3c887287d06b810fcc8d08d32ceab5dc742c78ce), [`be416a9`](https://github.com/adobe/spectrum-design-data/commit/be416a95f6630f10528118bacab2932042185d4f), [`a8c2821`](https://github.com/adobe/spectrum-design-data/commit/a8c28218ef86fc755f997cc7d3ff221092c61c3e), [`6f12d24`](https://github.com/adobe/spectrum-design-data/commit/6f12d245d062e6f892c216e33a714bfcc80e0eab), [`33161dc`](https://github.com/adobe/spectrum-design-data/commit/33161dce8ed8f68ccd4054131c7b85d063571e85), [`335e55c`](https://github.com/adobe/spectrum-design-data/commit/335e55cddfa2dd35ed97c9f8fa4e848487bcc300), [`1eb5fb9`](https://github.com/adobe/spectrum-design-data/commit/1eb5fb94759c238d21e97b273c3238d308b76499), [`82a1b1d`](https://github.com/adobe/spectrum-design-data/commit/82a1b1dcb80bbef7cfe0946e190167bc579162ea), [`365bf9f`](https://github.com/adobe/spectrum-design-data/commit/365bf9f3b8f185ae1047195f6a40b88d68d77f78), [`37a8405`](https://github.com/adobe/spectrum-design-data/commit/37a8405aacbd838417eca0378fc8fe98729aa8e1), [`00620bb`](https://github.com/adobe/spectrum-design-data/commit/00620bb8d94d9e80347692e5f82c36384d09cee1), [`3f4c588`](https://github.com/adobe/spectrum-design-data/commit/3f4c5884c886cfebdef8a17384b19093cc7764f7), [`9f22db7`](https://github.com/adobe/spectrum-design-data/commit/9f22db7215a4717a582c18742c14eda930984274), [`1d15af6`](https://github.com/adobe/spectrum-design-data/commit/1d15af6649c9608a16a5da0831080140c1788c5e), [`ed99a50`](https://github.com/adobe/spectrum-design-data/commit/ed99a50ff4a1d96acf6192e54f4e2d153e85685d), [`e9efde3`](https://github.com/adobe/spectrum-design-data/commit/e9efde3608f392c6b21d1d2ba81b04a1223b6f26), [`ebc93d2`](https://github.com/adobe/spectrum-design-data/commit/ebc93d2844fe357dd9bff2b407b460913da3bf6e), [`523e156`](https://github.com/adobe/spectrum-design-data/commit/523e156068b9ff7bad4cc24391cc559a32993282), [`d3607c4`](https://github.com/adobe/spectrum-design-data/commit/d3607c49861f080513ef76d0633ac0a25cfb9fcd), [`6c09a68`](https://github.com/adobe/spectrum-design-data/commit/6c09a68a1a5349f4769ba9fb4f1d459bc44dc0b8), [`b47404c`](https://github.com/adobe/spectrum-design-data/commit/b47404c4d050457146073ec3bfc0478afe8954c5), [`8d8c79e`](https://github.com/adobe/spectrum-design-data/commit/8d8c79ec0131dd7fc7abbaf20844bf80472cc630), [`7161bb0`](https://github.com/adobe/spectrum-design-data/commit/7161bb00cb098860da8b68a7859f4a2d5ae1c6f2)]:
+  - @adobe/design-data-spec@7.10.0
+  - @adobe/design-data-wasm@0.41.0
+
 ## 3.4.9
 
 ### Patch Changes

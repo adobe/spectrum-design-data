@@ -1,5 +1,316 @@
 # @adobe/spectrum-design-data
 
+## 4.9.0
+
+### Minor Changes
+
+- [#2216](https://github.com/adobe/spectrum-design-data/pull/2216) [`e562a93`](https://github.com/adobe/spectrum-design-data/commit/e562a932cd3a026fd9b822fe4a75263883cf5f8c) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the behavior contracts for Color wheel and Color area on the range runner, covered by intent.
+  - Color wheel: one `range` with `wrap` over the hue 0 to 360 (`minValue`, `maxValue`, `step`), a
+    page of 15 degrees, no right-to-left mirror (React Aria; Spectrum Web Components flips the
+    arrows). `value`, `minValue` and `maxValue` are `aria-valuenow`, `aria-valuemin` and
+    `aria-valuemax` on the `color-handle` part. Steps give 0 to 359; 360 only from `set-max` or a
+    drag to the end.
+  - Color area: two axes, `x` and `y`, in `ranges` (`x-value`, `y-value` and their bounds, one
+    `step`), no wrap, a page of a tenth of each span. Every intent names its `axis`, a drag is one
+    `move` per axis. Its `semantics` (an `axis` on each entry) come with the per-axis semantics
+    change.
+  - `isDisabled` ignores every value intent. An unset value reads the minimum on a step.
+  - Component suites only. The `color-handle` part has focus `tab-stop` and no `role`, so no web
+    key suite runs (decision A662: a `slider` role would run the shared slider suite). Spec sheets
+    gain the keyboard-intent rows. No render change. The embedded dataset changes, so wasm gets
+    a patch.
+
+- [#2221](https://github.com/adobe/spectrum-design-data/pull/2221) [`5317fa5`](https://github.com/adobe/spectrum-design-data/commit/5317fa5872af945bb60382908eaf0beb1862180e) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the press-only behavior contract for Drop zone and exempt Color control as a sub-part.
+  - Drop zone extends `press`: `isDisabled`, one `container` part with focus `tab-stop` and press
+    `activate`, no `role` (decision A667 c). It has no drag-and-drop intents and no drop-target
+    facet. With no role no web key suite runs, so it is covered by intent.
+  - Color control gets a `sub-part` exemption (decision A665 a): it holds the shared `track` part
+    under Color slider, Color area and Color wheel, which carry the behavior.
+  - Scroll zoom bar is not covered here (deprecated, decision A733 a).
+  - Spec sheets and renders are byte-identical. The embedded registry changes, so wasm gets a patch.
+
+- [#2208](https://github.com/adobe/spectrum-design-data/pull/2208) [`e7ce3e2`](https://github.com/adobe/spectrum-design-data/commit/e7ce3e20426ed7809dbf428d97ca8969d8a2c28a) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the behavior contract for Number field on the range runner.
+  - Role `spinbutton` on the `field` part (a tab stop). ArrowUp and PageUp `increment`, ArrowDown
+    and PageDown `decrement`, Home `set-min`, End `set-max`, all on key down. A page is one `step`,
+    not a fraction of the span. ArrowLeft and ArrowRight are not bound: they move the caret.
+  - The `in-field-button` part (the stepper buttons) has focus `none`, so it is not in the tab order.
+  - `value`, `minValue` and `maxValue` are exposed as `aria-valuenow`, `aria-valuemin` and
+    `aria-valuemax`; `aria-valuenow` is absent while `value` is unset. `isDisabled` ignores every
+    value intent. An unset `minValue` or `maxValue` is unbounded and an unset
+    `value` follows React Aria (see range-unbounded-empty-value).
+  - A component suite and a web `spinbutton` key suite. Spec sheets gain the number field value
+    keyboard-intent rows. No render change. Read-only, hold to repeat, wheel, IME and number
+    formatting are not modeled. The embedded dataset changes, so wasm gets a patch.
+
+- [#2204](https://github.com/adobe/spectrum-design-data/pull/2204) [`c46cf6e`](https://github.com/adobe/spectrum-design-data/commit/c46cf6eebf93a9e11d401c8c5093855db5bb12fe) Thanks [@GarthDB](https://github.com/GarthDB)! - Add behavior contracts for Slider, Color slider and Rating on the range runner.
+  - Each is a single-thumb `range` contract with role `slider`: arrows step, PageUp and PageDown
+    page (a tenth of the span), Home and End set the bounds, a drag is `move` with a position.
+    Right to left swaps ArrowLeft and ArrowRight from `direction` only, so orientation does not
+    change the arrow order. `isDisabled` ignores every value intent.
+  - Semantics expose `aria-valuenow`, `aria-valuemin`, `aria-valuemax` and `aria-orientation`
+    (Rating: value and `aria-valuemax` only; its minimum 0 is the ARIA default).
+  - Slider gains an `orientation` option (horizontal or vertical, as on Color slider). Rating
+    gains a `maxValue` option (default 5), because a range names its maximum as an option.
+  - A component suite per contract plus a shared `slider` web key suite. Spec sheets gain the
+    new option rows and the value keyboard-intent rows for the three components. No render change.
+  - Two thumbs (`isRange`) and read-only are not modeled. The embedded dataset changes, so wasm
+    gets a patch.
+
+- [#2224](https://github.com/adobe/spectrum-design-data/pull/2224) [`3c88728`](https://github.com/adobe/spectrum-design-data/commit/3c887287d06b810fcc8d08d32ceab5dc742c78ce) Thanks [@GarthDB](https://github.com/GarthDB)! - Key behavior contract `semantics` per axis, and give Color area its accessibility attributes.
+  - Spec: a `semantics` entry may name an `axis` (a key of the contract's `ranges`), so one
+    attribute can be exposed once per axis (`aria-valuenow` for x and for y). An entry without an
+    `axis` works as before. A vector reads an axis through `expect.axisAria`
+    (`{ "x": { "aria-valuenow": "40" } }`); `expect.aria` does not see an entry that names an axis.
+  - SPEC-118 and the runner's contract check reject an `axis` that is not a key of `ranges`, an
+    `axis` on a contract with a single `range`, and the same attribute twice for one axis. A vector
+    whose `axisAria` names an undeclared axis fails.
+  - Data: Color area exposes `aria-valuenow`, `aria-valuemin` and `aria-valuemax` per axis on the
+    `color-handle` part (copies of `x-value`, `x-minValue`, `x-maxValue` and the `y` equivalents,
+    absent while the option is unset). The part keeps no `role` (decision A721).
+  - 12 new Color area vectors: set and unset per axis, axis independence, bounds, disabled.
+  - The embedded dataset changes, so wasm gets a patch.
+  - An older CLI runs the new Color area suite without reading `axisAria` (it never checks those
+    expectations), so a release that ships this needs `requires.cli` raised to the CLI that has it.
+
+- [#2223](https://github.com/adobe/spectrum-design-data/pull/2223) [`be416a9`](https://github.com/adobe/spectrum-design-data/commit/be416a95f6630f10528118bacab2932042185d4f) Thanks [@GarthDB](https://github.com/GarthDB)! - Behavior contracts for text field, text area and search field, built on the text runner
+  (decisions A664 a, A666 a).
+  - Each contract extends `text` (`isDisabled`, `value`, `hasValue`, `clear`, `submit`) and has a
+    `field` part with focus `tab-stop`. Text field and text area are `textbox` and bind no key.
+    Search field is `searchbox`: Escape clears, Enter submits. Its `in-field-button` has focus `none`.
+  - `aria-invalid` and `aria-required` (text field, text area) are copied from `isError` and
+    `isRequired`, absent while `false`. `aria-label` is copied from `label`, absent unless
+    `hideLabel` is set. No `describedby` or `labelledby`, no `isReadOnly` (later changes).
+  - The search field component's `accessibility.role` changes from `textbox` to `searchbox`, so its
+    spec sheet role row changes. Text field and text area list the `clear` and `submit` intents in
+    their keyboard intents.
+  - Known: the spec sheet Keyboard table lists `clear` and `submit` rows with empty keys for text
+    field and text area, and no Escape or Enter row for search field (a later Rust change may fix).
+  - Conformance: a suite per component and the web key suites `searchbox` and `textbox`.
+
+- [#2229](https://github.com/adobe/spectrum-design-data/pull/2229) [`a8c2821`](https://github.com/adobe/spectrum-design-data/commit/a8c28218ef86fc755f997cc7d3ff221092c61c3e) Thanks [@GarthDB](https://github.com/GarthDB)! - Deprecate five components (`lifecycle.deprecatedIn` on the component files).
+  - `single-calendar`, `double-calendar`, `triple-calendar`: use `calendar` with
+    its `months` slot (option `visibleMonths` 1, 2 or 3) instead.
+    Their two records each stay frozen with their legacy keys and are not
+    marked deprecated, so legacy output does not change.
+  - `scroll-zoom-bar`, `bottom-navigation-android`: no records, no anatomy and no
+    recipe, and the migration had already dropped them.
+
+  No record, relationship, recipe or behavior changes. `validate-dataset`,
+  `status`, `behavior test --all` and `spec-sheet --all` are unchanged.
+
+- [#2227](https://github.com/adobe/spectrum-design-data/pull/2227) [`6f12d24`](https://github.com/adobe/spectrum-design-data/commit/6f12d245d062e6f892c216e33a714bfcc80e0eab) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the options a later recipe slice and the Drop zone contract need.
+  - Drop zone gets `isDisabled` (boolean, default false), so the `isDisabled` state its behavior
+    contract lists is an option of the component. This clears one SPEC-118 warning.
+  - Drop zone and Select box each get an `illustration` string option, declared as Illustrated
+    message declares it. No recipe binds it yet.
+  - Renders are byte-identical. The embedded dataset changes, so wasm gets a patch.
+
+- [#2228](https://github.com/adobe/spectrum-design-data/pull/2228) [`33161dc`](https://github.com/adobe/spectrum-design-data/commit/33161dce8ed8f68ccd4054131c7b85d063571e85) Thanks [@GarthDB](https://github.com/GarthDB)! - Draw the list-view checkbox and give the focused row a focus ring.
+  - The `checkbox` part is present when `selectionMode` is `multiple`, as in menu. Each row draws
+    the checkbox recipe (checked when selected, dimmed when disabled) before the icon and label.
+    Single or no selection draws nothing. `selectionMode` leaves `notVisual`.
+  - The `keyboard-focus` state draws the `focus-indicator` ring around each row from the
+    focus-indicator color, thickness and gap records, replacing the row stroke workaround.
+  - Differs or not drawn: a multiple-selection row is 8 px taller than a single one (48 vs 40,
+    as in menu); a long label overflows 22 px further than before.
+  - The description starts under the checkbox, not under the label.
+  - The checkbox does not follow the hover or down state.
+  - The ring on the first and last row has radius 3 against a row corner of 8 (the engine ignores
+    per-corner radii).
+  - Keyboard focus is global, so multi-row goldens ring every row.
+  - Not drawn: per-item `hideCheckbox`, drag handle, actions, section header.
+
+- [#2211](https://github.com/adobe/spectrum-design-data/pull/2211) [`9f22db7`](https://github.com/adobe/spectrum-design-data/commit/9f22db7215a4717a582c18742c14eda930984274) Thanks [@GarthDB](https://github.com/GarthDB)! - The behavior runner treats an unset range bound as unbounded and an empty value like React Aria
+  (decisions A712 b and A713 a).
+  - An unset `min` or `max` option means no bound on that side: no clamp, snapping from 0 when
+    there is no minimum, Home does nothing without a minimum and End nothing without a maximum.
+    A page by a fraction and a `move` position need both bounds and change nothing without them;
+    `wrap` needs both and fails the vector. A key a block leaves out (Rating's `min`) keeps its
+    default.
+  - With `value` unset, increment goes to the minimum and decrement to the maximum (0 without
+    one). Home and End are unchanged.
+  - The number-field `known limit` vectors are rewritten to this behavior. Rating's two vectors
+    that relied on an unset value and an unset `maxValue` follow it.
+
+- [#2222](https://github.com/adobe/spectrum-design-data/pull/2222) [`ed99a50`](https://github.com/adobe/spectrum-design-data/commit/ed99a50ff4a1d96acf6192e54f4e2d153e85685d) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the visual recipe for illustrated-message.
+  - illustrated-message: a centered column with the illustration image fill (placeholder),
+    title, description and a `button-group` slot of buttons. The width follows `orientation`;
+    type and colors read the relationship records.
+  - The component gains a `button-group` slot (up to two buttons), a temporary stand-in for
+    the nested group (bead 5m92.32.22), as in the dialogs and coach-mark.
+  - The 16 title relationship records point at the final token, not at a `title` record that
+    carries a context, which a recipe binding cannot follow. Values are unchanged.
+  - The title font-size records name the token of their own scale, so the sheet shows
+    each scale's value.
+  - Not drawn yet: the illustration (a zero-height box: no size record, qkj5.243); spacing between
+    parts (qkj5.288; a column root takes one gap); the horizontal layout (the `horizontal` golden is
+    the vertical column at 512 px); wrapped lines are left-aligned in the centered column.
+
+- [#2217](https://github.com/adobe/spectrum-design-data/pull/2217) [`e9efde3`](https://github.com/adobe/spectrum-design-data/commit/e9efde3608f392c6b21d1d2ba81b04a1223b6f26) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the visual recipe for list-view.
+  - One row per `items` entry: selected, unselected and disabled rows,
+    an optional description line and the navigation chevron.
+  - First and last rows round their outer corners; the selected row gets
+    the accent border; the focus state draws the focus outline.
+  - New `isSelected`, `isDisabled` and `description` options, and the
+    `hover`, `down`, `default` and `selected` states.
+  - Row background, label and padding records pin state, selection and
+    scale; the background records reference their color tokens (not
+    stack-item records) and scope to `list-item`, so selected and
+    hovered rows draw a subtle fill.
+  - A disabled row only dims; it has no fill of its own.
+  - Not drawn yet: checkbox, drag handle, actions, section header,
+    container border and background, emphasized and dragged rows,
+    text truncation.
+
+- [#2231](https://github.com/adobe/spectrum-design-data/pull/2231) [`6c09a68`](https://github.com/adobe/spectrum-design-data/commit/6c09a68a1a5349f4769ba9fb4f1d459bc44dc0b8) Thanks [@GarthDB](https://github.com/GarthDB)! - Draw the takeover dialog full-screen variant with its background and square corners.
+  - The layer-2 background records now pin `variant` to `dialog` and `full screen`, so the full-screen
+    variant draws its fill. Its dark render no longer shows light text on no fill.
+  - New corner-radius record for `full screen` bound to `corner-radius-none` (0). The `dialog`
+    record points at `corner-radius-800` (16px, the value it resolved to) rather than the size
+    `xl` alias, because the render engine drops a size-named token when two records compete for
+    one binding.
+  - Not modeled on purpose: width and height. Figma shows both variants filling the parent (dialog is
+    the viewport minus the 40px margin, full screen is the viewport), so there is no fixed size to
+    record. The deprecated `takeover-dialog-width` and `-height` records are untouched.
+  - Not drawn (literals only, no records): margin (no recipe prop), overlay (Figma 0.44), padding 32,
+    container gap 32, header gap 24, button-group gap 8, title 22 bold. The recipe's title and button
+    gap differ from Figma: title 22 bold vs 14 regular, gap 8 vs `spacing-200`, which renders 12.
+  - Spec sheet: the dialog radius row loses its "Extra Large" label (same 16px value) and the
+    background rows lose their variant condition.
+  - Legacy output is unchanged. The embedded dataset changes, so wasm gets a patch.
+
+- [#2218](https://github.com/adobe/spectrum-design-data/pull/2218) [`b47404c`](https://github.com/adobe/spectrum-design-data/commit/b47404c4d050457146073ec3bfc0478afe8954c5) Thanks [@GarthDB](https://github.com/GarthDB)! - Add a structure-only visual recipe for takeover-dialog.
+  - Structure only: no padding, title type or gaps (no records), so the title and
+    steplist touch and a long title does not wrap. Renders look unfinished.
+  - Rounding and background bind by relationship for the dialog variant only. The
+    full-screen variant has no records and draws no fill, so its dark render is
+    near-white text on nothing.
+  - The title binds its color. Header row: title, header-content slot, button
+    group. Body: the default slot.
+  - takeover-dialog gains a `header` anatomy part and a temporary `button-group`
+    slot (bead 5m92.32.22). Header-content and default slots declare `accepts`
+    and `demo`.
+  - Not drawn: overlay (its color record points at a deprecated black token),
+    margin, width and height (deprecated records). No shadow, as in Figma and S2.
+  - Snapshots and goldens are regenerated. Legacy token output is unchanged.
+
+- [#2215](https://github.com/adobe/spectrum-design-data/pull/2215) [`8d8c79e`](https://github.com/adobe/spectrum-design-data/commit/8d8c79ec0131dd7fc7abbaf20844bf80472cc630) Thanks [@GarthDB](https://github.com/GarthDB)! - The behavior runner models text inputs: a `text` pattern, the `hasValue` facet and the `clear`
+  and `submit` intents (decisions A664 a, A666 a, A667 c).
+  - A facet `values` entry may be an any-of array for one source option, and a facet may add
+    `otherwise`, the value when no entry matches. `hasValue` is `false` for an unset, null or
+    empty `value`, else `true`. A recipe cannot select such a facet value (SPEC-122).
+  - The `text` pattern answers `clear` (sets `value` to `""`, emits `change`, only while there is
+    a value) and `submit` (emits `submit`, changes nothing). Both are ignored while disabled.
+    `do: {}` is allowed only on a transition that emits (SPEC-119 warns otherwise). `clear` writes
+    `""`, which the range runner now reads as an unset value.
+  - Web bindings: role `searchbox` binds Escape to `clear` and Enter to `submit`; role `textbox`
+    binds no keys. SPEC-118 checks `otherwise` and any-of use.
+  - No component has a text contract yet (text field, text area and search field follow).
+
+### Patch Changes
+
+- [#2196](https://github.com/adobe/spectrum-design-data/pull/2196) [`335e55c`](https://github.com/adobe/spectrum-design-data/commit/335e55cddfa2dd35ed97c9f8fa4e848487bcc300) Thanks [@GarthDB](https://github.com/GarthDB)! - Migrate avatar relationship records and recipe to structured identity. Every record now has a part.
+  Avatar stays at status level 1 with 3 collisions (the gradient-stop value records) until the status
+  follow-up lands. The legacy `@adobe/spectrum-tokens` output is unchanged.
+  - All 24 live records without a `scope.part` get one: `container` (size, border, opacity, focus
+    indicator, gradient stops and fills), `initials` (font and text color), `guest-icon` (icon color).
+  - The three gradient stops become one identity each through the new `scope.ordinal` field:
+    `gradient-stop-1..3` becomes `gradient-stop` with ordinal 1 to 3 (the three private value records
+    too), and the three `Background (gradient stop N)` colors become `color` / `background` with
+    the same ordinals. The recipe selects the stops by `{part, ordinal}` instead of by context.
+  - Fused names decompose: `font-size-100` becomes `font-size`, `line-height-100` becomes
+    `line-height`; initials and icon `color` becomes `content-color`, as in other migrated components.
+  - Legacy names keep their `legacyKey` pins (`avatar-border-color`, `avatar-opacity-disabled`,
+    `avatar-border-width`, `gradient-stop-N-avatar`).
+  - Renders are unchanged: 6,434 avatar, tag and related scenes render byte-identical SVG before
+    and after, plus 600 PNGs. The avatar spec sheet merges the three gradient-stop token blocks into
+    one block with three rows; every row still appears once.
+
+- [#2202](https://github.com/adobe/spectrum-design-data/pull/2202) [`1eb5fb9`](https://github.com/adobe/spectrum-design-data/commit/1eb5fb94759c238d21e97b273c3238d308b76499) Thanks [@GarthDB](https://github.com/GarthDB)! - Migrate button, action-button and badge relationship records and recipes to structured identity.
+  The legacy `@adobe/spectrum-tokens` output and every rendered SVG are unchanged.
+  - Button, action-button and badge move from status level 1 to level 3. Every live record gets a
+    `scope.part` (and `scope.attribute` for background and border color), and the recipes bind by
+    property, part and `between` instead of `context` (context selectors 86 to 0).
+  - Fused names decompose: `component-height-*` becomes `minimum-height` (`height` on action-button),
+    `font-size-*` and `line-height-font-size-*` become `font-size` and `line-height`, and the edge
+    spacing names become `space-between` between a `start-edge`, `top-edge`, `bottom-edge` or
+    `end-edge` and `icon`, `label` or `hold-icon`, each with a `size` pin. The icon-only records pin
+    `isLabelHidden`, `hideLabel` or `label: false`.
+  - Identity collisions clear by giving the colliding records one `context`: button `Fill`, `Outline`
+    and the two static focus-indicator records (which pin `staticColor`), the badge `Background`
+    records, the button wrapping corner radii (which pin the new `isLabelWrapped` option, default
+    false) and the icon-only spacing records. The progress fill records of button and action-button
+    use `content-color`.
+  - Their spec sheets merge a few rows that share a token and value.
+
+- [#2214](https://github.com/adobe/spectrum-design-data/pull/2214) [`82a1b1d`](https://github.com/adobe/spectrum-design-data/commit/82a1b1dcb80bbef7cfe0946e190167bc579162ea) Thanks [@GarthDB](https://github.com/GarthDB)! - Migrate the clear-button, close-button and link recipes to structured identity. All three go from
+  status level 2 to level 3: their 61 recipe bindings select by `property` plus `part` instead of a
+  `context` label. The relationship records already carried a part, so no relationship record changes.
+  The legacy `@adobe/spectrum-tokens` output is unchanged.
+  - clear-button (16 bindings), close-button (30) and link (15): the contexts `Button size`, `Cross
+icon size`, `Cross icon`, `Focus ring`, `Background`, `Button size (down)` and `Text` become
+    `part` (container, icon, focus-indicator, text).
+  - Each selector resolves to the same records as before, so renders are byte-identical and the
+    spec sheets are unchanged.
+  - The status baseline moves the three components to level 3 and the context-selector baseline
+    drops their entries.
+
+- [#2212](https://github.com/adobe/spectrum-design-data/pull/2212) [`365bf9f`](https://github.com/adobe/spectrum-design-data/commit/365bf9f3b8f185ae1047195f6a40b88d68d77f78) Thanks [@GarthDB](https://github.com/GarthDB)! - Bind the progress-circle, in-field-progress-circle, divider, field-label and help-text
+  recipes to structured identity.
+  The legacy `@adobe/spectrum-tokens` output, every rendered SVG and every spec sheet are unchanged.
+  - The five components move from status level 2 to level 3. Each recipe binding that selected a
+    relationship by `context` now selects it by `property` and `part` (progress-circle and
+    in-field-progress-circle: `track` and `fill`; divider: `line`; field-label: `container` and
+    `necessity-indicator`; help-text: `icon`, `container` and `text`). Context selectors 31 to 0.
+  - No relationship record changes: they already carried the part.
+
+- [#2213](https://github.com/adobe/spectrum-design-data/pull/2213) [`37a8405`](https://github.com/adobe/spectrum-design-data/commit/37a8405aacbd838417eca0378fc8fe98729aa8e1) Thanks [@GarthDB](https://github.com/GarthDB)! - Bind 18 of the 19 swatch recipe selectors to structured identity. The legacy
+  `@adobe/spectrum-tokens` output, every rendered SVG and every spec sheet are unchanged.
+  - Swatch bindings select by `property`, `part` and (for the border color and width) `attribute`
+    instead of `context`: context selectors 19 to 1. Swatch stays at status level 2: the disabled
+    icon color binding keeps its `context`, because its record shares `property` and `part` with
+    the disabled icon outline color and a structured selector would name two identities.
+  - The swatch recipe snapshots gain the `value` option axis (24 option sets become 72): the
+    part-only selectors now also match the `value: add` records, so the recipe counts `value` as
+    read. Output is the same for every value.
+
+- [#2207](https://github.com/adobe/spectrum-design-data/pull/2207) [`1d15af6`](https://github.com/adobe/spectrum-design-data/commit/1d15af6649c9608a16a5da0831080140c1788c5e) Thanks [@GarthDB](https://github.com/GarthDB)! - Drop `maximum: 5` from the Rating `value` option, which conflicted with the
+  configurable `maxValue` option (default 5). `multipleOf: 0.5` stays as display precision.
+
+- [#2203](https://github.com/adobe/spectrum-design-data/pull/2203) [`ebc93d2`](https://github.com/adobe/spectrum-design-data/commit/ebc93d2844fe357dd9bff2b407b460913da3bf6e) Thanks [@GarthDB](https://github.com/GarthDB)! - Move the Switch, Checkbox, Radio button, Button, Action button, Close button, Clear button,
+  In-field button, Link and Swatch recipes from option names to behavior facets in their `when`
+  clauses (`disabled`, `selected`, `checked`, `pending`, and the `hovered`, `pressed` and
+  `focusVisible` interaction facets). Every rendered SVG and PNG, spec sheet and the legacy
+  `@adobe/spectrum-tokens` output are unchanged.
+
+  The recipes need an engine that reads facet clauses: CLI 0.63.7 or later, the first to load
+  contracts in wasm, the MCP server and the TUI preview (already the `requires.cli` of the dataset).
+  An older TUI build, which is not checked against `requires.cli`, may draw these components'
+  previews wrongly (a state or option clause that never matches).
+
+  Not converted: Checkbox `isSelected` (its `checked` facet also fixes `isIndeterminate`),
+  and the `orientation` clauses of Button group, Checkbox group and Radio group (SPEC-066 does not
+  yet read facet clauses and would warn that the option is unused).
+
+- [#2199](https://github.com/adobe/spectrum-design-data/pull/2199) [`3839b90`](https://github.com/adobe/spectrum-design-data/commit/3839b90d11459e815ab2665495fa6700825f9f45) Thanks [@GarthDB](https://github.com/GarthDB)! - Raise the dataset `requires.cli` from 0.63.7 to 0.63.8, the released CLI that reads this data.
+  - Older CLIs now refuse the data with a `requires.cli` message instead of misreading it.
+    The `scope.ordinal` identity field (SPEC-125) and the spec-sheet plugin are in the 0.63.8
+    binary only, so older CLIs cannot load datasets that use `scope.ordinal` (avatar is the first).
+  - `layoutRevision` stays at 8. No recipe, data or engine change.
+
+- [#2197](https://github.com/adobe/spectrum-design-data/pull/2197) [`7161bb0`](https://github.com/adobe/spectrum-design-data/commit/7161bb00cb098860da8b68a7859f4a2d5ae1c6f2) Thanks [@GarthDB](https://github.com/GarthDB)! - Every place that shows or matches a token name now uses the legacy name the engine
+  derives (`extract_legacy_key`), pinned or not (proposal 023, slice 1).
+  - Wasm `TokenResult` gains `legacyName`.
+  - Recipe renders, scene `token` labels, the site and spec sheets show legacy names for
+    unpinned tokens (about 1,808 live token rows, 930 distinct names; pixels do not).
+  - A recipe selector's `legacyKey` matches the derived legacy name, and `rank_key` no
+    longer counts the `legacyKey` pin as a name field, so site `candidates[].rank`
+    changes for pinned tokens and pinned and unpinned tokens can now tie.
+  - MCP `design-data-query`, `token-usage` and friends return the legacy name, resolve
+    mode-dependent aliases through it, and still accept the old `field=value` text.
+  - Removes 164 token `legacyKey` pins that now equal the derived name. Legacy output
+    (`@adobe/spectrum-tokens`) is byte-identical.
+
 ## 4.8.0
 
 ### Minor Changes

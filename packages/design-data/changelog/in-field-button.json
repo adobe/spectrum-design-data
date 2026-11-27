@@ -112,6 +112,24 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.9.0",
+      "version": "2.1.2",
+      "bump": "patch",
+      "date": "2026-11-27",
+      "commit": "7a22cbd98e481c2d56af60373b60312c4008a14e",
+      "commits": [
+        {
+          "commit": "ebc93d2844fe357dd9bff2b407b460913da3bf6e",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2203,"title":"feat(design-data): recipes read behavior facets for toggles, buttons, link and swatch","url":"https://github.com/adobe/spectrum-design-data/pull/2203"},
+          "entries": [
+            {"id":"ebc93d28-0","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"in-field-button/visual/parts/container","name":"container","fields":[{"path":"props.fill","before":[{"token":{"property":"color","colorFamily":"gray","scaleIndex":100}},{"when":{"states":["hover"]},"token":{"property":"color","colorFamily":"gray","scaleIndex":200}},{"when":{"options":{"isDisabled":true}},"priority":10,"token":{"legacyKey":"disabled-background-color"}}],"after":[{"token":{"property":"color","colorFamily":"gray","scaleIndex":100}},{"when":{"facets":{"hovered":"true"}},"token":{"property":"color","colorFamily":"gray","scaleIndex":200}},{"when":{"facets":{"disabled":"true"}},"priority":10,"token":{"legacyKey":"disabled-background-color"}}]}]},
+            {"id":"ebc93d28-1","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"in-field-button/visual/parts/icon","name":"icon","fields":[{"path":"props.color","before":[{"token":{"colorRole":"neutral","property":"content-color","state":"default"}},{"when":{"states":["hover"]},"token":{"colorRole":"neutral","property":"content-color","state":"hover"}},{"when":{"options":{"isDisabled":true}},"priority":10,"token":{"legacyKey":"disabled-content-color"}}],"after":[{"token":{"colorRole":"neutral","property":"content-color","state":"default"}},{"when":{"facets":{"hovered":"true"}},"token":{"colorRole":"neutral","property":"content-color","state":"hover"}},{"when":{"facets":{"disabled":"true"}},"priority":10,"token":{"legacyKey":"disabled-content-color"}}]}]}
+          ]
+        }
+      ]
     }
   ]
 }

@@ -329,6 +329,23 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.9.0",
+      "version": "3.0.1",
+      "bump": "patch",
+      "date": "2026-11-27",
+      "commit": "7a22cbd98e481c2d56af60373b60312c4008a14e",
+      "commits": [
+        {
+          "commit": "7161bb00cb098860da8b68a7859f4a2d5ae1c6f2",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2197,"title":"feat(sdk): show the derived legacy name for every token and drop 164 pins","url":"https://github.com/adobe/spectrum-design-data/pull/2197"},
+          "entries": [
+            {"id":"7161bb00-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (item-counter)","Spacing (padding)"],"record":"64fa4ab7-be93-4420-8cdc-a6ef91499852","name":"padding-vertical[structure=banner]","fields":[{"path":"name.legacyKey","before":"banner-padding-vertical"}]}
+          ]
+        }
+      ]
     }
   ]
 }

@@ -305,6 +305,31 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.9.0",
+      "version": "3.0.1",
+      "bump": "patch",
+      "date": "2026-11-27",
+      "commit": "7a22cbd98e481c2d56af60373b60312c4008a14e",
+      "commits": [
+        {
+          "commit": "7161bb00cb098860da8b68a7859f4a2d5ae1c6f2",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2197,"title":"feat(sdk): show the derived legacy name for every token and drop 164 pins","url":"https://github.com/adobe/spectrum-design-data/pull/2197"},
+          "entries": [
+            {"id":"7161bb00-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Day values"],"record":"1117b73b-42e3-4ad6-8b26-af76859a27bb","name":"color[colorScheme=dark,object=background,state=?,variant=negative]","fields":[{"path":"name.legacyKey","before":"negative-background-color-default"}]},
+            {"id":"7161bb00-1","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Day values"],"record":"648da867-549e-47c3-9312-e9cfda288705","name":"color[colorScheme=dark,object=background,state=?,variant=negative]","fields":[{"path":"name.legacyKey","before":"negative-background-color-hover"}]},
+            {"id":"7161bb00-2","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Day values"],"record":"46204746-7fe7-4f22-887e-2c9b85c3b7bc","name":"color[colorScheme=light,object=background,state=?,variant=negative]","fields":[{"path":"name.legacyKey","before":"negative-background-color-default"}]},
+            {"id":"7161bb00-3","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Day values"],"record":"d2481a50-13a0-4f19-8faa-a1a215fee21d","name":"color[colorScheme=light,object=background,state=?,variant=negative]","fields":[{"path":"name.legacyKey","before":"negative-background-color-hover"}]},
+            {"id":"7161bb00-4","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Day values"],"record":"b1104fe3-4965-411e-95d3-87f59cdbc756","name":"color[colorScheme=wireframe,object=background,state=?,variant=negative]","fields":[{"path":"name.legacyKey","before":"negative-background-color-hover"}]},
+            {"id":"7161bb00-5","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Day values"],"record":"ebadb88b-90a3-492e-ba3c-e9f1232b5ce5","name":"color[colorScheme=wireframe,object=background,state=?,variant=negative]","fields":[{"path":"name.legacyKey","before":"negative-background-color-default"}]},
+            {"id":"7161bb00-6","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Day values"],"record":"6effed65-3d52-465f-9eb2-7994f1ee90fb","name":"color[object=border,state=?,variant=negative]","fields":[{"path":"name.legacyKey","before":"negative-border-color-default"}]},
+            {"id":"7161bb00-7","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Day values"],"record":"fe914904-a368-414b-a4ac-21c0b0340d05","name":"color[object=focus-indicator]","fields":[{"path":"name.legacyKey","before":"focus-indicator-color"}]},
+            {"id":"7161bb00-8","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Thickness"],"record":"3766d95f-33c6-4b9d-84c8-1a546ee98d32","name":"thickness[anatomy=bar,size=xs]","fields":[{"path":"name.legacyKey","before":"bar-thickness-extra-small"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"}
+          ]
+        }
+      ]
     }
   ]
 }

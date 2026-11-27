@@ -1,5 +1,165 @@
 # @adobe/design-data-spec
 
+## 7.10.0
+
+### Minor Changes
+
+- [#2216](https://github.com/adobe/spectrum-design-data/pull/2216) [`e562a93`](https://github.com/adobe/spectrum-design-data/commit/e562a932cd3a026fd9b822fe4a75263883cf5f8c) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the behavior contracts for Color wheel and Color area on the range runner, covered by intent.
+  - Color wheel: one `range` with `wrap` over the hue 0 to 360 (`minValue`, `maxValue`, `step`), a
+    page of 15 degrees, no right-to-left mirror (React Aria; Spectrum Web Components flips the
+    arrows). `value`, `minValue` and `maxValue` are `aria-valuenow`, `aria-valuemin` and
+    `aria-valuemax` on the `color-handle` part. Steps give 0 to 359; 360 only from `set-max` or a
+    drag to the end.
+  - Color area: two axes, `x` and `y`, in `ranges` (`x-value`, `y-value` and their bounds, one
+    `step`), no wrap, a page of a tenth of each span. Every intent names its `axis`, a drag is one
+    `move` per axis. Its `semantics` (an `axis` on each entry) come with the per-axis semantics
+    change.
+  - `isDisabled` ignores every value intent. An unset value reads the minimum on a step.
+  - Component suites only. The `color-handle` part has focus `tab-stop` and no `role`, so no web
+    key suite runs (decision A662: a `slider` role would run the shared slider suite). Spec sheets
+    gain the keyboard-intent rows. No render change. The embedded dataset changes, so wasm gets
+    a patch.
+
+- [#2221](https://github.com/adobe/spectrum-design-data/pull/2221) [`5317fa5`](https://github.com/adobe/spectrum-design-data/commit/5317fa5872af945bb60382908eaf0beb1862180e) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the press-only behavior contract for Drop zone and exempt Color control as a sub-part.
+  - Drop zone extends `press`: `isDisabled`, one `container` part with focus `tab-stop` and press
+    `activate`, no `role` (decision A667 c). It has no drag-and-drop intents and no drop-target
+    facet. With no role no web key suite runs, so it is covered by intent.
+  - Color control gets a `sub-part` exemption (decision A665 a): it holds the shared `track` part
+    under Color slider, Color area and Color wheel, which carry the behavior.
+  - Scroll zoom bar is not covered here (deprecated, decision A733 a).
+  - Spec sheets and renders are byte-identical. The embedded registry changes, so wasm gets a patch.
+
+- [#2208](https://github.com/adobe/spectrum-design-data/pull/2208) [`e7ce3e2`](https://github.com/adobe/spectrum-design-data/commit/e7ce3e20426ed7809dbf428d97ca8969d8a2c28a) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the behavior contract for Number field on the range runner.
+  - Role `spinbutton` on the `field` part (a tab stop). ArrowUp and PageUp `increment`, ArrowDown
+    and PageDown `decrement`, Home `set-min`, End `set-max`, all on key down. A page is one `step`,
+    not a fraction of the span. ArrowLeft and ArrowRight are not bound: they move the caret.
+  - The `in-field-button` part (the stepper buttons) has focus `none`, so it is not in the tab order.
+  - `value`, `minValue` and `maxValue` are exposed as `aria-valuenow`, `aria-valuemin` and
+    `aria-valuemax`; `aria-valuenow` is absent while `value` is unset. `isDisabled` ignores every
+    value intent. An unset `minValue` or `maxValue` is unbounded and an unset
+    `value` follows React Aria (see range-unbounded-empty-value).
+  - A component suite and a web `spinbutton` key suite. Spec sheets gain the number field value
+    keyboard-intent rows. No render change. Read-only, hold to repeat, wheel, IME and number
+    formatting are not modeled. The embedded dataset changes, so wasm gets a patch.
+
+- [#2204](https://github.com/adobe/spectrum-design-data/pull/2204) [`c46cf6e`](https://github.com/adobe/spectrum-design-data/commit/c46cf6eebf93a9e11d401c8c5093855db5bb12fe) Thanks [@GarthDB](https://github.com/GarthDB)! - Add behavior contracts for Slider, Color slider and Rating on the range runner.
+  - Each is a single-thumb `range` contract with role `slider`: arrows step, PageUp and PageDown
+    page (a tenth of the span), Home and End set the bounds, a drag is `move` with a position.
+    Right to left swaps ArrowLeft and ArrowRight from `direction` only, so orientation does not
+    change the arrow order. `isDisabled` ignores every value intent.
+  - Semantics expose `aria-valuenow`, `aria-valuemin`, `aria-valuemax` and `aria-orientation`
+    (Rating: value and `aria-valuemax` only; its minimum 0 is the ARIA default).
+  - Slider gains an `orientation` option (horizontal or vertical, as on Color slider). Rating
+    gains a `maxValue` option (default 5), because a range names its maximum as an option.
+  - A component suite per contract plus a shared `slider` web key suite. Spec sheets gain the
+    new option rows and the value keyboard-intent rows for the three components. No render change.
+  - Two thumbs (`isRange`) and read-only are not modeled. The embedded dataset changes, so wasm
+    gets a patch.
+
+- [#2224](https://github.com/adobe/spectrum-design-data/pull/2224) [`3c88728`](https://github.com/adobe/spectrum-design-data/commit/3c887287d06b810fcc8d08d32ceab5dc742c78ce) Thanks [@GarthDB](https://github.com/GarthDB)! - Key behavior contract `semantics` per axis, and give Color area its accessibility attributes.
+  - Spec: a `semantics` entry may name an `axis` (a key of the contract's `ranges`), so one
+    attribute can be exposed once per axis (`aria-valuenow` for x and for y). An entry without an
+    `axis` works as before. A vector reads an axis through `expect.axisAria`
+    (`{ "x": { "aria-valuenow": "40" } }`); `expect.aria` does not see an entry that names an axis.
+  - SPEC-118 and the runner's contract check reject an `axis` that is not a key of `ranges`, an
+    `axis` on a contract with a single `range`, and the same attribute twice for one axis. A vector
+    whose `axisAria` names an undeclared axis fails.
+  - Data: Color area exposes `aria-valuenow`, `aria-valuemin` and `aria-valuemax` per axis on the
+    `color-handle` part (copies of `x-value`, `x-minValue`, `x-maxValue` and the `y` equivalents,
+    absent while the option is unset). The part keeps no `role` (decision A721).
+  - 12 new Color area vectors: set and unset per axis, axis independence, bounds, disabled.
+  - The embedded dataset changes, so wasm gets a patch.
+  - An older CLI runs the new Color area suite without reading `axisAria` (it never checks those
+    expectations), so a release that ships this needs `requires.cli` raised to the CLI that has it.
+
+- [#2223](https://github.com/adobe/spectrum-design-data/pull/2223) [`be416a9`](https://github.com/adobe/spectrum-design-data/commit/be416a95f6630f10528118bacab2932042185d4f) Thanks [@GarthDB](https://github.com/GarthDB)! - Behavior contracts for text field, text area and search field, built on the text runner
+  (decisions A664 a, A666 a).
+  - Each contract extends `text` (`isDisabled`, `value`, `hasValue`, `clear`, `submit`) and has a
+    `field` part with focus `tab-stop`. Text field and text area are `textbox` and bind no key.
+    Search field is `searchbox`: Escape clears, Enter submits. Its `in-field-button` has focus `none`.
+  - `aria-invalid` and `aria-required` (text field, text area) are copied from `isError` and
+    `isRequired`, absent while `false`. `aria-label` is copied from `label`, absent unless
+    `hideLabel` is set. No `describedby` or `labelledby`, no `isReadOnly` (later changes).
+  - The search field component's `accessibility.role` changes from `textbox` to `searchbox`, so its
+    spec sheet role row changes. Text field and text area list the `clear` and `submit` intents in
+    their keyboard intents.
+  - Known: the spec sheet Keyboard table lists `clear` and `submit` rows with empty keys for text
+    field and text area, and no Escape or Enter row for search field (a later Rust change may fix).
+  - Conformance: a suite per component and the web key suites `searchbox` and `textbox`.
+
+- [#2210](https://github.com/adobe/spectrum-design-data/pull/2210) [`00620bb`](https://github.com/adobe/spectrum-design-data/commit/00620bb8d94d9e80347692e5f82c36384d09cee1) Thanks [@GarthDB](https://github.com/GarthDB)! - The behavior runner supports ranges keyed by axis and wrapping ranges (decisions A660, A661, A662).
+  - A contract may declare `ranges` (one `range` block per axis, for color-area `x` and `y`) instead
+    of `range`. `do.adjust` takes an `axis`, or else the `axis` of the vector step; a `move` carries
+    one axis and one `position`.
+  - `wrap: true` on a block makes a cycle (color-wheel hue 0 to 360): a step or page step reduces
+    into `[min, max)`, so 359 up is 0 and 0 down is 359. `to: max` and a `move` to 1 reach max;
+    `to: min` and `to: max` never wrap. Snap, clamp, decimals and emit-only-on-change are as before.
+  - A missing, unknown or conflicting axis, and a wrap span that is not a multiple of the step,
+    fail the vector. SPEC-119 warns on `range` with `ranges`, two axes with one value option, an
+    `adjust` axis the `ranges` do not list, and `wrap` without `min` and `max`.
+  - No component has an axis or wrap contract yet.
+
+- [#2195](https://github.com/adobe/spectrum-design-data/pull/2195) [`3f4c588`](https://github.com/adobe/spectrum-design-data/commit/3f4c5884c886cfebdef8a17384b19093cc7764f7) Thanks [@GarthDB](https://github.com/GarthDB)! - The behavior runner supports single-thumb value ranges (slider), decisions A658 and A661.
+  - A contract may carry a `range` block (value, min, max, step options, `page`, `mirror`) and the
+    one action `do.adjust` (`by` one step or page, or `to` min, max or a pointer position).
+  - The runner snaps to the step (half away from the minimum), clamps, keeps whole numbers whole
+    and emits `change` only when the value changed.
+  - New intents `increment-page`, `decrement-page`, `set-min`, `set-max` and the event `move`
+    (a step carries `position`, 0 to 1); a new `range` pattern; web binds the `slider` role.
+  - SPEC-119 warns on a `range` option missing from `state` and on `do.adjust` with no `range`.
+  - No component has a range contract yet.
+  - A decimal half snaps away from the minimum despite float noise; a non-numeric option fails.
+
+- [#2211](https://github.com/adobe/spectrum-design-data/pull/2211) [`9f22db7`](https://github.com/adobe/spectrum-design-data/commit/9f22db7215a4717a582c18742c14eda930984274) Thanks [@GarthDB](https://github.com/GarthDB)! - The behavior runner treats an unset range bound as unbounded and an empty value like React Aria
+  (decisions A712 b and A713 a).
+  - An unset `min` or `max` option means no bound on that side: no clamp, snapping from 0 when
+    there is no minimum, Home does nothing without a minimum and End nothing without a maximum.
+    A page by a fraction and a `move` position need both bounds and change nothing without them;
+    `wrap` needs both and fails the vector. A key a block leaves out (Rating's `min`) keeps its
+    default.
+  - With `value` unset, increment goes to the minimum and decrement to the maximum (0 without
+    one). Home and End are unchanged.
+  - The number-field `known limit` vectors are rewritten to this behavior. Rating's two vectors
+    that relied on an unset value and an unset `maxValue` follow it.
+
+- [#2215](https://github.com/adobe/spectrum-design-data/pull/2215) [`8d8c79e`](https://github.com/adobe/spectrum-design-data/commit/8d8c79ec0131dd7fc7abbaf20844bf80472cc630) Thanks [@GarthDB](https://github.com/GarthDB)! - The behavior runner models text inputs: a `text` pattern, the `hasValue` facet and the `clear`
+  and `submit` intents (decisions A664 a, A666 a, A667 c).
+  - A facet `values` entry may be an any-of array for one source option, and a facet may add
+    `otherwise`, the value when no entry matches. `hasValue` is `false` for an unset, null or
+    empty `value`, else `true`. A recipe cannot select such a facet value (SPEC-122).
+  - The `text` pattern answers `clear` (sets `value` to `""`, emits `change`, only while there is
+    a value) and `submit` (emits `submit`, changes nothing). Both are ignored while disabled.
+    `do: {}` is allowed only on a transition that emits (SPEC-119 warns otherwise). `clear` writes
+    `""`, which the range runner now reads as an unset value.
+  - Web bindings: role `searchbox` binds Escape to `clear` and Enter to `submit`; role `textbox`
+    binds no keys. SPEC-118 checks `otherwise` and any-of use.
+  - No component has a text contract yet (text field, text area and search field follow).
+
+### Patch Changes
+
+- [#2230](https://github.com/adobe/spectrum-design-data/pull/2230) [`34e9eaf`](https://github.com/adobe/spectrum-design-data/commit/34e9eaf5eff2be192d392b3cd231d9281f5f3471) Thanks [@GarthDB](https://github.com/GarthDB)! - SPEC-118 lints inline collection item semantics; a Range vector pins the snap-back tolerance.
+  - **sdk/core spec118.rs**: warns when an inline collection item names an unknown anatomy
+    part in `parts` or `semantics`, exposes a facet the item does not declare, maps a value
+    the facet lacks, or copies an option the item `state` omits. No new rule id, and no
+    existing contract warns.
+  - **conformance/invalid/SPEC-118**: gains an inline item with an unknown part and facet.
+  - **conformance/behavior/number-field.json**: a vector pins that decrement from an empty
+    value with max 0.3 and step 0.1 gives 0.3, not 0.2 (the 1e-9 snap-back tolerance).
+  - **sdk/core/tests/fixtures/behavior-range.json**: the same vector for ArrowDown and
+    for the decrement intent.
+
+- [#2226](https://github.com/adobe/spectrum-design-data/pull/2226) [`d3607c4`](https://github.com/adobe/spectrum-design-data/commit/d3607c49861f080513ef76d0633ac0a25cfb9fcd) Thanks [@GarthDB](https://github.com/GarthDB)! - Spec sheet Keyboard table lists the keys of the web key bindings, not the registry defaults.
+  - **sdk/plugins/spec-sheet**: for a contract whose part role the web bindings list, the table keeps
+    an intent only when a binding gives it a key, and shows those keys. Checkbox, switch and radio
+    button show Space only, link shows Enter only, number-field shows PageUp and PageDown and no
+    ArrowRight or ArrowLeft, slider, color slider and rating gain Page and Home/End keys.
+  - **sdk/plugins/spec-sheet**: color wheel and color area (no part role) drop the page and min/max
+    rows that had an empty Keys cell. A contract with no bound role keeps the default keys.
+  - **sdk/plugins/spec-sheet**: 18 sheets change: the 15 above plus text-field and text-area (no
+    empty `clear` and `submit` rows, so no Keyboard block) and search-field (Escape and Enter).
+  - **sdk/cli**: the spec-sheet graph loads `behaviors/bindings`.
+  - **packages/design-data-spec/spec/accessibility.md**: documents the rule.
+
 ## 7.9.0
 
 ### Minor Changes

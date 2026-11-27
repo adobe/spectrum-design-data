@@ -501,6 +501,34 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.9.0",
+      "version": "3.1.2",
+      "bump": "patch",
+      "date": "2026-11-27",
+      "commit": "7a22cbd98e481c2d56af60373b60312c4008a14e",
+      "commits": [
+        {
+          "commit": "7161bb00cb098860da8b68a7859f4a2d5ae1c6f2",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2197,"title":"feat(sdk): show the derived legacy name for every token and drop 164 pins","url":"https://github.com/adobe/spectrum-design-data/pull/2197"},
+          "entries": [
+            {"id":"7161bb00-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Focus ring"],"record":"fe914904-a368-414b-a4ac-21c0b0340d05","name":"color[object=focus-indicator]","fields":[{"path":"name.legacyKey","before":"focus-indicator-color"}]},
+            {"id":"7161bb00-1","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (icon to label)"],"record":"9898011f-a47c-4d5d-a74e-70b5f8d0b91c","name":"gap[size=m,structure=base]","fields":[{"path":"name.legacyKey","before":"base-gap-medium"}]},
+            {"id":"7161bb00-2","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Height"],"record":"865f1ee3-4e60-433f-9685-1bf0ea9403de","name":"height[scale=desktop,size=l,structure=base]","fields":[{"path":"name.legacyKey","before":"base-height-large"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-3","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Height"],"record":"7b41adba-a18a-41c8-841f-b199f807e0a9","name":"height[scale=desktop,size=xl,structure=base]","fields":[{"path":"name.legacyKey","before":"base-height-extra-large"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-4","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Height"],"record":"2f79ea86-7400-464a-a04e-af2a156c87c3","name":"height[scale=desktop,size=xxl,structure=base]","fields":[{"path":"name.legacyKey","before":"base-height-2x-large"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-5","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Height"],"record":"a3c39fe1-9f46-4e76-9176-c589f28aa39f","name":"height[scale=desktop,size=xxxl,structure=base]","fields":[{"path":"name.legacyKey","before":"base-height-3x-large"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-6","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Height"],"record":"7b98b58f-4270-5191-81ce-a4f7a6917d40","name":"height[scale=mobile,size=l,structure=base]","fields":[{"path":"name.legacyKey","before":"base-height-large"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"7161bb00-7","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Height"],"record":"9b0fc8da-fc8a-5694-b5d5-b51775c8fb19","name":"height[scale=mobile,size=xl,structure=base]","fields":[{"path":"name.legacyKey","before":"base-height-extra-large"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"7161bb00-8","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Height"],"record":"a768028d-cd86-5360-8b8b-4636aadccab3","name":"height[scale=mobile,size=xxl,structure=base]","fields":[{"path":"name.legacyKey","before":"base-height-2x-large"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"7161bb00-9","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Height"],"record":"4d741e1d-0e54-5554-a119-764ebd3dea57","name":"height[scale=mobile,size=xxxl,structure=base]","fields":[{"path":"name.legacyKey","before":"base-height-3x-large"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"7161bb00-10","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (bottom edge to label)","Spacing (top edge to label)","Spacing (top/bottom to edge, workflow icon only)"],"record":"5741f832-f012-45bc-9e87-6e07ab2cb87f","name":"padding-vertical[size=m,structure=base]","fields":[{"path":"name.legacyKey","before":"base-padding-vertical-medium"}]},
+            {"id":"7161bb00-11","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Thickness (selection indicator)"],"record":"3766d95f-33c6-4b9d-84c8-1a546ee98d32","name":"thickness[anatomy=bar,size=xs]","fields":[{"path":"name.legacyKey","before":"bar-thickness-extra-small"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"}
+          ]
+        }
+      ]
     }
   ]
 }

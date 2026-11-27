@@ -327,6 +327,34 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.9.0",
+      "version": "3.0.2",
+      "bump": "patch",
+      "date": "2026-11-27",
+      "commit": "7a22cbd98e481c2d56af60373b60312c4008a14e",
+      "commits": [
+        {
+          "commit": "7161bb00cb098860da8b68a7859f4a2d5ae1c6f2",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2197,"title":"feat(sdk): show the derived legacy name for every token and drop 164 pins","url":"https://github.com/adobe/spectrum-design-data/pull/2197"},
+          "entries": [
+            {"id":"7161bb00-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"record":"da3a7c08-7f54-4486-bb66-146db21f0627","name":"color[colorScheme=dark,object=background,state=?,variant=informative]","fields":[{"path":"name.legacyKey","before":"informative-background-color-default"}]},
+            {"id":"7161bb00-1","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"record":"1117b73b-42e3-4ad6-8b26-af76859a27bb","name":"color[colorScheme=dark,object=background,state=?,variant=negative]","fields":[{"path":"name.legacyKey","before":"negative-background-color-default"}]},
+            {"id":"7161bb00-2","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"record":"3acd52f0-d19c-4174-9ad5-42885ec9d49d","name":"color[colorScheme=light,object=background,state=?,variant=informative]","fields":[{"path":"name.legacyKey","before":"informative-background-color-default"}]},
+            {"id":"7161bb00-3","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"record":"46204746-7fe7-4f22-887e-2c9b85c3b7bc","name":"color[colorScheme=light,object=background,state=?,variant=negative]","fields":[{"path":"name.legacyKey","before":"negative-background-color-default"}]},
+            {"id":"7161bb00-4","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"record":"02e7121e-71eb-4228-a61a-963d7f2a531b","name":"color[colorScheme=wireframe,object=background,state=?,variant=informative]","fields":[{"path":"name.legacyKey","before":"informative-background-color-default"}]},
+            {"id":"7161bb00-5","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Background"],"record":"ebadb88b-90a3-492e-ba3c-e9f1232b5ce5","name":"color[colorScheme=wireframe,object=background,state=?,variant=negative]","fields":[{"path":"name.legacyKey","before":"negative-background-color-default"}]},
+            {"id":"7161bb00-6","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (icon to text)"],"record":"42da5f00-7ba7-4a9a-8ab4-6f3552e22fdd","name":"gap[size=xl,structure=base]","fields":[{"path":"name.legacyKey","before":"base-gap-extra-large"}]},
+            {"id":"7161bb00-7","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Height"],"record":"e271c350-f967-4425-8f24-12be5f43f7c7","name":"minimum-height[scale=desktop,structure=banner]","fields":[{"path":"name.legacyKey","before":"banner-minimum-height"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-8","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Height"],"record":"e83b245c-387b-5e45-8bab-c862e624e9e7","name":"minimum-height[scale=mobile,structure=banner]","fields":[{"path":"name.legacyKey","before":"banner-minimum-height"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"7161bb00-9","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to icon)","Spacing (top/bottom edge to text)"],"record":"64fa4ab7-be93-4420-8cdc-a6ef91499852","name":"padding-vertical[structure=banner]","fields":[{"path":"name.legacyKey","before":"banner-padding-vertical"}]},
+            {"id":"7161bb00-10","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Width"],"record":"1236fe9c-ea39-415c-94b6-e35333bbfe39","name":"width[scale=desktop,structure=banner]","fields":[{"path":"name.legacyKey","before":"banner-width"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-11","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Width"],"record":"bf8a005e-30cf-5497-9622-af0e0e5273fc","name":"width[scale=mobile,structure=banner]","fields":[{"path":"name.legacyKey","before":"banner-width"}],"rationale":"Mobile value hand-set to the previous S2 mobile value instead of desktop x 1.25 (Matt Davey, size tokens thread)."}
+          ]
+        }
+      ]
     }
   ]
 }

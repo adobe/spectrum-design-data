@@ -292,6 +292,42 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.9.0",
+      "version": "3.0.1",
+      "bump": "patch",
+      "date": "2026-11-27",
+      "commit": "7a22cbd98e481c2d56af60373b60312c4008a14e",
+      "commits": [
+        {
+          "commit": "7161bb00cb098860da8b68a7859f4a2d5ae1c6f2",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2197,"title":"feat(sdk): show the derived legacy name for every token and drop 164 pins","url":"https://github.com/adobe/spectrum-design-data/pull/2197"},
+          "entries": [
+            {"id":"7161bb00-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"record":"0299a7c3-3a4c-424c-8ffd-4ea9cad62c3e","name":"size[anatomy=visual,scale=desktop,scaleIndex=?]","fields":[{"path":"name.legacyKey","before":"visual-size-700"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-1","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"record":"4d2469cf-d4e2-44ac-9056-6982e2f9ac55","name":"size[anatomy=visual,scale=desktop,scaleIndex=?]","fields":[{"path":"name.legacyKey","before":"visual-size-200"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-2","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"record":"5ac99ff7-ff5d-48c3-96fd-6cd32a5d1306","name":"size[anatomy=visual,scale=desktop,scaleIndex=?]","fields":[{"path":"name.legacyKey","before":"visual-size-75"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-3","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"record":"7d5d9d24-05ad-4438-8542-b79ae0593a56","name":"size[anatomy=visual,scale=desktop,scaleIndex=?]","fields":[{"path":"name.legacyKey","before":"visual-size-600"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-4","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"record":"9d50a6bc-7194-47f5-aef0-7b37446618ff","name":"size[anatomy=visual,scale=desktop,scaleIndex=?]","fields":[{"path":"name.legacyKey","before":"visual-size-300"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-5","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"record":"c95dc6f0-3784-4367-86ea-bcccd6123a88","name":"size[anatomy=visual,scale=desktop,scaleIndex=?]","fields":[{"path":"name.legacyKey","before":"visual-size-50"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-6","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"record":"cae804bb-ebef-480b-a98f-15452dff5650","name":"size[anatomy=visual,scale=desktop,scaleIndex=?]","fields":[{"path":"name.legacyKey","before":"visual-size-100"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-7","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"record":"cbd0511f-c73d-40fa-9dfa-619ee5a38472","name":"size[anatomy=visual,scale=desktop,scaleIndex=?]","fields":[{"path":"name.legacyKey","before":"visual-size-800"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-8","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"record":"d2b6af19-0151-4203-89da-6f61f88358ae","name":"size[anatomy=visual,scale=desktop,scaleIndex=?]","fields":[{"path":"name.legacyKey","before":"visual-size-500"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-9","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"record":"ffb3bc44-3c2a-410c-b69f-1267eab1be8a","name":"size[anatomy=visual,scale=desktop,scaleIndex=?]","fields":[{"path":"name.legacyKey","before":"visual-size-400"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-10","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"record":"10ddbd2f-ebf5-5023-aa64-66378d702f99","name":"size[anatomy=visual,scale=mobile,scaleIndex=?]","fields":[{"path":"name.legacyKey","before":"visual-size-100"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"7161bb00-11","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"record":"47d5bb68-3dce-58ae-a20c-4e797817c551","name":"size[anatomy=visual,scale=mobile,scaleIndex=?]","fields":[{"path":"name.legacyKey","before":"visual-size-200"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"7161bb00-12","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"record":"486839c8-66f0-58f8-a9c7-f2ca0272620d","name":"size[anatomy=visual,scale=mobile,scaleIndex=?]","fields":[{"path":"name.legacyKey","before":"visual-size-50"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"7161bb00-13","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"record":"6d694abd-9edb-5c4c-92de-f2ab46ce7fd5","name":"size[anatomy=visual,scale=mobile,scaleIndex=?]","fields":[{"path":"name.legacyKey","before":"visual-size-400"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"7161bb00-14","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"record":"7d55cf1b-1f33-5549-9f3b-45f61f913d78","name":"size[anatomy=visual,scale=mobile,scaleIndex=?]","fields":[{"path":"name.legacyKey","before":"visual-size-800"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"7161bb00-15","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"record":"8c1fbaf8-9117-5882-bf02-65bb8fca5e7d","name":"size[anatomy=visual,scale=mobile,scaleIndex=?]","fields":[{"path":"name.legacyKey","before":"visual-size-500"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"7161bb00-16","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"record":"90cde499-440b-584a-af95-26799a05e23e","name":"size[anatomy=visual,scale=mobile,scaleIndex=?]","fields":[{"path":"name.legacyKey","before":"visual-size-75"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"7161bb00-17","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"record":"96dfba6c-1687-575f-bd7a-c6bc81962afe","name":"size[anatomy=visual,scale=mobile,scaleIndex=?]","fields":[{"path":"name.legacyKey","before":"visual-size-700"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"7161bb00-18","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"record":"b1fb3013-a13a-56b3-9f91-e1099791759a","name":"size[anatomy=visual,scale=mobile,scaleIndex=?]","fields":[{"path":"name.legacyKey","before":"visual-size-600"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"7161bb00-19","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"record":"cb2dbb62-9fe3-57b8-8497-c7b238154919","name":"size[anatomy=visual,scale=mobile,scaleIndex=?]","fields":[{"path":"name.legacyKey","before":"visual-size-300"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."}
+          ]
+        }
+      ]
     }
   ]
 }

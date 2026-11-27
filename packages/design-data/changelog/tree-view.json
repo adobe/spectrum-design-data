@@ -690,6 +690,35 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.9.0",
+      "version": "2.0.4",
+      "bump": "patch",
+      "date": "2026-11-27",
+      "commit": "7a22cbd98e481c2d56af60373b60312c4008a14e",
+      "commits": [
+        {
+          "commit": "7161bb00cb098860da8b68a7859f4a2d5ae1c6f2",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2197,"title":"feat(sdk): show the derived legacy name for every token and drop 164 pins","url":"https://github.com/adobe/spectrum-design-data/pull/2197"},
+          "entries": [
+            {"id":"7161bb00-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Focus indicator"],"record":"fe914904-a368-414b-a4ac-21c0b0340d05","name":"color[object=focus-indicator]","fields":[{"path":"name.legacyKey","before":"focus-indicator-color"}]},
+            {"id":"7161bb00-1","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (context area to label)"],"record":"9898011f-a47c-4d5d-a74e-70b5f8d0b91c","name":"gap[size=m,structure=base]","fields":[{"path":"name.legacyKey","before":"base-gap-medium"}]},
+            {"id":"7161bb00-2","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (vertically, between tree view item and tree view header)"],"record":"b7e1af59-753e-4059-8f46-8d862f631ad8","name":"gap[structure=list,weight=regular]","fields":[{"path":"name.legacyKey","before":"list-gap-regular"}]},
+            {"id":"7161bb00-3","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Height"],"record":"865f1ee3-4e60-433f-9685-1bf0ea9403de","name":"height[scale=desktop,size=l,structure=base]","fields":[{"path":"name.legacyKey","before":"base-height-large"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-4","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Height"],"record":"7b98b58f-4270-5191-81ce-a4f7a6917d40","name":"height[scale=mobile,size=l,structure=base]","fields":[{"path":"name.legacyKey","before":"base-height-large"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"7161bb00-5","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (label to edge)"],"record":"52a75511-eb1b-4de2-a1bb-959365d8dc1a","name":"padding-horizontal[scale=desktop,size=m,structure=base]","fields":[{"path":"name.legacyKey","before":"base-padding-horizontal-medium"}]},
+            {"id":"7161bb00-6","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (label to edge)"],"record":"71731484-e759-4a5f-89ed-9fe04ac19aed","name":"padding-horizontal[scale=mobile,size=m,structure=base]","fields":[{"path":"name.legacyKey","before":"base-padding-horizontal-medium"}]},
+            {"id":"7161bb00-7","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"record":"5ac99ff7-ff5d-48c3-96fd-6cd32a5d1306","name":"size[anatomy=visual,scale=desktop,scaleIndex=?]","fields":[{"path":"name.legacyKey","before":"visual-size-75"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-8","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"record":"9d50a6bc-7194-47f5-aef0-7b37446618ff","name":"size[anatomy=visual,scale=desktop,scaleIndex=?]","fields":[{"path":"name.legacyKey","before":"visual-size-300"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-9","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"record":"cbd0511f-c73d-40fa-9dfa-619ee5a38472","name":"size[anatomy=visual,scale=desktop,scaleIndex=?]","fields":[{"path":"name.legacyKey","before":"visual-size-800"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-10","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"record":"7d55cf1b-1f33-5549-9f3b-45f61f913d78","name":"size[anatomy=visual,scale=mobile,scaleIndex=?]","fields":[{"path":"name.legacyKey","before":"visual-size-800"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"7161bb00-11","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"record":"90cde499-440b-584a-af95-26799a05e23e","name":"size[anatomy=visual,scale=mobile,scaleIndex=?]","fields":[{"path":"name.legacyKey","before":"visual-size-75"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"7161bb00-12","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Size"],"record":"cb2dbb62-9fe3-57b8-8497-c7b238154919","name":"size[anatomy=visual,scale=mobile,scaleIndex=?]","fields":[{"path":"name.legacyKey","before":"visual-size-300"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."}
+          ]
+        }
+      ]
     }
   ]
 }

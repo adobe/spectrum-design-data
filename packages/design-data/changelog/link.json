@@ -280,6 +280,43 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.9.0",
+      "version": "2.0.2",
+      "bump": "patch",
+      "date": "2026-11-27",
+      "commit": "7a22cbd98e481c2d56af60373b60312c4008a14e",
+      "commits": [
+        {
+          "commit": "7161bb00cb098860da8b68a7859f4a2d5ae1c6f2",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2197,"title":"feat(sdk): show the derived legacy name for every token and drop 164 pins","url":"https://github.com/adobe/spectrum-design-data/pull/2197"},
+          "entries": [
+            {"id":"7161bb00-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Focus ring"],"record":"fe914904-a368-414b-a4ac-21c0b0340d05","name":"color[object=focus-indicator]","fields":[{"path":"name.legacyKey","before":"focus-indicator-color"}]},
+            {"id":"7161bb00-1","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Text"],"record":"62e8853d-9c4f-4e9d-be75-0020344d13ee","name":"gap[anatomy=text,size=m]","fields":[{"path":"name.legacyKey","before":"text-gap-medium"}]},
+            {"id":"7161bb00-2","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Text"],"record":"13f36ce1-84bb-41db-bec8-6d6e8f5c6ed3","name":"underline-thickness[anatomy=text]","fields":[{"path":"name.legacyKey","before":"text-underline-thickness"}]}
+          ]
+        },
+        {
+          "commit": "ebc93d2844fe357dd9bff2b407b460913da3bf6e",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2203,"title":"feat(design-data): recipes read behavior facets for toggles, buttons, link and swatch","url":"https://github.com/adobe/spectrum-design-data/pull/2203"},
+          "entries": [
+            {"id":"ebc93d28-0","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"link/visual/parts/text","name":"text","fields":[{"path":"props.textDecoration","before":[{"when":{"options":{"isStandalone":false}},"value":"underline"},{"when":{"options":{"isStandalone":true,"isQuiet":false}},"value":"underline"},{"when":{"options":{"isStandalone":true,"isQuiet":true},"states":["hover"]},"value":"underline"},{"when":{"options":{"isStandalone":true,"isQuiet":true},"states":["keyboard-focus"]},"value":"underline"}],"after":[{"when":{"options":{"isStandalone":false}},"value":"underline"},{"when":{"options":{"isStandalone":true,"isQuiet":false}},"value":"underline"},{"when":{"options":{"isStandalone":true,"isQuiet":true},"facets":{"hovered":"true"}},"value":"underline"},{"when":{"options":{"isStandalone":true,"isQuiet":true},"facets":{"focusVisible":"true"}},"value":"underline"}]}]}
+          ]
+        },
+        {
+          "commit": "82a1b1dcb80bbef7cfe0946e190167bc579162ea",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2214,"title":"feat(design-data): migrate clear-button, close-button and link to level 3","url":"https://github.com/adobe/spectrum-design-data/pull/2214"},
+          "entries": [
+            {"id":"82a1b1dc-0","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"link/visual/parts/container","name":"container","fields":[{"path":"props.cornerRadius.relationship.context","before":"Focus ring"},{"path":"props.cornerRadius.relationship.part","after":"container"}]},
+            {"id":"82a1b1dc-1","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"link/visual/parts/focus-indicator","name":"focus-indicator","fields":[{"path":"props.gapToParent.relationship.context","before":"Focus ring"},{"path":"props.gapToParent.relationship.part","after":"focus-indicator"},{"path":"props.stroke","before":[{"relationship":{"property":"color","context":"Focus ring"}},{"when":{"options":{"staticColor":"white"}},"relationship":{"property":"color","context":"Focus ring"}},{"when":{"options":{"staticColor":"black"}},"relationship":{"property":"color","context":"Focus ring"}}],"after":[{"relationship":{"property":"color","part":"focus-indicator"}},{"when":{"options":{"staticColor":"white"}},"relationship":{"property":"color","part":"focus-indicator"}},{"when":{"options":{"staticColor":"black"}},"relationship":{"property":"color","part":"focus-indicator"}}]},{"path":"props.strokeWidth.relationship.context","before":"Focus ring"},{"path":"props.strokeWidth.relationship.part","after":"focus-indicator"}]},
+            {"id":"82a1b1dc-2","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"link/visual/parts/text","name":"text","fields":[{"path":"props.color","before":[{"relationship":{"property":"content-color","context":"Text"}},{"when":{"options":{"staticColor":"white"}},"relationship":{"property":"color","context":"Text"}},{"when":{"options":{"staticColor":"black"}},"relationship":{"property":"color","context":"Text"}}],"after":[{"relationship":{"property":"content-color","part":"text"}},{"when":{"options":{"staticColor":"white"}},"relationship":{"property":"color","part":"text"}},{"when":{"options":{"staticColor":"black"}},"relationship":{"property":"color","part":"text"}}]},{"path":"props.fontFamily.relationship.context","before":"Text"},{"path":"props.fontFamily.relationship.part","after":"text"},{"path":"props.fontSize.relationship.context","before":"Text"},{"path":"props.fontSize.relationship.part","after":"text"},{"path":"props.fontWeight.relationship.context","before":"Text"},{"path":"props.fontWeight.relationship.part","after":"text"},{"path":"props.lineHeight.relationship.context","before":"Text"},{"path":"props.lineHeight.relationship.part","after":"text"},{"path":"props.underlineOffset.relationship.context","before":"Text"},{"path":"props.underlineOffset.relationship.part","after":"text"},{"path":"props.underlineThickness.relationship.context","before":"Text"},{"path":"props.underlineThickness.relationship.part","after":"text"}]}
+          ]
+        }
+      ]
     }
   ]
 }

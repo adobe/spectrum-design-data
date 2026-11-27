@@ -449,6 +449,34 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.9.0",
+      "version": "2.1.0",
+      "bump": "minor",
+      "date": "2026-11-27",
+      "commit": "7a22cbd98e481c2d56af60373b60312c4008a14e",
+      "commits": [
+        {
+          "commit": "7161bb00cb098860da8b68a7859f4a2d5ae1c6f2",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2197,"title":"feat(sdk): show the derived legacy name for every token and drop 164 pins","url":"https://github.com/adobe/spectrum-design-data/pull/2197"},
+          "entries": [
+            {"id":"7161bb00-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Border (focus)"],"record":"fe914904-a368-414b-a4ac-21c0b0340d05","name":"color[object=focus-indicator]","fields":[{"path":"name.legacyKey","before":"focus-indicator-color"}]},
+            {"id":"7161bb00-1","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (illustration to label)"],"record":"bd1948af-f4eb-46ed-9ab5-cbd93b5e0935","name":"gap[size=s,structure=container]","fields":[{"path":"name.legacyKey","before":"container-gap-small"}]},
+            {"id":"7161bb00-2","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (illustration to label)"],"record":"9c79efdc-ab56-4f2e-b44d-5641d2480964","name":"gap[size=xs,structure=container]","fields":[{"path":"name.legacyKey","before":"container-gap-extra-small"}]},
+            {"id":"7161bb00-3","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Padding","Spacing (start-edge to content)"],"record":"2e855806-0f65-4df0-9d8f-74428daa358d","name":"padding[size=xl,structure=container]","fields":[{"path":"name.legacyKey","before":"container-padding-extra-large"}]}
+          ]
+        },
+        {
+          "commit": "6f12d245d062e6f892c216e33a714bfcc80e0eab",
+          "date": "2026-11-27",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2227,"title":"feat(design-data): drop-zone isDisabled and illustration options for drop-zone and select-box","url":"https://github.com/adobe/spectrum-design-data/pull/2227"},
+          "entries": [
+            {"id":"6f12d245-0","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"select-box/options/illustration","name":"illustration","fields":[],"after":{"type":"string","description":"Optional illustration or icon displayed in the box."}}
+          ]
+        }
+      ]
     }
   ]
 }
