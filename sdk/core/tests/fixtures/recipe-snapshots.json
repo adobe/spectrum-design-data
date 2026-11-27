@@ -1444,6 +1444,10 @@
     "hideIcon=true,isDisabled=true,variant=\"negative\"": "f3b3335576f4719c",
     "hideIcon=true,isDisabled=true,variant=\"neutral\"": "85aab138ceadeb76"
   },
+  "illustrated-message": {
+    "orientation=\"horizontal\"": "26552595d724ddad",
+    "orientation=\"vertical\"": "2f29140725787845"
+  },
   "in-field-button": {
     "isDisabled=false": "fabe08fb220cfb83",
     "isDisabled=true": "18aea6062c1d933f"
@@ -1489,6 +1493,12 @@
     "isQuiet=true,isStandalone=true,staticColor=\"black\",variant=\"secondary\"": "f420fa5cd55bb31e",
     "isQuiet=true,isStandalone=true,staticColor=\"white\",variant=\"primary\"": "5a638621ac9a21ae",
     "isQuiet=true,isStandalone=true,staticColor=\"white\",variant=\"secondary\"": "ba8807317d35a2b6"
+  },
+  "list-view": {
+    "isDisabled=false,isSelected=false": "98166d6fe2fc6ae5",
+    "isDisabled=false,isSelected=true": "4121d2245626b5b7",
+    "isDisabled=true,isSelected=false": "7eb8008154e227fb",
+    "isDisabled=true,isSelected=true": "ac4cdd823de3bf63"
   },
   "menu": {
     "hasIcon=false,hasThumbnail=false,isDisabled=false,isSelected=false,selectionMode=\"multiple\",selectionStyle=\"checkbox\"": "3f163dec10284a19",
