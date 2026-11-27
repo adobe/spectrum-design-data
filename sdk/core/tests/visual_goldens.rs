@@ -541,6 +541,47 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             with(vec!["hover".into()], "light", "desktop"),
         ));
     }
+    // List view: a description row, then unselected, disabled and selected-disabled rows,
+    // in the default and dark mobile modes, hovered, focused and as a single row.
+    if name == "list-view" {
+        let items = serde_json::json!([
+            { "label": "Home", "description": "Start page", "isSelected": true },
+            { "label": "Projects" },
+            { "label": "Settings", "isDisabled": true },
+            { "label": "Archive", "isSelected": true, "isDisabled": true }
+        ]);
+        let with = |states: Vec<String>, items: &Value, scheme: &str, scale: &str| {
+            let mut o = HashMap::from([("items".to_string(), items.clone())]);
+            o.insert("selectionMode".into(), "multiple".into());
+            req(states, o, scheme, scale)
+        };
+        out.push(("four-items", with(vec![], &items, "light", "desktop")));
+        out.push((
+            "four-items-dark-mobile",
+            with(vec![], &items, "dark", "mobile"),
+        ));
+        out.push((
+            "four-items-wireframe",
+            with(vec![], &items, "wireframe", "desktop"),
+        ));
+        out.push((
+            "four-items-hover",
+            with(vec!["hover".into()], &items, "light", "desktop"),
+        ));
+        out.push((
+            "four-items-keyboard-focus",
+            with(vec!["keyboard-focus".into()], &items, "light", "desktop"),
+        ));
+        out.push((
+            "one-item",
+            with(
+                vec![],
+                &serde_json::json!([{ "label": "Only row" }]),
+                "light",
+                "desktop",
+            ),
+        ));
+    }
     // Stack item: a row with a checkbox, a visual and two trailing action buttons (nested
     // recipes and slot fills), selected, unselected and disabled, light and dark mobile.
     if name == "stack-item" {

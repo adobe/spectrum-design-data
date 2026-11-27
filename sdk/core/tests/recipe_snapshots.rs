@@ -272,6 +272,18 @@ fn fixed_options(name: &str) -> Vec<(String, Value)> {
             ),
         ];
     }
+    if name == "list-view" {
+        // Rows draw only from `items`: a description row, selected, disabled and plain rows.
+        return vec![(
+            "items".into(),
+            serde_json::json!([
+                { "label": "Home", "description": "Start page", "isSelected": true },
+                { "label": "Projects" },
+                { "label": "Settings", "isDisabled": true },
+                { "label": "Archive", "isSelected": true, "isDisabled": true }
+            ]),
+        )];
+    }
     if name != "calendar" {
         return Vec::new();
     }
@@ -456,6 +468,7 @@ recipe_tests! {
     in_field_progress_circle => "in-field-progress-circle",
     in_line_alert => "in-line-alert",
     link => "link",
+    list_view => "list-view",
     menu => "menu",
     meter => "meter",
     number_field => "number-field",
