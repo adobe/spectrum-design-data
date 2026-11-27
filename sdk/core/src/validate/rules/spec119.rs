@@ -29,6 +29,17 @@ use crate::validate::rules::behavior_util::{
 
 pub struct Rule;
 
+const INERT: &str =
+    "has a transition with an empty `do` and no `emit`, which changes nothing and raises nothing";
+
+/// An empty `do` is only meaningful on a transition that emits (`submit`).
+fn inert(t: &Value) -> bool {
+    t.get("do")
+        .and_then(Value::as_object)
+        .is_some_and(|d| d.is_empty())
+        && t.get("emit").is_none()
+}
+
 fn guard_facets<'a>(guard: &'a Value, out: &mut Vec<(&'a str, Option<&'a str>)>) {
     if let Some(f) = guard.get("facet").and_then(Value::as_str) {
         out.push((f, guard.get("is").and_then(Value::as_str)));
@@ -148,6 +159,9 @@ impl ValidationRule for Rule {
                 .enumerate()
             {
                 let at = format!("/transitions/{n}");
+                if inert(t) {
+                    problem(format!("{at}/do"), INERT.to_string());
+                }
                 if let Some(i) = t
                     .get("on")
                     .and_then(Value::as_str)
@@ -418,6 +432,9 @@ impl ValidationRule for Rule {
             {
                 let mut problems: Vec<(String, String)> = Vec::new();
                 let at = format!("/transitions/{n}");
+                if inert(t) {
+                    problems.push((format!("{at}/do"), INERT.to_string()));
+                }
                 if let Some(i) = t
                     .get("on")
                     .and_then(Value::as_str)
@@ -526,6 +543,10 @@ mod tests {
         assert!(pattern_graph(|_| {}).is_empty());
         let cases: Vec<Case> = vec![
             (
+                Box::new(|p| p["transitions"][0]["do"] = json!({})),
+                "empty `do` and no `emit`",
+            ),
+            (
                 Box::new(|p| p["transitions"][0]["on"] = json!("tap")),
                 "not in the intents registry",
             ),
@@ -589,6 +610,13 @@ mod tests {
     #[test]
     fn flags_each_bad_transition() {
         let cases: Vec<Case> = vec![
+            (
+                Box::new(|c| {
+                    c["transitions"][0]["do"] = json!({});
+                    c["transitions"][0].as_object_mut().unwrap().remove("emit");
+                }),
+                "empty `do` and no `emit`",
+            ),
             (
                 Box::new(|c| c["transitions"][0]["on"] = json!("tap")),
                 "not in the intents registry",

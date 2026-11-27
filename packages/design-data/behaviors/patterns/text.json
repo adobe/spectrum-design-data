@@ -1,0 +1,36 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior-pattern.schema.json",
+  "pattern": "text",
+  "description": "The shared base of a text input (text field, text area, search field): it reads `isDisabled` as the `disabled` facet and whether `value` holds text as the `hasValue` facet (`false` while it is unset, null or empty). `clear` empties `value` and emits `change`, only while there is a value; `submit` emits `submit` and changes nothing. Both are ignored while the input is disabled. Typing, selection, IME and autocomplete are not modeled. The extending contract lists `isDisabled` and `value` in its `state`.",
+  "extends": ["interactive"],
+  "facets": {
+    "disabled": {
+      "from": "isDisabled",
+      "values": { "false": false, "true": true }
+    },
+    "hasValue": {
+      "from": "value",
+      "values": { "false": [false, null, ""] },
+      "otherwise": "true"
+    }
+  },
+  "transitions": [
+    {
+      "on": "clear",
+      "guard": {
+        "all": [
+          { "facet": "disabled", "is": "false" },
+          { "facet": "hasValue", "is": "true" }
+        ]
+      },
+      "do": { "set": { "value": "" } },
+      "emit": "change"
+    },
+    {
+      "on": "submit",
+      "guard": { "facet": "disabled", "is": "false" },
+      "do": {},
+      "emit": "submit"
+    }
+  ]
+}

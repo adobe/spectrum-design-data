@@ -10,6 +10,21 @@
       "rule_id": "SPEC-118",
       "severity": "warning",
       "message_pattern": ".*extends 'ghost'.*not a pattern.*"
+    },
+    {
+      "rule_id": "SPEC-118",
+      "severity": "warning",
+      "message_pattern": ".*checked.*`otherwise` 'checked'.*already lists.*"
+    },
+    {
+      "rule_id": "SPEC-118",
+      "severity": "warning",
+      "message_pattern": ".*disabled.*value 'ghosty'.*does not list.*"
+    },
+    {
+      "rule_id": "SPEC-118",
+      "severity": "warning",
+      "message_pattern": ".*selected.*any-of list.*single source.*"
     }
   ]
 }
