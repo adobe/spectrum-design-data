@@ -1,5 +1,25 @@
 # @adobe/design-data-skill
 
+## 2.2.37
+
+### Patch Changes
+
+- [#2197](https://github.com/adobe/spectrum-design-data/pull/2197) [`7161bb0`](https://github.com/adobe/spectrum-design-data/commit/7161bb00cb098860da8b68a7859f4a2d5ae1c6f2) Thanks [@GarthDB](https://github.com/GarthDB)! - Every place that shows or matches a token name now uses the legacy name the engine
+  derives (`extract_legacy_key`), pinned or not (proposal 023, slice 1).
+  - Wasm `TokenResult` gains `legacyName`.
+  - Recipe renders, scene `token` labels, the site and spec sheets show legacy names for
+    unpinned tokens (about 1,808 live token rows, 930 distinct names; pixels do not).
+  - A recipe selector's `legacyKey` matches the derived legacy name, and `rank_key` no
+    longer counts the `legacyKey` pin as a name field, so site `candidates[].rank`
+    changes for pinned tokens and pinned and unpinned tokens can now tie.
+  - MCP `design-data-query`, `token-usage` and friends return the legacy name, resolve
+    mode-dependent aliases through it, and still accept the old `field=value` text.
+  - Removes 164 token `legacyKey` pins that now equal the derived name. Legacy output
+    (`@adobe/spectrum-tokens`) is byte-identical.
+
+- Updated dependencies [[`7161bb0`](https://github.com/adobe/spectrum-design-data/commit/7161bb00cb098860da8b68a7859f4a2d5ae1c6f2)]:
+  - @adobe/design-data-mcp@1.19.0
+
 ## 2.2.36
 
 ### Patch Changes

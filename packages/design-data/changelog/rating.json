@@ -243,6 +243,40 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.9.0",
+      "version": "1.3.0",
+      "bump": "minor",
+      "date": "2026-11-27",
+      "commit": "7a22cbd98e481c2d56af60373b60312c4008a14e",
+      "commits": [
+        {
+          "commit": "7161bb00cb098860da8b68a7859f4a2d5ae1c6f2",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2197,"title":"feat(sdk): show the derived legacy name for every token and drop 164 pins","url":"https://github.com/adobe/spectrum-design-data/pull/2197"},
+          "entries": [
+            {"id":"7161bb00-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (padding)"],"record":"5741f832-f012-45bc-9e87-6e07ab2cb87f","name":"padding-vertical[size=m,structure=base]","fields":[{"path":"name.legacyKey","before":"base-padding-vertical-medium"}]},
+            {"id":"7161bb00-1","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (padding)"],"record":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d","name":"padding-vertical[size=s,structure=base]","fields":[{"path":"name.legacyKey","before":"base-padding-vertical-small"}]}
+          ]
+        },
+        {
+          "commit": "c46cf6eebf93a9e11d401c8c5093855db5bb12fe",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2204,"title":"feat(spec): behavior contracts for slider, rating and color slider","url":"https://github.com/adobe/spectrum-design-data/pull/2204"},
+          "entries": [
+            {"id":"c46cf6ee-0","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"rating/options/maxValue","name":"maxValue","fields":[],"after":{"type":"number","default":5,"description":"The highest rating, and the number of stars."}}
+          ]
+        },
+        {
+          "commit": "1d15af6649c9608a16a5da0831080140c1788c5e",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2207,"title":"fix(design-data): drop maximum from Rating value option","url":"https://github.com/adobe/spectrum-design-data/pull/2207"},
+          "entries": [
+            {"id":"1d15af66-0","kind":"option","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"rating/options/value","name":"value","fields":[{"path":"maximum","before":5}]}
+          ]
+        }
+      ]
     }
   ]
 }

@@ -561,6 +561,27 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.9.0",
+      "version": "3.0.2",
+      "bump": "patch",
+      "date": "2026-11-27",
+      "commit": "7a22cbd98e481c2d56af60373b60312c4008a14e",
+      "commits": [
+        {
+          "commit": "7161bb00cb098860da8b68a7859f4a2d5ae1c6f2",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2197,"title":"feat(sdk): show the derived legacy name for every token and drop 164 pins","url":"https://github.com/adobe/spectrum-design-data/pull/2197"},
+          "entries": [
+            {"id":"7161bb00-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Height"],"record":"61de58a3-53ed-4dd8-8937-08920b00968c","name":"height[scale=desktop,size=m,structure=base]","fields":[{"path":"name.legacyKey","before":"base-height-medium"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-1","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Height"],"record":"e770bf1c-435f-5480-962d-c4cac4480ee7","name":"height[scale=mobile,size=m,structure=base]","fields":[{"path":"name.legacyKey","before":"base-height-medium"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"7161bb00-2","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (start edge to value)","Spacing (value to alert icon)"],"record":"52a75511-eb1b-4de2-a1bb-959365d8dc1a","name":"padding-horizontal[scale=desktop,size=m,structure=base]","fields":[{"path":"name.legacyKey","before":"base-padding-horizontal-medium"}]},
+            {"id":"7161bb00-3","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (start edge to value)","Spacing (value to alert icon)"],"record":"71731484-e759-4a5f-89ed-9fe04ac19aed","name":"padding-horizontal[scale=mobile,size=m,structure=base]","fields":[{"path":"name.legacyKey","before":"base-padding-horizontal-medium"}]},
+            {"id":"7161bb00-4","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom edge to alert icon)","Spacing (top/bottom edge to label)"],"record":"5741f832-f012-45bc-9e87-6e07ab2cb87f","name":"padding-vertical[size=m,structure=base]","fields":[{"path":"name.legacyKey","before":"base-padding-vertical-medium"}]}
+          ]
+        }
+      ]
     }
   ]
 }

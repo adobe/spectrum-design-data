@@ -3,5 +3,24 @@
   "specVersion": "1.0.0-draft",
   "component": "scroll-zoom-bar",
   "baseline": {"release":"2.1.0","version":"1.0.0","commit":"4033f09de6696d4f61d1da89d42129a941dbd806"},
-  "releases": []
+  "releases": [
+    {
+      "release": "4.9.0",
+      "version": "2.0.0",
+      "bump": "major",
+      "date": "2026-11-27",
+      "commit": "7a22cbd98e481c2d56af60373b60312c4008a14e",
+      "commits": [
+        {
+          "commit": "a8c28218ef86fc755f997cc7d3ff221092c61c3e",
+          "date": "2026-11-27",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2229,"title":"feat(design-data): deprecate calendar variants, scroll-zoom-bar and bottom-navigation-android","url":"https://github.com/adobe/spectrum-design-data/pull/2229"},
+          "entries": [
+            {"id":"a8c28218-0","kind":"lifecycle","change":"updated","class":"api","bump":"major","indirect":false,"contexts":[],"record":"scroll-zoom-bar/lifecycle","name":"lifecycle","fields":[{"path":"lifecycle.deprecatedIn","after":"1.0.0-draft"}]},
+            {"id":"a8c28218-1","kind":"lifecycle","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"scroll-zoom-bar/lifecycle","name":"lifecycle","fields":[{"path":"lifecycle.deprecatedComment","after":"Archive-only: it has no records, no anatomy and no recipe, and the structured migration dropped it. Revive it only from a current Spectrum 2 source."}]}
+          ]
+        }
+      ]
+    }
+  ]
 }

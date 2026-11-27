@@ -257,6 +257,43 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.9.0",
+      "version": "2.1.0",
+      "bump": "minor",
+      "date": "2026-11-27",
+      "commit": "7a22cbd98e481c2d56af60373b60312c4008a14e",
+      "commits": [
+        {
+          "commit": "b47404c4d050457146073ec3bfc0478afe8954c5",
+          "date": "2026-11-27",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2218,"title":"feat(design-data): takeover-dialog visual recipe","url":"https://github.com/adobe/spectrum-design-data/pull/2218"},
+          "entries": [
+            {"id":"b47404c4-0","kind":"anatomy-part","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"takeover-dialog/anatomy/header","name":"header","fields":[],"after":{"name":"header","description":"Header row. Holds the title, the optional header content and the button group, in that order.","contains":["title","header-content","button-group"]}},
+            {"id":"b47404c4-1","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"takeover-dialog/anatomy/container","name":"container","fields":[{"path":"contains","before":["title","header-content","button-group","body"],"after":["header","body"]}]},
+            {"id":"b47404c4-2","kind":"slot","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"takeover-dialog/slots/button-group","name":"button-group","fields":[],"after":{"name":"button-group","part":"button-group","accepts":["button"],"acceptsOnly":true,"min":1,"max":3,"description":"The dialog actions, up to three buttons ordered by ascending importance. Temporary: a slot of buttons stands in for a nested button-group, because nested slot fills inside a slot-hosting component are not solved yet (bead 5m92.32.22).","demo":[{"component":"button","options":{"label":"Label","variant":"secondary","style":"outline"}},{"component":"button","options":{"label":"Label","variant":"accent","style":"fill"}}]}},
+            {"id":"b47404c4-3","kind":"slot","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"takeover-dialog/slots/default","name":"default","fields":[{"path":"accepts","after":["text-field","text-area","picker"]},{"path":"demo","after":[{"component":"text-field","options":{"label":"Name"}},{"component":"text-field","options":{"label":"Email"}}]}]},
+            {"id":"b47404c4-4","kind":"slot","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"takeover-dialog/slots/header-content","name":"header-content","fields":[{"path":"accepts","after":["steplist"]},{"path":"demo","after":[{"component":"steplist","options":{"items":[{"label":"Details","stepState":"completed default"},{"label":"Review","stepState":"current default"},{"label":"Done","stepState":"incomplete default"}]}}]}]},
+            {"id":"b47404c4-5","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"takeover-dialog/visual","name":"takeover-dialog","fields":[]}
+          ]
+        },
+        {
+          "commit": "6c09a68a1a5349f4769ba9fb4f1d459bc44dc0b8",
+          "date": "2026-11-27",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2231,"title":"feat(design-data): takeover-dialog full-screen background and rounding","url":"https://github.com/adobe/spectrum-design-data/pull/2231"},
+          "entries": [
+            {"id":"6c09a68a-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Rounding"],"scope":{"property":"corner-radius","options":{"variant":"dialog"}},"record":"2d2cf941-77a6-5b40-bb19-06e144090be8","name":"corner-radius[variant=dialog]","fields":[{"path":"$ref","before":"d639a0b5-16b4-4d75-ab37-d87815c7b500","after":"8fc023ca-8aec-40fe-9130-087aa035bac7"}]},
+            {"id":"6c09a68a-1","kind":"relationship","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":["Rounding"],"scope":{"property":"corner-radius","options":{"variant":"dialog"}},"record":"2d2cf941-77a6-5b40-bb19-06e144090be8","name":"corner-radius[variant=dialog]","fields":[{"path":"context","before":"Rounding (dialog option)","after":"Rounding"}]},
+            {"id":"6c09a68a-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"colorScheme":"light","variant":["dialog","full screen"]}},"record":"429f07e9-9372-503b-914d-0f212c04268d","name":"color[colorScheme=light,variant=?]","fields":[{"path":"scope.options.variant","before":"dialog","after":["dialog","full screen"]}]},
+            {"id":"6c09a68a-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"colorScheme":"dark","variant":["dialog","full screen"]}},"record":"81f47685-c92e-5df3-9b4d-47d8a6132e21","name":"color[colorScheme=dark,variant=?]","fields":[{"path":"scope.options.variant","before":"dialog","after":["dialog","full screen"]}]},
+            {"id":"6c09a68a-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Background"],"scope":{"property":"color","options":{"colorScheme":"wireframe","variant":["dialog","full screen"]}},"record":"983b4b23-823b-56f8-964b-e870cd811f8c","name":"color[colorScheme=wireframe,variant=?]","fields":[{"path":"scope.options.variant","before":"dialog","after":["dialog","full screen"]}]},
+            {"id":"6c09a68a-5","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Rounding"],"scope":{"property":"corner-radius","options":{"variant":"full screen"}},"record":"5160e9bd-23ce-57f2-899e-f99b5b374435","name":"corner-radius[variant=full screen]","fields":[],"after":"7a11b308-bed2-4b6f-bb4a-c9ae4ef8e03d"},
+            {"id":"6c09a68a-6","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"takeover-dialog/visual/parts/container","name":"container","fields":[{"path":"props.cornerRadius","before":[{"relationship":{"property":"corner-radius","part":"container"},"when":{"options":{"variant":"dialog"}}}],"after":[{"relationship":{"property":"corner-radius","part":"container"},"when":{"options":{"variant":"dialog"}}},{"relationship":{"property":"corner-radius","part":"container"},"when":{"options":{"variant":"full screen"}}}]},{"path":"props.fill","before":[{"relationship":{"property":"color","part":"container","attribute":"background"},"when":{"options":{"variant":"dialog"}}}],"after":{"relationship":{"property":"color","part":"container","attribute":"background"}}}]}
+          ],
+          "metadata": {"count":1,"fields":["contextQualifier"]}
+        }
+      ]
     }
   ]
 }

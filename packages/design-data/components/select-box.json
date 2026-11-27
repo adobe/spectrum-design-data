@@ -122,7 +122,8 @@
     },
     {
       "name": "illustration",
-      "description": "Illustration or icon."
+      "description": "Illustration or icon.",
+      "presentWhen": { "options": { "hideIllustration": false } }
     },
     {
       "name": "label",

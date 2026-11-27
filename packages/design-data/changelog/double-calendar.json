@@ -54,6 +54,25 @@
           "metadata": {"count":3,"fields":["anatomyReview.status","scope.part"]}
         }
       ]
+    },
+    {
+      "release": "4.9.0",
+      "version": "3.0.0",
+      "bump": "major",
+      "date": "2026-11-27",
+      "commit": "7a22cbd98e481c2d56af60373b60312c4008a14e",
+      "commits": [
+        {
+          "commit": "a8c28218ef86fc755f997cc7d3ff221092c61c3e",
+          "date": "2026-11-27",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2229,"title":"feat(design-data): deprecate calendar variants, scroll-zoom-bar and bottom-navigation-android","url":"https://github.com/adobe/spectrum-design-data/pull/2229"},
+          "entries": [
+            {"id":"a8c28218-0","kind":"component","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"double-calendar/anatomyReview","name":"anatomyReview","fields":[{"path":"anatomyReview.notes","before":"A9 (2026-11-21), owner decision C2: a frozen legacy holder (two months), not deprecated. calendar is the only anatomy (option visibleMonths). The two legacy records keep their keys and move from part popover to container; no Figma, RSP or SWC source draws this component on its own. Same precedent as color-control.","after":"A9 (2026-11-21), owner decision C2: a frozen legacy holder (two months), deprecated in favour of calendar's months slot. calendar is the only anatomy (option visibleMonths). The two legacy records keep their keys and move from part popover to container; no Figma, RSP or SWC source draws this component on its own. Same precedent as color-control."}]},
+            {"id":"a8c28218-1","kind":"lifecycle","change":"updated","class":"api","bump":"major","indirect":false,"contexts":[],"record":"double-calendar/lifecycle","name":"lifecycle","fields":[{"path":"lifecycle.deprecatedIn","after":"1.0.0-draft"}]},
+            {"id":"a8c28218-2","kind":"lifecycle","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"double-calendar/lifecycle","name":"lifecycle","fields":[{"path":"lifecycle.deprecatedComment","after":"Use calendar with its months slot (option visibleMonths) instead. Archive-only: the two legacy records stay frozen and keep their legacy keys, so they are not marked deprecated (legacy output must not change)."}]}
+          ]
+        }
+      ]
     }
   ]
 }

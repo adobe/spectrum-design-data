@@ -1,5 +1,15 @@
 # figma-spec-plugin
 
+## 0.2.2
+
+### Patch Changes
+
+- [#2234](https://github.com/adobe/spectrum-design-data/pull/2234) [`7a22cbd`](https://github.com/adobe/spectrum-design-data/commit/7a22cbd98e481c2d56af60373b60312c4008a14e) Thanks [@GarthDB](https://github.com/GarthDB)! - Split a changelog too long for one `use_figma` payload across several payloads.
+  - **payloads.mjs**: cut the changelog into pieces sized to the payload limit,
+    newest release first, splitting inside a release when needed.
+  - **code.js**: `appendChangelog` takes a `more` flag that adds releases to the
+    existing changelog frame.
+
 ## 0.2.1
 
 ### Patch Changes

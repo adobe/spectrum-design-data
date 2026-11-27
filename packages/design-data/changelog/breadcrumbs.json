@@ -454,6 +454,37 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.9.0",
+      "version": "2.2.2",
+      "bump": "patch",
+      "date": "2026-11-27",
+      "commit": "7a22cbd98e481c2d56af60373b60312c4008a14e",
+      "commits": [
+        {
+          "commit": "7161bb00cb098860da8b68a7859f4a2d5ae1c6f2",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2197,"title":"feat(sdk): show the derived legacy name for every token and drop 164 pins","url":"https://github.com/adobe/spectrum-design-data/pull/2197"},
+          "entries": [
+            {"id":"7161bb00-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Focus indicator"],"record":"fe914904-a368-414b-a4ac-21c0b0340d05","name":"color[object=focus-indicator]","fields":[{"path":"name.legacyKey","before":"focus-indicator-color"}]},
+            {"id":"7161bb00-1","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Breadcrumb item","Spacing (top text to bottom text)"],"record":"62e8853d-9c4f-4e9d-be75-0020344d13ee","name":"gap[anatomy=text,size=m]","fields":[{"path":"name.legacyKey","before":"text-gap-medium"}]},
+            {"id":"7161bb00-2","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (breadcrumb item/title to separator icon)","Spacing (start and end edge to text)"],"record":"9898011f-a47c-4d5d-a74e-70b5f8d0b91c","name":"gap[size=m,structure=base]","fields":[{"path":"name.legacyKey","before":"base-gap-medium"}]},
+            {"id":"7161bb00-3","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (breadcrumb item/title to separator icon)","Spacing (start and end edge to text)"],"record":"2fca8c2d-dad0-4441-8e52-e623d76ef701","name":"gap[size=xs,structure=base]","fields":[{"path":"name.legacyKey","before":"base-gap-extra-small"}]},
+            {"id":"7161bb00-4","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (breadcrumb item/title to separator icon)","Spacing (start and end edge to text)"],"record":"f3078f76-5c45-4b40-8d3c-523afcc4d2af","name":"gap[size=xxl,structure=base]","fields":[{"path":"name.legacyKey","before":"base-gap-2x-large"}]},
+            {"id":"7161bb00-5","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Height"],"record":"865f1ee3-4e60-433f-9685-1bf0ea9403de","name":"height[scale=desktop,size=l,structure=base]","fields":[{"path":"name.legacyKey","before":"base-height-large"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-6","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Height"],"record":"61de58a3-53ed-4dd8-8937-08920b00968c","name":"height[scale=desktop,size=m,structure=base]","fields":[{"path":"name.legacyKey","before":"base-height-medium"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-7","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Height"],"record":"7b98b58f-4270-5191-81ce-a4f7a6917d40","name":"height[scale=mobile,size=l,structure=base]","fields":[{"path":"name.legacyKey","before":"base-height-large"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"7161bb00-8","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Height"],"record":"e770bf1c-435f-5480-962d-c4cac4480ee7","name":"height[scale=mobile,size=m,structure=base]","fields":[{"path":"name.legacyKey","before":"base-height-medium"}],"rationale":"Mobile value: desktop x 1.25, rounded half up."},
+            {"id":"7161bb00-9","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (top and bottom edge to separator icon)","Spacing (top and bottom edge to text)"],"record":"cc707192-e70f-4965-8582-55fa97d02184","name":"padding-vertical[size=l,structure=base]","fields":[{"path":"name.legacyKey","before":"base-padding-vertical-large"}]},
+            {"id":"7161bb00-10","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (top and bottom edge to separator icon)","Spacing (top and bottom edge to text)"],"record":"5741f832-f012-45bc-9e87-6e07ab2cb87f","name":"padding-vertical[size=m,structure=base]","fields":[{"path":"name.legacyKey","before":"base-padding-vertical-medium"}]},
+            {"id":"7161bb00-11","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (top and bottom edge to text)"],"record":"80b4ea6a-2f97-4d23-9256-61e30ed07f4d","name":"padding-vertical[size=s,structure=base]","fields":[{"path":"name.legacyKey","before":"base-padding-vertical-small"}]},
+            {"id":"7161bb00-12","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (truncated menu button to bottom text)"],"record":"e4437bc9-3acf-4bb5-9dab-39157a0d5e47","name":"padding-vertical[size=xs,structure=base]","fields":[{"path":"name.legacyKey","before":"base-padding-vertical-extra-small"}]},
+            {"id":"7161bb00-13","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (top and bottom edge to separator icon)"],"record":"51761a5c-200d-467d-a575-3722f825edb9","name":"padding-vertical[size=xxl,structure=base]","fields":[{"path":"name.legacyKey","before":"base-padding-vertical-2x-large"}]},
+            {"id":"7161bb00-14","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Breadcrumb item"],"record":"13f36ce1-84bb-41db-bec8-6d6e8f5c6ed3","name":"underline-thickness[anatomy=text]","fields":[{"path":"name.legacyKey","before":"text-underline-thickness"}]}
+          ]
+        }
+      ]
     }
   ]
 }

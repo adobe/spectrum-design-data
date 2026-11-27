@@ -310,6 +310,25 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.9.0",
+      "version": "3.0.3",
+      "bump": "patch",
+      "date": "2026-11-27",
+      "commit": "7a22cbd98e481c2d56af60373b60312c4008a14e",
+      "commits": [
+        {
+          "commit": "7161bb00cb098860da8b68a7859f4a2d5ae1c6f2",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2197,"title":"feat(sdk): show the derived legacy name for every token and drop 164 pins","url":"https://github.com/adobe/spectrum-design-data/pull/2197"},
+          "entries": [
+            {"id":"7161bb00-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Width"],"record":"bf7f7ce5-d007-4a0b-991a-9df8ee692d49","name":"minimum-width[scale=desktop,size=xl,structure=container]","fields":[{"path":"name.legacyKey","before":"container-minimum-width-extra-large"}],"rationale":"Pin legacyKey / attach NOTES description from refine-from-sheets"},
+            {"id":"7161bb00-1","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Width"],"record":"88275409-4b27-5174-93c3-fcd00ed110ef","name":"minimum-width[scale=mobile,size=xl,structure=container]","fields":[{"path":"name.legacyKey","before":"container-minimum-width-extra-large"}],"rationale":"Mobile value hand-set to the previous S2 mobile value instead of desktop x 1.25 (Matt Davey, size tokens thread)."},
+            {"id":"7161bb00-2","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (pagination to bottom)","Spacing (top/bottom/start/end edge to text)"],"record":"2e855806-0f65-4df0-9d8f-74428daa358d","name":"padding[size=xl,structure=container]","fields":[{"path":"name.legacyKey","before":"container-padding-extra-large"}]}
+          ]
+        }
+      ]
     }
   ]
 }

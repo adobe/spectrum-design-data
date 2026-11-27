@@ -469,6 +469,27 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.9.0",
+      "version": "3.2.1",
+      "bump": "patch",
+      "date": "2026-11-27",
+      "commit": "7a22cbd98e481c2d56af60373b60312c4008a14e",
+      "commits": [
+        {
+          "commit": "7161bb00cb098860da8b68a7859f4a2d5ae1c6f2",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2197,"title":"feat(sdk): show the derived legacy name for every token and drop 164 pins","url":"https://github.com/adobe/spectrum-design-data/pull/2197"},
+          "entries": [
+            {"id":"7161bb00-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Focus ring"],"record":"fe914904-a368-414b-a4ac-21c0b0340d05","name":"color[object=focus-indicator]","fields":[{"path":"name.legacyKey","before":"focus-indicator-color"}]},
+            {"id":"7161bb00-1","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (icon to label)"],"record":"9898011f-a47c-4d5d-a74e-70b5f8d0b91c","name":"gap[size=m,structure=base]","fields":[{"path":"name.legacyKey","before":"base-gap-medium"}]},
+            {"id":"7161bb00-2","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (start/end edges, workflow icon with label)"],"record":"52a75511-eb1b-4de2-a1bb-959365d8dc1a","name":"padding-horizontal[scale=desktop,size=m,structure=base]","fields":[{"path":"name.legacyKey","before":"base-padding-horizontal-medium"}]},
+            {"id":"7161bb00-3","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (start/end edges, workflow icon with label)"],"record":"71731484-e759-4a5f-89ed-9fe04ac19aed","name":"padding-horizontal[scale=mobile,size=m,structure=base]","fields":[{"path":"name.legacyKey","before":"base-padding-horizontal-medium"}]},
+            {"id":"7161bb00-4","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Spacing (top/bottom to edge, workflow icon only)","Spacing (top/bottom to edge, workflow icon with label)"],"record":"5741f832-f012-45bc-9e87-6e07ab2cb87f","name":"padding-vertical[size=m,structure=base]","fields":[{"path":"name.legacyKey","before":"base-padding-vertical-medium"}]}
+          ]
+        }
+      ]
     }
   ]
 }

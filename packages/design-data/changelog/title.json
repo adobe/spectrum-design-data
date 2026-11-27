@@ -92,6 +92,23 @@
           "metadata": {"count":48,"fields":["anatomyReview.status","context","contextRole","scope.options.family","scope.options.script","scope.part","scope.property"]}
         }
       ]
+    },
+    {
+      "release": "4.9.0",
+      "version": "2.0.1",
+      "bump": "patch",
+      "date": "2026-11-27",
+      "commit": "7a22cbd98e481c2d56af60373b60312c4008a14e",
+      "commits": [
+        {
+          "commit": "7161bb00cb098860da8b68a7859f4a2d5ae1c6f2",
+          "date": "2026-11-26",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2197,"title":"feat(sdk): show the derived legacy name for every token and drop 164 pins","url":"https://github.com/adobe/spectrum-design-data/pull/2197"},
+          "entries": [
+            {"id":"7161bb00-0","kind":"token","change":"renamed","class":"api","bump":"patch","indirect":false,"contexts":["Color"],"record":"a7e9c20c-ab9b-46de-bf6a-c8fec9a8986b","name":"color[object=title]","fields":[{"path":"name.legacyKey","before":"title-color"}]}
+          ]
+        }
+      ]
     }
   ]
 }
