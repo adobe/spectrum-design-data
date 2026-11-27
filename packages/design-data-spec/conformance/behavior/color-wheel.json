@@ -1,0 +1,1852 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
+  "component": "color-wheel",
+  "pins": {
+    "state": ["isDisabled", "value", "minValue", "maxValue", "step"],
+    "wcag": [
+      {
+        "criterion": "1.3.1",
+        "level": "A",
+        "title": "Info and Relationships"
+      },
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ],
+    "parts": {
+      "color-handle": {
+        "focus": "tab-stop"
+      }
+    }
+  },
+  "vectors": [
+    {
+      "name": "a disabled wheel reads as disabled",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1,
+        "value": 90,
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "disabled": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "an enabled wheel reads as enabled",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1,
+        "value": 90,
+        "isDisabled": false
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "disabled": false
+          }
+        }
+      ]
+    },
+    {
+      "name": "increment and decrement step the hue by one",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1,
+        "value": 90
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        },
+        {
+          "intent": "decrement"
+        },
+        {
+          "intent": "decrement"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 91
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 90
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "value": 89
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a larger step moves the hue by that step",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 5,
+        "value": 90
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        },
+        {
+          "intent": "decrement"
+        },
+        {
+          "intent": "decrement"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 95
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 90
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "value": 85
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "an off-step hue snaps to the step",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 5,
+        "value": 92
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        },
+        {
+          "intent": "decrement"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 95
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 90
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a page is fifteen degrees",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1,
+        "value": 100
+      },
+      "steps": [
+        {
+          "intent": "increment-page"
+        },
+        {
+          "intent": "decrement-page"
+        },
+        {
+          "intent": "decrement-page"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 115
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 100
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "value": 85
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a page is fifteen degrees whatever the span",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 5,
+        "value": 100
+      },
+      "steps": [
+        {
+          "intent": "increment-page"
+        },
+        {
+          "intent": "decrement-page"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 115
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 100
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "an increment at 359 wraps to 0",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1,
+        "value": 359
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        },
+        {
+          "intent": "decrement"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 359
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a decrement at 0 wraps to 359",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1,
+        "value": 0
+      },
+      "steps": [
+        {
+          "intent": "decrement"
+        },
+        {
+          "intent": "increment"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 359
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a hue of 360 reads as 0 on the next step",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1,
+        "value": 360
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a hue of 360 steps down to 359",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1,
+        "value": 360
+      },
+      "steps": [
+        {
+          "intent": "decrement"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 359
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "steps go round the wheel more than once",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1,
+        "value": 355
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        },
+        {
+          "intent": "increment"
+        },
+        {
+          "intent": "increment"
+        },
+        {
+          "intent": "increment"
+        },
+        {
+          "intent": "increment"
+        },
+        {
+          "intent": "increment"
+        },
+        {
+          "intent": "decrement"
+        },
+        {
+          "intent": "decrement"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 356
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 357
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "value": 358
+              }
+            }
+          ]
+        },
+        {
+          "after": 4,
+          "emit": [
+            {
+              "change": {
+                "value": 359
+              }
+            }
+          ]
+        },
+        {
+          "after": 5,
+          "emit": [
+            {
+              "change": {
+                "value": 0
+              }
+            }
+          ]
+        },
+        {
+          "after": 6,
+          "emit": [
+            {
+              "change": {
+                "value": 1
+              }
+            }
+          ]
+        },
+        {
+          "after": 7,
+          "emit": [
+            {
+              "change": {
+                "value": 0
+              }
+            }
+          ]
+        },
+        {
+          "after": 8,
+          "emit": [
+            {
+              "change": {
+                "value": 359
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a page wraps past 360",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1,
+        "value": 350
+      },
+      "steps": [
+        {
+          "intent": "increment-page"
+        },
+        {
+          "intent": "decrement-page"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 5
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 350
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a page down from near 0 wraps to the top",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1,
+        "value": 10
+      },
+      "steps": [
+        {
+          "intent": "decrement-page"
+        },
+        {
+          "intent": "decrement-page"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 355
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 340
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a page up from 359 lands on 14",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1,
+        "value": 359
+      },
+      "steps": [
+        {
+          "intent": "increment-page"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 14
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a page up that lands on 360 wraps to 0",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1,
+        "value": 345
+      },
+      "steps": [
+        {
+          "intent": "increment-page"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a page down from 0 lands on 345",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1,
+        "value": 0
+      },
+      "steps": [
+        {
+          "intent": "decrement-page"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 345
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a page from a hue of 360 reads it as 0",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1,
+        "value": 360
+      },
+      "steps": [
+        {
+          "intent": "increment-page"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 15
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a page down from a hue of 360 lands on 345",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1,
+        "value": 360
+      },
+      "steps": [
+        {
+          "intent": "decrement-page"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 345
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "set-min goes to 0 and set-max to 360",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1,
+        "value": 90
+      },
+      "steps": [
+        {
+          "intent": "set-min"
+        },
+        {
+          "intent": "set-max"
+        },
+        {
+          "intent": "set-max"
+        },
+        {
+          "intent": "set-min"
+        },
+        {
+          "intent": "set-min"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 360
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": []
+        },
+        {
+          "after": 4,
+          "emit": [
+            {
+              "change": {
+                "value": 0
+              }
+            }
+          ]
+        },
+        {
+          "after": 5,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "set-max does not wrap and a step from 360 goes to 1",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1,
+        "value": 0
+      },
+      "steps": [
+        {
+          "intent": "set-max"
+        },
+        {
+          "intent": "increment"
+        },
+        {
+          "intent": "set-max"
+        },
+        {
+          "intent": "decrement"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 360
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 1
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "value": 360
+              }
+            }
+          ]
+        },
+        {
+          "after": 4,
+          "emit": [
+            {
+              "change": {
+                "value": 359
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a move to a position is a hue",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1,
+        "value": 10
+      },
+      "steps": [
+        {
+          "intent": "move",
+          "position": 0.5
+        },
+        {
+          "intent": "move",
+          "position": 0.25
+        },
+        {
+          "intent": "move",
+          "position": 0
+        },
+        {
+          "intent": "move",
+          "position": 1
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 180
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 90
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "value": 0
+              }
+            }
+          ]
+        },
+        {
+          "after": 4,
+          "emit": [
+            {
+              "change": {
+                "value": 360
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a drag to the end is 360, not 0, and a step from there wraps",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1,
+        "value": 100
+      },
+      "steps": [
+        {
+          "intent": "move",
+          "position": 1
+        },
+        {
+          "intent": "increment"
+        },
+        {
+          "intent": "move",
+          "position": 1
+        },
+        {
+          "intent": "decrement"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 360
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 1
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "value": 360
+              }
+            }
+          ]
+        },
+        {
+          "after": 4,
+          "emit": [
+            {
+              "change": {
+                "value": 359
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a move snaps to the step",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 5,
+        "value": 10
+      },
+      "steps": [
+        {
+          "intent": "move",
+          "position": 0.5
+        },
+        {
+          "intent": "move",
+          "position": 0.2
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 180
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 70
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a move to the place the hue already is raises nothing",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1,
+        "value": 180
+      },
+      "steps": [
+        {
+          "intent": "move",
+          "position": 0.5
+        },
+        {
+          "intent": "move",
+          "position": 0.5
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        },
+        {
+          "after": 2,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "a drag is press-start, moves, press-end and raises a change per move only",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1,
+        "value": 0
+      },
+      "steps": [
+        {
+          "intent": "press-start"
+        },
+        {
+          "intent": "move",
+          "position": 0.25
+        },
+        {
+          "intent": "move",
+          "position": 0.75
+        },
+        {
+          "intent": "press-end"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 90
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "value": 270
+              }
+            }
+          ]
+        },
+        {
+          "after": 4,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "a decimal step wraps without float noise",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 0.5,
+        "value": 359.5
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        },
+        {
+          "intent": "decrement"
+        },
+        {
+          "intent": "decrement"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 359.5
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "value": 359
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a decimal hue snaps to the step",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1,
+        "value": 12.4
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        },
+        {
+          "intent": "decrement"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 13
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 12
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a tenth of a degree adds without float noise",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 0.1,
+        "value": 0.1
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        },
+        {
+          "intent": "increment"
+        },
+        {
+          "intent": "decrement"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0.2
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 0.3
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "value": 0.2
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a tenth of a degree wraps at 359.9",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 0.1,
+        "value": 359.9
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        },
+        {
+          "intent": "decrement"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 359.9
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a decimal hue wraps on a page of fifteen",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 0.5,
+        "value": 359.5
+      },
+      "steps": [
+        {
+          "intent": "increment-page"
+        },
+        {
+          "intent": "decrement-page"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 14.5
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 359.5
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a narrower range wraps inside its own bounds",
+      "start": {
+        "minValue": 30,
+        "maxValue": 90,
+        "step": 1,
+        "value": 89
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        },
+        {
+          "intent": "decrement"
+        },
+        {
+          "intent": "increment-page"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 30
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 89
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "value": 44
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a narrower range wraps down from its minimum",
+      "start": {
+        "minValue": 30,
+        "maxValue": 90,
+        "step": 1,
+        "value": 30
+      },
+      "steps": [
+        {
+          "intent": "decrement"
+        },
+        {
+          "intent": "decrement-page"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 89
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 74
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "every value intent is ignored while disabled",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1,
+        "value": 90,
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        },
+        {
+          "intent": "decrement"
+        },
+        {
+          "intent": "increment-page"
+        },
+        {
+          "intent": "decrement-page"
+        },
+        {
+          "intent": "set-min"
+        },
+        {
+          "intent": "set-max"
+        },
+        {
+          "intent": "move",
+          "position": 0.5
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        },
+        {
+          "after": 2,
+          "emit": []
+        },
+        {
+          "after": 3,
+          "emit": []
+        },
+        {
+          "after": 4,
+          "emit": []
+        },
+        {
+          "after": 5,
+          "emit": []
+        },
+        {
+          "after": 6,
+          "emit": []
+        },
+        {
+          "after": 7,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "a disabled wheel at the wrap point does not wrap",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1,
+        "value": 359,
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        },
+        {
+          "intent": "increment-page"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        },
+        {
+          "after": 2,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "an unset value reads the minimum, so increment gives one step above it",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "an unset value wraps down to the top on decrement",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1
+      },
+      "steps": [
+        {
+          "intent": "decrement"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 359
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "an unset value reads the minimum on a page step",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1
+      },
+      "steps": [
+        {
+          "intent": "increment-page"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 15
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "an unset value reads the minimum on a page step down",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1
+      },
+      "steps": [
+        {
+          "intent": "decrement-page"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 345
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "an unset value goes to the maximum on set-max and to the minimum on set-min",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1
+      },
+      "steps": [
+        {
+          "intent": "set-min"
+        },
+        {
+          "intent": "set-max"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 360
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "an unset value takes a move",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1
+      },
+      "steps": [
+        {
+          "intent": "move",
+          "position": 0.5
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 180
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "the value, minimum and maximum are exposed as the hue range",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1,
+        "value": 120
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-valuenow": "120",
+            "aria-valuemin": "0",
+            "aria-valuemax": "360"
+          }
+        }
+      ]
+    },
+    {
+      "name": "aria-valuenow follows a wrap",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1,
+        "value": 359
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        },
+        {
+          "intent": "decrement"
+        },
+        {
+          "intent": "set-max"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 0
+              }
+            }
+          ],
+          "aria": {
+            "aria-valuenow": "0"
+          }
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "value": 359
+              }
+            }
+          ],
+          "aria": {
+            "aria-valuenow": "359"
+          }
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "value": 360
+              }
+            }
+          ],
+          "aria": {
+            "aria-valuenow": "360"
+          }
+        }
+      ]
+    },
+    {
+      "name": "an unset value exposes no aria-valuenow",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "aria": {
+            "aria-valuenow": null
+          }
+        }
+      ]
+    },
+    {
+      "name": "a half rounds away from the minimum on a decimal step",
+      "start": {
+        "minValue": 0,
+        "maxValue": 360,
+        "step": 1,
+        "value": 10.5
+      },
+      "steps": [
+        {
+          "intent": "increment"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "value": 12
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

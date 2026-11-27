@@ -1,0 +1,1469 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
+  "component": "color-area",
+  "pins": {
+    "state": [
+      "isDisabled",
+      "x-value",
+      "x-minValue",
+      "x-maxValue",
+      "y-value",
+      "y-minValue",
+      "y-maxValue",
+      "step"
+    ],
+    "wcag": [
+      {
+        "criterion": "1.3.1",
+        "level": "A",
+        "title": "Info and Relationships"
+      },
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ],
+    "parts": {
+      "color-handle": {
+        "focus": "tab-stop"
+      }
+    }
+  },
+  "vectors": [
+    {
+      "name": "a disabled area reads as disabled",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 100,
+        "y-minValue": 0,
+        "y-maxValue": 100,
+        "step": 1,
+        "x-value": 50,
+        "y-value": 50,
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "disabled": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "an enabled area reads as enabled",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 100,
+        "y-minValue": 0,
+        "y-maxValue": 100,
+        "step": 1,
+        "x-value": 50,
+        "y-value": 50,
+        "isDisabled": false
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "disabled": false
+          }
+        }
+      ]
+    },
+    {
+      "name": "an x step leaves y alone and a y step leaves x alone",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 100,
+        "y-minValue": 0,
+        "y-maxValue": 100,
+        "step": 1,
+        "x-value": 50,
+        "y-value": 20
+      },
+      "steps": [
+        {
+          "intent": "increment",
+          "axis": "x"
+        },
+        {
+          "intent": "increment",
+          "axis": "y"
+        },
+        {
+          "intent": "decrement",
+          "axis": "x"
+        },
+        {
+          "intent": "decrement",
+          "axis": "y"
+        },
+        {
+          "intent": "decrement",
+          "axis": "y"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "x-value": 51
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "y-value": 21
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "x-value": 50
+              }
+            }
+          ]
+        },
+        {
+          "after": 4,
+          "emit": [
+            {
+              "change": {
+                "y-value": 20
+              }
+            }
+          ]
+        },
+        {
+          "after": 5,
+          "emit": [
+            {
+              "change": {
+                "y-value": 19
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "each axis has its own bounds",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 360,
+        "y-minValue": 0,
+        "y-maxValue": 100,
+        "step": 1,
+        "x-value": 360,
+        "y-value": 100
+      },
+      "steps": [
+        {
+          "intent": "increment",
+          "axis": "x"
+        },
+        {
+          "intent": "increment",
+          "axis": "y"
+        },
+        {
+          "intent": "decrement",
+          "axis": "x"
+        },
+        {
+          "intent": "decrement",
+          "axis": "y"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        },
+        {
+          "after": 2,
+          "emit": []
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "x-value": 359
+              }
+            }
+          ]
+        },
+        {
+          "after": 4,
+          "emit": [
+            {
+              "change": {
+                "y-value": 99
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "an axis clamps at its minimum and maximum and does not wrap",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 100,
+        "y-minValue": 0,
+        "y-maxValue": 100,
+        "step": 1,
+        "x-value": 100,
+        "y-value": 0
+      },
+      "steps": [
+        {
+          "intent": "increment",
+          "axis": "x"
+        },
+        {
+          "intent": "decrement",
+          "axis": "y"
+        },
+        {
+          "intent": "increment",
+          "axis": "y"
+        },
+        {
+          "intent": "decrement",
+          "axis": "x"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        },
+        {
+          "after": 2,
+          "emit": []
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "y-value": 1
+              }
+            }
+          ]
+        },
+        {
+          "after": 4,
+          "emit": [
+            {
+              "change": {
+                "x-value": 99
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a larger step moves each axis by that step",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 100,
+        "y-minValue": 0,
+        "y-maxValue": 100,
+        "step": 5,
+        "x-value": 50,
+        "y-value": 50
+      },
+      "steps": [
+        {
+          "intent": "increment",
+          "axis": "x"
+        },
+        {
+          "intent": "decrement",
+          "axis": "y"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "x-value": 55
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "y-value": 45
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "an off-step value snaps to the step on its own axis",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 100,
+        "y-minValue": 0,
+        "y-maxValue": 100,
+        "step": 5,
+        "x-value": 42,
+        "y-value": 42
+      },
+      "steps": [
+        {
+          "intent": "increment",
+          "axis": "x"
+        },
+        {
+          "intent": "decrement",
+          "axis": "y"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "x-value": 45
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "y-value": 35
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a page is a tenth of the span of its own axis",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 100,
+        "y-minValue": 0,
+        "y-maxValue": 200,
+        "step": 1,
+        "x-value": 50,
+        "y-value": 50
+      },
+      "steps": [
+        {
+          "intent": "increment-page",
+          "axis": "x"
+        },
+        {
+          "intent": "increment-page",
+          "axis": "y"
+        },
+        {
+          "intent": "decrement-page",
+          "axis": "x"
+        },
+        {
+          "intent": "decrement-page",
+          "axis": "y"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "x-value": 60
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "y-value": 70
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "x-value": 50
+              }
+            }
+          ]
+        },
+        {
+          "after": 4,
+          "emit": [
+            {
+              "change": {
+                "y-value": 50
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a page near a bound clamps on its axis",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 100,
+        "y-minValue": 0,
+        "y-maxValue": 100,
+        "step": 1,
+        "x-value": 95,
+        "y-value": 5
+      },
+      "steps": [
+        {
+          "intent": "increment-page",
+          "axis": "x"
+        },
+        {
+          "intent": "decrement-page",
+          "axis": "y"
+        },
+        {
+          "intent": "increment-page",
+          "axis": "x"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "x-value": 100
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "y-value": 0
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "set-min and set-max go to the bounds of the axis they name",
+      "start": {
+        "x-minValue": 20,
+        "x-maxValue": 360,
+        "y-minValue": 30,
+        "y-maxValue": 100,
+        "step": 1,
+        "x-value": 100,
+        "y-value": 50
+      },
+      "steps": [
+        {
+          "intent": "set-min",
+          "axis": "x"
+        },
+        {
+          "intent": "set-min",
+          "axis": "y"
+        },
+        {
+          "intent": "set-max",
+          "axis": "y"
+        },
+        {
+          "intent": "set-max",
+          "axis": "x"
+        },
+        {
+          "intent": "set-max",
+          "axis": "x"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "x-value": 20
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "y-value": 30
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "y-value": 100
+              }
+            }
+          ]
+        },
+        {
+          "after": 4,
+          "emit": [
+            {
+              "change": {
+                "x-value": 360
+              }
+            }
+          ]
+        },
+        {
+          "after": 5,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "a move names an axis and a position",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 100,
+        "y-minValue": 0,
+        "y-maxValue": 100,
+        "step": 1,
+        "x-value": 10,
+        "y-value": 10
+      },
+      "steps": [
+        {
+          "intent": "move",
+          "axis": "x",
+          "position": 0.5
+        },
+        {
+          "intent": "move",
+          "axis": "y",
+          "position": 0.25
+        },
+        {
+          "intent": "move",
+          "axis": "x",
+          "position": 1
+        },
+        {
+          "intent": "move",
+          "axis": "y",
+          "position": 0
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "x-value": 50
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "y-value": 25
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "x-value": 100
+              }
+            }
+          ]
+        },
+        {
+          "after": 4,
+          "emit": [
+            {
+              "change": {
+                "y-value": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a move uses the bounds of its own axis",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 360,
+        "y-minValue": 0,
+        "y-maxValue": 100,
+        "step": 1,
+        "x-value": 10,
+        "y-value": 10
+      },
+      "steps": [
+        {
+          "intent": "move",
+          "axis": "x",
+          "position": 0.5
+        },
+        {
+          "intent": "move",
+          "axis": "y",
+          "position": 0.5
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "x-value": 180
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "y-value": 50
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a move to the place the axis already is raises nothing",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 100,
+        "y-minValue": 0,
+        "y-maxValue": 100,
+        "step": 1,
+        "x-value": 50,
+        "y-value": 100
+      },
+      "steps": [
+        {
+          "intent": "move",
+          "axis": "x",
+          "position": 0.5
+        },
+        {
+          "intent": "move",
+          "axis": "y",
+          "position": 1
+        },
+        {
+          "intent": "move",
+          "axis": "y",
+          "position": 1
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        },
+        {
+          "after": 2,
+          "emit": []
+        },
+        {
+          "after": 3,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "a move snaps to the step of its axis",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 100,
+        "y-minValue": 0,
+        "y-maxValue": 100,
+        "step": 5,
+        "x-value": 10,
+        "y-value": 10
+      },
+      "steps": [
+        {
+          "intent": "move",
+          "axis": "x",
+          "position": 0.33
+        },
+        {
+          "intent": "move",
+          "axis": "y",
+          "position": 0.52
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "x-value": 35
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "y-value": 50
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a two-axis drag is one move per axis, each raising its own change",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 100,
+        "y-minValue": 0,
+        "y-maxValue": 100,
+        "step": 1,
+        "x-value": 0,
+        "y-value": 0
+      },
+      "steps": [
+        {
+          "intent": "press-start"
+        },
+        {
+          "intent": "move",
+          "axis": "x",
+          "position": 0.3
+        },
+        {
+          "intent": "move",
+          "axis": "y",
+          "position": 0.8
+        },
+        {
+          "intent": "move",
+          "axis": "x",
+          "position": 0.3
+        },
+        {
+          "intent": "move",
+          "axis": "y",
+          "position": 0.6
+        },
+        {
+          "intent": "press-end"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "x-value": 30
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "y-value": 80
+              }
+            }
+          ]
+        },
+        {
+          "after": 4,
+          "emit": []
+        },
+        {
+          "after": 5,
+          "emit": [
+            {
+              "change": {
+                "y-value": 60
+              }
+            }
+          ]
+        },
+        {
+          "after": 6,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "every value intent on either axis is ignored while disabled",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 100,
+        "y-minValue": 0,
+        "y-maxValue": 100,
+        "step": 1,
+        "x-value": 50,
+        "y-value": 50,
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "increment",
+          "axis": "x"
+        },
+        {
+          "intent": "decrement",
+          "axis": "y"
+        },
+        {
+          "intent": "increment-page",
+          "axis": "x"
+        },
+        {
+          "intent": "decrement-page",
+          "axis": "y"
+        },
+        {
+          "intent": "set-min",
+          "axis": "x"
+        },
+        {
+          "intent": "set-max",
+          "axis": "y"
+        },
+        {
+          "intent": "move",
+          "axis": "x",
+          "position": 0.1
+        },
+        {
+          "intent": "move",
+          "axis": "y",
+          "position": 0.9
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        },
+        {
+          "after": 2,
+          "emit": []
+        },
+        {
+          "after": 3,
+          "emit": []
+        },
+        {
+          "after": 4,
+          "emit": []
+        },
+        {
+          "after": 5,
+          "emit": []
+        },
+        {
+          "after": 6,
+          "emit": []
+        },
+        {
+          "after": 7,
+          "emit": []
+        },
+        {
+          "after": 8,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "an unset x value goes to the minimum on increment and y stays unset",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 100,
+        "y-minValue": 0,
+        "y-maxValue": 100,
+        "step": 1,
+        "y-value": 50
+      },
+      "steps": [
+        {
+          "intent": "increment",
+          "axis": "x"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "x-value": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "an unset y value goes to the maximum on decrement",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 100,
+        "y-minValue": 0,
+        "y-maxValue": 100,
+        "step": 1,
+        "x-value": 50
+      },
+      "steps": [
+        {
+          "intent": "decrement",
+          "axis": "y"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "y-value": 100
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "an unset value reads the minimum on a page step",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 100,
+        "y-minValue": 0,
+        "y-maxValue": 100,
+        "step": 1
+      },
+      "steps": [
+        {
+          "intent": "increment-page",
+          "axis": "x"
+        },
+        {
+          "intent": "increment-page",
+          "axis": "y"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "x-value": 10
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "y-value": 10
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "an unset value takes a move and set-max",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 100,
+        "y-minValue": 0,
+        "y-maxValue": 100,
+        "step": 1
+      },
+      "steps": [
+        {
+          "intent": "move",
+          "axis": "x",
+          "position": 0.5
+        },
+        {
+          "intent": "set-max",
+          "axis": "y"
+        },
+        {
+          "intent": "set-min",
+          "axis": "y"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "x-value": 50
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "y-value": 100
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "y-value": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "an unset minimum is unbounded on its own axis only",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 100,
+        "y-maxValue": 100,
+        "step": 1,
+        "x-value": 0,
+        "y-value": 0
+      },
+      "steps": [
+        {
+          "intent": "decrement",
+          "axis": "y"
+        },
+        {
+          "intent": "decrement",
+          "axis": "x"
+        },
+        {
+          "intent": "set-min",
+          "axis": "y"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "y-value": -1
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": []
+        },
+        {
+          "after": 3,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "an unset maximum is unbounded on its own axis only",
+      "start": {
+        "x-minValue": 0,
+        "y-minValue": 0,
+        "y-maxValue": 100,
+        "step": 1,
+        "x-value": 100,
+        "y-value": 100
+      },
+      "steps": [
+        {
+          "intent": "increment",
+          "axis": "x"
+        },
+        {
+          "intent": "increment",
+          "axis": "y"
+        },
+        {
+          "intent": "set-max",
+          "axis": "x"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "x-value": 101
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": []
+        },
+        {
+          "after": 3,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "without a bound a move and a fractional page change nothing",
+      "start": {
+        "x-minValue": 0,
+        "y-minValue": 0,
+        "y-maxValue": 100,
+        "step": 1,
+        "x-value": 10,
+        "y-value": 10
+      },
+      "steps": [
+        {
+          "intent": "move",
+          "axis": "x",
+          "position": 0.5
+        },
+        {
+          "intent": "increment-page",
+          "axis": "x"
+        },
+        {
+          "intent": "increment-page",
+          "axis": "y"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        },
+        {
+          "after": 2,
+          "emit": []
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "y-value": 20
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a decimal step adds without float noise on each axis",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 100,
+        "y-minValue": 0,
+        "y-maxValue": 100,
+        "step": 0.1,
+        "x-value": 0.1,
+        "y-value": 0.2
+      },
+      "steps": [
+        {
+          "intent": "increment",
+          "axis": "x"
+        },
+        {
+          "intent": "increment",
+          "axis": "y"
+        },
+        {
+          "intent": "increment",
+          "axis": "x"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "x-value": 0.2
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "y-value": 0.3
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "x-value": 0.3
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a decimal axis does not wrap at its maximum",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 1,
+        "y-minValue": 0,
+        "y-maxValue": 1,
+        "step": 0.1,
+        "x-value": 0.9,
+        "y-value": 0
+      },
+      "steps": [
+        {
+          "intent": "increment",
+          "axis": "x"
+        },
+        {
+          "intent": "increment",
+          "axis": "x"
+        },
+        {
+          "intent": "decrement",
+          "axis": "y"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "x-value": 1
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": []
+        },
+        {
+          "after": 3,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "a move on a decimal axis rounds to the step",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 1,
+        "y-minValue": 0,
+        "y-maxValue": 1,
+        "step": 0.01,
+        "x-value": 0,
+        "y-value": 0
+      },
+      "steps": [
+        {
+          "intent": "move",
+          "axis": "x",
+          "position": 0.333
+        },
+        {
+          "intent": "move",
+          "axis": "y",
+          "position": 0.666
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "x-value": 0.33
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "y-value": 0.67
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a channel range of 0 to 255 steps and pages on its own span",
+      "start": {
+        "x-minValue": 0,
+        "x-maxValue": 255,
+        "y-minValue": 0,
+        "y-maxValue": 255,
+        "step": 1,
+        "x-value": 100,
+        "y-value": 250
+      },
+      "steps": [
+        {
+          "intent": "increment-page",
+          "axis": "x"
+        },
+        {
+          "intent": "increment-page",
+          "axis": "y"
+        },
+        {
+          "intent": "set-max",
+          "axis": "x"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": [
+            {
+              "change": {
+                "x-value": 126
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "emit": [
+            {
+              "change": {
+                "y-value": 255
+              }
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "emit": [
+            {
+              "change": {
+                "x-value": 255
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

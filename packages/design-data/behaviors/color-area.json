@@ -1,0 +1,51 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
+  "component": "color-area",
+  "extends": ["range"],
+  "state": [
+    "isDisabled",
+    "x-value",
+    "x-minValue",
+    "x-maxValue",
+    "y-value",
+    "y-minValue",
+    "y-maxValue",
+    "step"
+  ],
+  "ranges": {
+    "x": {
+      "value": "x-value",
+      "min": "x-minValue",
+      "max": "x-maxValue",
+      "step": "step"
+    },
+    "y": {
+      "value": "y-value",
+      "min": "y-minValue",
+      "max": "y-maxValue",
+      "step": "step"
+    }
+  },
+  "parts": {
+    "color-handle": {
+      "focus": "tab-stop"
+    }
+  },
+  "wcag": [
+    {
+      "criterion": "1.3.1",
+      "level": "A",
+      "title": "Info and Relationships"
+    },
+    {
+      "criterion": "2.1.1",
+      "level": "A",
+      "title": "Keyboard"
+    },
+    {
+      "criterion": "4.1.2",
+      "level": "A",
+      "title": "Name, Role, Value"
+    }
+  ]
+}
