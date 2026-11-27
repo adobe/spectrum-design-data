@@ -1,0 +1,28 @@
+{
+  "specVersion": "1.0.0-draft",
+  "component": "action-button",
+  "root": "item",
+  "sizeScale": { "m": 100 },
+  "parts": {
+    "item": {
+      "kind": "box",
+      "children": ["label", "ring"],
+      "props": {
+        "paddingInlineStart": { "value": 6 },
+        "paddingInlineEnd": { "value": 6 },
+        "paddingBlockStart": { "value": 6 },
+        "paddingBlockEnd": { "value": 6 },
+        "cornerRadius": { "value": 4 }
+      }
+    },
+    "label": { "kind": "text", "props": { "fontSize": { "value": 10 } } },
+    "ring": {
+      "kind": "ring",
+      "props": {
+        "stroke": { "value": "#ff0000" },
+        "strokeWidth": { "value": 2 },
+        "gapToParent": { "value": 3 }
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "specVersion": "1.0.0-draft",
+  "component": "action-button",
+  "root": "container",
+  "sizeScale": { "m": 100 },
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["item"],
+      "props": {
+        "direction": { "value": "column" },
+        "align": { "value": "start" }
+      },
+      "repeat": { "slot": "default", "label": "label" }
+    },
+    "item": {
+      "kind": "box",
+      "children": ["label", "ring"],
+      "props": {
+        "paddingInlineStart": { "value": 6 },
+        "paddingInlineEnd": { "value": 6 },
+        "paddingBlockStart": { "value": 6 },
+        "paddingBlockEnd": { "value": 6 },
+        "cornerRadius": { "value": 4 }
+      }
+    },
+    "label": { "kind": "text", "props": { "fontSize": { "value": 10 } } },
+    "ring": {
+      "kind": "ring",
+      "props": {
+        "stroke": { "value": "#ff0000" },
+        "strokeWidth": { "value": 2 },
+        "gapToParent": { "value": 3 }
+      }
+    }
+  }
+}

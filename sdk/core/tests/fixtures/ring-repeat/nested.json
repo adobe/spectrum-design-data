@@ -1,0 +1,58 @@
+{
+  "specVersion": "1.0.0-draft",
+  "component": "action-button",
+  "root": "tree",
+  "sizeScale": { "m": 100 },
+  "parts": {
+    "tree": {
+      "kind": "box",
+      "children": ["level1"],
+      "props": {
+        "direction": { "value": "column" },
+        "align": { "value": "start" }
+      },
+      "repeat": { "slot": "default", "with": { "second": "children" } }
+    },
+    "level1": {
+      "kind": "box",
+      "children": ["row1", "level2", "ring1"],
+      "props": {
+        "direction": { "value": "column" },
+        "align": { "value": "start" },
+        "paddingInlineStart": { "value": 8 },
+        "paddingInlineEnd": { "value": 8 },
+        "paddingBlockStart": { "value": 8 },
+        "paddingBlockEnd": { "value": 8 }
+      },
+      "repeat": { "slot": "second" }
+    },
+    "level2": {
+      "kind": "box",
+      "children": ["row2", "ring2"],
+      "props": {
+        "paddingInlineStart": { "value": 6 },
+        "paddingInlineEnd": { "value": 6 },
+        "paddingBlockStart": { "value": 6 },
+        "paddingBlockEnd": { "value": 6 }
+      }
+    },
+    "row1": { "kind": "text", "props": { "fontSize": { "value": 10 } } },
+    "row2": { "kind": "text", "props": { "fontSize": { "value": 10 } } },
+    "ring1": {
+      "kind": "ring",
+      "props": {
+        "stroke": { "value": "#0000ff" },
+        "strokeWidth": { "value": 2 },
+        "gapToParent": { "value": 1 }
+      }
+    },
+    "ring2": {
+      "kind": "ring",
+      "props": {
+        "stroke": { "value": "#ff0000" },
+        "strokeWidth": { "value": 3 },
+        "gapToParent": { "value": 0 }
+      }
+    }
+  }
+}
