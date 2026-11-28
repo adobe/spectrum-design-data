@@ -301,6 +301,15 @@ if (opt.components) {
 } else comps = [...available];
 comps.sort();
 
+// A component whose recipe exists only in the PR has nothing on BASE to compare against: neutral,
+// not vacuous. A recipe BASE has and the PR lacks (deleted, renamed) stays in the run and fails.
+const baseVisuals = names(baseRoot, "visuals");
+const newRecipes = comps.filter((c) => !baseVisuals.has(c));
+comps = comps.filter((c) => baseVisuals.has(c));
+const neutralLine = newRecipes.length
+  ? `NEUTRAL: new recipe(s) ${newRecipes.join(", ")} have no BASE recipe`
+  : "";
+
 // ---- matrix ----------------------------------------------------------------------------
 
 const out = resolve(opt.out ?? mkdtempSync(join(tmpdir(), "render-compare-")));
@@ -359,6 +368,16 @@ console.log(
 for (const n of notes) console.log(`NOTE: ${n}`);
 for (const w of warnings) console.log(`WARNING: ${w}`);
 if (sampled === 0) {
+  if (newRecipes.length) {
+    console.log(`\n${neutralLine}`);
+    console.log(`\nrender-compare: ${neutralLine}`);
+    if (opt.report)
+      writeFileSync(
+        resolve(opt.report),
+        JSON.stringify({ result: "NEUTRAL", newRecipes }, null, 2),
+      );
+    process.exit(0);
+  }
   if (opt.changed && !opt.components) {
     console.log(
       "render-compare: --changed found no changed component, nothing to compare.",
@@ -774,7 +793,7 @@ if (!opt["no-spec-sheet"]) {
     .filter((f) => !rl.has(f))
     .map((f) => f.slice(0, -5));
   sheets.gainedComponents = [...rl]
-    .filter((f) => !bl.has(f))
+    .filter((f) => !bl.has(f) && !newRecipes.includes(f.slice(0, -5)))
     .map((f) => f.slice(0, -5));
   const common = [...bl].filter((f) => rl.has(f)).sort();
   const wanted =
@@ -938,6 +957,7 @@ for (const e of rep.examples)
     `\nexample [${e.kind}] ${e.component} ${e.id}${e.case?.options ? " " + JSON.stringify({ size: e.case.size, states: e.case.states, options: e.case.options, mode: [e.case.colorScheme, e.case.scale], label: e.case.label, icon: e.case.icon }) : ""}\n  ${String(e.detail).split("\n").join("\n  ")}`,
   );
 for (const v of rep.vacuous) console.log(`\nVACUOUS RUN: ${v}`);
+if (neutralLine) console.log(`\n${neutralLine}`);
 
 const total =
   timings.render +
@@ -948,11 +968,12 @@ console.log(
   `\ntimings (s): render ${timings.render.toFixed(1)}, compare ${timings.compare.toFixed(1)}${PNG_N ? `, png ${timings.png?.toFixed(1)}` : ""}${sheets.run ? `, spec-sheet ${timings.specSheet.toFixed(1)}` : ""}, total ${total.toFixed(1)}`,
 );
 console.log(
-  `\nrender-compare: ${rep.vacuous.length ? "VACUOUS (exit 2)" : fail ? "FAIL" : "PASS"}`,
+  `\nrender-compare: ${rep.vacuous.length ? "VACUOUS (exit 2)" : fail ? "FAIL" : newRecipes.length ? `PASS (${neutralLine}; the other components compared)` : "PASS"}`,
 );
 
 const summary = {
   result: rep.vacuous.length ? "VACUOUS" : fail ? "FAIL" : "PASS",
+  newRecipes,
   baseSha,
   totals: T,
   distinct: { base: distinct.base.size, pr: distinct.pr.size },

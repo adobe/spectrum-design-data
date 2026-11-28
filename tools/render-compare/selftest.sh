@@ -11,7 +11,7 @@
 
 # Self-test: the matrix keeps option values and covers every option pair; the harness passes on
 # identical data, fails when a recipe color changes or an option-conditional fill changes (disabled
-# + outline, default settings), fails loudly from the wrong directory, exits 2 on a vacuous run;
+# + outline, default settings), fails loudly from the wrong directory, exits 2 on a vacuous run; a new recipe with no BASE recipe is neutral (exit 0) while its neighbors are still compared, and a deleted recipe is not;
 # a stale lock is taken over. Needs a CLI: CLI=<path> (default: the cached BASE CLI of
 # origin/main, built once by base-cli.sh). A few minutes.
 set -euo pipefail
@@ -59,6 +59,27 @@ expect 0 "a stale lock is taken over" env RC_CACHE="$w/cache" "$HERE/base-cli.sh
 
 # a PR CLI that renders nothing is a vacuous run: exit 2
 expect 2 "a vacuous run exits 2" rc --pr-cli /usr/bin/false --no-spec-sheet --png-sample 0
+
+# a new recipe (no BASE recipe) is neutral: exit 0 and the NEUTRAL line; the neighbors are still compared
+cp -R "$w/b" "$w/n"
+for d in visuals components relationships; do
+  sed 's/"badge"/"badge2"/g' "$w/n/packages/design-data/$d/badge.json" >"$w/n/packages/design-data/$d/badge2.json"
+done
+nc() { node "$HERE/render-compare.mjs" --base-root "$w/a" --pr-root "$w/n" --base-cli "$CLI" --pr-cli "$CLI" --png-sample 0 "$@"; }
+expect 0 "a new recipe only is neutral" nc --components badge2
+grep -q "^render-compare: NEUTRAL: new recipe(s) badge2 have no BASE recipe" "$w/out.txt" || { cat "$w/out.txt" >&2; echo "FAIL: no NEUTRAL line" >&2; exit 1; }
+expect 0 "a new recipe plus an unchanged neighbor passes, neutral noted" nc --components badge,badge2 --sample 4
+grep -q "NEUTRAL: new recipe(s) badge2 have no BASE recipe" "$w/out.txt" || { echo "FAIL: no NEUTRAL note" >&2; exit 1; }
+# a new recipe plus a changed neighbor still compares the neighbor and fails on its diff
+jq '.parts.container.props.fill = [{"value":"#ff0000"}]' "$w/n/packages/design-data/visuals/badge.json" >"$w/badge.json"
+mv "$w/badge.json" "$w/n/packages/design-data/visuals/badge.json"
+expect 1 "a new recipe plus a changed neighbor fails on the neighbor" nc --components badge,badge2 --sample 4
+# a changed existing recipe that renders nothing on the PR is still vacuous, new recipe or not
+expect 2 "a changed existing recipe rendering nothing is vacuous" nc --components badge,badge2 --pr-cli /usr/bin/false --no-spec-sheet
+# a deleted (or renamed) recipe is not neutral
+cp -R "$w/a" "$w/d"; rm "$w/d/packages/design-data/visuals/badge.json"
+expect 2 "a deleted recipe is not neutral" node "$HERE/render-compare.mjs" --base-root "$w/a" --pr-root "$w/d" --base-cli "$CLI" --pr-cli "$CLI" --components badge --png-sample 0 --no-spec-sheet
+rm -rf "$w/n" "$w/d"
 
 # a recipe color change: the badge background becomes a literal red in the PR tree
 jq '.parts.container.props.fill = [{"value":"#ff0000"}]' "$w/b/packages/design-data/visuals/badge.json" >"$w/badge.json"
