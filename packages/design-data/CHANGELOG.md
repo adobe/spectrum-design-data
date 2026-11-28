@@ -1,5 +1,108 @@
 # @adobe/spectrum-design-data
 
+## 4.10.0
+
+### Minor Changes
+
+- [#2243](https://github.com/adobe/spectrum-design-data/pull/2243) [`d515b35`](https://github.com/adobe/spectrum-design-data/commit/d515b350b2c69362b5433f9a1153abcb8f1e979e) Thanks [@GarthDB](https://github.com/GarthDB)! - Pin the cjk typography records to the family option as well, and list cjk as a legal script value.
+  - body, detail, heading and title gain 120 relationship records that pin both `script: cjk` and
+    `family` (`sans-serif` or `serif`) for font-family, font-weight and font-style. Each points at
+    the same token as the cjk record it refines.
+  - Once a component declares a `family` option, a script-only record and a family-only record no
+    longer tie on those properties: the record pinned to both is the better match.
+  - The `typography-script` type lists `cjk`, matching the `script` registry, so a `script: cjk`
+    pin is a declared value.
+  - No render, legacy output or token changes. The new records add rows to the spec sheets of the
+    four components.
+
+- [#2235](https://github.com/adobe/spectrum-design-data/pull/2235) [`ba2c840`](https://github.com/adobe/spectrum-design-data/commit/ba2c840e9fc8ab1b601244fc17b94f83aa27b74d) Thanks [@GarthDB](https://github.com/GarthDB)! - Draw the list-view focus ring on one row, not every row.
+  - New `isFocusVisible` option, per row as `items[].isFocusVisible`. The name follows the React
+    Spectrum S2 ListView item render prop of the same name. The `focus-indicator` ring is present
+    only for a row that sets it; with no row set, no ring is drawn.
+  - The `keyboard-focus` state no longer draws the ring. It still applies the background and text
+    color to every row, as before.
+  - The ring still uses the existing focus-indicator color, thickness and gap records. The
+    description stays under the checkbox and a multiple-selection row stays 48 px.
+  - Not verified against Figma: the Figma list view focus spec was not checked here.
+
+- [#2239](https://github.com/adobe/spectrum-design-data/pull/2239) [`0503e40`](https://github.com/adobe/spectrum-design-data/commit/0503e4088e2ec41def198bf88d5e6707da3cf5cd) Thanks [@GarthDB](https://github.com/GarthDB)! - Add visual recipes for date-field, time-field and segmented-text-field.
+  - Each component gains a `segments` collection slot: the request supplies the segments (a
+    value, a separator, or an empty segment that shows its format text) and the recipe draws
+    one copy of the `segment` part per entry. Nothing builds them from the granularity, the
+    hour cycle or the locale.
+  - date-field and time-field reuse the text-field chrome: label, bordered field, help text,
+    the four sizes, the border and text colors for hover, focus, error and disabled, the focus
+    ring and the alert icon. New relationship records point at the same tokens. The fields gain
+    the `focus` state and the options `label`, `size`, `necessityIndicator`, `isRequired`,
+    `helpText`, `isPlaceholder` and `isLiteral`.
+  - segmented-text-field draws only the row of segments, with no field chrome.
+  - Segment rounding and padding come from the existing segmented-text-field rounding
+    and `spacing-50` records. Deprecated records are not bound.
+  - Not drawn yet: the error icon inside the field, and the focused segment's own fill (no
+    token). The explorer shows one empty segment until `demo` can describe a collection slot.
+
+- [#2233](https://github.com/adobe/spectrum-design-data/pull/2233) [`cb17ae3`](https://github.com/adobe/spectrum-design-data/commit/cb17ae3eeb4f1293c2e4e713283d58fcc96abb76) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the visual recipes for drop-zone and select-box.
+  - drop-zone: a dashed container (the stroke reads the dash length and gap relationship records),
+    corner radius, padding, width, border color, the illustration image fill, title and description.
+    The component gains `title` and `description` string options. The gap between illustration and
+    title reads its relationship record. The `s`, `m` and `l` sizes render identically today (no
+    size-varying tokens).
+  - select-box: a vertical or horizontal card with corner radius, padding, background (and the
+    disabled background), the hover, keyboard-focus and rest shadows, the down press scale, the
+    illustration image fill and the label. The illustration part is present unless
+    `hideIllustration` is set.
+  - Description font-size records for drop-zone name the token of their own scale, as the
+    illustrated-message title records do.
+  - Not drawn yet: the drag-and-drop border and background (the 10% background cannot be drawn: no
+    fill alpha), the replace banner and action button, a disabled drop zone, the select-box selected
+    border (two records resolve to different colors), checkbox, description and focus ring, and the
+    illustration itself (no size record).
+  - Legacy output is unchanged; the embedded dataset changes, so wasm gets a patch.
+
+- [#2242](https://github.com/adobe/spectrum-design-data/pull/2242) [`2cce5ce`](https://github.com/adobe/spectrum-design-data/commit/2cce5ce06e559d3706e31b5938386cf6dd3148f2) Thanks [@GarthDB](https://github.com/GarthDB)! - Add the visual recipe for tree-view, with nested items.
+  - New `items` collection slot on the `row` part: one tree item per
+    entry, each nesting its `children`, up to 6 levels in all.
+  - A level is its own part (`row-level-1` to `row-level-5`), indented
+    by one `level-increment`; the line of an item is `row-content`.
+  - New `hasChildren`, `isExpanded`, `isSelected`, `isDisabled` and
+    `isFocusVisible` options. A nested item that leaves a flag out
+    inherits its parent's value, so write `false` to clear it.
+  - Draws the checkbox, the disclosure chevron (right when collapsed,
+    down when expanded), the icon, the label, the selected, hover and
+    down background, and a focus ring per item.
+  - A selected row keeps the gray fill under down and focus, an
+    unselected highlight row takes no state fill, and a disabled row
+    greys its label and icon even when selected.
+  - Sizes s, l and xl use size tokens; l and xl have no minimum width.
+  - Not drawn yet: drag handle, thumbnail, actions, section header,
+    detached and emphasized styles.
+
+- [#2241](https://github.com/adobe/spectrum-design-data/pull/2241) [`37d82fc`](https://github.com/adobe/spectrum-design-data/commit/37d82fc12fcc72cbf0d64d52c196dd5daa0acaa4) Thanks [@GarthDB](https://github.com/GarthDB)! - Add visual recipes for the five text-only typography components: body, heading, code, detail
+  and title. Each draws one text run in a `container` root.
+  - The components gain a `container` anatomy part that holds `text`, plus `emphasis` and `family`
+    options (code has no `family`). These are the options their existing font records already pin.
+    The deprecated `light` emphasis values and heading size `xxs` are declared as deprecated.
+  - Body and title read their font size and line height from new type-style records (one per
+    composite size). Heading, detail and code have no composite, so they bind each font axis.
+  - Family, weight and color read the existing relationship records.
+  - Code draws `Source Code Pro` as a recipe literal: its font-family record is not a token.
+  - CJK text draws with the both-pinned script and family records that landed in #2243.
+  - Not drawn: italic (no font-style prop), letter spacing, uppercase detail and margins.
+  - Heading `xxs` has no live font-size record and draws at the default size.
+  - The family option makes SPEC-100 report same-token sans-serif and serif pairs; those counts are
+    baselined for body, detail, heading and title.
+  - Legacy output is unchanged; the embedded dataset changes, so wasm gets a patch.
+
+### Patch Changes
+
+- [#2238](https://github.com/adobe/spectrum-design-data/pull/2238) [`5e583a8`](https://github.com/adobe/spectrum-design-data/commit/5e583a8cd69e218987bba2e272664d5f356bf622) Thanks [@GarthDB](https://github.com/GarthDB)! - Raise the dataset `requires.cli` from 0.63.8 to 0.63.9, the oldest released CLI
+  that draws and checks this data.
+  - Older CLIs now refuse the data with a `requires.cli` message instead of misreading it.
+    The list-view, takeover-dialog and illustrated-message recipes, the per-axis aria checks
+    (`axisAria`) and the inline collection item semantics lint (SPEC-118) are in the 0.63.9
+    binary only.
+  - `layoutRevision` stays at 8. No recipe, data or engine change.
+
 ## 4.9.0
 
 ### Minor Changes

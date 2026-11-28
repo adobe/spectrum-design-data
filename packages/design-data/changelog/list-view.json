@@ -583,6 +583,27 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.10.0",
+      "version": "2.2.0",
+      "bump": "minor",
+      "date": "2026-11-28",
+      "commit": "f341108a9abb87fa309ae8532cec238cfe25f28f",
+      "commits": [
+        {
+          "commit": "ba2c840e9fc8ab1b601244fc17b94f83aa27b74d",
+          "date": "2026-11-27",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2235,"title":"feat(design-data): list-view per-item focus ring","url":"https://github.com/adobe/spectrum-design-data/pull/2235"},
+          "entries": [
+            {"id":"ba2c840e-0","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"list-view/options/isFocusVisible","name":"isFocusVisible","fields":[],"after":{"type":"boolean","default":false,"description":"Whether the row shows the keyboard focus ring. Only one row holds keyboard focus at a time. Per row it is items[].isFocusVisible."}},
+            {"id":"ba2c840e-1","kind":"option","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"list-view/options/items","name":"items","fields":[{"path":"items.properties.isFocusVisible.default","after":false},{"path":"items.properties.isFocusVisible.type","after":"boolean"}]},
+            {"id":"ba2c840e-2","kind":"option","change":"updated","class":"documentation","bump":"patch","indirect":false,"contexts":[],"record":"list-view/options/items","name":"items","fields":[{"path":"items.properties.isFocusVisible.description","after":"If true, the item shows the keyboard focus ring."}]},
+            {"id":"ba2c840e-3","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"list-view/anatomy/focus-indicator","name":"focus-indicator","fields":[{"path":"presentWhen.options.isFocusVisible","after":true},{"path":"presentWhen.states","before":["keyboard-focus"]}]},
+            {"id":"ba2c840e-4","kind":"visual-part","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":[],"record":"list-view/visual/parts/container","name":"container","fields":[{"path":"repeat.with.isFocusVisible","after":"isFocusVisible"}]}
+          ]
+        }
+      ]
     }
   ]
 }
