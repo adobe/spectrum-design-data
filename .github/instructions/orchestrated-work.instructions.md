@@ -19,7 +19,7 @@ Read this when an orchestrator assigns you a slice as an author or a reviewer. P
 * A `bd` clone on a remote host is stale: do not rely on bead ids there.
 * After `pnpm install`, run `chmod 644 tools/design-data-mcp/src/cli.js`. Never commit that mode change or `paseo.json`. Run AVA as `pnpm exec ava`.
 * Never end a turn waiting on a background job. Run long commands in the foreground, in chunks.
-* Disk: run `df -h /System/Volumes/Data` before a cold build and stop and report below 15 GB free. Delete your own `mktemp -d` scratch and scratch worktrees before you finish. Never glob-delete `/var/folders/*/T/tmp.*`: other agents' scratch lives there. Reuse an existing warm `CARGO_TARGET_DIR` for the same worktree.
+* Disk: before a cold build, run `df -h "$(dirname "${CARGO_TARGET_DIR:-$PWD/sdk/target}")"` from the repo root (the volume the build writes to; `pr-gate` checks the same) and stop and report below 15 GB free. On a host whose target dirs live on another volume, the system disk filling up does not block builds: report it, do not stop. Delete your own `mktemp -d` scratch and scratch worktrees before you finish. Never glob-delete `/var/folders/*/T/tmp.*`: other agents' scratch lives there. Reuse an existing warm `CARGO_TARGET_DIR` for the same worktree.
 * Report only commands you actually ran. A command that errored did not check anything.
 
 ## Author: CI and merge state are yours
@@ -33,7 +33,7 @@ Read this when an orchestrator assigns you a slice as an author or a reviewer. P
 
 * Bump `sdk/cli/Cargo.toml` and `sdk/Cargo.lock` only when your PR changes CLI-visible behavior under `sdk/` and the current Cargo version already has a release tag: `git ls-remote --tags origin 'design-data-cli@*'`.
 * Main may be untagged-ahead of the last release. If so, do not bump again. Data-only and CI-only PRs never bump.
-* Never change `requires.cli` in `dataset.json` in a feature PR. It is a release-time step. The only exception is a change that needs a newer CLI (a layout-revision bump): it raises `requires.cli` in the same change, per `sdk/cli/AGENTS.md` and `tools/cli-minimum-gate/gate.sh`.
+* Never change `requires.cli` in `dataset.json` in a feature PR. It is a release-time step (releases happen only when no changesets are pending and the Version Packages PR is merged, see `.github/workflows/release.yml`). The only exception is a change that needs a newer CLI (a layout-revision bump): it raises `requires.cli` in the same change, per `sdk/cli/AGENTS.md` and `tools/cli-minimum-gate/gate.sh`.
 * `LAYOUT_REVISION` and the dataset `layoutRevision` move together, only when snapshots change geometry (see `sdk/cli/AGENTS.md`).
 
 ## Author: changesets and PR
@@ -59,9 +59,10 @@ Read this when an orchestrator assigns you a slice as an author or a reviewer. P
 
 ## Author: render changes
 
-* Compare BASE and PR renders. Build the BASE CLI from `git archive origin/main`, and run both CLIs from identical REPO ROOT layouts (provenance paths differ otherwise).
+* Compare BASE and PR renders with `node tools/render-compare/render-compare.mjs --changed` (also `--components a,b`, `--sample N`, `--same-cli` for a data-only PR). It builds one base CLI per base commit in `~/.cache/sdd-render-compare/<sha>/`: never build your own, and run `tools/render-compare/base-cli.sh prune 3` when you finish. It runs both sides from identical repo-root layouts. Exit 0 is PASS, 1 a diff, 2 a vacuous run or setup error. If your branch is behind main it compares against the merge base and prints a NOTE; merge origin/main first. Quote its summary lines (cases total/run, distinct outputs, diffs, rows lost/gained/regrouped, option-pair cover) in your report. It does not cover slot fills, platform manifests, `behavior test`, `validate` or three-way combinations: run those yourself.
 * The matrix covers every text, label and content option (a missing `content` text hid a disabled-color regression) and every state. Report the case counts. A matrix with no differences must be shown not vacuous: confirm cases actually render the option. Judge a recipe by the default data path from the repo root (what the goldens, snapshots and wasm use), never by `render --path packages/design-data`: that path resolves a `$ref` to a relationship record that the default path leaves unresolved, so a recipe can look right there and render wrong in its goldens. Always open the new golden SVG or PNG.
 * `render-compare` draws collection items (selected, unselected, disabled, mixed, crossed with `selection*` options) for components with a collection slot and compares spec-sheet block scenes, not only rows. It does not draw list-view or table (no recipe) or non-collection slot fills: for those, and for relationship or recipe changes, also read the sheet scene diff it prints and draw the case yourself.
+* Point each record's `$ref` at the token uuid of its own scale or state, not a concept or relationship-record id. Render without `--path` (from the repo root) and open the goldens.
 * Goldens and recipe snapshots for groups, collections and slots draw slot fills and several items (selected, unselected, disabled), not an empty group.
 * A change that touches token pins or `legacyKey` also needs recipe renders, `recipe_snapshots`, SPEC-062 selector checks and `moon run design-data:validate-visuals` (script `packages/design-data/scripts/validate-visuals.js`). Recipes select by those pins, not only legacy output.
 
@@ -79,9 +80,9 @@ Commit work in progress often.
 ## Reviewer
 
 * Create reviewers in build mode, not plan mode. Make no edits, additions or deletions inside the worktree. Put scratch and the report under `mktemp` outside the repo. Run codemods only in report or check mode, or on a copy.
-* Input is the PR URL: `gh pr view`, `gh pr diff`, and read whole modified files and repo conventions.
-* Hunt bugs first (logic, guards, edge cases, security, swallowed errors, behavior changes), then fit to the codebase, then obvious performance problems. Review changed code only. Be certain before calling a bug; otherwise say "I'm not sure about X".
+* Input is the PR URL: `gh pr view`, `gh pr diff`, and read whole modified files and repo conventions (AGENTS.md, .editorconfig). A diff alone is not enough. For a branch or commit, use `git diff <branch>...HEAD` or `git show <sha>`; for uncommitted work, `git diff`, `git diff --cached` and `git status --short`.
+* Hunt bugs first (logic, guards, edge cases, security, swallowed errors, behavior changes), then fit to the codebase, then obvious performance problems. Review changed code only. Be certain before calling a bug and name the realistic scenario that triggers it; otherwise say "I'm not sure about X". Do not flag pre-existing code, hypothetical problems, or style violations that are the simplest option.
 * Build your own adversarial vectors. Do not rely only on the author's tests or matrix.
 * Run mutation checks in a copy: revert each new behavior and confirm a test fails.
 * Run the author gates above that apply, and `gh pr checks <n>` plus the mergeable state. A failing or pending required check is a blocker unless shown unrelated. Conflicting or behind is a should-fix.
-* Output is direct, with severity stated alongside its scenario, no flattery. Write the full report to the path named in your task. Start your final message with `VERDICT: APPROVE` or `VERDICT: CHANGES`, then the questions, then the path and a 5-line summary. Notifications are cut at roughly 4,000 characters.
+* Output is direct and matter-of-fact, with severity (not overstated) stated alongside its scenario, no flattery. Write the full report to the path named in your task. Start your final message with `VERDICT: APPROVE` or `VERDICT: CHANGES`, then the questions, then the path and a 5-line summary. Notifications are cut at roughly 4,000 characters.
