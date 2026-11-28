@@ -4,11 +4,9 @@
   "button": 4,
   "card": 2,
   "coach-mark": 2,
-  "code": 2,
   "color-handle": 1,
   "combo-box": 2,
   "contextual-help": 1,
-  "detail": 3,
   "drop-zone": 6,
   "illustrated-message": 1,
   "in-line-alert": 4,
@@ -26,6 +24,5 @@
   "tag-group": 1,
   "text-area": 2,
   "text-field": 2,
-  "title": 3,
   "tree-view": 4
 }

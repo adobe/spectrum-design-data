@@ -1,0 +1,62 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "title",
+  "root": "container",
+  "notVisual": ["classification"],
+  "sizeScale": {
+    "xs": 75,
+    "s": 100,
+    "m": 200,
+    "l": 300,
+    "xl": 400,
+    "xxl": 500,
+    "xxxl": 600
+  },
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["text"],
+      "props": {
+        "direction": {
+          "value": "column"
+        },
+        "align": {
+          "value": "start"
+        }
+      }
+    },
+    "text": {
+      "kind": "text",
+      "props": {
+        "typeStyle": {
+          "relationship": {
+            "property": "type-style",
+            "part": "text"
+          }
+        },
+        "fontFamily": {
+          "relationship": {
+            "property": "font-family",
+            "part": "text"
+          }
+        },
+        "fontWeight": {
+          "relationship": {
+            "property": "font-weight",
+            "part": "text"
+          }
+        },
+        "color": {
+          "relationship": {
+            "property": "color",
+            "part": "text"
+          }
+        },
+        "overflow": {
+          "value": "wrap"
+        }
+      }
+    }
+  }
+}

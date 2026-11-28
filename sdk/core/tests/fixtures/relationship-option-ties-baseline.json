@@ -1,3 +1,7 @@
 {
-  "action-button": 2
+  "action-button": 2,
+  "body": 3,
+  "detail": 5,
+  "heading": 3,
+  "title": 3
 }

@@ -36,7 +36,10 @@
       "default": "m",
       "values": [
         {
-          "value": "xxs"
+          "value": "xxs",
+          "lifecycle": {
+            "deprecatedIn": "13.0.0"
+          }
         },
         {
           "value": "xs"
@@ -63,9 +66,79 @@
           "value": "xxxxl"
         }
       ]
+    },
+    "emphasis": {
+      "type": "string",
+      "description": "Emphasis of the text run: emphasized is italic, strong is bolder, and the two combine. Unset is the regular style.",
+      "values": [
+        {
+          "value": "emphasized"
+        },
+        {
+          "value": "heavy"
+        },
+        {
+          "value": "heavy-emphasized"
+        },
+        {
+          "value": "heavy-strong"
+        },
+        {
+          "value": "heavy-strong-emphasized"
+        },
+        {
+          "value": "light",
+          "lifecycle": {
+            "deprecatedIn": "13.0.0"
+          }
+        },
+        {
+          "value": "light-emphasized",
+          "lifecycle": {
+            "deprecatedIn": "13.0.0"
+          }
+        },
+        {
+          "value": "light-strong",
+          "lifecycle": {
+            "deprecatedIn": "13.0.0"
+          }
+        },
+        {
+          "value": "light-strong-emphasized",
+          "lifecycle": {
+            "deprecatedIn": "13.0.0"
+          }
+        },
+        {
+          "value": "strong"
+        },
+        {
+          "value": "strong-emphasized"
+        }
+      ]
+    },
+    "family": {
+      "type": "string",
+      "default": "sans-serif",
+      "description": "Typeface family of the text run.",
+      "values": [
+        {
+          "value": "sans-serif"
+        },
+        {
+          "value": "serif"
+        }
+      ]
     }
   },
   "anatomy": [
+    {
+      "name": "container",
+      "description": "Root of the component: the block that holds the text run.",
+      "required": true,
+      "contains": ["text"]
+    },
     {
       "name": "text",
       "description": "Text run styled by the typography token set.",
@@ -75,7 +148,7 @@
   "anatomyReview": {
     "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "No Figma component; the style exists only as text styles (Figma), a font macro value (React Spectrum) and one Typography stylesheet (SWC). One explicit root part, text; margins are properties of it. Owner decision D1 (2026-11-19): keep five components."
+    "notes": "No Figma component; the style exists only as text styles (Figma), a font macro value (React Spectrum) and one Typography stylesheet (SWC). The text part holds the type style; margins are properties of it. The container part is the root the recipe draws it in. Owner decision D1 (2026-11-19): keep five components."
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"

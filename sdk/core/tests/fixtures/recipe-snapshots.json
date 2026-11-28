@@ -591,6 +591,14 @@
     "density=\"spacious\",hideDivider=true,hideDragHandle=true,isFloating=true,orientation=\"vertical\",style=\"primary\"": "e60d34977c1d7461",
     "density=\"spacious\",hideDivider=true,hideDragHandle=true,isFloating=true,orientation=\"vertical\",style=\"secondary\"": "af5c2dcff87821af"
   },
+  "body": {
+    "emphasis=\"emphasized\",family=\"sans-serif\"": "7e6f35a0ad79af41",
+    "emphasis=\"emphasized\",family=\"serif\"": "6eca2f74612abaa7",
+    "emphasis=\"strong\",family=\"sans-serif\"": "99339298d554d369",
+    "emphasis=\"strong\",family=\"serif\"": "461bc3d9780e0e5f",
+    "emphasis=\"strong-emphasized\",family=\"sans-serif\"": "c6c3fe86bebac3db",
+    "emphasis=\"strong-emphasized\",family=\"serif\"": "a8931fc684ff2c39"
+  },
   "breadcrumbs": {
     "isCurrent=false,isDisabled=false,isMultiline=false,separator=\"chevron\"": "4452113bc25b22fd",
     "isCurrent=false,isDisabled=false,isMultiline=false,separator=\"none\"": "8d542909fa829de1",
@@ -1033,6 +1041,11 @@
   "coach-mark": {
     "(defaults)": "58fc3fc65a578359"
   },
+  "code": {
+    "emphasis=\"emphasized\"": "050b6a7dbc5d2987",
+    "emphasis=\"strong\"": "f3020eaf9465b30b",
+    "emphasis=\"strong-emphasized\"": "324f733450339ee7"
+  },
   "color-area": {
     "colorSpace=\"hsb\",isDisabled=false,xChannel=\"blue\",yChannel=\"blue\"": "4c737d13f5802703",
     "colorSpace=\"hsb\",isDisabled=false,xChannel=\"blue\",yChannel=\"brightness\"": "a930465390396541",
@@ -1410,6 +1423,22 @@
   "contextual-help": {
     "(defaults)": "b83d755a08fa0d60"
   },
+  "detail": {
+    "emphasis=\"emphasized\",family=\"sans-serif\"": "69b752ec424fc306",
+    "emphasis=\"emphasized\",family=\"serif\"": "21844fc0c090d544",
+    "emphasis=\"light\",family=\"sans-serif\"": "b47cb5e56fa17c6e",
+    "emphasis=\"light\",family=\"serif\"": "b58efde8724b7d0a",
+    "emphasis=\"light-emphasized\",family=\"sans-serif\"": "6e15cd85b28655d6",
+    "emphasis=\"light-emphasized\",family=\"serif\"": "7c886ab1de9e13b2",
+    "emphasis=\"light-strong\",family=\"sans-serif\"": "e4156f76b7cd3e10",
+    "emphasis=\"light-strong\",family=\"serif\"": "636be8d0268c8ed4",
+    "emphasis=\"light-strong-emphasized\",family=\"sans-serif\"": "a3c323398e9e14ba",
+    "emphasis=\"light-strong-emphasized\",family=\"serif\"": "5b8a07bfef81e7c6",
+    "emphasis=\"strong\",family=\"sans-serif\"": "667753ba98ae3cd7",
+    "emphasis=\"strong\",family=\"serif\"": "b9065bdb85dddb6d",
+    "emphasis=\"strong-emphasized\",family=\"sans-serif\"": "ef337a3a177997cb",
+    "emphasis=\"strong-emphasized\",family=\"serif\"": "624db45650fc476d"
+  },
   "divider": {
     "orientation=\"horizontal\",staticColor=\"black\"": "bf2032be4f6a1849",
     "orientation=\"horizontal\",staticColor=\"white\"": "b5f17572defcee43",
@@ -1436,6 +1465,30 @@
     "isDisabled=true,isRequired=true,necessityIndicator=\"icon\",staticColor=\"white\"": "d3843cbb21b10b17",
     "isDisabled=true,isRequired=true,necessityIndicator=\"text\",staticColor=\"black\"": "03df8aad3d9337ce",
     "isDisabled=true,isRequired=true,necessityIndicator=\"text\",staticColor=\"white\"": "711c5f3a672ae6b2"
+  },
+  "heading": {
+    "emphasis=\"emphasized\",family=\"sans-serif\"": "b19328a5355a1342",
+    "emphasis=\"emphasized\",family=\"serif\"": "df4752ae11dc2108",
+    "emphasis=\"heavy\",family=\"sans-serif\"": "a21d9f5dd27fc10a",
+    "emphasis=\"heavy\",family=\"serif\"": "8125f4ac01e885c0",
+    "emphasis=\"heavy-emphasized\",family=\"sans-serif\"": "f653165892045172",
+    "emphasis=\"heavy-emphasized\",family=\"serif\"": "9d08b678e805f0ac",
+    "emphasis=\"heavy-strong\",family=\"sans-serif\"": "f10e76fc8af2aeea",
+    "emphasis=\"heavy-strong\",family=\"serif\"": "68637674fc850a68",
+    "emphasis=\"heavy-strong-emphasized\",family=\"sans-serif\"": "dd05c6fcc040def4",
+    "emphasis=\"heavy-strong-emphasized\",family=\"serif\"": "0ca163caec59b8ee",
+    "emphasis=\"light\",family=\"sans-serif\"": "57f942d98d135354",
+    "emphasis=\"light\",family=\"serif\"": "c4bcb1162d483b8a",
+    "emphasis=\"light-emphasized\",family=\"sans-serif\"": "db8a21510c58197c",
+    "emphasis=\"light-emphasized\",family=\"serif\"": "174ecec43a5fe71a",
+    "emphasis=\"light-strong\",family=\"sans-serif\"": "e13fe2bd8994797a",
+    "emphasis=\"light-strong\",family=\"serif\"": "7558f419dd765920",
+    "emphasis=\"light-strong-emphasized\",family=\"sans-serif\"": "9f073cfa247938f0",
+    "emphasis=\"light-strong-emphasized\",family=\"serif\"": "1464c0ff7ddfde9e",
+    "emphasis=\"strong\",family=\"sans-serif\"": "3d28bb5378a78dde",
+    "emphasis=\"strong\",family=\"serif\"": "7bb34cc7bb583020",
+    "emphasis=\"strong-emphasized\",family=\"sans-serif\"": "5fae64d8bc5aaee8",
+    "emphasis=\"strong-emphasized\",family=\"serif\"": "f1da3b663d59db5e"
   },
   "help-text": {
     "hideIcon=false,isDisabled=false,variant=\"negative\"": "4227dbecbfa1fd94",
@@ -2639,6 +2692,14 @@
     "isDisabled=false,showImage=true": "93ae27bd17cc08bd",
     "isDisabled=true,showImage=false": "689046e7af635cbf",
     "isDisabled=true,showImage=true": "8a38a7a6d66de799"
+  },
+  "title": {
+    "emphasis=\"emphasized\",family=\"sans-serif\"": "fc49c7b59abb1f8c",
+    "emphasis=\"emphasized\",family=\"serif\"": "632a3a7353775a10",
+    "emphasis=\"strong\",family=\"sans-serif\"": "93df1b46c4f5d056",
+    "emphasis=\"strong\",family=\"serif\"": "bc25a36ed4c959a0",
+    "emphasis=\"strong-emphasized\",family=\"sans-serif\"": "2318edc4e07406f0",
+    "emphasis=\"strong-emphasized\",family=\"serif\"": "aa667ab9b739b768"
   },
   "toast": {
     "variant=\"informative\"": "689467189e4e6d38",

@@ -715,5 +715,93 @@
     "$ref": "8a6fc0d3-e584-4ce6-82d8-be8c275c865e",
     "uuid": "e0b8ceea-3404-4c4b-9145-fe5d445020fe",
     "legacyKey": "body-size-xxxl"
+  },
+  {
+    "scope": {
+      "component": "body",
+      "part": "text",
+      "property": "type-style"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "2ab742e3-ccb8-491d-b830-2303ac9a357c",
+    "uuid": "a9b40eeb-6967-51c2-842b-a1d0df9090c1"
+  },
+  {
+    "scope": {
+      "component": "body",
+      "part": "text",
+      "property": "type-style"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "111f5e25-e8cc-41a6-9696-33eb9cc3eaf3",
+    "uuid": "6029d094-05ba-5b26-80c7-bc000d726eea"
+  },
+  {
+    "scope": {
+      "component": "body",
+      "part": "text",
+      "property": "type-style"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "41537e21-a0a9-4933-b92e-10e72b291cbf",
+    "uuid": "2a7a98c9-1f93-5db6-93b3-33e636f10d2a"
+  },
+  {
+    "scope": {
+      "component": "body",
+      "part": "text",
+      "property": "type-style"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "a0b7f7d8-7036-47ed-90ec-52d75a8b8e5a",
+    "uuid": "404c1b0d-f142-550c-aff1-b93fdf3c7985"
+  },
+  {
+    "scope": {
+      "component": "body",
+      "part": "text",
+      "property": "type-style"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "93b4a81a-f131-4721-809e-16aaf71f5c02",
+    "uuid": "7510fee3-631d-52d9-a82f-1f2002431def"
+  },
+  {
+    "scope": {
+      "component": "body",
+      "part": "text",
+      "property": "type-style"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "3b2548b0-0858-40bd-9ae0-79a7d9453f13",
+    "uuid": "472f00a2-01e1-5d34-84be-615aed3891a3"
+  },
+  {
+    "scope": {
+      "component": "body",
+      "part": "text",
+      "property": "type-style"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "2ff9656a-c66c-4524-b9fc-6d6a097bcd26",
+    "uuid": "364056d6-38fa-5113-9ddc-3df0871f20e4"
+  },
+  {
+    "scope": {
+      "component": "body",
+      "part": "text",
+      "property": "type-style"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "97f0cf98-e48f-42ef-801a-065b561e2a73",
+    "uuid": "bf9b78d3-2c01-5ec0-a681-b06163ace8c3"
   }
 ]

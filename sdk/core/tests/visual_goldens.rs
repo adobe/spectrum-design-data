@@ -3281,6 +3281,77 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             ),
         ));
     }
+    // The five text-only typography components draw one run of text. Every scenario carries
+    // real copy; the smallest and largest size, each emphasis a component declares (a deprecated
+    // value draws the regular style, so it has no golden of its own), the serif family and a
+    // block that wraps at a fixed width cover the type style.
+    if matches!(name, "body" | "code" | "detail" | "heading" | "title") {
+        let copy = "The quick brown fox jumps over the lazy dog";
+        for (_, r) in out.iter_mut() {
+            r.label = copy.into();
+        }
+        let case = |size: &str, opts: Vec<(&str, Value)>, scheme: &str, scale: &str| {
+            let mut r = req(vec![], HashMap::new(), scheme, scale);
+            r.label = copy.into();
+            r.size = size.into();
+            for (k, v) in opts {
+                r.options.insert(k.into(), v);
+            }
+            r
+        };
+        let sizes: Vec<&str> = options
+            .get("size")
+            .and_then(|s| s.get("values"))
+            .and_then(Value::as_array)
+            .into_iter()
+            .flatten()
+            .filter_map(|v| v.get("value").and_then(Value::as_str))
+            .collect();
+        let (smallest, largest) = (sizes[0], sizes[sizes.len() - 1]);
+        out.push(("size-smallest", case(smallest, vec![], "light", "desktop")));
+        out.push((
+            "size-largest-dark-mobile",
+            case(largest, vec![], "dark", "mobile"),
+        ));
+        for emphasis in ["emphasized", "strong", "strong-emphasized"] {
+            out.push((
+                Box::leak(format!("emphasis-{emphasis}").into_boxed_str()),
+                case(
+                    "m",
+                    vec![("emphasis", Value::from(emphasis))],
+                    "light",
+                    "desktop",
+                ),
+            ));
+        }
+        if name == "heading" {
+            out.push((
+                "emphasis-heavy-strong-emphasized",
+                case(
+                    "m",
+                    vec![("emphasis", Value::from("heavy-strong-emphasized"))],
+                    "light",
+                    "desktop",
+                ),
+            ));
+        }
+        if name != "code" {
+            out.push((
+                "family-serif-dark",
+                case(
+                    "m",
+                    vec![("family", Value::from("serif"))],
+                    "dark",
+                    "desktop",
+                ),
+            ));
+        }
+        let mut wrapped = case("m", vec![], "light", "desktop");
+        wrapped.label =
+            "A longer run of text that wraps onto several lines when the block is narrow".into();
+        wrapped.width = Some(180.0);
+        out.push(("wrapped-narrow", wrapped));
+    }
     // Status light wraps its label next to the dot.
     if name == "status-light" {
         let mut r = req(vec![], HashMap::new(), "light", "desktop");
