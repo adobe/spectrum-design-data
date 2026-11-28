@@ -40,21 +40,21 @@ Read this when an orchestrator assigns you a slice as an author or a reviewer. P
 
 * Changeset: write the file in `.changeset` directly, then run `node tools/changeset-linter/src/cli.js check --fail-on-warnings`. Body at most 20 lines. See `.ai/rules/changesets.md`.
 * PR body: fill every section of `.github/PULL_REQUEST_TEMPLATE.md` in a file from `mktemp` outside the repo. Use a conventional title and `Fixes #N`. Always tick the CLA box (`- [x]`), the owner has signed it. Tick no other checkbox you did not satisfy. Run `gh pr create --body-file`, then re-read with `gh pr view <n> --json body` to confirm it is yours. Never write to a shared path such as `/tmp/pr.md`.
-* Every change to a `*-baseline.json` gets one line in the PR body: the rule, the old and new count, and why it is not a real error.
+* Every change to a `*-baseline.json` gets one line in the PR body: the rule, the old and new count, and why the change is expected (for a raise: why it is not a real error).
 * New files start with `Copyright YYYY Adobe. All rights reserved.`
 
 ## Author: gates by change type
 
 * Run `tools/pr-gate/pr-gate.sh` after your last commit and after every merge of origin/main. It runs the affected CI targets (`.github/ci-targets.json`), the changeset linter, and the legacy output check when affected. Paste its table in the PR body; `--list` shows targets only.
 * Validate with the moon task `design-data:validate`, not `validate-dataset` or `design-data validate packages/design-data`: only it passes `--relationships-path`, `--visuals-path` and `--icons-path`, so only it finds SPEC-062 and SPEC-093. Report error counts before and after.
-* Legacy output stays byte-identical. CI does not run this, you do: from `packages/design-data`, `design-data migrate legacy-verify ./tokens --reference ../tokens/src`, then `design-data migrate legacy-output ./tokens --output <mktemp dir>` and `diff -rq <that dir> ../tokens/src`. The input path is required; a command that errors proves nothing. New design-data tokens need `"excludeFromLegacy": true` unless a `legacyKey` is intended.
+* Legacy output stays byte-identical. CI (and pr-gate) check that `legacy-output` leaves `packages/tokens/src` unchanged, but CI does not run `legacy-verify`: run it yourself from `packages/design-data`, `design-data migrate legacy-verify ./tokens --reference ../tokens/src`, then `design-data migrate legacy-output ./tokens --output <mktemp dir>` and `diff -rq <that dir> ../tokens/src`. The input path is required; a command that errors proves nothing. New design-data tokens need `"excludeFromLegacy": true` unless a `legacyKey` is intended.
 * Deprecated records are a frozen archive. Check `lifecycle.deprecatedIn` on every record you bind, point at or edit. A live record must not point at a deprecated one: report it instead.
 * Rust: `cargo test --workspace --no-fail-fast`, `cargo fmt --check`, `cargo clippy -D warnings`, the sdk-wasm gate from `.github/workflows/ci.yml`, and `moon run sdk:codegen-check` when schemas or the registry change.
 * New or changed validation rule: register it in `default_rules()` (guard list in `sdk/core/src/lib.rs`) and add a test that fails when the rule is disabled.
 * wasm-visual size budget: 528,000 raw and 201,100 gzip bytes, enforced by `sdk/wasm-visual/test/budget.test.mjs`. Never raise it.
 * Mutation check for every new behavior or binding: revert, zero or swap it in a scratch copy and show which test or golden fails. "No new rule" is not an excuse for recipes. A binding or option whose mutation survives is dead or a duplicate: remove it, or explain why it is an equivalent mutant.
 * When the task names a precedent PR or component, diff your recipe against it before you report and explain every structural difference.
-* Before you add or rename an anatomy part, read the component's anatomy review notes. If a reviewed decision covers the part, follow it or ask.
+* Before you add or rename an anatomy part, read the `anatomyReview` notes in `packages/design-data/components/<name>.json`. If a reviewed decision covers the part, follow it or ask.
 * Design-data tokens are the contract. If Figma or React Spectrum S2 differ, report a source-conflict gap (one flat bead proposal each, labels `comp:`, `layer:`, `kind:source-conflict`, `disp:needs-design`). Never edit data or invent a literal to match Figma.
 
 ## Author: render changes

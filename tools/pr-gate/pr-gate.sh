@@ -67,7 +67,7 @@ echo "$targets" | sed 's/^/  /'
 # moon tasks call ../../sdk/target/debug/design-data. When CARGO_TARGET_DIR
 # points elsewhere, link sdk/target to it, or those tasks run a missing or stale binary.
 if [ -n "${CARGO_TARGET_DIR:-}" ]; then
-  if [ ! -e sdk/target ]; then
+  if [ ! -e sdk/target ] && [ ! -L sdk/target ]; then
     ln -s "$CARGO_TARGET_DIR" sdk/target
     trap '[ -L sdk/target ] && rm -f sdk/target' EXIT
     echo "pr-gate: linked sdk/target -> $CARGO_TARGET_DIR"
