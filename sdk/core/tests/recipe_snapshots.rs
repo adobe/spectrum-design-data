@@ -301,6 +301,24 @@ fn fixed_options(name: &str) -> Vec<(String, Value)> {
             ("selectionMode".into(), "multiple".into()),
         ];
     }
+    if name == "tree-view" {
+        // Items draw only from `items`: nested, expanded and collapsed, selected and disabled.
+        return vec![
+            (
+                "items".into(),
+                serde_json::json!([
+                    { "label": "Documents", "hasChildren": true, "isExpanded": true, "children": [
+                        { "label": "Work", "hasChildren": true, "isExpanded": true, "isSelected": true, "children": [
+                            { "label": "Report", "hasChildren": false, "isSelected": false, "isDisabled": true }
+                        ] },
+                        { "label": "Photos", "hasChildren": true, "isExpanded": false, "isSelected": false }
+                    ] },
+                    { "label": "Archive", "hasChildren": false, "isSelected": true, "isDisabled": true }
+                ]),
+            ),
+            ("selectionMode".into(), "multiple".into()),
+        ];
+    }
     if name != "calendar" {
         return Vec::new();
     }
@@ -520,6 +538,7 @@ recipe_tests! {
     thumbnail => "thumbnail",
     toast => "toast",
     tooltip => "tooltip",
+    tree_view => "tree-view",
 }
 
 #[test]
