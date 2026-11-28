@@ -11,5 +11,5 @@ Read .ai/rules/orchestrated-work.md first and follow its Reviewer section.
 PR: <url>, head <sha>
 Focus: <risk areas, for example data and engine contracts, render matrix>
 Required checks: <option x state matrix size and BASE vs PR method, legacy output diff, recipe_snapshots, mutation checks, budget>
-Report: write the FULL report to <report path>, then end with the path, a 5-line summary and `VERDICT: APPROVE` or `VERDICT: CHANGES`.
+Report: write the FULL report to <report path>. Final message starts with `VERDICT: APPROVE` or `VERDICT: CHANGES`, then the questions (or none), the path and a 5-line summary.
 ```

@@ -477,6 +477,30 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.10.0",
+      "version": "2.2.0",
+      "bump": "minor",
+      "date": "2026-11-28",
+      "commit": "f341108a9abb87fa309ae8532cec238cfe25f28f",
+      "commits": [
+        {
+          "commit": "cb17ae3eeb4f1293c2e4e713283d58fcc96abb76",
+          "date": "2026-11-27",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2233,"title":"feat(design-data): drop-zone and select-box visual recipes","url":"https://github.com/adobe/spectrum-design-data/pull/2233"},
+          "entries": [
+            {"id":"cb17ae3e-0","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"font-family","options":null},"record":"e5122b9b-4e1c-5aa5-901d-043dec4fa2cd","name":"font-family","fields":[{"path":"scope.options.orientation","before":"vertical"}]},
+            {"id":"cb17ae3e-1","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"font-style","options":null},"record":"456c48ed-5428-507a-9bb5-2fbb3360a2cb","name":"font-style","fields":[{"path":"scope.options.orientation","before":"vertical"}]},
+            {"id":"cb17ae3e-2","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"font-size","options":null},"record":"04fd03ef-5f74-5aae-be05-ff4fb7e94a61","name":"font-size","fields":[{"path":"scope.options.orientation","before":"vertical"}]},
+            {"id":"cb17ae3e-3","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"font-size","options":null},"record":"9b1ea683-1e4c-51bf-953d-9d237fc1bd25","name":"font-size","fields":[{"path":"scope.options.orientation","before":"vertical"}]},
+            {"id":"cb17ae3e-4","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"line-height","options":null},"record":"ad4e0d62-d9da-52f1-8bd9-c42a09e95966","name":"line-height","fields":[{"path":"scope.options.orientation","before":"vertical"}]},
+            {"id":"cb17ae3e-5","kind":"relationship","change":"updated","class":"visual","bump":"patch","indirect":false,"contexts":["Text"],"scope":{"property":"line-height","options":null},"record":"3821f658-6fe2-5ca7-8dd8-a08e5408570f","name":"line-height","fields":[{"path":"scope.options.orientation","before":"vertical"}]},
+            {"id":"cb17ae3e-6","kind":"anatomy-part","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"select-box/anatomy/illustration","name":"illustration","fields":[{"path":"presentWhen.options.hideIllustration","after":false}]},
+            {"id":"cb17ae3e-7","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"select-box/visual","name":"select-box","fields":[]}
+          ]
+        }
+      ]
     }
   ]
 }

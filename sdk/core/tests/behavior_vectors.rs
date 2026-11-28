@@ -2853,3 +2853,119 @@ fn an_axis_on_inline_item_semantics_is_reported() {
         "{issues:?}"
     );
 }
+
+/// Each wrong `relations` expectation must fail a vector, or the vectors prove nothing.
+#[test]
+fn a_wrong_relations_expectation_fails_a_vector() {
+    let (contract, _, patterns) = load("tooltip");
+    let describes = json!({
+        "from": { "role": "trigger" },
+        "kind": "describedby",
+        "to": { "part": "container" }
+    });
+    let run = |step: Value, relations: Value| {
+        let vector = json!({
+            "name": "relations",
+            "start": {},
+            "steps": [step],
+            "expect": [{ "after": 1, "relations": relations }]
+        });
+        run_vectors(
+            &contract,
+            &patterns,
+            &[vector],
+            RegistryData::embedded(),
+            &all_capabilities(),
+            None,
+        )
+        .iter()
+        .filter(|r| matches!(r.status, Status::Fail(_)))
+        .count()
+    };
+    let open = || json!({ "intent": "focus", "via": "keyboard" });
+    let closed = || json!({ "intent": "blur" });
+    let with = |k: &str, v: Value| {
+        let mut r = describes.clone();
+        r[k] = v;
+        json!([r])
+    };
+    assert_eq!(run(open(), json!([describes.clone()])), 0);
+    assert_eq!(
+        run(closed(), with("present", json!(false))),
+        0,
+        "a closed tooltip exposes no relation"
+    );
+    for (what, step, relations) in [
+        ("wrong to", open(), with("to", json!({ "part": "label" }))),
+        ("wrong kind", open(), with("kind", json!("labelledby"))),
+        (
+            "wrong from",
+            open(),
+            with("from", json!({ "role": "owner" })),
+        ),
+        (
+            "present: true while closed",
+            closed(),
+            json!([describes.clone()]),
+        ),
+        (
+            "present: false while open",
+            open(),
+            with("present", json!(false)),
+        ),
+        ("empty list", open(), json!([])),
+        ("not a list", open(), describes.clone()),
+        (
+            "missing to",
+            open(),
+            json!([{ "from": { "role": "trigger" }, "kind": "describedby" }]),
+        ),
+    ] {
+        assert!(run(step, relations) > 0, "{what} failed no vector");
+    }
+}
+
+/// A role suite vector with a `component` runs only on that component's contract.
+#[test]
+fn a_role_suite_vector_runs_only_on_the_component_it_names() {
+    let tmp = std::env::temp_dir().join(format!("role-scope-{}", std::process::id()));
+    let (b, s) = dirs();
+    std::fs::create_dir_all(tmp.join("bindings")).unwrap();
+    std::fs::create_dir_all(tmp.join("patterns")).unwrap();
+    for f in ["button.json", "close-button.json"] {
+        std::fs::copy(b.join(f), tmp.join(f)).unwrap();
+    }
+    for entry in std::fs::read_dir(b.join("patterns")).unwrap() {
+        let p = entry.unwrap().path();
+        std::fs::copy(&p, tmp.join("patterns").join(p.file_name().unwrap())).unwrap();
+    }
+    std::fs::write(tmp.join("bindings/web.json"), web_bindings().to_string()).unwrap();
+    let mut suite: Value =
+        serde_json::from_str(&std::fs::read_to_string(s.join("bindings/web/button.json")).unwrap())
+            .unwrap();
+    let mut scoped = suite["vectors"][0].clone();
+    scoped["name"] = json!("scoped to button");
+    scoped["component"] = json!("button");
+    // Expects nothing to be emitted, which fails wherever it runs.
+    scoped["expect"] = json!([{ "after": 1, "emit": [] }]);
+    suite["vectors"].as_array_mut().unwrap().insert(0, scoped);
+    let suites = tmp.join("suites");
+    std::fs::create_dir_all(suites.join("bindings/web")).unwrap();
+    std::fs::write(suites.join("bindings/web/button.json"), suite.to_string()).unwrap();
+    let results = run_dir(&tmp, &suites, None, None, &all_capabilities()).unwrap();
+    std::fs::remove_dir_all(&tmp).unwrap();
+    let of = |c: &str| -> Vec<_> { results.iter().filter(|r| r.component == c).collect() };
+    let n = suite["vectors"].as_array().unwrap().len();
+    assert_eq!(of("close-button").len(), n - 1, "{results:?}");
+    assert_eq!(of("button").len(), n, "{results:?}");
+    let failed: Vec<_> = results
+        .iter()
+        .filter(|r| matches!(r.status, Status::Fail(_)))
+        .collect();
+    assert_eq!(failed.len(), 1, "{results:?}");
+    assert_eq!(failed[0].component, "button");
+    assert_eq!(failed[0].name, "scoped to button");
+    assert!(of("close-button")
+        .iter()
+        .all(|r| r.name != "scoped to button"));
+}

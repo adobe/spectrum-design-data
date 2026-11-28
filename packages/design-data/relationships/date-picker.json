@@ -122,7 +122,7 @@
     },
     "context": "Background and border",
     "contextRole": ["background", "border"],
-    "$ref": "a8c6363c-5297-41e3-ad76-1b6d0d3a3cc9",
+    "$ref": "aad52960-a7ec-4f69-85f9-3e1a87975120",
     "uuid": "6169d2f2-2df6-556f-9923-d2e702e5578d"
   },
   {
@@ -152,7 +152,7 @@
     },
     "context": "Background and border",
     "contextRole": ["background", "border"],
-    "$ref": "ac61b090-d356-4f7f-ac6d-b4f20617c9e3",
+    "$ref": "cc8c4299-c40d-4e93-80b2-c052ee8aaf40",
     "uuid": "9c004f65-3c3e-50a1-be27-faa2b164f8e1"
   },
   {
@@ -182,7 +182,7 @@
     },
     "context": "Background and border",
     "contextRole": ["background", "border"],
-    "$ref": "0906f3b2-74a9-4012-9e26-4d8f68f0eba9",
+    "$ref": "57d4b287-c9d9-4c56-894b-2df496d9a3b4",
     "uuid": "4024df57-9504-5208-b68b-5ca8b1cff4b3"
   },
   {
@@ -809,5 +809,790 @@
     "contextQualifier": "value to in-field button",
     "$ref": "19864654-c28c-4ad9-b35d-c669b33c5b9c",
     "uuid": "c3f349b5-9928-5c9c-9a2c-50f971267a89"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "height",
+      "options": {
+        "size": "s"
+      }
+    },
+    "context": "Height",
+    "contextRole": ["height"],
+    "$ref": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1",
+    "uuid": "59e6fd87-9c86-5c73-acf5-2b959328a46e"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "height",
+      "options": {
+        "size": "s"
+      }
+    },
+    "context": "Height",
+    "contextRole": ["height"],
+    "$ref": "7e113a29-1713-5fba-9ecc-72edf3b2cbd9",
+    "uuid": "2b0ab3c5-707f-53c7-8365-4ca28991d9d2"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "height",
+      "options": {
+        "size": "l"
+      }
+    },
+    "context": "Height",
+    "contextRole": ["height"],
+    "$ref": "865f1ee3-4e60-433f-9685-1bf0ea9403de",
+    "uuid": "446870a7-6023-5529-867e-8b3b6b797819"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "height",
+      "options": {
+        "size": "l"
+      }
+    },
+    "context": "Height",
+    "contextRole": ["height"],
+    "$ref": "7b98b58f-4270-5191-81ce-a4f7a6917d40",
+    "uuid": "3257e94d-bbef-5a60-999f-7298f2b00574"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "height",
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Height",
+    "contextRole": ["height"],
+    "$ref": "7b41adba-a18a-41c8-841f-b199f807e0a9",
+    "uuid": "5a3e1152-9aba-5782-9083-7d755132f5be"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "height",
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Height",
+    "contextRole": ["height"],
+    "$ref": "9b0fc8da-fc8a-5694-b5d5-b51775c8fb19",
+    "uuid": "59a44430-878a-5a6f-bcda-78f054e29eed"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "corner-radius"
+    },
+    "context": "Rounding",
+    "contextRole": ["rounding"],
+    "$ref": "892bc9de-16b2-4c51-9c18-b239e52ffd14",
+    "uuid": "5702eb8c-dc2f-5afd-9150-37df68d87adb"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "corner-radius"
+    },
+    "context": "Rounding",
+    "contextRole": ["rounding"],
+    "$ref": "67fb5355-6d7c-4e4e-a4cb-cdba10a85d84",
+    "uuid": "1477462c-5fd6-59d1-8eb9-02a7907fefc0"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "corner-radius"
+    },
+    "context": "Rounding",
+    "contextRole": ["rounding"],
+    "$ref": "ede17e00-83ef-40c5-a1d0-a46372d3fc90",
+    "uuid": "721045df-7cab-50d2-8f80-77a17a3439ba"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "corner-radius"
+    },
+    "context": "Rounding",
+    "contextRole": ["rounding"],
+    "$ref": "81752b3e-488a-4273-abb5-4ba8b7f278d9",
+    "uuid": "6ffe14e6-2a4e-5e3a-9d0a-f56b9a2cca32"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "segment"
+      },
+      "options": {
+        "size": "s"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "ba072414-2cdd-4773-86a5-11ca47c08e23",
+    "uuid": "32b7e3f9-bc4b-5920-8381-6d16aa947c29"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "segment",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "s"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "ba072414-2cdd-4773-86a5-11ca47c08e23",
+    "uuid": "0631bc1f-4d9d-5c64-8ab4-4ffc1ce4538a"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "segment"
+      },
+      "options": {
+        "size": "s"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "6b43633d-8f29-4c24-b26e-687d6f161bce",
+    "uuid": "4e3a1cd1-b9c3-57f6-a274-9f82e43bedeb"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "segment",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "s"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "6b43633d-8f29-4c24-b26e-687d6f161bce",
+    "uuid": "09f7e9bb-6d59-5c78-ad8c-0a18f7b69502"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "segment",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "m"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a",
+    "uuid": "741a27ca-8857-56d9-a759-ffe79a567395"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "segment",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "m"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "71731484-e759-4a5f-89ed-9fe04ac19aed",
+    "uuid": "4a37a97a-3bbd-5b44-9303-a2f4c8efdbee"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "segment"
+      },
+      "options": {
+        "size": "l"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "ece70425-e509-45cc-8336-76fc8afdb921",
+    "uuid": "aad0cec9-ae1e-53ce-8764-a040c179ab95"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "segment",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "l"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "ece70425-e509-45cc-8336-76fc8afdb921",
+    "uuid": "d146654a-1011-5ed7-9113-fae4b196e68d"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "segment"
+      },
+      "options": {
+        "size": "l"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "38e5af78-cb3e-4ff4-9849-28f9d4c56a38",
+    "uuid": "68a2963c-d991-5e9b-96a0-58970e72b66a"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "segment",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "l"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "38e5af78-cb3e-4ff4-9849-28f9d4c56a38",
+    "uuid": "ce116508-00d0-5533-9985-80930db82a03"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "segment"
+      },
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "b32fb20b-31a7-43da-ba38-b9a177d0cffa",
+    "uuid": "1e4c8a8f-29b6-5860-b076-84fa635414fb"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "segment",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "b32fb20b-31a7-43da-ba38-b9a177d0cffa",
+    "uuid": "e4e1fc98-a189-5276-872c-4933be6f07ae"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "segment"
+      },
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "698fa3d4-32dc-4cd2-bb79-d320effd8674",
+    "uuid": "f6e5b736-0e6f-59ea-b53a-a38918d852f7"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "segment",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "698fa3d4-32dc-4cd2-bb79-d320effd8674",
+    "uuid": "123524b5-aa44-5524-8a14-50d5d4e85480"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "color",
+      "attribute": "background"
+    },
+    "context": "Background",
+    "contextRole": ["background"],
+    "$ref": "a8c6363c-5297-41e3-ad76-1b6d0d3a3cc9",
+    "uuid": "5fd8927b-0189-56d5-921b-a4c8e48c6f97"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "color",
+      "attribute": "background"
+    },
+    "context": "Background",
+    "contextRole": ["background"],
+    "$ref": "ac61b090-d356-4f7f-ac6d-b4f20617c9e3",
+    "uuid": "3f0e5638-48a5-5ba0-a5d4-2c9976ec77fb"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "color",
+      "attribute": "background"
+    },
+    "context": "Background",
+    "contextRole": ["background"],
+    "$ref": "0906f3b2-74a9-4012-9e26-4d8f68f0eba9",
+    "uuid": "d84ab7f6-d8ed-5948-b8cc-ea5fa1a32b4a"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "state": ["hover"]
+      }
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "9a4b4fc4-25e4-4ca8-b0d1-949c5851b47e",
+    "uuid": "73844196-d389-5a42-872c-e33ff700a695"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "state": ["hover"]
+      }
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "c34dd99f-e576-4c98-a89d-86dd47514c55",
+    "uuid": "d5741d99-e0d3-55c9-9a29-98de72132f20"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "state": ["hover"]
+      }
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "4634f126-2240-4de9-b244-ab2b833d70ef",
+    "uuid": "4265c3fe-49c6-5b67-981a-5be4bc7f84f3"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "state": ["focus", "hover"]
+      }
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "59093f0d-98b7-4659-bea6-3248ad20e96c",
+    "uuid": "1d245fed-d8bb-5a00-8f73-b1d9d255bfbd"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "state": ["focus", "hover"]
+      }
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "90d25d68-afb1-4b2a-9dba-3fe22d44976f",
+    "uuid": "eb6680cc-2b2f-5deb-9f03-05ed1bc2b62a"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "state": ["focus", "hover"]
+      }
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "93fb6cac-b190-4a5a-951f-f5dc4c0d5978",
+    "uuid": "dbe0a99d-5895-59e4-8905-78f4571d3d17"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "state": ["focus"]
+      }
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "2caf1f36-80b9-4659-90be-8d89672bb19f",
+    "uuid": "aa2aa607-5cb8-563a-8050-4e5b11d70ffe"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "state": ["focus"]
+      }
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "d39fc368-ec71-40cd-85e9-afb07862f2b7",
+    "uuid": "55257e41-8c4b-5fd4-b99d-f33432d028e0"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "state": ["focus"]
+      }
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "22e79b14-2a60-4721-8e9b-800fa9e7a128",
+    "uuid": "31057d34-2e65-59e6-8d45-f4c72ea9d907"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "content-color"
+    },
+    "context": "Background and border",
+    "contextRole": ["background", "border"],
+    "$ref": "7a058b23-341c-4dd3-83d8-358917277836",
+    "uuid": "77df787c-241c-5cae-ba23-65f6aa58de22"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "isError": true
+      }
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "6effed65-3d52-465f-9eb2-7994f1ee90fb",
+    "uuid": "277d9bba-2c4c-54e5-aaae-c2eb6f7c1534"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "isError": true,
+        "state": ["hover"]
+      }
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "496571fc-18ce-44a3-a89e-40ff6397adcd",
+    "uuid": "968a3fa5-ef5e-5801-9e62-35a983e81603"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "isError": true,
+        "state": ["focus", "hover"]
+      }
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "63abd660-13c4-47b8-be9e-61e270b95212",
+    "uuid": "5b9cec52-4279-5fe5-b43a-4f06137ec8b7"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "isError": true,
+        "state": ["focus"]
+      }
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "aae2b3a5-1f68-4832-9539-62227179e69e",
+    "uuid": "3fe1a7d5-7515-537d-b274-1102992c0818"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "isError": false,
+        "isDisabled": true
+      }
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "474ae56c-709a-4f5a-a56b-62d01093f412",
+    "uuid": "87f86044-1db2-51fb-8ae9-881f5a97fe40"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "value",
+      "property": "content-color"
+    },
+    "context": "Value",
+    "contextRole": ["value"],
+    "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c",
+    "uuid": "6e486b5e-a8ed-5cf9-ba17-aa196626819d"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "value",
+      "property": "content-color"
+    },
+    "context": "Value",
+    "contextRole": ["value"],
+    "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c",
+    "uuid": "1f07928a-91b4-5bdd-b833-917ba811ded3"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "value",
+      "property": "content-color",
+      "options": {
+        "state": ["focus", "hover"]
+      }
+    },
+    "context": "Value",
+    "contextRole": ["value"],
+    "$ref": "a370f375-b3b1-4af8-9628-fa901c0252fb",
+    "uuid": "78186bf9-d25d-52ee-affb-cfcb888b9754"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "value",
+      "property": "content-color",
+      "options": {
+        "state": ["focus"]
+      }
+    },
+    "context": "Value",
+    "contextRole": ["value"],
+    "$ref": "f218dfd0-23be-4f07-becb-6027cc971c8b",
+    "uuid": "a85012f5-4540-5d4b-b18f-e0dcfa1f5a05"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "color"
+    },
+    "context": "Disabled",
+    "contextRole": ["state"],
+    "$ref": "474ae56c-709a-4f5a-a56b-62d01093f412",
+    "uuid": "5cabfe24-7e58-57d5-b003-ca20bd7d7862"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "field",
+      "property": "content-color",
+      "options": {
+        "isDisabled": true
+      }
+    },
+    "context": "Background and border",
+    "contextRole": ["background", "border"],
+    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
+    "uuid": "fa770266-7aa3-52c0-beeb-8425eca9fde2"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "focus-indicator",
+      "property": "color"
+    },
+    "context": "Focus ring",
+    "contextRole": ["focus"],
+    "$ref": "fe914904-a368-414b-a4ac-21c0b0340d05",
+    "uuid": "358ee86d-554f-530d-93a4-52cb8b53ffe0"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "value",
+      "property": "type-style"
+    },
+    "context": "Value",
+    "contextRole": ["value"],
+    "$ref": "cde5212c-520d-4657-8184-f07739ffed07",
+    "uuid": "a800587d-9e5b-5511-a20b-a49a3f8e9766"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "value",
+      "property": "type-style"
+    },
+    "context": "Value",
+    "contextRole": ["value"],
+    "$ref": "567a8eff-028f-4de1-b58a-a0473775219f",
+    "uuid": "94cdb003-4c1b-51de-8e7c-9d63562349bc"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "value",
+      "property": "type-style"
+    },
+    "context": "Value",
+    "contextRole": ["value"],
+    "$ref": "5a58a097-2235-4302-a6ed-6c1fa854c523",
+    "uuid": "838a1f2e-8b41-56a0-9b4c-1445b9acd056"
+  },
+  {
+    "scope": {
+      "component": "date-picker",
+      "part": "value",
+      "property": "type-style"
+    },
+    "context": "Value",
+    "contextRole": ["value"],
+    "$ref": "5096f188-f728-4db4-8cd9-cc23b08956e1",
+    "uuid": "11116f4b-e64e-5d39-a121-5b228cddb642"
   }
 ]

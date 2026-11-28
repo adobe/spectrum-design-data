@@ -101,6 +101,8 @@ pub(crate) struct Machine {
     pub(crate) published: Vec<String>,
     /// The contract's own `semantics` (a pattern carries none).
     pub(crate) semantics: Map<String, Value>,
+    /// The contract's own `relations`: aria references to another part or external role.
+    pub(crate) relations: Vec<Value>,
     /// The contract's own `state` list: the options a vector may start it with.
     pub(crate) state: Vec<String>,
     /// The contract's own `range` block (decision A658), read by `do.adjust`.
@@ -144,6 +146,11 @@ pub(crate) fn flatten(
         semantics: contract
             .get("semantics")
             .and_then(Value::as_object)
+            .cloned()
+            .unwrap_or_default(),
+        relations: contract
+            .get("relations")
+            .and_then(Value::as_array)
             .cloned()
             .unwrap_or_default(),
         range: contract.get("range").cloned(),
@@ -285,6 +292,60 @@ fn aria_state(
         }
     }
     out
+}
+
+/// Checks a vector's `relations` expectation against the contract's `relations` in the current
+/// facets: an item is present when the contract declares it and its `when` holds, and
+/// `present: false` asserts the opposite.
+fn check_relations(
+    m: &Machine,
+    want: &Value,
+    facets: &BTreeMap<String, String>,
+    n: usize,
+    failures: &mut Vec<String>,
+) {
+    let Some(list) = want.as_array().filter(|l| !l.is_empty()) else {
+        failures.push(format!(
+            "after step {n}: `relations` must be a list of at least one relation, got {want}"
+        ));
+        return;
+    };
+    for item in list {
+        let part = |k: &str| item.get(k).filter(|v| v.is_object());
+        let (Some(from), Some(kind), Some(to)) = (
+            part("from"),
+            item.get("kind").and_then(Value::as_str),
+            part("to"),
+        ) else {
+            failures.push(format!(
+                "after step {n}: a `relations` item needs `from`, `kind` and `to`, got {item}"
+            ));
+            continue;
+        };
+        let expected = item.get("present") != Some(&Value::Bool(false));
+        let found = m.relations.iter().find(|r| {
+            r.get("from") == Some(from)
+                && r.get("kind").and_then(Value::as_str) == Some(kind)
+                && r.get("to") == Some(to)
+        });
+        let exposed = match found.and_then(|r| r.get("when")) {
+            None => found.is_some(),
+            Some(g) => match holds(g, facets) {
+                Ok(h) => h,
+                Err(e) => {
+                    failures.push(format!("after step {n}: a relation's `when`: {e}"));
+                    continue;
+                }
+            },
+        };
+        if exposed != expected {
+            failures.push(format!(
+                "after step {n}: relation {from} {kind} {to} want {} got {}",
+                if expected { "present" } else { "absent" },
+                if exposed { "present" } else { "absent" }
+            ));
+        }
+    }
 }
 
 /// The axes the contract's `ranges` declare (none for a single `range`).
@@ -953,6 +1014,9 @@ fn run_vector(
                     _ => {}
                 }
             }
+            if let Some(want) = e.get("relations") {
+                check_relations(m, want, &facets, n, &mut failures);
+            }
             if let Some(v) = e.get("axisAria") {
                 match v.as_object() {
                     Some(o) if !o.is_empty() => {}
@@ -1461,10 +1525,20 @@ pub fn run_dir(
                     continue;
                 }
                 matched = true;
+                // A vector with a `component` runs only on that component's contract.
+                let scoped: Vec<Value> = vectors
+                    .iter()
+                    .filter(|v| {
+                        v.get("component")
+                            .and_then(Value::as_str)
+                            .is_none_or(|n| n == c.component)
+                    })
+                    .cloned()
+                    .collect();
                 out.extend(run_vectors_with(
                     &c.raw,
                     &patterns,
-                    &vectors,
+                    &scoped,
                     registry,
                     &caps,
                     Some(file),

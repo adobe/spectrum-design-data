@@ -54,6 +54,12 @@
       },
       "description": "Per anatomy part, facet id to the accessibility state it exposes."
     },
+    "relations": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/relation" },
+      "description": "Accessibility relations between elements: the `from` element's `aria-<kind>` names the `to` element. Either end is an anatomy part or a named external role (`registry/relation-roles.json`)."
+    },
     "collection": { "$ref": "#/$defs/collection" },
     "range": {
       "type": "object",
@@ -483,6 +489,46 @@
       },
       "additionalProperties": false
     },
+    "relationEnd": {
+      "type": "object",
+      "minProperties": 1,
+      "maxProperties": 1,
+      "properties": {
+        "part": {
+          "$ref": "#/$defs/name",
+          "description": "An anatomy part of the component."
+        },
+        "role": {
+          "$ref": "#/$defs/name",
+          "description": "An external role from `registry/relation-roles.json` (`trigger`, `owner`, `label`, `description`)."
+        }
+      },
+      "additionalProperties": false,
+      "description": "One end of a relation: `{ part }` or `{ role }`, never both, so an anatomy part named like a role is not ambiguous."
+    },
+    "relation": {
+      "type": "object",
+      "required": ["from", "kind", "to"],
+      "properties": {
+        "from": {
+          "$ref": "#/$defs/relationEnd",
+          "description": "The element that carries the attribute."
+        },
+        "kind": {
+          "enum": ["labelledby", "describedby"],
+          "description": "The attribute: `aria-labelledby` or `aria-describedby`."
+        },
+        "to": {
+          "$ref": "#/$defs/relationEnd",
+          "description": "The element the attribute refers to."
+        },
+        "when": {
+          "$ref": "#/$defs/guard",
+          "description": "A guard over the contract's facets: the relation holds only while it does (a tooltip's trigger describes it only while it is open). Absent: the relation always holds."
+        }
+      },
+      "additionalProperties": false
+    },
     "semantic": {
       "type": "object",
       "required": ["ariaState"],
@@ -518,7 +564,11 @@
       "type": "object",
       "required": ["name", "start", "steps", "expect"],
       "properties": {
-        "component": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+        "component": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "description": "In a role (bindings) suite, restricts the vector to the contract of this component; other components of the role skip it. Unset runs on every component of the role."
+        },
         "name": { "type": "string", "minLength": 1 },
         "needs": { "$ref": "#/$defs/needs" },
         "emitOptions": {
@@ -650,6 +700,22 @@
                 "minProperties": 1,
                 "additionalProperties": { "type": ["string", "null"] },
                 "description": "Accessibility attributes the contract's `semantics` expose after the step: attribute name to its value, or `null` when it is absent. Attributes whose semantics entry names an `axis` are read through `axisAria`."
+              },
+              "relations": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "required": ["from", "kind", "to"],
+                  "properties": {
+                    "from": { "$ref": "#/$defs/relationEnd" },
+                    "kind": { "enum": ["labelledby", "describedby"] },
+                    "to": { "$ref": "#/$defs/relationEnd" },
+                    "present": { "type": "boolean", "default": true }
+                  },
+                  "additionalProperties": false
+                },
+                "description": "Relations the contract's `relations` expose after the step, each a `{ from, kind, to }` (the produced accessibility tree names the `to` element as the `from` element's `kind` source). An item with `present: false` asserts the relation is not exposed."
               },
               "axisAria": {
                 "type": "object",

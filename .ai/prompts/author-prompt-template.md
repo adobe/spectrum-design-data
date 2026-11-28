@@ -15,5 +15,6 @@ Out of scope: <files or areas>
 Constraints: <contracts, budgets, version expectations (for example Cargo is untagged-ahead: no bump)>
 Gates: <commands and matrices that must pass for this change type>
 PR: title `<type(scope): description>`, base main, every template section filled.
-Report: write the FULL report to <report path>, then end with the path and a 5-line summary.
+Gate: tools/pr-gate/pr-gate.sh after your last commit and after every merge of origin/main; summary table in the PR body.
+Report: write the FULL report to <report path>, then end with the questions (or none), the path and a 5-line summary.
 ```

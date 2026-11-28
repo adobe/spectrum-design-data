@@ -1,0 +1,27 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "relation-role",
+  "description": "The elements a behavior contract `relations` entry may name that are not anatomy parts of the component (spec/behavior-contract.md#relations). The vocabulary is closed: add a role only with an owner decision. SPEC-126 reads this list.",
+  "values": [
+    {
+      "id": "trigger",
+      "label": "Trigger",
+      "description": "The element that shows, opens or controls the component and is supplied by the host (the control a tooltip describes). It is not part of the component's anatomy."
+    },
+    {
+      "id": "owner",
+      "label": "Owner",
+      "description": "The element that contains or owns the component in the host's tree (the field a help text belongs to)."
+    },
+    {
+      "id": "label",
+      "label": "Label",
+      "description": "An element outside the component's anatomy that names it."
+    },
+    {
+      "id": "description",
+      "label": "Description",
+      "description": "An element outside the component's anatomy that describes it."
+    }
+  ]
+}

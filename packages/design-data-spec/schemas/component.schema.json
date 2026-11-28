@@ -355,25 +355,37 @@
         "demo": {
           "type": "array",
           "minItems": 1,
-          "items": {
-            "type": "object",
-            "required": ["component"],
-            "properties": {
-              "component": {
-                "type": "string",
-                "pattern": "^[a-z][a-z0-9-]*$",
-                "description": "An accepted component."
-              },
-              "options": {
-                "type": "object",
-                "description": "Options of that component, as in a render request fill."
-              }
-            },
-            "additionalProperties": false
-          },
-          "description": "What a demo of this slot holds: the fills a host puts in it when it shows the component with content (explorer, goldens, spec sheets). Same shape as a render request's `slots` entry. Not a collection slot. Checked by SPEC-104."
+          "items": { "type": "object" },
+          "description": "What a demo of this slot holds: the content a host shows when it presents the component with content (explorer, goldens, spec sheets). On a slot without `collection`, fills in the shape of a render request's `slots` entry (a `component` and its `options`). On a collection slot, the entries of the collection option: objects of the option's item fields, passed as that option's value. Checked by SPEC-104."
         }
       },
+      "allOf": [
+        {
+          "if": { "required": ["collection"] },
+          "else": {
+            "properties": {
+              "demo": {
+                "items": {
+                  "type": "object",
+                  "required": ["component"],
+                  "properties": {
+                    "component": {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9-]*$",
+                      "description": "An accepted component."
+                    },
+                    "options": {
+                      "type": "object",
+                      "description": "Options of that component, as in a render request fill."
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        }
+      ],
       "additionalProperties": false
     },
     "anatomyPart": {

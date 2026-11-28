@@ -87,9 +87,26 @@ fn demo_slots(component: &Value) -> HashMap<String, Vec<SlotFill>> {
         .and_then(Value::as_array)
         .into_iter()
         .flatten()
+        .filter(|s| s.get("collection").is_none())
         .filter_map(|s| {
             let fills = serde_json::from_value(s.get("demo")?.clone()).expect("demo fills");
             Some((s.get("name")?.as_str()?.to_string(), fills))
+        })
+        .collect()
+}
+
+/// The `demo` of a component's collection slots: the collection option's array value.
+fn demo_options(component: &Value) -> Vec<(String, Value)> {
+    component
+        .get("slots")
+        .and_then(Value::as_array)
+        .into_iter()
+        .flatten()
+        .filter_map(|s| {
+            Some((
+                s.get("collection")?.as_str()?.to_string(),
+                s.get("demo")?.clone(),
+            ))
         })
         .collect()
 }
@@ -1215,7 +1232,15 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
     // scenario applies to each entry that does not. The cases cover every size, every state,
     // the error and disabled looks, text options, an all-empty field and the dark and
     // wireframe modes.
-    if matches!(name, "date-field" | "time-field" | "segmented-text-field") {
+    if matches!(
+        name,
+        "date-field" | "time-field" | "segmented-text-field" | "date-picker"
+    ) {
+        let help_option = if name == "date-picker" {
+            "description"
+        } else {
+            "helpText"
+        };
         let seg = |label: &str, placeholder: bool, literal: bool| serde_json::json!({ "label": label, "isPlaceholder": placeholder, "isLiteral": literal });
         let filled = if name == "time-field" {
             serde_json::json!([
@@ -1318,7 +1343,7 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
                     &[],
                     &[
                         ("label", "Appointment".into()),
-                        ("helpText", "Pick a day this month.".into()),
+                        (help_option, "Pick a day this month.".into()),
                         ("isRequired", true.into()),
                     ],
                     &filled,
@@ -1333,7 +1358,7 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
                     &[],
                     &[
                         ("label", "Appointment".into()),
-                        ("helpText", "Choose a later date.".into()),
+                        (help_option, "Choose a later date.".into()),
                         ("isError", true.into()),
                     ],
                     &filled,
@@ -1365,6 +1390,39 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
                 "desktop",
             ),
         ));
+        // A date picker's field also carries a range (two dates) and a date with a time.
+        if name == "date-picker" {
+            let range = serde_json::json!([
+                seg("11", false, false),
+                seg("/", false, true),
+                seg("27", false, false),
+                seg("/", false, true),
+                seg("2026", false, false),
+                seg("\u{2013}", false, true),
+                seg("12", false, false),
+                seg("/", false, true),
+                seg("03", false, false),
+                seg("/", false, true),
+                seg("2026", false, false)
+            ]);
+            out.push(("range", with(&[], &[], &range, "m", "light", "desktop")));
+            let date_time = serde_json::json!([
+                seg("11", false, false),
+                seg("/", false, true),
+                seg("27", false, false),
+                seg("/", false, true),
+                seg("2026", false, false),
+                seg(",", false, true),
+                seg("10", false, false),
+                seg(":", false, true),
+                seg("30", false, false),
+                seg("AM", false, false)
+            ]);
+            out.push((
+                "date-time-dark-mobile",
+                with(&[], &[], &date_time, "m", "dark", "mobile"),
+            ));
+        }
     }
     // Group recipes draw only their slot fills: three items at the default size, and a small
     // vertical one (compact for the action group), so the gap bindings show.
@@ -3642,9 +3700,13 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
     }
     // A component whose slots declare a `demo` draws it: the content every host shows.
     let demo = demo_slots(component);
-    if !demo.is_empty() {
+    let demo_opts = demo_options(component);
+    if !demo.is_empty() || !demo_opts.is_empty() {
         let mut r = req(vec![], HashMap::new(), "light", "desktop");
         r.slots = demo;
+        for (option, entries) in demo_opts {
+            r.options.insert(option, entries);
+        }
         out.push(("demo", r));
     }
     out
@@ -3698,6 +3760,40 @@ fn demo_slots_draw_every_fill_they_declare() {
         }
     }
     assert_eq!(hosts, 15);
+}
+
+/// A collection slot's demo reaches the request as the array option: the repeated part is
+/// drawn once per entry, and the scene has no diagnostics.
+#[test]
+fn collection_demos_draw_one_copy_per_entry() {
+    let graph = load_graph();
+    let cache = SceneCache::default();
+    let mut hosts = 0;
+    for name in ["date-field", "time-field", "segmented-text-field"] {
+        let component = read_json(data_dir().join(format!("components/{name}.json")));
+        let recipe = read_json(data_dir().join(format!("visuals/{name}.json")));
+        let (_, req) = requests(name, &recipe, &component)
+            .into_iter()
+            .find(|(g, _)| *g == "demo")
+            .expect("demo request");
+        let scene = build_scene_cached(&graph, &recipe, &req, &cache).expect("scene");
+        assert!(
+            scene.diagnostics.is_empty(),
+            "{name}: {:?}",
+            scene.diagnostics
+        );
+        let slot = &component["slots"][0];
+        let entries = slot["demo"].as_array().unwrap();
+        let drawn = (1..=entries.len() + 1)
+            .filter(|n| {
+                let id = format!("{}-{n}", slot["part"].as_str().unwrap());
+                scene.nodes.iter().any(|node| node.part == id)
+            })
+            .count();
+        assert_eq!(drawn, entries.len(), "{name}: segment copies drawn");
+        hosts += 1;
+    }
+    assert_eq!(hosts, 3);
 }
 
 #[test]

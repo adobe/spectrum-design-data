@@ -40,6 +40,21 @@
       "rule_id": "SPEC-104",
       "severity": "error",
       "message_pattern": ".*sets option 'nope', which 'chip' does not declare.*"
+    },
+    {
+      "rule_id": "SPEC-104",
+      "severity": "error",
+      "message_pattern": ".*Demo of slot 'tile'.*sets 'nope', which items of 'items' do not declare.*"
+    },
+    {
+      "rule_id": "SPEC-104",
+      "severity": "error",
+      "message_pattern": ".*Demo of slot 'tile'.*sets 'isLiteral' to a value that is not its declared type.*"
+    },
+    {
+      "rule_id": "SPEC-104",
+      "severity": "error",
+      "message_pattern": ".*Demo entry 2 of slot 'tile'.*is not an object.*"
     }
   ]
 }

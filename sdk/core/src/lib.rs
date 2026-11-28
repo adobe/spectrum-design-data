@@ -738,9 +738,10 @@ mod validation_conformance {
         let mut failures = Vec::new();
         // The skip below must not hide a rule that is implemented: these fail if unregistered.
         for id in [
-            "SPEC-074", "SPEC-106", "SPEC-107", "SPEC-108", "SPEC-109", "SPEC-110", "SPEC-111",
-            "SPEC-112", "SPEC-113", "SPEC-114", "SPEC-115", "SPEC-116", "SPEC-117", "SPEC-118",
-            "SPEC-119", "SPEC-120", "SPEC-121", "SPEC-122", "SPEC-123", "SPEC-125",
+            "SPEC-074", "SPEC-104", "SPEC-106", "SPEC-107", "SPEC-108", "SPEC-109", "SPEC-110",
+            "SPEC-111", "SPEC-112", "SPEC-113", "SPEC-114", "SPEC-115", "SPEC-116", "SPEC-117",
+            "SPEC-118", "SPEC-119", "SPEC-120", "SPEC-121", "SPEC-122", "SPEC-123", "SPEC-125",
+            "SPEC-126",
         ] {
             assert!(registered.contains(id), "{id} is not in default_rules()");
         }

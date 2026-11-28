@@ -113,6 +113,7 @@ const behaviorRegistries = [
   ["INTENTS_JSON", "intents"],
   ["CAPABILITIES_JSON", "capabilities"],
   ["ENVIRONMENT_JSON", "environment"],
+  ["RELATION_ROLES_JSON", "relation-roles"],
   ["EXEMPTION_REASONS_JSON", "exemption-reasons"],
   ["BEHAVIOR_EXEMPTIONS_JSON", "behavior-exemptions"],
 ];

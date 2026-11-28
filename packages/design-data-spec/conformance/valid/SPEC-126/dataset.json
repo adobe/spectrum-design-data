@@ -1,0 +1,86 @@
+{
+  "tokens": [],
+  "components": [
+    {
+      "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/demo-tip.json",
+      "name": "demo-tip",
+      "displayName": "Demo tip",
+      "meta": {
+        "category": "feedback",
+        "documentationUrl": "https://spectrum.adobe.com/page/tooltip/"
+      },
+      "options": {
+        "isOpen": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "anatomy": [
+        {
+          "name": "container",
+          "description": "Root.",
+          "required": true
+        },
+        {
+          "name": "label",
+          "description": "Text."
+        }
+      ]
+    }
+  ],
+  "behaviors": [
+    {
+      "component": "demo-tip",
+      "state": ["isOpen"],
+      "facets": {
+        "open": {
+          "from": "isOpen",
+          "values": {
+            "false": false,
+            "true": true
+          }
+        }
+      },
+      "parts": {
+        "container": {
+          "role": "tooltip",
+          "focus": "none"
+        }
+      },
+      "relations": [
+        {
+          "from": {
+            "role": "trigger"
+          },
+          "kind": "describedby",
+          "to": {
+            "part": "container"
+          },
+          "when": {
+            "facet": "open",
+            "is": "true"
+          }
+        },
+        {
+          "from": {
+            "part": "container"
+          },
+          "kind": "labelledby",
+          "to": {
+            "part": "label"
+          }
+        },
+        {
+          "from": {
+            "part": "container"
+          },
+          "kind": "describedby",
+          "to": {
+            "role": "description"
+          }
+        }
+      ]
+    }
+  ],
+  "behaviorPatterns": []
+}

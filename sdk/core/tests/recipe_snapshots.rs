@@ -272,7 +272,10 @@ fn fixed_options(name: &str) -> Vec<(String, Value)> {
             ),
         ];
     }
-    if matches!(name, "date-field" | "time-field" | "segmented-text-field") {
+    if matches!(
+        name,
+        "date-field" | "time-field" | "segmented-text-field" | "date-picker"
+    ) {
         // The fields draw only the segments the request supplies: a value, a separator, an
         // empty segment showing its format text and the last value, so each segment binding
         // is part of every snapshot. Every entry sets both flags, because a request option
@@ -524,6 +527,7 @@ recipe_tests! {
     combo_box => "combo-box",
     contextual_help => "contextual-help",
     date_field => "date-field",
+    date_picker => "date-picker",
     detail => "detail",
     divider => "divider",
     drop_zone => "drop-zone",
