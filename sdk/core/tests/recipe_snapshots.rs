@@ -272,6 +272,30 @@ fn fixed_options(name: &str) -> Vec<(String, Value)> {
             ),
         ];
     }
+    if matches!(name, "date-field" | "time-field" | "segmented-text-field") {
+        // The fields draw only the segments the request supplies: a value, a separator, an
+        // empty segment showing its format text and the last value, so each segment binding
+        // is part of every snapshot. Every entry sets both flags, because a request option
+        // such as isLiteral applies to each entry that does not.
+        let seg = |label: &str, placeholder: bool, literal: bool| serde_json::json!({ "label": label, "isPlaceholder": placeholder, "isLiteral": literal });
+        let segments = if name == "time-field" {
+            serde_json::json!([
+                seg("10", false, false),
+                seg(":", false, true),
+                seg("mm", true, false),
+                seg("AM", false, false)
+            ])
+        } else {
+            serde_json::json!([
+                seg("11", false, false),
+                seg("/", false, true),
+                seg("dd", true, false),
+                seg("/", false, true),
+                seg("2026", false, false)
+            ])
+        };
+        return vec![("segments".into(), segments)];
+    }
     if name == "drop-zone" {
         // The text parts draw nothing without copy, so every snapshot carries both.
         return vec![
@@ -497,6 +521,7 @@ recipe_tests! {
     color_slider => "color-slider",
     combo_box => "combo-box",
     contextual_help => "contextual-help",
+    date_field => "date-field",
     divider => "divider",
     drop_zone => "drop-zone",
     field_label => "field-label",
@@ -519,6 +544,7 @@ recipe_tests! {
     radio_group => "radio-group",
     search_field => "search-field",
     segmented_control => "segmented-control",
+    segmented_text_field => "segmented-text-field",
     select_box => "select-box",
     side_navigation => "side-navigation",
     slider => "slider",
@@ -536,6 +562,7 @@ recipe_tests! {
     text_area => "text-area",
     text_field => "text-field",
     thumbnail => "thumbnail",
+    time_field => "time-field",
     toast => "toast",
     tooltip => "tooltip",
     tree_view => "tree-view",
