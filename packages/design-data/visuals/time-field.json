@@ -1,0 +1,270 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "time-field",
+  "root": "container",
+  "sizeScale": {
+    "s": 75,
+    "m": 100,
+    "l": 200,
+    "xl": 300
+  },
+  "notVisual": ["granularity", "hourCycle", "hideTimeZone"],
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["field-label", "field", "help-text"],
+      "props": {
+        "direction": {
+          "value": "column"
+        },
+        "align": {
+          "value": "start"
+        },
+        "gap": {
+          "value": 0
+        }
+      }
+    },
+    "field-label": {
+      "kind": "component",
+      "sizeMap": {
+        "s": "s",
+        "m": "m",
+        "l": "l",
+        "xl": "xl"
+      },
+      "with": {
+        "isRequired": {
+          "option": "isRequired"
+        },
+        "necessityIndicator": {
+          "option": "necessityIndicator"
+        },
+        "isDisabled": {
+          "option": "isDisabled"
+        },
+        "label": {
+          "option": "label"
+        }
+      }
+    },
+    "field": {
+      "kind": "box",
+      "children": ["segment", "focus-indicator"],
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "center"
+        },
+        "height": {
+          "relationship": {
+            "property": "height",
+            "part": "field"
+          }
+        },
+        "paddingInlineStart": {
+          "relationship": {
+            "property": "space-between",
+            "part": "field",
+            "between": {
+              "from": "start-edge",
+              "to": "segment"
+            }
+          }
+        },
+        "paddingInlineEnd": {
+          "relationship": {
+            "property": "space-between",
+            "part": "field",
+            "between": {
+              "from": "segment",
+              "to": "end-edge"
+            }
+          }
+        },
+        "cornerRadius": {
+          "relationship": {
+            "property": "corner-radius",
+            "part": "field"
+          }
+        },
+        "fill": {
+          "relationship": {
+            "property": "color",
+            "attribute": "background",
+            "part": "field"
+          }
+        },
+        "stroke": {
+          "relationship": {
+            "property": "color",
+            "attribute": "border",
+            "part": "field"
+          }
+        },
+        "strokeWidth": {
+          "relationship": {
+            "property": "border-width",
+            "part": "field"
+          }
+        },
+        "minWidth": {
+          "relationship": {
+            "property": "minimum-width",
+            "part": "container"
+          },
+          "relativeTo": "height"
+        },
+        "justify": {
+          "value": "start"
+        }
+      },
+      "repeat": {
+        "slot": "default",
+        "label": "label",
+        "with": {
+          "isPlaceholder": "isPlaceholder",
+          "isLiteral": "isLiteral"
+        }
+      }
+    },
+    "segment": {
+      "kind": "box",
+      "children": ["value"],
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "center"
+        },
+        "cornerRadius": [
+          {
+            "when": {
+              "options": {
+                "isLiteral": false
+              }
+            },
+            "relationship": {
+              "property": "corner-radius",
+              "part": "segment"
+            }
+          }
+        ],
+        "paddingInlineStart": [
+          {
+            "when": {
+              "options": {
+                "isLiteral": false
+              }
+            },
+            "relationship": {
+              "property": "padding-horizontal",
+              "part": "segment"
+            }
+          }
+        ],
+        "paddingInlineEnd": [
+          {
+            "when": {
+              "options": {
+                "isLiteral": false
+              }
+            },
+            "relationship": {
+              "property": "padding-horizontal",
+              "part": "segment"
+            }
+          }
+        ]
+      }
+    },
+    "value": {
+      "kind": "text",
+      "props": {
+        "typeStyle": {
+          "relationship": {
+            "property": "type-style",
+            "part": "value"
+          }
+        },
+        "color": [
+          {
+            "relationship": {
+              "property": "content-color",
+              "part": "value"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isPlaceholder": true
+              }
+            },
+            "relationship": {
+              "property": "content-color",
+              "part": "field"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": true
+              }
+            },
+            "priority": 10,
+            "relationship": {
+              "property": "content-color",
+              "part": "field"
+            }
+          }
+        ]
+      }
+    },
+    "focus-indicator": {
+      "kind": "ring",
+      "around": "field",
+      "props": {
+        "stroke": {
+          "relationship": {
+            "property": "color",
+            "part": "focus-indicator"
+          }
+        },
+        "strokeWidth": {
+          "relationship": {
+            "property": "thickness",
+            "part": "focus-indicator"
+          }
+        }
+      }
+    },
+    "help-text": {
+      "kind": "component",
+      "sizeMap": {
+        "s": "s",
+        "m": "m",
+        "l": "l",
+        "xl": "xl"
+      },
+      "with": {
+        "text": {
+          "option": "helpText"
+        },
+        "isDisabled": {
+          "option": "isDisabled"
+        },
+        "variant": {
+          "option": "isError",
+          "map": {
+            "true": "negative",
+            "false": "neutral"
+          }
+        }
+      }
+    }
+  }
+}

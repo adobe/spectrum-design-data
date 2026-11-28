@@ -1,0 +1,108 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "segmented-text-field",
+  "root": "container",
+  "sizeScale": {
+    "s": 75,
+    "m": 100,
+    "l": 200,
+    "xl": 300
+  },
+  "notVisual": [],
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["segment"],
+      "repeat": {
+        "slot": "default",
+        "label": "label",
+        "with": {
+          "isPlaceholder": "isPlaceholder",
+          "isLiteral": "isLiteral"
+        }
+      },
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "center"
+        },
+        "gap": {
+          "value": 0
+        }
+      }
+    },
+    "segment": {
+      "kind": "box",
+      "children": ["value"],
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "center"
+        },
+        "cornerRadius": [
+          {
+            "when": {
+              "options": {
+                "isLiteral": false
+              }
+            },
+            "relationship": {
+              "property": "corner-radius",
+              "part": "segment"
+            }
+          }
+        ],
+        "paddingInlineStart": [
+          {
+            "when": {
+              "options": {
+                "isLiteral": false
+              }
+            },
+            "relationship": {
+              "property": "padding-horizontal",
+              "part": "segment"
+            }
+          }
+        ],
+        "paddingInlineEnd": [
+          {
+            "when": {
+              "options": {
+                "isLiteral": false
+              }
+            },
+            "relationship": {
+              "property": "padding-horizontal",
+              "part": "segment"
+            }
+          }
+        ]
+      }
+    },
+    "value": {
+      "kind": "text",
+      "props": {
+        "typeStyle": {
+          "relationship": {
+            "property": "type-style",
+            "part": "value"
+          }
+        },
+        "color": [
+          {
+            "relationship": {
+              "property": "content-color",
+              "part": "value"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

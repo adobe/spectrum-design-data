@@ -13,6 +13,10 @@
     "close-button": 10,
     "field-label": 2
   },
+  "SPEC-083": {
+    "date-field": 1,
+    "time-field": 1
+  },
   "SPEC-086": {
     "action-button": 1
   },

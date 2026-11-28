@@ -1114,6 +1114,163 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
         bare.slots = HashMap::new();
         out.push(("no-actions", bare));
     }
+    // Segmented fields: every scenario carries the segments the request supplies (a value, a
+    // separator, an empty segment with its format text), because the recipe draws nothing
+    // else. Every entry sets both flags: a request option such as `isLiteral` in the all-on
+    // scenario applies to each entry that does not. The cases cover every size, every state,
+    // the error and disabled looks, text options, an all-empty field and the dark and
+    // wireframe modes.
+    if matches!(name, "date-field" | "time-field" | "segmented-text-field") {
+        let seg = |label: &str, placeholder: bool, literal: bool| serde_json::json!({ "label": label, "isPlaceholder": placeholder, "isLiteral": literal });
+        let filled = if name == "time-field" {
+            serde_json::json!([
+                seg("10", false, false),
+                seg(":", false, true),
+                seg("30", false, false),
+                seg("AM", false, false)
+            ])
+        } else {
+            serde_json::json!([
+                seg("11", false, false),
+                seg("/", false, true),
+                seg("27", false, false),
+                seg("/", false, true),
+                seg("2026", false, false)
+            ])
+        };
+        let empty = if name == "time-field" {
+            serde_json::json!([
+                seg("hh", true, false),
+                seg(":", false, true),
+                seg("mm", true, false),
+                seg("AM", true, false)
+            ])
+        } else {
+            serde_json::json!([
+                seg("mm", true, false),
+                seg("/", false, true),
+                seg("dd", true, false),
+                seg("/", false, true),
+                seg("yyyy", true, false)
+            ])
+        };
+        for (_, r) in out.iter_mut() {
+            r.options.insert("segments".into(), filled.clone());
+        }
+        let with = |states: &[&str],
+                    opts: &[(&str, Value)],
+                    segments: &Value,
+                    size: &str,
+                    scheme: &str,
+                    scale: &str| {
+            let mut r = req(
+                states.iter().map(|s| s.to_string()).collect(),
+                opts.iter()
+                    .map(|(k, v)| (k.to_string(), v.clone()))
+                    .collect(),
+                scheme,
+                scale,
+            );
+            r.options.insert("segments".into(), segments.clone());
+            r.size = size.into();
+            r
+        };
+        out.push(("empty", with(&[], &[], &empty, "m", "light", "desktop")));
+        for (id, sz) in [("size-s", "s"), ("size-l", "l"), ("size-xl", "xl")] {
+            out.push((id, with(&[], &[], &filled, sz, "light", "desktop")));
+        }
+        out.push((
+            "size-xl-mobile-dark",
+            with(&[], &[], &filled, "xl", "dark", "mobile"),
+        ));
+        if name != "segmented-text-field" {
+            for (id, st) in [
+                ("state-hover", "hover"),
+                ("state-focus", "focus"),
+                ("state-keyboard-focus", "keyboard-focus"),
+            ] {
+                out.push((id, with(&[st], &[], &filled, "m", "light", "desktop")));
+            }
+            out.push((
+                "state-focus-hover",
+                with(&["focus", "hover"], &[], &filled, "m", "light", "desktop"),
+            ));
+            out.push((
+                "error",
+                with(
+                    &[],
+                    &[("isError", true.into())],
+                    &filled,
+                    "m",
+                    "light",
+                    "desktop",
+                ),
+            ));
+            out.push((
+                "error-focus",
+                with(
+                    &["focus"],
+                    &[("isError", true.into())],
+                    &filled,
+                    "m",
+                    "light",
+                    "desktop",
+                ),
+            ));
+            out.push((
+                "label-and-help-text",
+                with(
+                    &[],
+                    &[
+                        ("label", "Appointment".into()),
+                        ("helpText", "Pick a day this month.".into()),
+                        ("isRequired", true.into()),
+                    ],
+                    &filled,
+                    "m",
+                    "light",
+                    "desktop",
+                ),
+            ));
+            out.push((
+                "error-help-text-dark",
+                with(
+                    &[],
+                    &[
+                        ("label", "Appointment".into()),
+                        ("helpText", "Choose a later date.".into()),
+                        ("isError", true.into()),
+                    ],
+                    &filled,
+                    "m",
+                    "dark",
+                    "desktop",
+                ),
+            ));
+        }
+        out.push((
+            "disabled",
+            with(
+                &[],
+                &[("isDisabled", true.into())],
+                &filled,
+                "m",
+                "light",
+                "desktop",
+            ),
+        ));
+        out.push((
+            "disabled-empty",
+            with(
+                &[],
+                &[("isDisabled", true.into())],
+                &empty,
+                "m",
+                "light",
+                "desktop",
+            ),
+        ));
+    }
     // Group recipes draw only their slot fills: three items at the default size, and a small
     // vertical one (compact for the action group), so the gap bindings show.
     if let Some(item) = match name {

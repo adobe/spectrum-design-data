@@ -31,5 +31,981 @@
       "deprecatedComment": "Use semantic token base-padding-horizontal-medium instead.",
       "replacedBy": "52a75511-eb1b-4de2-a1bb-959365d8dc1a"
     }
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "height",
+      "options": {
+        "size": "s"
+      }
+    },
+    "context": "Height",
+    "contextRole": ["height"],
+    "$ref": "e41a0142-7428-43bf-aedc-3b8d9c70bdf1",
+    "uuid": "6c1e2feb-8688-5b86-a2dc-a669fdb3e609"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "height",
+      "options": {
+        "size": "s"
+      }
+    },
+    "context": "Height",
+    "contextRole": ["height"],
+    "$ref": "7e113a29-1713-5fba-9ecc-72edf3b2cbd9",
+    "uuid": "4173a41a-916d-55f9-ad14-8f2fcf8b3d36"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "height",
+      "options": {
+        "size": "m"
+      }
+    },
+    "context": "Height",
+    "contextRole": ["height"],
+    "$ref": "61de58a3-53ed-4dd8-8937-08920b00968c",
+    "uuid": "3fe0e558-1609-599e-88a3-49fa53148f92"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "height",
+      "options": {
+        "size": "m"
+      }
+    },
+    "context": "Height",
+    "contextRole": ["height"],
+    "$ref": "e770bf1c-435f-5480-962d-c4cac4480ee7",
+    "uuid": "90e18921-3eda-53ae-8a14-288f70914723"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "height",
+      "options": {
+        "size": "l"
+      }
+    },
+    "context": "Height",
+    "contextRole": ["height"],
+    "$ref": "865f1ee3-4e60-433f-9685-1bf0ea9403de",
+    "uuid": "7c32e108-9d24-5dde-bf08-d906bedc4dc8"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "height",
+      "options": {
+        "size": "l"
+      }
+    },
+    "context": "Height",
+    "contextRole": ["height"],
+    "$ref": "7b98b58f-4270-5191-81ce-a4f7a6917d40",
+    "uuid": "09877260-fda0-5116-ab2c-64aa66f05d30"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "height",
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Height",
+    "contextRole": ["height"],
+    "$ref": "7b41adba-a18a-41c8-841f-b199f807e0a9",
+    "uuid": "8b43dd96-cee5-5a6d-834c-11935a3a7e72"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "height",
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Height",
+    "contextRole": ["height"],
+    "$ref": "9b0fc8da-fc8a-5694-b5d5-b51775c8fb19",
+    "uuid": "8efd8c4f-6ac1-564f-9681-e1ed5578225a"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "corner-radius"
+    },
+    "context": "Rounding",
+    "contextRole": ["rounding"],
+    "$ref": "892bc9de-16b2-4c51-9c18-b239e52ffd14",
+    "uuid": "6e70493e-71b3-547e-9f7a-162fdd461db9"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "corner-radius"
+    },
+    "context": "Rounding",
+    "contextRole": ["rounding"],
+    "$ref": "67fb5355-6d7c-4e4e-a4cb-cdba10a85d84",
+    "uuid": "f41cf1ae-1fa0-50e2-9b10-49da56c98f8c"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "corner-radius"
+    },
+    "context": "Rounding",
+    "contextRole": ["rounding"],
+    "$ref": "ede17e00-83ef-40c5-a1d0-a46372d3fc90",
+    "uuid": "92303939-af87-56b4-95a4-50ecd0403244"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "corner-radius"
+    },
+    "context": "Rounding",
+    "contextRole": ["rounding"],
+    "$ref": "81752b3e-488a-4273-abb5-4ba8b7f278d9",
+    "uuid": "f9123e19-3368-50e8-b26f-300169aff17c"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "segment"
+      },
+      "options": {
+        "size": "s"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "ba072414-2cdd-4773-86a5-11ca47c08e23",
+    "uuid": "4e2fc8b7-be7a-556a-b3cb-f7898f976a0c"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "segment",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "s"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "ba072414-2cdd-4773-86a5-11ca47c08e23",
+    "uuid": "96bf32ab-9924-5b14-9a49-57dca1fb225b"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "segment"
+      },
+      "options": {
+        "size": "s"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "6b43633d-8f29-4c24-b26e-687d6f161bce",
+    "uuid": "59e70eef-bb04-5e56-845d-63af48cb7bac"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "segment",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "s"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "6b43633d-8f29-4c24-b26e-687d6f161bce",
+    "uuid": "64b36d6c-e28c-5672-898e-ba9a27a434f0"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "segment"
+      },
+      "options": {
+        "size": "m"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a",
+    "uuid": "367a0c88-7f7c-5dff-8297-ada5f7496a86"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "segment",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "m"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "52a75511-eb1b-4de2-a1bb-959365d8dc1a",
+    "uuid": "6975c159-eb16-5968-9228-9be8935c8a00"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "segment"
+      },
+      "options": {
+        "size": "m"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "71731484-e759-4a5f-89ed-9fe04ac19aed",
+    "uuid": "265d629f-7275-532d-95eb-89c851ad5639"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "segment",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "m"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "71731484-e759-4a5f-89ed-9fe04ac19aed",
+    "uuid": "f1962aee-173f-5ec6-991b-a5ab7d8aa045"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "segment"
+      },
+      "options": {
+        "size": "l"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "ece70425-e509-45cc-8336-76fc8afdb921",
+    "uuid": "daca848d-4111-5814-bcf4-7c0fb199c1db"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "segment",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "l"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "ece70425-e509-45cc-8336-76fc8afdb921",
+    "uuid": "d626aa37-b9a8-5701-8023-5519a726ab86"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "segment"
+      },
+      "options": {
+        "size": "l"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "38e5af78-cb3e-4ff4-9849-28f9d4c56a38",
+    "uuid": "8ad27a62-bff1-5b93-a7d9-a46526377ba4"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "segment",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "l"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "38e5af78-cb3e-4ff4-9849-28f9d4c56a38",
+    "uuid": "394220d3-bcf4-5aee-8f9f-6f1be3f8e160"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "segment"
+      },
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "b32fb20b-31a7-43da-ba38-b9a177d0cffa",
+    "uuid": "aee3aa27-64c4-5371-914d-deda02e1c0ab"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "segment",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "b32fb20b-31a7-43da-ba38-b9a177d0cffa",
+    "uuid": "d347f507-c657-5b34-80cc-d8c33d1c9229"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "start-edge",
+        "to": "segment"
+      },
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "698fa3d4-32dc-4cd2-bb79-d320effd8674",
+    "uuid": "4bd741b4-ab0d-5554-a7f6-4bc6c2933d1d"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "space-between",
+      "between": {
+        "from": "segment",
+        "to": "end-edge"
+      },
+      "options": {
+        "size": "xl"
+      }
+    },
+    "context": "Spacing (start/end edge to value)",
+    "contextRole": ["spacing"],
+    "contextQualifier": "start/end edge to value",
+    "$ref": "698fa3d4-32dc-4cd2-bb79-d320effd8674",
+    "uuid": "0da227fe-4bfd-5afe-bbe8-5a5956f226eb"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "border-width"
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "cc8a43f4-0ba6-46e3-90af-653fbc59a328",
+    "uuid": "91ccdb73-7acb-5a69-aace-ec07435b40e0"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "focus-indicator",
+      "property": "thickness"
+    },
+    "context": "Focus indicator",
+    "contextRole": ["focus"],
+    "$ref": "b6148878-b78d-4fe7-bf78-e01e7cb314c2",
+    "uuid": "3f1eda23-801e-59b6-a36d-82019a4fdc99"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "color",
+      "attribute": "background"
+    },
+    "context": "Background",
+    "contextRole": ["background"],
+    "$ref": "a8c6363c-5297-41e3-ad76-1b6d0d3a3cc9",
+    "uuid": "3d853968-f7f3-5155-a703-e7dc8587ba97"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "color",
+      "attribute": "background"
+    },
+    "context": "Background",
+    "contextRole": ["background"],
+    "$ref": "ac61b090-d356-4f7f-ac6d-b4f20617c9e3",
+    "uuid": "3a5d272f-1370-5374-b26d-d8dc2cb79e23"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "color",
+      "attribute": "background"
+    },
+    "context": "Background",
+    "contextRole": ["background"],
+    "$ref": "0906f3b2-74a9-4012-9e26-4d8f68f0eba9",
+    "uuid": "8f09ec7b-5baf-5496-acef-ad62e524e83d"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "color",
+      "attribute": "border"
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "aad52960-a7ec-4f69-85f9-3e1a87975120",
+    "uuid": "76b7e995-5b1e-5d6d-9b05-9e8189372b97"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "color",
+      "attribute": "border"
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "cc8c4299-c40d-4e93-80b2-c052ee8aaf40",
+    "uuid": "a35b90aa-eb24-585c-9ea0-8b1a9e33bcce"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "color",
+      "attribute": "border"
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "57d4b287-c9d9-4c56-894b-2df496d9a3b4",
+    "uuid": "714ea851-17eb-5e90-99ce-8c88e4643739"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "state": ["hover"]
+      }
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "9a4b4fc4-25e4-4ca8-b0d1-949c5851b47e",
+    "uuid": "4286ab29-e220-560d-9fe3-c1ba60400a6c"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "state": ["hover"]
+      }
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "c34dd99f-e576-4c98-a89d-86dd47514c55",
+    "uuid": "c6ba0e2c-b755-5797-81d8-5f7a725044fc"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "state": ["hover"]
+      }
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "4634f126-2240-4de9-b244-ab2b833d70ef",
+    "uuid": "4fc9216e-097f-51a7-b6b2-3dfa6920092b"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "state": ["focus", "hover"]
+      }
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "59093f0d-98b7-4659-bea6-3248ad20e96c",
+    "uuid": "f14b7b88-4392-5ec1-962c-8a4c67c1b9f2"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "state": ["focus", "hover"]
+      }
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "90d25d68-afb1-4b2a-9dba-3fe22d44976f",
+    "uuid": "63112b44-d08e-5998-9049-720f08aba17f"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "state": ["focus", "hover"]
+      }
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "93fb6cac-b190-4a5a-951f-f5dc4c0d5978",
+    "uuid": "34f125c1-75a6-5f9f-a223-c9c9d83ca1a6"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "state": ["focus"]
+      }
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "2caf1f36-80b9-4659-90be-8d89672bb19f",
+    "uuid": "d2e26298-25d1-5423-99bb-d37852ddd776"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "state": ["focus"]
+      }
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "d39fc368-ec71-40cd-85e9-afb07862f2b7",
+    "uuid": "74283986-e578-508e-8a6c-8e91bd8a5cd4"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "state": ["focus"]
+      }
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "22e79b14-2a60-4721-8e9b-800fa9e7a128",
+    "uuid": "02ea0341-f61c-58bf-b715-4b76002ab587"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "content-color"
+    },
+    "context": "Background and border",
+    "contextRole": ["background", "border"],
+    "$ref": "7a058b23-341c-4dd3-83d8-358917277836",
+    "uuid": "b57936c3-1f4d-5ddc-a151-604eb338b0c9"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "isError": true
+      }
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "6effed65-3d52-465f-9eb2-7994f1ee90fb",
+    "uuid": "9f23eefd-c5b1-5b8e-afd3-201a1d65e647"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "isError": true,
+        "state": ["hover"]
+      }
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "496571fc-18ce-44a3-a89e-40ff6397adcd",
+    "uuid": "50803287-9a88-5e52-b015-47db17c52ce0"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "isError": true,
+        "state": ["focus", "hover"]
+      }
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "63abd660-13c4-47b8-be9e-61e270b95212",
+    "uuid": "3fd26c8a-522f-5a54-93db-8a673c288e2c"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "isError": true,
+        "state": ["focus"]
+      }
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "aae2b3a5-1f68-4832-9539-62227179e69e",
+    "uuid": "d5a2a476-f51d-50e7-8f16-f79dda4a364c"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "color",
+      "attribute": "border",
+      "options": {
+        "isError": false,
+        "isDisabled": true
+      }
+    },
+    "context": "Border",
+    "contextRole": ["border"],
+    "$ref": "474ae56c-709a-4f5a-a56b-62d01093f412",
+    "uuid": "aaf1ceaf-f7d9-535f-bd28-9c56dedb86b8"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "value",
+      "property": "content-color"
+    },
+    "context": "Value",
+    "contextRole": ["value"],
+    "$ref": "43ca4c0d-7803-4e8e-b444-26fe70d5304c",
+    "uuid": "165f241e-5776-5ee4-8302-1ce5ed2df82e"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "value",
+      "property": "content-color"
+    },
+    "context": "Value",
+    "contextRole": ["value"],
+    "$ref": "d236bdc5-037b-4838-8401-8a0d5136936c",
+    "uuid": "a4d20915-292d-5a1e-859b-15e24ff6343e"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "value",
+      "property": "content-color",
+      "options": {
+        "state": ["focus", "hover"]
+      }
+    },
+    "context": "Value",
+    "contextRole": ["value"],
+    "$ref": "a370f375-b3b1-4af8-9628-fa901c0252fb",
+    "uuid": "6640c8e1-1f29-5d74-9217-66a45951b1fc"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "value",
+      "property": "content-color",
+      "options": {
+        "state": ["focus"]
+      }
+    },
+    "context": "Value",
+    "contextRole": ["value"],
+    "$ref": "f218dfd0-23be-4f07-becb-6027cc971c8b",
+    "uuid": "b98b9968-81b4-5ce6-884b-540555f7ab41"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "color"
+    },
+    "context": "Disabled",
+    "contextRole": ["state"],
+    "$ref": "474ae56c-709a-4f5a-a56b-62d01093f412",
+    "uuid": "02d3c0d4-2f9e-5135-b653-09483c672391"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "field",
+      "property": "content-color",
+      "options": {
+        "isDisabled": true
+      }
+    },
+    "context": "Background and border",
+    "contextRole": ["background", "border"],
+    "$ref": "8bf69fd3-1462-49b9-a78a-cc2f03380823",
+    "uuid": "e3ad6791-92a6-5940-9714-d07704259e0d"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "focus-indicator",
+      "property": "color"
+    },
+    "context": "Focus ring",
+    "contextRole": ["focus"],
+    "$ref": "fe914904-a368-414b-a4ac-21c0b0340d05",
+    "uuid": "a21222e2-d391-52b1-afa7-b3bd3596b555"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "value",
+      "property": "font-family"
+    },
+    "context": "Value",
+    "contextRole": ["value"],
+    "$ref": "45d43d4e-a4e4-4c5f-94ec-644a81300eb0",
+    "uuid": "774a40ff-ab1d-5328-8f7b-055db3a05d98"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "value",
+      "property": "font-weight"
+    },
+    "context": "Value",
+    "contextRole": ["value"],
+    "$ref": "02a94ddf-1007-4c86-8863-905874e40f95",
+    "uuid": "5948f4ed-56a4-5e09-b138-371504be2459"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "value",
+      "property": "font-style"
+    },
+    "context": "Value",
+    "contextRole": ["value"],
+    "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
+    "uuid": "5de74d74-bf37-5a21-a832-e9b30a67340b"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "value",
+      "property": "type-style"
+    },
+    "context": "Value",
+    "contextRole": ["value"],
+    "$ref": "cde5212c-520d-4657-8184-f07739ffed07",
+    "uuid": "30c1b4e7-b76c-54a1-935a-ec9d4ba5aa86"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "value",
+      "property": "type-style"
+    },
+    "context": "Value",
+    "contextRole": ["value"],
+    "$ref": "567a8eff-028f-4de1-b58a-a0473775219f",
+    "uuid": "525cde57-50dc-53c4-bae2-df2f9389ff8a"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "value",
+      "property": "type-style"
+    },
+    "context": "Value",
+    "contextRole": ["value"],
+    "$ref": "5a58a097-2235-4302-a6ed-6c1fa854c523",
+    "uuid": "844ccc3e-e584-5c77-8564-a779d8c0467b"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "value",
+      "property": "type-style"
+    },
+    "context": "Value",
+    "contextRole": ["value"],
+    "$ref": "5096f188-f728-4db4-8cd9-cc23b08956e1",
+    "uuid": "1d9e2688-483a-5219-b7bd-862083a338c5"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "segment",
+      "property": "padding-horizontal"
+    },
+    "context": "Individual value spacing",
+    "contextRole": ["spacing"],
+    "$ref": "1b06f6e2-d9be-4934-b3da-bed75986d104",
+    "uuid": "10b5da0f-b180-5bb2-b448-3f53f43c4c2b"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "segment",
+      "property": "corner-radius"
+    },
+    "context": "Focused value rounding",
+    "contextRole": ["rounding"],
+    "$ref": "dc329712-c5ba-45cf-8ae0-8e42aad2fda9",
+    "uuid": "5202c008-7f5b-54ad-bab5-fb4b6821fbfd"
+  },
+  {
+    "scope": {
+      "component": "time-field",
+      "part": "container",
+      "property": "minimum-width"
+    },
+    "context": "Width (minimum)",
+    "contextRole": ["width"],
+    "contextQualifier": "minimum",
+    "$ref": "21bb1275-44e7-49be-926a-66966e969a6f",
+    "uuid": "79cf9cec-de2b-5a56-bb8e-0292bbffc705"
   }
 ]
