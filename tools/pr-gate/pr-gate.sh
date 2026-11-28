@@ -89,8 +89,9 @@ if echo "$targets" | grep -qx 'sdk:test' && ! command -v cargo-nextest >/dev/nul
   fail "sdk:test is affected and needs cargo-nextest (CI uses 0.9.114): cargo install cargo-nextest --locked"
 fi
 
-free_gb=$(df -g "$root" | awk 'NR==2 {print $4}')
-[ "${free_gb:-0}" -ge 15 ] || fail "only ${free_gb} GB free on $(df "$root" | awk 'NR==2 {print $1}'); need 15."
+check=${CARGO_TARGET_DIR:-$root/sdk/target}; while [ ! -e "$check" ]; do check=$(dirname "$check"); done
+free_gb=$(df -g "$check" | awk 'NR==2 {print $4}')
+[ "${free_gb:-0}" -ge 15 ] || fail "only ${free_gb} GB free on $(df "$check" | awk 'NR==2 {print $1}') (volume of $check); need 15."
 
 declare -a rows
 status=0
