@@ -1,0 +1,1191 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "tree-view",
+  "root": "container",
+  "sizeScale": {
+    "s": 75,
+    "m": 100,
+    "l": 200,
+    "xl": 300
+  },
+  "notVisual": [
+    "isDetached",
+    "isEmphasized",
+    "showDragIcon",
+    "selectionBehavior",
+    "selected-default",
+    "selected-hover"
+  ],
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["row"],
+      "repeat": {
+        "slot": "default",
+        "label": "label",
+        "with": {
+          "isSelected": "isSelected",
+          "isDisabled": "isDisabled",
+          "isFocusVisible": "isFocusVisible",
+          "isExpanded": "isExpanded",
+          "hasChildren": "hasChildren",
+          "children": "children"
+        }
+      },
+      "props": {
+        "direction": {
+          "value": "column"
+        },
+        "align": {
+          "value": "start"
+        },
+        "minWidth": [
+          {
+            "when": {
+              "options": {
+                "size": "m"
+              }
+            },
+            "relationship": {
+              "property": "minimum-width",
+              "part": "row"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "token": {
+              "property": "minimum-width",
+              "size": "s",
+              "anatomy": "list-item"
+            }
+          }
+        ],
+        "gap": {
+          "relationship": {
+            "property": "space-between",
+            "part": "container",
+            "between": {
+              "from": "row",
+              "to": "row"
+            }
+          }
+        }
+      }
+    },
+    "row": {
+      "kind": "box",
+      "children": ["row-content", "row-level-1", "focus-indicator"],
+      "props": {
+        "direction": {
+          "value": "column"
+        },
+        "align": {
+          "value": "start"
+        }
+      },
+      "repeat": {
+        "slot": "row-level-1",
+        "label": "label",
+        "with": {
+          "isSelected": "isSelected",
+          "isDisabled": "isDisabled",
+          "isFocusVisible": "isFocusVisible",
+          "isExpanded": "isExpanded",
+          "hasChildren": "hasChildren",
+          "children": "children"
+        }
+      }
+    },
+    "row-level-1": {
+      "kind": "box",
+      "children": ["row-content", "row-level-2", "outline-level-1"],
+      "props": {
+        "direction": {
+          "value": "column"
+        },
+        "align": {
+          "value": "start"
+        },
+        "paddingInlineStart": [
+          {
+            "when": {
+              "options": {
+                "size": "m"
+              }
+            },
+            "relationship": {
+              "property": "level-increment",
+              "part": "row"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "token": {
+              "structure": "list",
+              "property": "indent",
+              "size": "m"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "token": {
+              "structure": "list",
+              "property": "indent",
+              "size": "l"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "token": {
+              "structure": "list",
+              "property": "indent",
+              "size": "l"
+            }
+          }
+        ]
+      },
+      "repeat": {
+        "slot": "row-level-2",
+        "label": "label",
+        "with": {
+          "isSelected": "isSelected",
+          "isDisabled": "isDisabled",
+          "isFocusVisible": "isFocusVisible",
+          "isExpanded": "isExpanded",
+          "hasChildren": "hasChildren",
+          "children": "children"
+        }
+      }
+    },
+    "row-level-2": {
+      "kind": "box",
+      "children": ["row-content", "row-level-3", "outline-level-2"],
+      "props": {
+        "direction": {
+          "value": "column"
+        },
+        "align": {
+          "value": "start"
+        },
+        "paddingInlineStart": [
+          {
+            "when": {
+              "options": {
+                "size": "m"
+              }
+            },
+            "relationship": {
+              "property": "level-increment",
+              "part": "row"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "token": {
+              "structure": "list",
+              "property": "indent",
+              "size": "m"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "token": {
+              "structure": "list",
+              "property": "indent",
+              "size": "l"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "token": {
+              "structure": "list",
+              "property": "indent",
+              "size": "l"
+            }
+          }
+        ]
+      },
+      "repeat": {
+        "slot": "row-level-3",
+        "label": "label",
+        "with": {
+          "isSelected": "isSelected",
+          "isDisabled": "isDisabled",
+          "isFocusVisible": "isFocusVisible",
+          "isExpanded": "isExpanded",
+          "hasChildren": "hasChildren",
+          "children": "children"
+        }
+      }
+    },
+    "row-level-3": {
+      "kind": "box",
+      "children": ["row-content", "row-level-4", "outline-level-3"],
+      "props": {
+        "direction": {
+          "value": "column"
+        },
+        "align": {
+          "value": "start"
+        },
+        "paddingInlineStart": [
+          {
+            "when": {
+              "options": {
+                "size": "m"
+              }
+            },
+            "relationship": {
+              "property": "level-increment",
+              "part": "row"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "token": {
+              "structure": "list",
+              "property": "indent",
+              "size": "m"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "token": {
+              "structure": "list",
+              "property": "indent",
+              "size": "l"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "token": {
+              "structure": "list",
+              "property": "indent",
+              "size": "l"
+            }
+          }
+        ]
+      },
+      "repeat": {
+        "slot": "row-level-4",
+        "label": "label",
+        "with": {
+          "isSelected": "isSelected",
+          "isDisabled": "isDisabled",
+          "isFocusVisible": "isFocusVisible",
+          "isExpanded": "isExpanded",
+          "hasChildren": "hasChildren",
+          "children": "children"
+        }
+      }
+    },
+    "row-level-4": {
+      "kind": "box",
+      "children": ["row-content", "row-level-5", "outline-level-4"],
+      "props": {
+        "direction": {
+          "value": "column"
+        },
+        "align": {
+          "value": "start"
+        },
+        "paddingInlineStart": [
+          {
+            "when": {
+              "options": {
+                "size": "m"
+              }
+            },
+            "relationship": {
+              "property": "level-increment",
+              "part": "row"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "token": {
+              "structure": "list",
+              "property": "indent",
+              "size": "m"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "token": {
+              "structure": "list",
+              "property": "indent",
+              "size": "l"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "token": {
+              "structure": "list",
+              "property": "indent",
+              "size": "l"
+            }
+          }
+        ]
+      },
+      "repeat": {
+        "slot": "row-level-5",
+        "label": "label",
+        "with": {
+          "isSelected": "isSelected",
+          "isDisabled": "isDisabled",
+          "isFocusVisible": "isFocusVisible",
+          "isExpanded": "isExpanded",
+          "hasChildren": "hasChildren",
+          "children": "children"
+        }
+      }
+    },
+    "row-level-5": {
+      "kind": "box",
+      "children": ["row-content", "outline-level-5"],
+      "props": {
+        "direction": {
+          "value": "column"
+        },
+        "align": {
+          "value": "start"
+        },
+        "paddingInlineStart": [
+          {
+            "when": {
+              "options": {
+                "size": "m"
+              }
+            },
+            "relationship": {
+              "property": "level-increment",
+              "part": "row"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "token": {
+              "structure": "list",
+              "property": "indent",
+              "size": "m"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "token": {
+              "structure": "list",
+              "property": "indent",
+              "size": "l"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "token": {
+              "structure": "list",
+              "property": "indent",
+              "size": "l"
+            }
+          }
+        ]
+      }
+    },
+    "row-content": {
+      "kind": "box",
+      "children": ["checkbox", "disclosure-button", "icon", "label"],
+      "props": {
+        "direction": {
+          "value": "row"
+        },
+        "align": {
+          "value": "center"
+        },
+        "cornerRadius": [
+          {
+            "when": {
+              "options": {
+                "size": "m"
+              }
+            },
+            "relationship": {
+              "property": "corner-radius",
+              "part": "row"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "token": {
+              "property": "corner-radius",
+              "state": "default",
+              "size": "s"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "token": {
+              "property": "corner-radius",
+              "state": "default",
+              "size": "l"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "token": {
+              "property": "corner-radius",
+              "state": "default",
+              "size": "xl"
+            }
+          }
+        ],
+        "fill": [
+          {
+            "when": {
+              "options": {
+                "isSelected": true
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "part": "row",
+              "attribute": "background"
+            }
+          },
+          {
+            "when": {
+              "states": ["hover"],
+              "options": {
+                "isSelected": false,
+                "isDisabled": false,
+                "selectionStyle": "checkbox"
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "part": "row",
+              "attribute": "background"
+            }
+          },
+          {
+            "when": {
+              "states": ["down"],
+              "options": {
+                "isSelected": false,
+                "isDisabled": false,
+                "selectionStyle": "checkbox"
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "part": "row",
+              "attribute": "background"
+            }
+          },
+          {
+            "when": {
+              "states": ["keyboard-focus"],
+              "options": {
+                "isSelected": false,
+                "isDisabled": false,
+                "selectionStyle": "checkbox"
+              }
+            },
+            "relationship": {
+              "property": "color",
+              "part": "row",
+              "attribute": "background"
+            }
+          },
+          {
+            "when": {
+              "states": ["hover"],
+              "options": {
+                "isSelected": true,
+                "selectionStyle": "checkbox"
+              }
+            },
+            "priority": 10,
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 100
+            }
+          },
+          {
+            "when": {
+              "states": ["down"],
+              "options": {
+                "isSelected": true,
+                "selectionStyle": "checkbox"
+              }
+            },
+            "priority": 10,
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 100
+            }
+          },
+          {
+            "when": {
+              "states": ["keyboard-focus"],
+              "options": {
+                "isSelected": true,
+                "selectionStyle": "checkbox"
+              }
+            },
+            "priority": 10,
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 100
+            }
+          }
+        ],
+        "paddingInlineStart": [
+          {
+            "when": {
+              "options": {
+                "selectionStyle": "checkbox"
+              }
+            },
+            "relationship": {
+              "property": "space-between",
+              "part": "row",
+              "between": {
+                "from": "start-edge",
+                "to": "checkbox"
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "selectionStyle": "highlight",
+                "size": "m"
+              }
+            },
+            "relationship": {
+              "property": "space-between",
+              "part": "row",
+              "between": {
+                "from": "end-edge",
+                "to": "label"
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "selectionStyle": "highlight",
+                "size": "s"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "padding-horizontal",
+              "size": "s"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "selectionStyle": "highlight",
+                "size": "l"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "padding-horizontal",
+              "size": "l"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "selectionStyle": "highlight",
+                "size": "xl"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "padding-horizontal",
+              "size": "xl"
+            }
+          }
+        ],
+        "paddingInlineEnd": [
+          {
+            "when": {
+              "options": {
+                "size": "m"
+              }
+            },
+            "relationship": {
+              "property": "space-between",
+              "part": "row",
+              "between": {
+                "from": "end-edge",
+                "to": "label"
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "padding-horizontal",
+              "size": "s"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "padding-horizontal",
+              "size": "l"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "padding-horizontal",
+              "size": "xl"
+            }
+          }
+        ],
+        "paddingBlockStart": {
+          "relationship": {
+            "property": "minimum-padding-vertical",
+            "part": "row"
+          }
+        },
+        "paddingBlockEnd": {
+          "relationship": {
+            "property": "minimum-padding-vertical",
+            "part": "row"
+          }
+        },
+        "gap": [
+          {
+            "when": {
+              "options": {
+                "size": "m"
+              }
+            },
+            "relationship": {
+              "property": "space-between",
+              "part": "row",
+              "between": {
+                "from": "icon",
+                "to": "label"
+              }
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "gap",
+              "size": "s"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "gap",
+              "size": "l"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "token": {
+              "structure": "base",
+              "property": "gap",
+              "size": "xl"
+            }
+          }
+        ]
+      }
+    },
+    "checkbox": {
+      "kind": "component",
+      "sizeMap": {
+        "s": "s",
+        "m": "m",
+        "l": "l",
+        "xl": "xl"
+      },
+      "with": {
+        "isSelected": {
+          "option": "isSelected"
+        },
+        "isDisabled": {
+          "option": "isDisabled"
+        }
+      }
+    },
+    "disclosure-button": {
+      "kind": "icon",
+      "icon": {
+        "set": "ui",
+        "name": "chevron"
+      },
+      "props": {
+        "rotation": [
+          {
+            "when": {
+              "options": {
+                "isExpanded": true
+              }
+            },
+            "value": 90
+          }
+        ],
+        "color": [
+          {
+            "relationship": {
+              "property": "content-color",
+              "part": "label"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": true
+              }
+            },
+            "priority": 10,
+            "token": {
+              "property": "content-color",
+              "state": "disabled"
+            }
+          }
+        ]
+      }
+    },
+    "icon": {
+      "kind": "icon",
+      "icon": {
+        "set": "workflow",
+        "name": "add",
+        "content": true,
+        "optional": true
+      },
+      "props": {
+        "width": [
+          {
+            "when": {
+              "options": {
+                "size": "m"
+              }
+            },
+            "relationship": {
+              "property": "size",
+              "part": "icon"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "token": {
+              "anatomy": "workflow-icon",
+              "property": "size",
+              "size": "s"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "token": {
+              "anatomy": "workflow-icon",
+              "property": "size",
+              "size": "l"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "token": {
+              "anatomy": "workflow-icon",
+              "property": "size",
+              "size": "xl"
+            }
+          }
+        ],
+        "height": [
+          {
+            "when": {
+              "options": {
+                "size": "m"
+              }
+            },
+            "relationship": {
+              "property": "size",
+              "part": "icon"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "s"
+              }
+            },
+            "token": {
+              "anatomy": "workflow-icon",
+              "property": "size",
+              "size": "s"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "l"
+              }
+            },
+            "token": {
+              "anatomy": "workflow-icon",
+              "property": "size",
+              "size": "l"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "size": "xl"
+              }
+            },
+            "token": {
+              "anatomy": "workflow-icon",
+              "property": "size",
+              "size": "xl"
+            }
+          }
+        ],
+        "color": [
+          {
+            "relationship": {
+              "property": "content-color",
+              "part": "label"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": true
+              }
+            },
+            "priority": 10,
+            "token": {
+              "property": "content-color",
+              "state": "disabled"
+            }
+          }
+        ]
+      }
+    },
+    "label": {
+      "kind": "text",
+      "props": {
+        "fontFamily": {
+          "relationship": {
+            "property": "font-family",
+            "part": "label"
+          }
+        },
+        "fontSize": {
+          "relationship": {
+            "property": "font-size",
+            "part": "label"
+          }
+        },
+        "fontWeight": {
+          "relationship": {
+            "property": "font-weight",
+            "part": "label"
+          }
+        },
+        "lineHeight": {
+          "relationship": {
+            "property": "line-height",
+            "part": "label"
+          }
+        },
+        "color": [
+          {
+            "relationship": {
+              "property": "content-color",
+              "part": "label"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": true
+              }
+            },
+            "priority": 10,
+            "token": {
+              "property": "content-color",
+              "state": "disabled"
+            }
+          }
+        ],
+        "grow": {
+          "value": true
+        }
+      }
+    },
+    "focus-indicator": {
+      "kind": "ring",
+      "around": "row-content",
+      "props": {
+        "stroke": {
+          "relationship": {
+            "property": "color",
+            "part": "focus-indicator"
+          }
+        },
+        "strokeWidth": {
+          "relationship": {
+            "property": "thickness",
+            "part": "focus-indicator"
+          }
+        },
+        "gapToParent": {
+          "relationship": {
+            "property": "gap",
+            "part": "focus-indicator"
+          }
+        }
+      }
+    },
+    "outline-level-1": {
+      "kind": "ring",
+      "around": "row-content",
+      "props": {
+        "stroke": {
+          "relationship": {
+            "property": "color",
+            "part": "focus-indicator"
+          }
+        },
+        "strokeWidth": {
+          "relationship": {
+            "property": "thickness",
+            "part": "focus-indicator"
+          }
+        },
+        "gapToParent": {
+          "relationship": {
+            "property": "gap",
+            "part": "focus-indicator"
+          }
+        }
+      }
+    },
+    "outline-level-2": {
+      "kind": "ring",
+      "around": "row-content",
+      "props": {
+        "stroke": {
+          "relationship": {
+            "property": "color",
+            "part": "focus-indicator"
+          }
+        },
+        "strokeWidth": {
+          "relationship": {
+            "property": "thickness",
+            "part": "focus-indicator"
+          }
+        },
+        "gapToParent": {
+          "relationship": {
+            "property": "gap",
+            "part": "focus-indicator"
+          }
+        }
+      }
+    },
+    "outline-level-3": {
+      "kind": "ring",
+      "around": "row-content",
+      "props": {
+        "stroke": {
+          "relationship": {
+            "property": "color",
+            "part": "focus-indicator"
+          }
+        },
+        "strokeWidth": {
+          "relationship": {
+            "property": "thickness",
+            "part": "focus-indicator"
+          }
+        },
+        "gapToParent": {
+          "relationship": {
+            "property": "gap",
+            "part": "focus-indicator"
+          }
+        }
+      }
+    },
+    "outline-level-4": {
+      "kind": "ring",
+      "around": "row-content",
+      "props": {
+        "stroke": {
+          "relationship": {
+            "property": "color",
+            "part": "focus-indicator"
+          }
+        },
+        "strokeWidth": {
+          "relationship": {
+            "property": "thickness",
+            "part": "focus-indicator"
+          }
+        },
+        "gapToParent": {
+          "relationship": {
+            "property": "gap",
+            "part": "focus-indicator"
+          }
+        }
+      }
+    },
+    "outline-level-5": {
+      "kind": "ring",
+      "around": "row-content",
+      "props": {
+        "stroke": {
+          "relationship": {
+            "property": "color",
+            "part": "focus-indicator"
+          }
+        },
+        "strokeWidth": {
+          "relationship": {
+            "property": "thickness",
+            "part": "focus-indicator"
+          }
+        },
+        "gapToParent": {
+          "relationship": {
+            "property": "gap",
+            "part": "focus-indicator"
+          }
+        }
+      }
+    }
+  }
+}

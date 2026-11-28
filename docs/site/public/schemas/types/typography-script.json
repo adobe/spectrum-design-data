@@ -4,6 +4,6 @@
   "title": "typography-script",
   "description": "The script of the text.",
   "type": "string",
-  "enum": ["latin", "han", "arabic", "hebrew"],
+  "enum": ["latin", "han", "cjk", "arabic", "hebrew"],
   "default": "latin"
 }
