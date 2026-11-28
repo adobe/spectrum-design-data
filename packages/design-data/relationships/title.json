@@ -1065,5 +1065,82 @@
     "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
     "$ref": "ccadf44e-5424-4920-979f-ea1ef39687c4",
     "uuid": "0b88a43b-3771-5b0b-8e68-76b03ce67316"
+  },
+  {
+    "scope": {
+      "component": "title",
+      "part": "text",
+      "property": "type-style"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "9d743740-ca49-4a55-ad83-2ad845648d1d",
+    "uuid": "8b13969f-4e13-5ee8-8028-6de84c996797"
+  },
+  {
+    "scope": {
+      "component": "title",
+      "part": "text",
+      "property": "type-style"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "486425a6-dbfd-4688-b61c-fe0ff0705c83",
+    "uuid": "8b90b64c-0407-5568-ae2b-594e947b1a9f"
+  },
+  {
+    "scope": {
+      "component": "title",
+      "part": "text",
+      "property": "type-style"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "9d0572aa-aa80-47c2-9a47-4864fbba4bd4",
+    "uuid": "ffc2fb94-60d4-51ac-b2e4-6efbd448905b"
+  },
+  {
+    "scope": {
+      "component": "title",
+      "part": "text",
+      "property": "type-style"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "d31ae882-618b-41f5-a236-d7b80875cb27",
+    "uuid": "74be8763-34b9-5dc7-aca0-7d6dbdd22f6c"
+  },
+  {
+    "scope": {
+      "component": "title",
+      "part": "text",
+      "property": "type-style"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "783e29a2-6f0e-4d25-bc4f-30635c24c3b7",
+    "uuid": "c81571f9-1eaf-55e2-9de4-ffd47d80389a"
+  },
+  {
+    "scope": {
+      "component": "title",
+      "part": "text",
+      "property": "type-style"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "e6bc90d6-a3e8-42a7-9543-76e0df0d6184",
+    "uuid": "819b01d6-2d61-55de-b4c6-a2695605272f"
+  },
+  {
+    "scope": {
+      "component": "title",
+      "part": "text",
+      "property": "type-style"
+    },
+    "context": "Text",
+    "contextRole": ["label"],
+    "$ref": "c836a227-487c-4a43-92eb-45dd67d761ea",
+    "uuid": "0703412a-e959-5386-83cf-8c533bcad260"
   }
 ]
