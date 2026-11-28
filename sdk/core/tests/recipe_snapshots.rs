@@ -14,12 +14,17 @@
 //! declared values of the options the recipe uses; combinations an `error`
 //! constraint excludes are skipped) across every size, interaction state, color
 //! scheme and scale, and hashes the SVG and diagnostics of each option set. The
-//! hashes are committed in `tests/fixtures/recipe-snapshots.json`, so a change to
-//! a recipe, a relationship, a token or the renderer shows up in review as the
-//! option sets whose output changed. Every combination must also render without
-//! a diagnostic.
+//! hashes are committed per component in `tests/fixtures/components/<name>/snapshots.json`,
+//! so a change to a recipe, a relationship, a token or the renderer shows up in review as
+//! the option sets whose output changed, and recipe PRs for different components touch
+//! different files. Every combination must also render without a diagnostic.
 //!
-//! After an intended change, regenerate with:
+//! The harness is `libtest-mimic` (`harness = false`): one test per file in
+//! `packages/design-data/visuals/`, built at run time, so there is no list to keep. Run or
+//! regenerate one component with `-- <name> --exact`, for example:
+//! `cargo test -p design-data-core --test recipe_snapshots -- tree-view --exact`
+//!
+//! After an intended change, regenerate (all components, or add `-- <name> --exact`):
 //! `UPDATE_RECIPE_SNAPSHOTS=1 cargo test -p design-data-core --test recipe_snapshots`
 
 use std::collections::{BTreeMap, HashMap};
@@ -35,14 +40,19 @@ use serde_json::Value;
 const SCHEMES: &[&str] = &["light", "dark", "wireframe"];
 const SCALES: &[&str] = &["desktop", "mobile"];
 
-type Snapshots = BTreeMap<String, BTreeMap<String, String>>;
+/// Option set key -> hash, for one recipe.
+type Snapshots = BTreeMap<String, String>;
 
 fn data_dir() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../packages/design-data")
 }
 
-fn fixture_path() -> PathBuf {
-    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/recipe-snapshots.json")
+fn components_dir() -> PathBuf {
+    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/fixtures/components")
+}
+
+fn snapshot_path(name: &str) -> PathBuf {
+    components_dir().join(name).join("snapshots.json")
 }
 
 /// FNV-1a, 64 bit: stable across Rust versions, unlike `DefaultHasher`.
@@ -422,9 +432,15 @@ fn updating() -> bool {
     std::env::var_os("UPDATE_RECIPE_SNAPSHOTS").is_some()
 }
 
-fn read_snapshots() -> Snapshots {
-    serde_json::from_str(&std::fs::read_to_string(fixture_path()).expect("read snapshots"))
-        .expect("parse snapshots")
+/// The recipe's committed snapshots; empty when the file does not exist yet (a new recipe:
+/// every option set then shows as new).
+fn read_snapshots(name: &str) -> Snapshots {
+    match std::fs::read_to_string(snapshot_path(name)) {
+        Ok(text) => serde_json::from_str(&text)
+            .unwrap_or_else(|e| panic!("parse {}: {e}", snapshot_path(name).display())),
+        Err(e) if e.kind() == std::io::ErrorKind::NotFound => Snapshots::new(),
+        Err(e) => panic!("read {}: {e}", snapshot_path(name).display()),
+    }
 }
 
 fn assert_no_diagnostics(diagnostics: &[String]) {
@@ -441,17 +457,23 @@ fn assert_no_diagnostics(diagnostics: &[String]) {
     );
 }
 
+/// Renders one recipe and compares it with its committed snapshots, or rewrites them when
+/// UPDATE_RECIPE_SNAPSHOTS is set.
 fn check_recipe(name: &str) {
-    if updating() {
-        return; // `update_recipe_snapshots` rewrites the whole fixture
-    }
     let graph = load_graph();
     let run = render_recipe(&graph, &SceneCache::default(), name);
     assert_no_diagnostics(&run.diagnostics);
 
-    let expected = read_snapshots();
-    let empty = BTreeMap::new();
-    let e = expected.get(name).unwrap_or(&empty);
+    if updating() {
+        let path = snapshot_path(name);
+        std::fs::create_dir_all(path.parent().expect("component dir"))
+            .expect("create component dir");
+        let json = serde_json::to_string_pretty(&run.snapshots).unwrap() + "\n";
+        std::fs::write(&path, json).expect("write snapshots");
+        return;
+    }
+
+    let e = read_snapshots(name);
     let a = &run.snapshots;
     let sets: std::collections::BTreeSet<&String> = a.keys().chain(e.keys()).collect();
     let (mut changed, mut added, mut removed) = (Vec::new(), Vec::new(), Vec::new());
@@ -479,141 +501,71 @@ fn check_recipe(name: &str) {
     }
     assert!(
         problems.is_empty(),
-        "\nRendered output differs from tests/fixtures/recipe-snapshots.json:\n{}\n\nIf the change is intended, review it with `design-data render <component> --option name=value ...` and regenerate with UPDATE_RECIPE_SNAPSHOTS=1.\n",
+        "\nRendered output differs from tests/fixtures/components/{name}/snapshots.json:\n{}\n\nIf the change is intended, review it with `design-data render <component> --option name=value ...` and regenerate with UPDATE_RECIPE_SNAPSHOTS=1 (add `-- {name} --exact` for this recipe only).\n",
         problems.join("\n")
     );
 }
 
-/// One test per recipe, so nextest runs them in parallel instead of one long test. The macro
-/// also builds `RECIPES`, so a recipe cannot be listed without being tested.
-/// `every_recipe_has_a_test` fails when `visuals/` and this list disagree.
-macro_rules! recipe_tests {
-    ($($test:ident => $name:literal),* $(,)?) => {
-        const RECIPES: &[&str] = &[$($name),*];
-        $(
-            #[test]
-            fn $test() {
-                check_recipe($name);
-            }
-        )*
-    };
-}
-
-recipe_tests! {
-    accordion => "accordion",
-    action_button => "action-button",
-    action_group => "action-group",
-    alert_banner => "alert-banner",
-    alert_dialog => "alert-dialog",
-    avatar => "avatar",
-    badge => "badge",
-    bar_panel => "bar-panel",
-    body => "body",
-    breadcrumbs => "breadcrumbs",
-    button => "button",
-    button_group => "button-group",
-    calendar => "calendar",
-    checkbox => "checkbox",
-    checkbox_group => "checkbox-group",
-    clear_button => "clear-button",
-    close_button => "close-button",
-    coach_indicator => "coach-indicator",
-    coach_mark => "coach-mark",
-    code => "code",
-    color_area => "color-area",
-    color_handle => "color-handle",
-    color_loupe => "color-loupe",
-    color_slider => "color-slider",
-    combo_box => "combo-box",
-    contextual_help => "contextual-help",
-    date_field => "date-field",
-    date_picker => "date-picker",
-    detail => "detail",
-    divider => "divider",
-    drop_zone => "drop-zone",
-    field_label => "field-label",
-    heading => "heading",
-    help_text => "help-text",
-    illustrated_message => "illustrated-message",
-    in_field_button => "in-field-button",
-    in_field_progress_circle => "in-field-progress-circle",
-    in_line_alert => "in-line-alert",
-    link => "link",
-    list_view => "list-view",
-    menu => "menu",
-    meter => "meter",
-    number_field => "number-field",
-    opacity_checkerboard => "opacity-checkerboard",
-    picker => "picker",
-    popover => "popover",
-    progress_bar => "progress-bar",
-    progress_circle => "progress-circle",
-    radio_button => "radio-button",
-    radio_group => "radio-group",
-    search_field => "search-field",
-    segmented_control => "segmented-control",
-    segmented_text_field => "segmented-text-field",
-    select_box => "select-box",
-    side_navigation => "side-navigation",
-    slider => "slider",
-    stack_item => "stack-item",
-    standard_dialog => "standard-dialog",
-    standard_panel => "standard-panel",
-    status_light => "status-light",
-    steplist => "steplist",
-    swatch => "swatch",
-    swatch_group => "swatch-group",
-    switch => "switch",
-    tabs => "tabs",
-    tag => "tag",
-    takeover_dialog => "takeover-dialog",
-    text_area => "text-area",
-    text_field => "text-field",
-    thumbnail => "thumbnail",
-    time_field => "time-field",
-    title => "title",
-    toast => "toast",
-    tooltip => "tooltip",
-    tree_view => "tree-view",
-}
-
-#[test]
-fn every_recipe_has_a_test() {
-    assert_eq!(
-        recipe_names(),
-        RECIPES,
-        "visuals/ and the recipe_tests! list must name the same recipes"
-    );
-    if updating() {
-        return; // update_recipe_snapshots is rewriting the fixture
-    }
-    let expected = read_snapshots();
-    let stale: Vec<&String> = expected
-        .keys()
-        .filter(|k| !RECIPES.contains(&k.as_str()))
+/// Every recipe has a committed snapshot file, and no snapshot file is left for a recipe
+/// that no longer exists. Other files in a component directory (goldens, baselines) may
+/// belong to components without a recipe, so only `snapshots.json` is checked.
+fn check_snapshot_files() {
+    let recipes = recipe_names();
+    let mut with_snapshots: Vec<String> = std::fs::read_dir(components_dir())
+        .expect("components dir")
+        .filter_map(|e| e.ok())
+        .filter(|e| e.path().join("snapshots.json").is_file())
+        .filter_map(|e| e.file_name().to_str().map(String::from))
+        .collect();
+    with_snapshots.sort();
+    let orphaned: Vec<&String> = with_snapshots
+        .iter()
+        .filter(|n| !recipes.contains(n))
         .collect();
     assert!(
-        stale.is_empty(),
-        "tests/fixtures/recipe-snapshots.json has snapshots for recipes that no longer exist: {stale:?}"
+        orphaned.is_empty(),
+        "tests/fixtures/components has snapshots.json for recipes that no longer exist: {orphaned:?} (delete those files)"
+    );
+    if updating() {
+        return; // the recipe tests are writing the missing files in this run
+    }
+    let missing: Vec<&String> = recipes
+        .iter()
+        .filter(|n| !with_snapshots.contains(n))
+        .collect();
+    assert!(
+        missing.is_empty(),
+        "recipes without tests/fixtures/components/<name>/snapshots.json: {missing:?} (regenerate with UPDATE_RECIPE_SNAPSHOTS=1 -- <name> --exact)"
     );
 }
 
-/// Rewrites the fixture; does nothing unless UPDATE_RECIPE_SNAPSHOTS is set.
-#[test]
-fn update_recipe_snapshots() {
-    if !updating() {
-        return;
-    }
-    let graph = load_graph();
-    let cache = SceneCache::default();
-    let mut actual = Snapshots::new();
-    let mut diagnostics = Vec::new();
-    for name in recipe_names() {
-        let run = render_recipe(&graph, &cache, &name);
-        diagnostics.extend(run.diagnostics);
-        actual.insert(name, run.snapshots);
-    }
-    assert_no_diagnostics(&diagnostics);
-    let json = serde_json::to_string_pretty(&actual).unwrap() + "\n";
-    std::fs::write(fixture_path(), json).expect("write snapshots");
+/// Runs a check as a libtest-mimic trial: a panic (an assert) becomes the test's failure.
+fn trial(
+    name: String,
+    check: impl FnOnce() + Send + std::panic::UnwindSafe + 'static,
+) -> libtest_mimic::Trial {
+    libtest_mimic::Trial::test(name, move || {
+        std::panic::catch_unwind(check).map_err(|panic| {
+            let msg = panic
+                .downcast_ref::<String>()
+                .cloned()
+                .or_else(|| panic.downcast_ref::<&str>().map(|s| s.to_string()))
+                .unwrap_or_else(|| "test panicked".into());
+            libtest_mimic::Failed::from(msg)
+        })
+    })
+}
+
+fn main() {
+    let args = libtest_mimic::Arguments::from_args();
+    let mut trials = vec![trial(
+        "snapshot_files_match_recipes".into(),
+        check_snapshot_files,
+    )];
+    trials.extend(
+        recipe_names()
+            .into_iter()
+            .map(|name| trial(name.clone(), move || check_recipe(&name))),
+    );
+    libtest_mimic::run(&args, trials).exit();
 }

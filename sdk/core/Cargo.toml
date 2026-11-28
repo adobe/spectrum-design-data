@@ -71,3 +71,10 @@ getrandom = { version = "0.3", features = ["wasm_js"] }
 [dev-dependencies]
 regex = "1"
 proptest = "1"
+libtest-mimic = "0.8"
+
+# One test per recipe, generated from packages/design-data/visuals at run time, so no
+# hand-kept list. Filter with `-- <component> --exact`.
+[[test]]
+name = "recipe_snapshots"
+harness = false

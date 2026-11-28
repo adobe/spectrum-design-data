@@ -1,0 +1,18 @@
+{
+  "image=\"gradient image\",isDisabled=false,showStroke=false": "464ed29785f3a788",
+  "image=\"gradient image\",isDisabled=false,showStroke=true": "94d9d4e44ff1e3c4",
+  "image=\"gradient image\",isDisabled=true,showStroke=false": "9c81a15f17d01664",
+  "image=\"gradient image\",isDisabled=true,showStroke=true": "006da07634f55494",
+  "image=\"guest\",isDisabled=false,showStroke=false": "8b1d0b8e2b7303c0",
+  "image=\"guest\",isDisabled=false,showStroke=true": "a36f15a800db8302",
+  "image=\"guest\",isDisabled=true,showStroke=false": "e24f3cca230a1ae6",
+  "image=\"guest\",isDisabled=true,showStroke=true": "d1c41747723d04e8",
+  "image=\"initials\",isDisabled=false,showStroke=false": "8c006631e984d989",
+  "image=\"initials\",isDisabled=false,showStroke=true": "86225b5ee1d448d1",
+  "image=\"initials\",isDisabled=true,showStroke=false": "5f0932dda586c589",
+  "image=\"initials\",isDisabled=true,showStroke=true": "4b13837fea045ca5",
+  "image=\"user image\",isDisabled=false,showStroke=false": "e2fa73687e634c4c",
+  "image=\"user image\",isDisabled=false,showStroke=true": "15ef0702d8c068ca",
+  "image=\"user image\",isDisabled=true,showStroke=false": "ad53320a34062e4a",
+  "image=\"user image\",isDisabled=true,showStroke=true": "d1d3d59afa7989a8"
+}

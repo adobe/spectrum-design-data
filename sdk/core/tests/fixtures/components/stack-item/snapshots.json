@@ -1,0 +1,18 @@
+{
+  "isDisabled=false,isSelected=false,selectionStyle=\"checkbox\",visual=\"icon\"": "139335f0c62d682f",
+  "isDisabled=false,isSelected=false,selectionStyle=\"checkbox\",visual=\"thumbnail\"": "cf7d582c1e6c38cd",
+  "isDisabled=false,isSelected=false,selectionStyle=\"highlight\",visual=\"icon\"": "9b18422368260b8b",
+  "isDisabled=false,isSelected=false,selectionStyle=\"highlight\",visual=\"thumbnail\"": "f6a4b53130a487bf",
+  "isDisabled=false,isSelected=true,selectionStyle=\"checkbox\",visual=\"icon\"": "52db571c6a56941d",
+  "isDisabled=false,isSelected=true,selectionStyle=\"checkbox\",visual=\"thumbnail\"": "4dbb406a12afcb43",
+  "isDisabled=false,isSelected=true,selectionStyle=\"highlight\",visual=\"icon\"": "28279800a60c81a1",
+  "isDisabled=false,isSelected=true,selectionStyle=\"highlight\",visual=\"thumbnail\"": "ac96724409b84ec5",
+  "isDisabled=true,isSelected=false,selectionStyle=\"checkbox\",visual=\"icon\"": "6f61d12b4496f23b",
+  "isDisabled=true,isSelected=false,selectionStyle=\"checkbox\",visual=\"thumbnail\"": "ab6c88d37560b363",
+  "isDisabled=true,isSelected=false,selectionStyle=\"highlight\",visual=\"icon\"": "41705f9b25b867a3",
+  "isDisabled=true,isSelected=false,selectionStyle=\"highlight\",visual=\"thumbnail\"": "926473d20a3ddd91",
+  "isDisabled=true,isSelected=true,selectionStyle=\"checkbox\",visual=\"icon\"": "1c76193d72b49427",
+  "isDisabled=true,isSelected=true,selectionStyle=\"checkbox\",visual=\"thumbnail\"": "72288c008dfeb037",
+  "isDisabled=true,isSelected=true,selectionStyle=\"highlight\",visual=\"icon\"": "d91268fc8f5d9a8f",
+  "isDisabled=true,isSelected=true,selectionStyle=\"highlight\",visual=\"thumbnail\"": "0ce03d6d82074c71"
+}
