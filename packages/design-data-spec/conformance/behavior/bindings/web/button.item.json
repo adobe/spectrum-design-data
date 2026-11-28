@@ -104,6 +104,116 @@
           "emit": []
         }
       ]
+    },
+    {
+      "name": "Enter on an action button in a group chooses it on key down",
+      "component": "action-group",
+      "needs": ["keyboard"],
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "single",
+        "items": [
+          {
+            "isSelected": true
+          },
+          {}
+        ]
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Enter",
+            "phase": "down",
+            "item": 1
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "selected"
+            }
+          ],
+          "emit": [
+            {
+              "press": {
+                "isSelected": [1]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Space on an action button in a group chooses it on key up, an arrow does nothing",
+      "component": "action-group",
+      "needs": ["keyboard"],
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "single",
+        "items": [
+          {
+            "isSelected": true
+          },
+          {}
+        ],
+        "focused": 0
+      },
+      "steps": [
+        {
+          "input": {
+            "key": "Space",
+            "phase": "down",
+            "item": 1
+          }
+        },
+        {
+          "input": {
+            "key": "Space",
+            "phase": "up",
+            "item": 1
+          }
+        },
+        {
+          "input": {
+            "key": "ArrowDown",
+            "phase": "down",
+            "item": 1
+          }
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            null,
+            {
+              "selected": "unselected"
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "items": [
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "selected"
+            }
+          ]
+        },
+        {
+          "after": 3,
+          "focused": 0,
+          "emit": []
+        }
+      ]
     }
   ]
 }
