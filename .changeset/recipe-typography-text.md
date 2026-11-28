@@ -16,4 +16,6 @@ and title. Each draws one text run in a `container` root.
 - Not drawn: italic (no font-style prop), letter spacing, uppercase detail, margins, and the
   CJK records (they pin `script: cjk`, which the `script` option does not declare).
 - Heading `xxs` has no live font-size record and draws at the default size.
+- The option-tie baselines rise for body, detail, heading and title: the ties come from the
+  `script: cjk` records, and `cjk` is not a declared script value. A follow-up is tracked.
 - Legacy output is unchanged; the embedded dataset changes, so wasm gets a patch.

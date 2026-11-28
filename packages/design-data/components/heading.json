@@ -148,7 +148,7 @@
   "anatomyReview": {
     "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "No Figma component; the style exists only as text styles (Figma), a font macro value (React Spectrum) and one Typography stylesheet (SWC). The text part holds the type style; margins are properties of it. The container part is the root the recipe draws it in. Owner decision D1 (2026-11-19): keep five components."
+    "notes": "No Figma component; the style exists only as text styles (Figma), a font macro value (React Spectrum) and one Typography stylesheet (SWC). Keep five components, one family. The text part holds the type style; margins are properties of it. The container part is a recipe-drawing root: the engine needs a box root and a root text part draws nothing, so the part owns only recipe alignment values; a spec change to allow a recipe-only root is tracked separately."
   },
   "lifecycle": {
     "introduced": "1.0.0-draft"
