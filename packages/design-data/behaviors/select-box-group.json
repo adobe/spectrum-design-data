@@ -1,0 +1,44 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
+  "component": "select-box-group",
+  "state": ["orientation", "isDisabled", "selectionMode"],
+  "facets": {
+    "orientation": {
+      "from": "orientation",
+      "values": { "horizontal": "horizontal", "vertical": "vertical" }
+    },
+    "disabled": {
+      "from": "isDisabled",
+      "values": { "false": false, "true": true }
+    },
+    "selection": {
+      "from": "selectionMode",
+      "values": { "multiple": "multiple", "single": {} },
+      "order": "first match wins"
+    }
+  },
+  "parts": {
+    "container": {
+      "role": "group",
+      "focus": "none"
+    }
+  },
+  "collection": {
+    "slot": "default",
+    "item": "select-box",
+    "choose": {
+      "mode": { "facet": "selection" },
+      "allowsEmpty": true
+    },
+    "traversal": {
+      "wrap": false,
+      "skip": { "facet": "disabled", "is": "true" },
+      "selectOnMove": false,
+      "focus": "roving"
+    }
+  },
+  "wcag": [
+    { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+    { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+  ]
+}
