@@ -1,5 +1,12 @@
 # @adobe/component-options-editor
 
+## 0.0.0-tp-check-20261128031303
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/spectrum-component-api-schemas@0.0.0-tp-check-20261128031303
+
 ## 1.1.115
 
 ### Patch Changes

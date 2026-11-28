@@ -1,5 +1,12 @@
 # @adobe/design-data-skill
 
+## 0.0.0-tp-check-20261128031303
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @adobe/design-data-mcp@0.0.0-tp-check-20261128031303
+
 ## 2.2.37
 
 ### Patch Changes

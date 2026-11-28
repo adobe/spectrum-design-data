@@ -1,5 +1,11 @@
 # @adobe/token-diff-generator
 
+## 0.0.0-tp-check-20261128031303
+
+### Patch Changes
+
+- [`4e9fe0a`](https://github.com/adobe/spectrum-design-data/commit/4e9fe0a8d794d081514b1909b340071ac94ddd9a) - Disposable snapshot check for npm trusted publisher validation. Never merged.
+
 ## 2.5.8
 
 ### Patch Changes
