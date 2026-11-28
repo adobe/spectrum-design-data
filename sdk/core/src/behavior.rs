@@ -1525,10 +1525,20 @@ pub fn run_dir(
                     continue;
                 }
                 matched = true;
+                // A vector with a `component` runs only on that component's contract.
+                let scoped: Vec<Value> = vectors
+                    .iter()
+                    .filter(|v| {
+                        v.get("component")
+                            .and_then(Value::as_str)
+                            .is_none_or(|n| n == c.component)
+                    })
+                    .cloned()
+                    .collect();
                 out.extend(run_vectors_with(
                     &c.raw,
                     &patterns,
-                    &vectors,
+                    &scoped,
                     registry,
                     &caps,
                     Some(file),

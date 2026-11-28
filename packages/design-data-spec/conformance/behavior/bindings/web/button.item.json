@@ -4,6 +4,7 @@
   "item": true,
   "vectors": [
     {
+      "component": "accordion",
       "name": "Enter on an item header presses on key down",
       "needs": ["keyboard"],
       "start": {
@@ -48,6 +49,7 @@
       ]
     },
     {
+      "component": "accordion",
       "name": "Space on an item header acts on key up, an arrow does nothing",
       "needs": ["keyboard"],
       "start": {

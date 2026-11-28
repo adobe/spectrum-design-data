@@ -564,7 +564,11 @@
       "type": "object",
       "required": ["name", "start", "steps", "expect"],
       "properties": {
-        "component": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+        "component": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "description": "In a role (bindings) suite, restricts the vector to the contract of this component; other components of the role skip it. Unset runs on every component of the role."
+        },
         "name": { "type": "string", "minLength": 1 },
         "needs": { "$ref": "#/$defs/needs" },
         "emitOptions": {
