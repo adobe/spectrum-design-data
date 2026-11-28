@@ -61,6 +61,7 @@ The `role` field names the semantic role of the component. It maps conceptually 
 | `grid`        | Two-dimensional tabular data with keyboard navigation                                            |
 | `listitem`    | Individual item within a list container (anatomy-part role; per-part accessibility is Phase 7.3) |
 | `group`       | Generic container that groups related elements without a more specific role                      |
+| `toolbar`     | Container of related controls with arrow-key navigation between them                             |
 
 ### `intents`
 
