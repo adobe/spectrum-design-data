@@ -9,6 +9,21 @@
       "focus": "none"
     }
   },
+  "relations": [
+    {
+      "from": {
+        "role": "trigger"
+      },
+      "kind": "describedby",
+      "to": {
+        "part": "container"
+      },
+      "when": {
+        "facet": "open",
+        "is": "true"
+      }
+    }
+  ],
   "wcag": [
     {
       "criterion": "1.4.13",

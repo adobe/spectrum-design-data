@@ -986,6 +986,113 @@
           "emit": []
         }
       ]
+    },
+    {
+      "name": "the trigger describes the open tooltip",
+      "needs": ["keyboard"],
+      "start": {},
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "open": true
+          },
+          "relations": [
+            {
+              "from": {
+                "role": "trigger"
+              },
+              "kind": "describedby",
+              "to": {
+                "part": "container"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "the trigger has no description while the tooltip is closed",
+      "needs": ["keyboard"],
+      "start": {},
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        },
+        {
+          "intent": "dismiss"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "relations": [
+            {
+              "from": {
+                "role": "trigger"
+              },
+              "kind": "describedby",
+              "to": {
+                "part": "container"
+              }
+            }
+          ]
+        },
+        {
+          "after": 2,
+          "facets": {
+            "open": false
+          },
+          "relations": [
+            {
+              "from": {
+                "role": "trigger"
+              },
+              "kind": "describedby",
+              "to": {
+                "part": "container"
+              },
+              "present": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "the tooltip is not the trigger's description before it opens",
+      "start": {},
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "open": false
+          },
+          "relations": [
+            {
+              "from": {
+                "role": "trigger"
+              },
+              "kind": "describedby",
+              "to": {
+                "part": "container"
+              },
+              "present": false
+            }
+          ]
+        }
+      ]
     }
   ]
 }

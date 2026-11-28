@@ -1,0 +1,45 @@
+{
+  "layer": 2,
+  "errors": [
+    {
+      "rule_id": "SPEC-126",
+      "severity": "warning",
+      "message_pattern": ".*kind 'controls'.*"
+    },
+    {
+      "rule_id": "SPEC-126",
+      "severity": "warning",
+      "message_pattern": ".*part 'ghost'.*does not declare.*"
+    },
+    {
+      "rule_id": "SPEC-126",
+      "severity": "warning",
+      "message_pattern": ".*role 'sibling'.*relation-roles.*"
+    },
+    {
+      "rule_id": "SPEC-126",
+      "severity": "warning",
+      "message_pattern": ".*two external roles.*"
+    },
+    {
+      "rule_id": "SPEC-126",
+      "severity": "warning",
+      "message_pattern": ".*'part:container' to itself.*"
+    },
+    {
+      "rule_id": "SPEC-126",
+      "severity": "warning",
+      "message_pattern": ".*labelledby` cycle through 'part:container' and 'part:label'.*"
+    },
+    {
+      "rule_id": "SPEC-126",
+      "severity": "warning",
+      "message_pattern": ".*labelledby` cycle through 'part:label' and 'part:container'.*"
+    },
+    {
+      "rule_id": "SPEC-126",
+      "severity": "warning",
+      "message_pattern": ".*facet 'nothing'.*"
+    }
+  ]
+}

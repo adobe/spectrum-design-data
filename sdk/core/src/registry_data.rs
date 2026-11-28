@@ -4295,6 +4295,34 @@ const ENVIRONMENT_JSON: &str = r##"{
   ]
 }
 "##;
+const RELATION_ROLES_JSON: &str = r##"{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
+  "type": "relation-role",
+  "description": "The elements a behavior contract `relations` entry may name that are not anatomy parts of the component (spec/behavior-contract.md#relations). The vocabulary is closed: add a role only with an owner decision. SPEC-126 reads this list.",
+  "values": [
+    {
+      "id": "trigger",
+      "label": "Trigger",
+      "description": "The element that shows, opens or controls the component and is supplied by the host (the control a tooltip describes). It is not part of the component's anatomy."
+    },
+    {
+      "id": "owner",
+      "label": "Owner",
+      "description": "The element that contains or owns the component in the host's tree (the field a help text belongs to)."
+    },
+    {
+      "id": "label",
+      "label": "Label",
+      "description": "An element outside the component's anatomy that names it."
+    },
+    {
+      "id": "description",
+      "label": "Description",
+      "description": "An element outside the component's anatomy that describes it."
+    }
+  ]
+}
+"##;
 const EXEMPTION_REASONS_JSON: &str = r##"{
   "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/registry-value.json",
   "type": "exemption-reason",
@@ -4541,6 +4569,7 @@ pub(crate) fn build_registry_map(
     map.insert("intents".to_string(), parse_registry(INTENTS_JSON));
     map.insert("capabilities".to_string(), parse_registry(CAPABILITIES_JSON));
     map.insert("environment".to_string(), parse_registry(ENVIRONMENT_JSON));
+    map.insert("relation-roles".to_string(), parse_registry(RELATION_ROLES_JSON));
     map.insert("exemption-reasons".to_string(), parse_registry(EXEMPTION_REASONS_JSON));
     map.insert("behavior-exemptions".to_string(), parse_registry(BEHAVIOR_EXEMPTIONS_JSON));
     map.insert("relationship-contexts".to_string(), parse_registry(RELATIONSHIP_CONTEXTS_JSON));
