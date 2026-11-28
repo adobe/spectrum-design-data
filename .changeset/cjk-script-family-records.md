@@ -11,4 +11,4 @@ Pin the cjk typography records to the family option as well, and list cjk as a l
   longer tie on those properties: the record pinned to both is the better match.
 - The `typography-script` type lists `cjk`, matching the `script` registry, so a `script: cjk` pin
   is a declared value.
-- No current render, legacy output or token changes: the components do not declare `family` yet.
+- No render, legacy output or token changes. The new records add rows to the spec sheets of the four components.
