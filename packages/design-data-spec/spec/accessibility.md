@@ -62,6 +62,8 @@ The `role` field names the semantic role of the component. It maps conceptually 
 | `listitem`    | Individual item within a list container (anatomy-part role; per-part accessibility is Phase 7.3) |
 | `group`       | Generic container that groups related elements without a more specific role                      |
 | `toolbar`     | Container of related controls with arrow-key navigation between them                             |
+| `radiogroup`  | Group of mutually exclusive radio options with arrow-key selection                               |
+| `searchbox`   | Text input for entering a search query                                                           |
 
 ### `intents`
 
