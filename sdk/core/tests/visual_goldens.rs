@@ -643,6 +643,101 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             ),
         ));
     }
+    // Tree view: nested items (3 levels, 6 at most). A nested item that leaves a flag out
+    // inherits its parent's value, so every nested entry writes the flags that differ.
+    if name == "tree-view" {
+        let items = serde_json::json!([
+            { "label": "Documents", "hasChildren": true, "isExpanded": true, "children": [
+                { "label": "Work", "hasChildren": true, "isExpanded": true, "isSelected": true, "children": [
+                    { "label": "Report", "hasChildren": false, "isSelected": false },
+                    { "label": "Notes", "hasChildren": false, "isSelected": false, "isDisabled": true }
+                ] },
+                { "label": "Photos", "hasChildren": true, "isExpanded": false, "isSelected": false }
+            ] },
+            { "label": "Downloads", "hasChildren": true, "isExpanded": false },
+            { "label": "Archive", "hasChildren": false, "isSelected": true, "isDisabled": true },
+            { "label": "Readme", "hasChildren": false }
+        ]);
+        let with = |states: Vec<String>, items: &Value, scheme: &str, scale: &str| {
+            let mut o = HashMap::from([("items".to_string(), items.clone())]);
+            o.insert("selectionMode".into(), "multiple".into());
+            req(states, o, scheme, scale)
+        };
+        out.push((
+            "nested-three-levels",
+            with(vec![], &items, "light", "desktop"),
+        ));
+        out.push(("nested-dark-mobile", with(vec![], &items, "dark", "mobile")));
+        out.push((
+            "nested-wireframe",
+            with(vec![], &items, "wireframe", "desktop"),
+        ));
+        out.push((
+            "nested-hover",
+            with(vec!["hover".into()], &items, "light", "desktop"),
+        ));
+        let mut focused = items.clone();
+        focused[0]["children"][0]["isFocusVisible"] = Value::Bool(true);
+        out.push((
+            "nested-keyboard-focus",
+            with(vec!["keyboard-focus".into()], &focused, "light", "desktop"),
+        ));
+        let mut highlight = HashMap::from([("items".to_string(), items.clone())]);
+        highlight.insert("selectionMode".into(), "single".into());
+        highlight.insert("selectionStyle".into(), "highlight".into());
+        out.push((
+            "nested-single-highlight",
+            req(vec![], highlight, "light", "desktop"),
+        ));
+        // A selected row keeps the gray selected fill under down and focus, and an
+        // unselected row of the highlight style takes no fill from an interaction state.
+        out.push((
+            "nested-down",
+            with(vec!["down".into()], &items, "light", "desktop"),
+        ));
+        let mut highlight_hover = HashMap::from([("items".to_string(), items.clone())]);
+        highlight_hover.insert("selectionMode".into(), "single".into());
+        highlight_hover.insert("selectionStyle".into(), "highlight".into());
+        out.push((
+            "nested-single-highlight-hover",
+            req(vec!["hover".into()], highlight_hover, "light", "desktop"),
+        ));
+        for size in ["s", "l", "xl"] {
+            let mut r = with(vec![], &items, "light", "desktop");
+            r.size = size.into();
+            out.push((
+                match size {
+                    "s" => "nested-size-s",
+                    "l" => "nested-size-l",
+                    _ => "nested-size-xl",
+                },
+                r,
+            ));
+        }
+        out.push((
+            "one-item",
+            with(
+                vec![],
+                &serde_json::json!([{ "label": "Only item", "hasChildren": false }]),
+                "light",
+                "desktop",
+            ),
+        ));
+        // Six levels: the deepest a tree view nests.
+        let mut deep = serde_json::json!({ "label": "Level 6", "hasChildren": false });
+        for level in (1..6).rev() {
+            deep = serde_json::json!({
+                "label": format!("Level {level}"),
+                "hasChildren": true,
+                "isExpanded": true,
+                "children": [deep]
+            });
+        }
+        out.push((
+            "six-levels",
+            with(vec![], &serde_json::json!([deep]), "light", "desktop"),
+        ));
+    }
     // Stack item: a row with a checkbox, a visual and two trailing action buttons (nested
     // recipes and slot fills), selected, unselected and disabled, light and dark mobile.
     if name == "stack-item" {

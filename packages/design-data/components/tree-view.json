@@ -184,9 +184,123 @@
           "value": "replace"
         }
       ]
+    },
+    "items": {
+      "type": "array",
+      "description": "The tree view items at the top level. Each entry is one copy of the row part, with its children nested under it.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "Text of the item."
+          },
+          "isSelected": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, the item is selected."
+          },
+          "isDisabled": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, the item is disabled."
+          },
+          "isFocusVisible": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, the item shows the keyboard focus ring."
+          },
+          "hasChildren": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, the item has children, shown or not; draws the disclosure button."
+          },
+          "isExpanded": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, the item is expanded (its disclosure button points down). Its children draw only from the children field; a collapsed item has hasChildren true and leaves children out."
+          },
+          "children": {
+            "type": "array",
+            "description": "The items nested one level under this item, same shape as items. Nesting draws up to 6 levels in all, this item's level included.",
+            "items": {
+              "type": "object"
+            }
+          }
+        },
+        "required": ["label"]
+      }
+    },
+    "children": {
+      "type": "array",
+      "description": "The items nested one level under the item a copy draws; set per entry from items[].children and passed down level by level. Not set on a request: use items.",
+      "items": {
+        "type": "object"
+      }
+    },
+    "isSelected": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the item is selected. Draws the selected background. Per item it is items[].isSelected."
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the item is disabled. Per item it is items[].isDisabled."
+    },
+    "isFocusVisible": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the item shows the keyboard focus ring. Only one item holds keyboard focus at a time. Per item it is items[].isFocusVisible."
+    },
+    "isExpanded": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the item is expanded. The disclosure button points down when true and right when false. Per item it is items[].isExpanded."
+    },
+    "hasChildren": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the item has children, shown or not. Draws the disclosure button. Per item it is items[].hasChildren."
     }
   },
   "slots": [
+    {
+      "name": "default",
+      "part": "row",
+      "collection": "items",
+      "description": "The top-level tree view items. Each entry of the items option is drawn as one copy of the row part, with its children nested under it."
+    },
+    {
+      "name": "row-level-1",
+      "part": "row-level-1",
+      "collection": "children",
+      "description": "The items nested at level 1. Each entry of the parent item's children field is drawn as one copy of the row-level-1 part."
+    },
+    {
+      "name": "row-level-2",
+      "part": "row-level-2",
+      "collection": "children",
+      "description": "The items nested at level 2. Each entry of the parent item's children field is drawn as one copy of the row-level-2 part."
+    },
+    {
+      "name": "row-level-3",
+      "part": "row-level-3",
+      "collection": "children",
+      "description": "The items nested at level 3. Each entry of the parent item's children field is drawn as one copy of the row-level-3 part."
+    },
+    {
+      "name": "row-level-4",
+      "part": "row-level-4",
+      "collection": "children",
+      "description": "The items nested at level 4. Each entry of the parent item's children field is drawn as one copy of the row-level-4 part."
+    },
+    {
+      "name": "row-level-5",
+      "part": "row-level-5",
+      "collection": "children",
+      "description": "The items nested at level 5. Each entry of the parent item's children field is drawn as one copy of the row-level-5 part."
+    },
     {
       "name": "actions",
       "part": "actions",
@@ -208,8 +322,13 @@
     },
     {
       "name": "row",
-      "description": "One tree view item (Figma Tree view item).",
+      "description": "One tree view item at the top level, with the items nested under it (Figma Tree view item, level 0). Repeated once per entry of the items option.",
       "required": true,
+      "contains": ["row-content", "row-level-1", "focus-indicator"]
+    },
+    {
+      "name": "row-content",
+      "description": "The line of one tree view item: drag handle, checkbox, disclosure button, icon, thumbnail, label, actions. Its background, border and spacing are the row records; the items nested under the item sit below it.",
       "contains": [
         "drag-handle",
         "checkbox",
@@ -217,9 +336,33 @@
         "icon",
         "thumbnail",
         "label",
-        "actions",
-        "focus-indicator"
+        "actions"
       ]
+    },
+    {
+      "name": "row-level-1",
+      "description": "One tree view item at level 1, indented by one level increment from its parent. Repeated once per entry of the parent's children field.",
+      "contains": ["row-content", "row-level-2", "outline-level-1"]
+    },
+    {
+      "name": "row-level-2",
+      "description": "One tree view item at level 2, indented by one level increment from its parent. Repeated once per entry of the parent's children field.",
+      "contains": ["row-content", "row-level-3", "outline-level-2"]
+    },
+    {
+      "name": "row-level-3",
+      "description": "One tree view item at level 3, indented by one level increment from its parent. Repeated once per entry of the parent's children field.",
+      "contains": ["row-content", "row-level-4", "outline-level-3"]
+    },
+    {
+      "name": "row-level-4",
+      "description": "One tree view item at level 4, indented by one level increment from its parent. Repeated once per entry of the parent's children field.",
+      "contains": ["row-content", "row-level-5", "outline-level-4"]
+    },
+    {
+      "name": "row-level-5",
+      "description": "One tree view item at level 5, indented by one level increment from its parent. Repeated once per entry of the parent's children field.",
+      "contains": ["row-content", "outline-level-5"]
     },
     {
       "name": "drag-handle",
@@ -228,11 +371,22 @@
     {
       "name": "checkbox",
       "component": "checkbox",
-      "description": "Selection checkbox, shown in the checkbox selection style."
+      "description": "Selection checkbox, shown in the checkbox selection style.",
+      "presentWhen": {
+        "options": {
+          "selectionStyle": "checkbox",
+          "selectionMode": "multiple"
+        }
+      }
     },
     {
       "name": "disclosure-button",
-      "description": "Button that expands or collapses the item's children. It is interactive and has its own states; present on items that have children."
+      "description": "Button that expands or collapses the item's children. It is interactive and has its own states; present on items that have children.",
+      "presentWhen": {
+        "options": {
+          "hasChildren": true
+        }
+      }
     },
     {
       "name": "icon",
@@ -254,13 +408,62 @@
     {
       "name": "focus-indicator",
       "description": "Outline drawn around the focused item.",
-      "presentWhen": { "states": ["keyboard-focus"] }
+      "presentWhen": {
+        "options": {
+          "isFocusVisible": true
+        }
+      }
+    },
+    {
+      "name": "outline-level-1",
+      "description": "Outline drawn around the focused item (the focus ring) at level 1.",
+      "presentWhen": {
+        "options": {
+          "isFocusVisible": true
+        }
+      }
+    },
+    {
+      "name": "outline-level-2",
+      "description": "Outline drawn around the focused item (the focus ring) at level 2.",
+      "presentWhen": {
+        "options": {
+          "isFocusVisible": true
+        }
+      }
+    },
+    {
+      "name": "outline-level-3",
+      "description": "Outline drawn around the focused item (the focus ring) at level 3.",
+      "presentWhen": {
+        "options": {
+          "isFocusVisible": true
+        }
+      }
+    },
+    {
+      "name": "outline-level-4",
+      "description": "Outline drawn around the focused item (the focus ring) at level 4.",
+      "presentWhen": {
+        "options": {
+          "isFocusVisible": true
+        }
+      }
+    },
+    {
+      "name": "outline-level-5",
+      "description": "Outline drawn around the focused item (the focus ring) at level 5.",
+      "presentWhen": {
+        "options": {
+          "isFocusVisible": true
+        }
+      }
     }
   ],
   "anatomyReview": {
     "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "Figma S2 Web tree view page (Tree view item, .Tree view (collapse and expand button), Level 0-6) and React Spectrum S2 TreeView (expandButton). container added as the root. Decision A71 D8 a2: disclosure-indicator becomes disclosure-button, the interactive expand and collapse control; action-area renamed actions (registry term). Decision A69 D6a: anatomy only for now, no items option and no recursion; indentation by a per-entry level is a later step. Decision A72 D9a: row keeps its name (the planned rename to tree-view-item is dropped); the name is a question for Garth. Decision A68 D5a: tree-view keeps its own records; stack-item holds the shared row chrome. Restated opacity-checkerboard records are identity work, not done here."
+    "notes": "Figma S2 Web tree view page (Tree view item, .Tree view (collapse and expand button), Level 0-6) and React Spectrum S2 TreeView (expandButton). container added as the root. Decision A71 D8 a2: disclosure-indicator becomes disclosure-button, the interactive expand and collapse control; action-area renamed actions (registry term). Decision A69 D6a: anatomy only for now, no items option and no recursion; indentation by a per-entry level is a later step. Decision A72 D9a: row keeps its name (the planned rename to tree-view-item is dropped); the name is a question for Garth. Decision A68 D5a: tree-view keeps its own records; stack-item holds the shared row chrome. Restated opacity-checkerboard records are identity work, not done here. Items slot: row is repeated once per entry of the items option, and each item nests its children as a repeat of the next level part (row-level-1 to row-level-5, 6 levels at most). A recipe part has one parent, so the line of an item is its own part, row-content, shared by every level, and each level has its own focus ring because a ring is hosted by one parent. Relationships stay scoped to row. The level part names and the row-content split are proposed, not agreed."
   },
   "states": [
     {
