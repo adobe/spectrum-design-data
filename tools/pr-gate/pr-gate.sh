@@ -5,8 +5,10 @@
 #
 # It runs `moon ci` on the targets from .github/ci-targets.json (the same list
 # the CI workflow uses), limited to the ones moon finds affected between the
-# merge base with origin/main and HEAD. It then repeats the checks CI runs
-# outside moon: the committed legacy output check and the changeset linter.
+# merge base with origin/main and HEAD. It then repeats two checks CI runs
+# outside moon: the committed legacy output check (only when design-data:legacy-output
+# is affected; CI always runs it) and the changeset linter (always).
+# --list skips the clean-tree check; mode-only changes never count as dirty.
 #
 # Usage: tools/pr-gate/pr-gate.sh [--list] [--base REF] [--render-compare]
 #   --list            print the affected CI targets and exit (fast, no build)
@@ -37,8 +39,10 @@ cd "$root" || exit 2
 
 fail() { echo "pr-gate: $*" >&2; exit 2; }
 
-[ -z "$(git status --porcelain --untracked-files=no)" ] \
-  || fail "uncommitted changes: commit them first (moon only sees commits)."
+if [ "$list_only" = 0 ]; then
+  [ -z "$(git -c core.fileMode=false status --porcelain --untracked-files=no)" ] \
+    || fail "uncommitted changes: commit them first (moon only sees commits)."
+fi
 
 if [ "$base_ref" = "origin/main" ]; then git fetch -q origin main || fail "git fetch failed"; fi
 merge_base=$(git merge-base "$base_ref" HEAD) || fail "no merge base with $base_ref"
@@ -65,6 +69,7 @@ echo "$targets" | sed 's/^/  /'
 if [ -n "${CARGO_TARGET_DIR:-}" ]; then
   if [ ! -e sdk/target ]; then
     ln -s "$CARGO_TARGET_DIR" sdk/target
+    trap '[ -L sdk/target ] && rm -f sdk/target' EXIT
     echo "pr-gate: linked sdk/target -> $CARGO_TARGET_DIR"
   elif [ -L sdk/target ]; then
     [ "$(readlink sdk/target)" = "$CARGO_TARGET_DIR" ] \
@@ -115,15 +120,15 @@ if echo "$targets" | grep -qx 'design-data:legacy-output'; then
   else
     rows+=("| legacy output unchanged | PASS |")
   fi
+else
+  rows+=("| legacy output unchanged | skipped (design-data:legacy-output not affected; CI always runs it) |")
 fi
 
 # Lint Changesets workflow.
-if git diff --name-only "$merge_base" HEAD -- .changeset | grep -q '\.md$'; then
-  if node tools/changeset-linter/src/cli.js check --fail-on-warnings; then
-    rows+=("| changeset linter | PASS |")
-  else
-    rows+=("| changeset linter | FAIL |"); status=1
-  fi
+if node tools/changeset-linter/src/cli.js check --fail-on-warnings; then
+  rows+=("| changeset linter | PASS |")
+else
+  rows+=("| changeset linter | FAIL |"); status=1
 fi
 
 # Render compare workflow (advisory in CI).
@@ -143,5 +148,5 @@ echo "| Check | Result |"
 echo "|---|---|"
 for r in "${rows[@]+"${rows[@]}"}"; do echo "$r"; done
 echo
-echo "Not covered: CLI minimum gate, release-only checks, Figma comparison, load-sensitive timeouts."
+echo "Not covered: CLI minimum gate, release-only checks, Figma comparison, load-sensitive timeouts, changeset-lint check-data-bump, render-compare (advisory, opt-in via --render-compare)."
 exit "$status"
