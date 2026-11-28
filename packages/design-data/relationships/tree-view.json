@@ -683,7 +683,7 @@
   {
     "scope": {
       "component": "tree-view",
-      "part": "row",
+      "part": "label",
       "property": "content-color",
       "options": {
         "state": ["default"]
@@ -697,7 +697,7 @@
   {
     "scope": {
       "component": "tree-view",
-      "part": "row",
+      "part": "label",
       "property": "content-color",
       "options": {
         "state": ["hover"]
@@ -711,7 +711,7 @@
   {
     "scope": {
       "component": "tree-view",
-      "part": "row",
+      "part": "label",
       "property": "content-color",
       "options": {
         "state": ["down"]
@@ -725,7 +725,7 @@
   {
     "scope": {
       "component": "tree-view",
-      "part": "row",
+      "part": "label",
       "property": "content-color",
       "options": {
         "state": ["keyboard-focus"]
@@ -739,7 +739,7 @@
   {
     "scope": {
       "component": "tree-view",
-      "part": "row",
+      "part": "label",
       "property": "content-color",
       "options": {
         "state": ["selected", "default"]
@@ -753,7 +753,7 @@
   {
     "scope": {
       "component": "tree-view",
-      "part": "row",
+      "part": "label",
       "property": "content-color",
       "options": {
         "state": ["selected", "hover"]
@@ -767,7 +767,7 @@
   {
     "scope": {
       "component": "tree-view",
-      "part": "row",
+      "part": "label",
       "property": "content-color",
       "options": {
         "state": ["selected", "down"]
@@ -781,7 +781,7 @@
   {
     "scope": {
       "component": "tree-view",
-      "part": "row",
+      "part": "label",
       "property": "content-color",
       "options": {
         "state": ["selected", "keyboard-focus"]
@@ -795,7 +795,7 @@
   {
     "scope": {
       "component": "tree-view",
-      "part": "row",
+      "part": "label",
       "property": "content-color"
     },
     "context": "Label and icon",

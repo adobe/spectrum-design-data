@@ -786,7 +786,7 @@
         "color": {
           "relationship": {
             "property": "content-color",
-            "context": "Label and icon"
+            "part": "label"
           }
         }
       }
@@ -901,7 +901,7 @@
         "color": {
           "relationship": {
             "property": "content-color",
-            "context": "Label and icon"
+            "part": "label"
           }
         }
       }
@@ -936,7 +936,7 @@
         "color": {
           "relationship": {
             "property": "content-color",
-            "context": "Label and icon"
+            "part": "label"
           }
         },
         "grow": {
