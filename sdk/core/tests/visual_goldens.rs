@@ -643,6 +643,101 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             ),
         ));
     }
+    // Tree view: nested items (3 levels, 6 at most). A nested item that leaves a flag out
+    // inherits its parent's value, so every nested entry writes the flags that differ.
+    if name == "tree-view" {
+        let items = serde_json::json!([
+            { "label": "Documents", "hasChildren": true, "isExpanded": true, "children": [
+                { "label": "Work", "hasChildren": true, "isExpanded": true, "isSelected": true, "children": [
+                    { "label": "Report", "hasChildren": false, "isSelected": false },
+                    { "label": "Notes", "hasChildren": false, "isSelected": false, "isDisabled": true }
+                ] },
+                { "label": "Photos", "hasChildren": true, "isExpanded": false, "isSelected": false }
+            ] },
+            { "label": "Downloads", "hasChildren": true, "isExpanded": false },
+            { "label": "Archive", "hasChildren": false, "isSelected": true, "isDisabled": true },
+            { "label": "Readme", "hasChildren": false }
+        ]);
+        let with = |states: Vec<String>, items: &Value, scheme: &str, scale: &str| {
+            let mut o = HashMap::from([("items".to_string(), items.clone())]);
+            o.insert("selectionMode".into(), "multiple".into());
+            req(states, o, scheme, scale)
+        };
+        out.push((
+            "nested-three-levels",
+            with(vec![], &items, "light", "desktop"),
+        ));
+        out.push(("nested-dark-mobile", with(vec![], &items, "dark", "mobile")));
+        out.push((
+            "nested-wireframe",
+            with(vec![], &items, "wireframe", "desktop"),
+        ));
+        out.push((
+            "nested-hover",
+            with(vec!["hover".into()], &items, "light", "desktop"),
+        ));
+        let mut focused = items.clone();
+        focused[0]["children"][0]["isFocusVisible"] = Value::Bool(true);
+        out.push((
+            "nested-keyboard-focus",
+            with(vec!["keyboard-focus".into()], &focused, "light", "desktop"),
+        ));
+        let mut highlight = HashMap::from([("items".to_string(), items.clone())]);
+        highlight.insert("selectionMode".into(), "single".into());
+        highlight.insert("selectionStyle".into(), "highlight".into());
+        out.push((
+            "nested-single-highlight",
+            req(vec![], highlight, "light", "desktop"),
+        ));
+        // A selected row keeps the gray selected fill under down and focus, and an
+        // unselected row of the highlight style takes no fill from an interaction state.
+        out.push((
+            "nested-down",
+            with(vec!["down".into()], &items, "light", "desktop"),
+        ));
+        let mut highlight_hover = HashMap::from([("items".to_string(), items.clone())]);
+        highlight_hover.insert("selectionMode".into(), "single".into());
+        highlight_hover.insert("selectionStyle".into(), "highlight".into());
+        out.push((
+            "nested-single-highlight-hover",
+            req(vec!["hover".into()], highlight_hover, "light", "desktop"),
+        ));
+        for size in ["s", "l", "xl"] {
+            let mut r = with(vec![], &items, "light", "desktop");
+            r.size = size.into();
+            out.push((
+                match size {
+                    "s" => "nested-size-s",
+                    "l" => "nested-size-l",
+                    _ => "nested-size-xl",
+                },
+                r,
+            ));
+        }
+        out.push((
+            "one-item",
+            with(
+                vec![],
+                &serde_json::json!([{ "label": "Only item", "hasChildren": false }]),
+                "light",
+                "desktop",
+            ),
+        ));
+        // Six levels: the deepest a tree view nests.
+        let mut deep = serde_json::json!({ "label": "Level 6", "hasChildren": false });
+        for level in (1..6).rev() {
+            deep = serde_json::json!({
+                "label": format!("Level {level}"),
+                "hasChildren": true,
+                "isExpanded": true,
+                "children": [deep]
+            });
+        }
+        out.push((
+            "six-levels",
+            with(vec![], &serde_json::json!([deep]), "light", "desktop"),
+        ));
+    }
     // Stack item: a row with a checkbox, a visual and two trailing action buttons (nested
     // recipes and slot fills), selected, unselected and disabled, light and dark mobile.
     if name == "stack-item" {
@@ -3437,6 +3532,99 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
                 "desktop",
             ),
         ));
+    }
+    // The five text-only typography components draw one run of text. Every scenario carries
+    // real copy; the smallest and largest size, each emphasis a component declares (a deprecated
+    // value draws the regular style, so it has no golden of its own), the serif family and a
+    // block that wraps at a fixed width cover the type style.
+    if matches!(name, "body" | "code" | "detail" | "heading" | "title") {
+        let copy = "The quick brown fox jumps over the lazy dog";
+        for (_, r) in out.iter_mut() {
+            r.label = copy.into();
+        }
+        let case = |size: &str, opts: Vec<(&str, Value)>, scheme: &str, scale: &str| {
+            let mut r = req(vec![], HashMap::new(), scheme, scale);
+            r.label = copy.into();
+            r.size = size.into();
+            for (k, v) in opts {
+                r.options.insert(k.into(), v);
+            }
+            r
+        };
+        let sizes: Vec<&str> = options
+            .get("size")
+            .and_then(|s| s.get("values"))
+            .and_then(Value::as_array)
+            .into_iter()
+            .flatten()
+            .filter_map(|v| v.get("value").and_then(Value::as_str))
+            .collect();
+        let (smallest, largest) = (sizes[0], sizes[sizes.len() - 1]);
+        out.push(("size-smallest", case(smallest, vec![], "light", "desktop")));
+        out.push((
+            "size-largest-dark-mobile",
+            case(largest, vec![], "dark", "mobile"),
+        ));
+        for emphasis in ["emphasized", "strong", "strong-emphasized"] {
+            out.push((
+                Box::leak(format!("emphasis-{emphasis}").into_boxed_str()),
+                case(
+                    "m",
+                    vec![("emphasis", Value::from(emphasis))],
+                    "light",
+                    "desktop",
+                ),
+            ));
+        }
+        if name == "heading" {
+            out.push((
+                "emphasis-heavy-strong-emphasized",
+                case(
+                    "m",
+                    vec![("emphasis", Value::from("heavy-strong-emphasized"))],
+                    "light",
+                    "desktop",
+                ),
+            ));
+        }
+        if name != "code" {
+            out.push((
+                "family-serif-dark",
+                case(
+                    "m",
+                    vec![("family", Value::from("serif"))],
+                    "dark",
+                    "desktop",
+                ),
+            ));
+        }
+        out.push((
+            "script-cjk",
+            case(
+                "m",
+                vec![("script", Value::from("cjk"))],
+                "light",
+                "desktop",
+            ),
+        ));
+        out.push((
+            "script-cjk-strong-serif-dark",
+            case(
+                "m",
+                vec![
+                    ("script", Value::from("cjk")),
+                    ("emphasis", Value::from("strong")),
+                    ("family", Value::from("serif")),
+                ],
+                "dark",
+                "desktop",
+            ),
+        ));
+        let mut wrapped = case("m", vec![], "light", "desktop");
+        wrapped.label =
+            "A longer run of text that wraps onto several lines when the block is narrow".into();
+        wrapped.width = Some(180.0);
+        out.push(("wrapped-narrow", wrapped));
     }
     // Status light wraps its label next to the dot.
     if name == "status-light" {

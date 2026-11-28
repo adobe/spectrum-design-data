@@ -1,0 +1,77 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-visual.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "heading",
+  "root": "container",
+  "notVisual": ["classification", "weight"],
+  "sizeScale": {
+    "xxs": 50,
+    "xs": 75,
+    "s": 100,
+    "m": 200,
+    "l": 300,
+    "xl": 400,
+    "xxl": 500,
+    "xxxl": 600,
+    "xxxxl": 700
+  },
+  "parts": {
+    "container": {
+      "kind": "box",
+      "children": ["text"],
+      "props": {
+        "direction": {
+          "value": "column"
+        },
+        "align": {
+          "value": "start"
+        }
+      }
+    },
+    "text": {
+      "kind": "text",
+      "props": {
+        "fontSize": [
+          {
+            "when": {
+              "options": {
+                "size": ["xs", "s", "m", "l", "xl", "xxl", "xxxl", "xxxxl"]
+              }
+            },
+            "relationship": {
+              "property": "font-size",
+              "part": "text"
+            }
+          }
+        ],
+        "lineHeight": {
+          "relationship": {
+            "property": "line-height",
+            "part": "text"
+          }
+        },
+        "fontFamily": {
+          "relationship": {
+            "property": "font-family",
+            "part": "text"
+          }
+        },
+        "fontWeight": {
+          "relationship": {
+            "property": "font-weight",
+            "part": "text"
+          }
+        },
+        "color": {
+          "relationship": {
+            "property": "color",
+            "part": "text"
+          }
+        },
+        "overflow": {
+          "value": "wrap"
+        }
+      }
+    }
+  }
+}

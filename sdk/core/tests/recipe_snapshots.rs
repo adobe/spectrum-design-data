@@ -325,6 +325,24 @@ fn fixed_options(name: &str) -> Vec<(String, Value)> {
             ("selectionMode".into(), "multiple".into()),
         ];
     }
+    if name == "tree-view" {
+        // Items draw only from `items`: nested, expanded and collapsed, selected and disabled.
+        return vec![
+            (
+                "items".into(),
+                serde_json::json!([
+                    { "label": "Documents", "hasChildren": true, "isExpanded": true, "children": [
+                        { "label": "Work", "hasChildren": true, "isExpanded": true, "isSelected": true, "children": [
+                            { "label": "Report", "hasChildren": false, "isSelected": false, "isDisabled": true }
+                        ] },
+                        { "label": "Photos", "hasChildren": true, "isExpanded": false, "isSelected": false }
+                    ] },
+                    { "label": "Archive", "hasChildren": false, "isSelected": true, "isDisabled": true }
+                ]),
+            ),
+            ("selectionMode".into(), "multiple".into()),
+        ];
+    }
     if name != "calendar" {
         return Vec::new();
     }
@@ -487,6 +505,7 @@ recipe_tests! {
     avatar => "avatar",
     badge => "badge",
     bar_panel => "bar-panel",
+    body => "body",
     breadcrumbs => "breadcrumbs",
     button => "button",
     button_group => "button-group",
@@ -497,6 +516,7 @@ recipe_tests! {
     close_button => "close-button",
     coach_indicator => "coach-indicator",
     coach_mark => "coach-mark",
+    code => "code",
     color_area => "color-area",
     color_handle => "color-handle",
     color_loupe => "color-loupe",
@@ -504,9 +524,11 @@ recipe_tests! {
     combo_box => "combo-box",
     contextual_help => "contextual-help",
     date_field => "date-field",
+    detail => "detail",
     divider => "divider",
     drop_zone => "drop-zone",
     field_label => "field-label",
+    heading => "heading",
     help_text => "help-text",
     illustrated_message => "illustrated-message",
     in_field_button => "in-field-button",
@@ -545,8 +567,10 @@ recipe_tests! {
     text_field => "text-field",
     thumbnail => "thumbnail",
     time_field => "time-field",
+    title => "title",
     toast => "toast",
     tooltip => "tooltip",
+    tree_view => "tree-view",
 }
 
 #[test]
