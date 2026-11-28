@@ -716,6 +716,11 @@ const COMPONENTS_JSON: &str = r##"{
       "documentationUrl": "https://spectrum.adobe.com/page/select-box/"
     },
     {
+      "id": "select-box-group",
+      "label": "Select Box Group",
+      "documentationUrl": "https://spectrum.adobe.com/page/select-box/"
+    },
+    {
       "id": "side-navigation",
       "label": "Side Navigation",
       "documentationUrl": "https://spectrum.adobe.com/page/side-navigation/"

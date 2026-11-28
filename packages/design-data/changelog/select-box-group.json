@@ -1,0 +1,23 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component-changelog.schema.json",
+  "specVersion": "1.0.0-draft",
+  "component": "select-box-group",
+  "releases": [
+    {
+      "release": "4.11.0",
+      "version": "1.0.0",
+      "date": "2026-11-28",
+      "commit": "4beb2e5aad3c1b3edfae0ddc12d08e10b29e4ebe",
+      "commits": [
+        {
+          "commit": "da7c4d1d18da6cd357329f66363fc1166e40a8a5",
+          "date": "2026-11-28",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2246,"title":"feat(design-data): add select-box-group component","url":"https://github.com/adobe/spectrum-design-data/pull/2246"},
+          "entries": [
+            {"id":"da7c4d1d-0","kind":"component","change":"added","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"select-box-group/","name":"select-box-group","fields":[]}
+          ]
+        }
+      ]
+    }
+  ]
+}

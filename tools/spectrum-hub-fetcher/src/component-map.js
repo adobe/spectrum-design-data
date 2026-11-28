@@ -187,6 +187,7 @@ export const COMPONENTS_WITHOUT_HUB_PAGE = [
   "opacity-checkerboard",
   "rating",
   "scroll-zoom-bar",
+  "select-box-group",
   "segmented-text-field",
   "single-calendar",
   "stack-item",

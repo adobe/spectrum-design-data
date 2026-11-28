@@ -66,6 +66,17 @@ export function demoSlots(def, byName) {
   return slots;
 }
 
+// Demo entries of a component's collection slots, keyed by the collection option: the slot's
+// `demo` is the option's array value (item objects), so a host sets it as `options[<option>]`,
+// not as `slots`. An option the user sets replaces it.
+export function demoOptions(def) {
+  const options = {};
+  for (const s of def?.slots ?? []) {
+    if (s.part && s.collection && s.demo) options[s.collection] = s.demo;
+  }
+  return options;
+}
+
 // Picker choices as [value, text]; the empty value keeps the recipe's own icon.
 export function iconChoices(icons, optional) {
   const names = Object.keys(icons ?? {}).sort();

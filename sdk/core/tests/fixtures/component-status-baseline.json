@@ -67,6 +67,7 @@
   "segmented-control": 3,
   "segmented-text-field": 3,
   "select-box": 3,
+  "select-box-group": 0,
   "side-navigation": 3,
   "single-calendar": 2,
   "slider": 3,

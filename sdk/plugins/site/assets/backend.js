@@ -14,7 +14,7 @@
 // WASM) lays it out. No server; all URLs are relative so the site works under any base path.
 // Nothing loads at import time, so a failed fetch surfaces as a rejection the page shows.
 
-import { demoSlots, iconRequest } from "./content-controls.js";
+import { demoOptions, demoSlots, iconRequest } from "./content-controls.js";
 
 // The build id the page stamped on this module's URL (`backend.js?v=<id>`); every fetch carries
 // it so a redeploy that keeps file names cannot serve stale data. Empty when loaded bare.
@@ -107,7 +107,7 @@ export const backend = {
   // `q` holds `name`, `size`, `scheme`, `scale`, `label`, `width`, `state` and `opt.<option>` keys.
   scene: async (q) => {
     const [, metrics] = await Promise.all([loadData(), loadMetrics()]);
-    const options = {};
+    const options = { ...demoOptions(data.byName[q.name]) };
     for (const [k, v] of Object.entries(q)) {
       if (!k.startsWith("opt.") || v === "" || v === false || v === "false")
         continue;

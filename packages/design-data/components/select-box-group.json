@@ -1,0 +1,106 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/component.schema.json",
+  "$id": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/components/select-box-group.json",
+  "specVersion": "1.0.0-draft",
+  "name": "select-box-group",
+  "displayName": "Select box group",
+  "description": "A select box group is a set of select boxes from which the user chooses one or several options in a workflow.",
+  "meta": {
+    "category": "inputs",
+    "documentationUrl": "https://spectrum.adobe.com/page/select-box/"
+  },
+  "documentBlocks": [
+    {
+      "type": "purpose",
+      "content": "A select box group is a set of select boxes from which the user chooses one or several options in a workflow."
+    },
+    {
+      "type": "guideline",
+      "content": "Keep select box groups to 9 items or less.\n\nSelect box groups work best with 3 to 9 items. If your experience needs more than 9 items, consider using a dropdown, checkboxes, or radio button group instead."
+    },
+    {
+      "type": "guideline",
+      "content": "Use consistent sizing.\n\nAll select boxes in a group should be the same size to maintain visual consistency and usability."
+    }
+  ],
+  "implementations": [
+    {
+      "platform": "web",
+      "componentName": "SelectBoxGroup",
+      "package": "@react-spectrum/s2"
+    }
+  ],
+  "options": {
+    "orientation": {
+      "type": "string",
+      "default": "vertical",
+      "description": "The layout direction of the content in each select box.",
+      "values": [
+        {
+          "value": "horizontal"
+        },
+        {
+          "value": "vertical"
+        }
+      ]
+    },
+    "selectionMode": {
+      "type": "string",
+      "default": "single",
+      "values": [
+        {
+          "value": "single"
+        },
+        {
+          "value": "multiple"
+        }
+      ]
+    },
+    "isDisabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "anatomy": [
+    {
+      "name": "container",
+      "description": "Root of the group. It draws nothing itself: it holds the `items` part, which hosts the default slot.",
+      "required": true,
+      "contains": ["items"]
+    },
+    {
+      "name": "items",
+      "description": "Grid of select boxes. It draws nothing itself: it sets the gap between select boxes and wraps rows. It hosts the default slot.",
+      "required": true
+    }
+  ],
+  "slots": [
+    {
+      "name": "default",
+      "part": "items",
+      "accepts": ["select-box"],
+      "min": 1,
+      "description": "The select boxes of the group. Any number, at least one."
+    }
+  ],
+  "anatomyReview": {
+    "status": "draft",
+    "reviewedIn": "1.0.0-draft",
+    "notes": "Proposed, not yet confirmed by Design. Built from React Spectrum S2 SelectBoxGroup (orientation, selectionMode, isDisabled; children are SelectBox) and the swatch-group and checkbox-group precedent: a container root and one host part `items` for the default slot that accepts select-box. The Figma Web POC was not available, so the part names and the single-slot shape are unconfirmed. The select-box option multiple is left in place; selectionMode here is the group-level equivalent."
+  },
+  "lifecycle": {
+    "introduced": "1.0.0-draft"
+  },
+  "accessibility": {
+    "role": "group",
+    "intents": ["choose"],
+    "focusable": false,
+    "wcag": [
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ]
+  }
+}

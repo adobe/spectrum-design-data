@@ -582,6 +582,22 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.10.0",
+      "version": "3.0.3",
+      "bump": "patch",
+      "date": "2026-11-28",
+      "commit": "f341108a9abb87fa309ae8532cec238cfe25f28f",
+      "commits": [
+        {
+          "commit": "0503e4088e2ec41def198bf88d5e6707da3cf5cd",
+          "date": "2026-11-27",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2239,"title":"feat(design-data): date-field, time-field and segmented-text-field recipes with a segments slot","url":"https://github.com/adobe/spectrum-design-data/pull/2239"},
+          "entries": [],
+          "metadata": {"count":1,"fields":["context","contextRole"]}
+        }
+      ]
     }
   ]
 }

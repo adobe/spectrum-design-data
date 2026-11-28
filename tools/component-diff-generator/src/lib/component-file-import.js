@@ -263,6 +263,7 @@ export class ComponentLoader extends FileLoader {
       "components/search-field.json",
       "components/segmented-control.json",
       "components/select-box.json",
+      "components/select-box-group.json",
       "components/side-navigation.json",
       "components/slider.json",
       "components/standard-dialog.json",

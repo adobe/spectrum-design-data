@@ -11,16 +11,33 @@
       },
       "options": {
         "size": { "type": "string" },
-        "items": { "type": "array", "items": { "type": "object" } }
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "label": { "type": "string" },
+              "isLiteral": { "type": "boolean" }
+            }
+          }
+        }
       },
       "anatomy": [
-        { "name": "container", "contains": ["row"] },
+        { "name": "container", "contains": ["row", "group"] },
+        { "name": "group", "contains": ["tile"] },
+        { "name": "tile" },
         { "name": "row" },
         { "name": "actions" },
         { "name": "footer" }
       ],
       "slots": [
         { "name": "default", "part": "row", "collection": "size" },
+        {
+          "name": "tile",
+          "part": "tile",
+          "collection": "items",
+          "demo": [{ "nope": 1 }, { "isLiteral": "yes" }, "text"]
+        },
         { "name": "actions", "part": "toolbar" },
         {
           "name": "badge",

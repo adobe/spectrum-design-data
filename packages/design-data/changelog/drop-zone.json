@@ -453,6 +453,27 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.10.0",
+      "version": "2.2.0",
+      "bump": "minor",
+      "date": "2026-11-28",
+      "commit": "f341108a9abb87fa309ae8532cec238cfe25f28f",
+      "commits": [
+        {
+          "commit": "cb17ae3eeb4f1293c2e4e713283d58fcc96abb76",
+          "date": "2026-11-27",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2233,"title":"feat(design-data): drop-zone and select-box visual recipes","url":"https://github.com/adobe/spectrum-design-data/pull/2233"},
+          "entries": [
+            {"id":"cb17ae3e-0","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Title area and body area"],"scope":{"property":"font-size","options":{"scale":"desktop"}},"record":"345f3d86-14c0-599b-968c-55e19a2f9a68","name":"font-size[scale=desktop]","fields":[],"after":"1194f7e3-e4c3-4a3a-bd19-50f4b48e1a6e"},
+            {"id":"cb17ae3e-1","kind":"relationship","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":["Title area and body area"],"scope":{"property":"font-size","options":{"scale":"mobile"}},"record":"4031cdf4-ca35-5fe8-b2a6-a1d4035f5ff5","name":"font-size[scale=mobile]","fields":[],"after":"25e93322-8f0b-45f8-ae9a-18668251f064"},
+            {"id":"cb17ae3e-2","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"drop-zone/options/title","name":"title","fields":[],"after":{"type":"string","description":"Primary heading text of the drop zone."}},
+            {"id":"cb17ae3e-3","kind":"option","change":"added","class":"api","bump":"minor","indirect":false,"contexts":[],"record":"drop-zone/options/description","name":"description","fields":[],"after":{"type":"string","description":"Secondary descriptive text, such as the accepted file types."}},
+            {"id":"cb17ae3e-4","kind":"visual-recipe","change":"added","class":"visual","bump":"minor","indirect":false,"contexts":[],"record":"drop-zone/visual","name":"drop-zone","fields":[]}
+          ]
+        }
+      ]
     }
   ]
 }
