@@ -720,6 +720,288 @@
     "scope": {
       "component": "body",
       "part": "text",
+      "property": "font-style",
+      "options": {
+        "script": "cjk",
+        "emphasis": "emphasized",
+        "family": "sans-serif"
+      }
+    },
+    "contextRole": ["label"],
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
+    "uuid": "ed4debed-7421-5016-9924-18e2572c1545"
+  },
+  {
+    "scope": {
+      "component": "body",
+      "part": "text",
+      "property": "font-style",
+      "options": {
+        "script": "cjk",
+        "emphasis": "emphasized",
+        "family": "serif"
+      }
+    },
+    "contextRole": ["label"],
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
+    "uuid": "90e86c45-d9b7-52c2-a9f4-c76ac448d48a"
+  },
+  {
+    "scope": {
+      "component": "body",
+      "part": "text",
+      "property": "font-weight",
+      "options": {
+        "script": "cjk",
+        "emphasis": "emphasized",
+        "family": "sans-serif"
+      }
+    },
+    "contextRole": ["label"],
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "ccadf44e-5424-4920-979f-ea1ef39687c4",
+    "uuid": "3fd0e209-6009-529a-b722-749c0133b515"
+  },
+  {
+    "scope": {
+      "component": "body",
+      "part": "text",
+      "property": "font-weight",
+      "options": {
+        "script": "cjk",
+        "emphasis": "emphasized",
+        "family": "serif"
+      }
+    },
+    "contextRole": ["label"],
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "ccadf44e-5424-4920-979f-ea1ef39687c4",
+    "uuid": "f55204b6-a6ba-5963-9a49-512c180eb354"
+  },
+  {
+    "scope": {
+      "component": "body",
+      "part": "text",
+      "property": "font-family",
+      "options": {
+        "script": "cjk",
+        "family": "sans-serif"
+      }
+    },
+    "contextRole": ["label"],
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "034892ba-eff6-4193-b4c5-61d20c8f22eb",
+    "uuid": "f5b61cce-76d0-5f9b-87bc-8b95754440f7"
+  },
+  {
+    "scope": {
+      "component": "body",
+      "part": "text",
+      "property": "font-family",
+      "options": {
+        "script": "cjk",
+        "family": "serif"
+      }
+    },
+    "contextRole": ["label"],
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "034892ba-eff6-4193-b4c5-61d20c8f22eb",
+    "uuid": "2cb6c598-24e9-5d58-b2d7-7d8cbf9f01de"
+  },
+  {
+    "scope": {
+      "component": "body",
+      "part": "text",
+      "property": "font-style",
+      "options": {
+        "script": "cjk",
+        "family": "sans-serif"
+      }
+    },
+    "contextRole": ["label"],
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
+    "uuid": "b5a09a7b-8fb5-55db-bae6-69f6abfc3317"
+  },
+  {
+    "scope": {
+      "component": "body",
+      "part": "text",
+      "property": "font-style",
+      "options": {
+        "script": "cjk",
+        "family": "serif"
+      }
+    },
+    "contextRole": ["label"],
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
+    "uuid": "d80614f2-c1eb-51f8-a3d2-4ed3b4dc3416"
+  },
+  {
+    "scope": {
+      "component": "body",
+      "part": "text",
+      "property": "font-weight",
+      "options": {
+        "script": "cjk",
+        "family": "sans-serif"
+      }
+    },
+    "contextRole": ["label"],
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "02a94ddf-1007-4c86-8863-905874e40f95",
+    "uuid": "74f2658c-124f-568a-8f17-00a98e31e47f"
+  },
+  {
+    "scope": {
+      "component": "body",
+      "part": "text",
+      "property": "font-weight",
+      "options": {
+        "script": "cjk",
+        "family": "serif"
+      }
+    },
+    "contextRole": ["label"],
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "02a94ddf-1007-4c86-8863-905874e40f95",
+    "uuid": "d25235ab-7995-5044-b6ce-93ae12406bac"
+  },
+  {
+    "scope": {
+      "component": "body",
+      "part": "text",
+      "property": "font-style",
+      "options": {
+        "script": "cjk",
+        "emphasis": "strong-emphasized",
+        "family": "sans-serif"
+      }
+    },
+    "contextRole": ["label"],
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
+    "uuid": "825ecb7a-790f-5188-97ef-d5e1d61cabc6"
+  },
+  {
+    "scope": {
+      "component": "body",
+      "part": "text",
+      "property": "font-style",
+      "options": {
+        "script": "cjk",
+        "emphasis": "strong-emphasized",
+        "family": "serif"
+      }
+    },
+    "contextRole": ["label"],
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
+    "uuid": "10a45c74-6425-5e8e-b698-a29438fb55e8"
+  },
+  {
+    "scope": {
+      "component": "body",
+      "part": "text",
+      "property": "font-weight",
+      "options": {
+        "script": "cjk",
+        "emphasis": "strong-emphasized",
+        "family": "sans-serif"
+      }
+    },
+    "contextRole": ["label"],
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "ccadf44e-5424-4920-979f-ea1ef39687c4",
+    "uuid": "d29b2e8f-3eb3-54b1-842a-75aa34a88974"
+  },
+  {
+    "scope": {
+      "component": "body",
+      "part": "text",
+      "property": "font-weight",
+      "options": {
+        "script": "cjk",
+        "emphasis": "strong-emphasized",
+        "family": "serif"
+      }
+    },
+    "contextRole": ["label"],
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "ccadf44e-5424-4920-979f-ea1ef39687c4",
+    "uuid": "dce67590-40ee-56ba-890f-f429852a8ac3"
+  },
+  {
+    "scope": {
+      "component": "body",
+      "part": "text",
+      "property": "font-style",
+      "options": {
+        "script": "cjk",
+        "emphasis": "strong",
+        "family": "sans-serif"
+      }
+    },
+    "contextRole": ["label"],
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
+    "uuid": "ed23979c-57fe-5139-b4ab-6f0b69eaa738"
+  },
+  {
+    "scope": {
+      "component": "body",
+      "part": "text",
+      "property": "font-style",
+      "options": {
+        "script": "cjk",
+        "emphasis": "strong",
+        "family": "serif"
+      }
+    },
+    "contextRole": ["label"],
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "25668698-bf78-46f4-bc6c-8fea068ddb34",
+    "uuid": "e21ddc79-37e1-58e0-84f1-a3950b5d828f"
+  },
+  {
+    "scope": {
+      "component": "body",
+      "part": "text",
+      "property": "font-weight",
+      "options": {
+        "script": "cjk",
+        "emphasis": "strong",
+        "family": "sans-serif"
+      }
+    },
+    "contextRole": ["label"],
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "ccadf44e-5424-4920-979f-ea1ef39687c4",
+    "uuid": "4d559b4b-0d36-58b7-8dba-96aa40a007c4"
+  },
+  {
+    "scope": {
+      "component": "body",
+      "part": "text",
+      "property": "font-weight",
+      "options": {
+        "script": "cjk",
+        "emphasis": "strong",
+        "family": "serif"
+      }
+    },
+    "contextRole": ["label"],
+    "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/token-types/alias.json",
+    "$ref": "ccadf44e-5424-4920-979f-ea1ef39687c4",
+    "uuid": "e8feaff1-1240-56db-a914-be4cce04a926"
+  },
+  {
+    "scope": {
+      "component": "body",
+      "part": "text",
       "property": "type-style"
     },
     "context": "Text",
