@@ -29,7 +29,7 @@
     {
       "on": "activate",
       "guard": { "facet": "disabled", "is": "false" },
-      "do": { "toggle": "isSelected" },
+      "do": { "choose": "isSelected" },
       "emit": "press"
     }
   ],
