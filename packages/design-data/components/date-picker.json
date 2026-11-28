@@ -231,6 +231,39 @@
     "currentYear": {
       "type": "number",
       "description": "The year currently displayed in the calendar (Gregorian year number)."
+    },
+    "segments": {
+      "type": "array",
+      "description": "The segments of the field (the date, and for a range the second date too; the time when granularity includes it), in reading order. Each entry is drawn as one copy of the segment part. The request supplies them: the field does not build them from the granularity, the hour cycle or the locale. A placeholder segment shows its format text (for example mm) instead of a value, and a literal entry is a separator such as a slash or a colon.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "The text drawn in the segment, or the separator when isLiteral is true."
+          },
+          "isPlaceholder": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the segment is empty and shows its format text."
+          },
+          "isLiteral": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the entry is a separator between segments, drawn as plain text without a segment cell."
+          }
+        }
+      }
+    },
+    "isPlaceholder": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered segment is empty and shows its format text. Per-segment in a data-driven component is segments[].isPlaceholder."
+    },
+    "isLiteral": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered entry is a separator. Per-segment in a data-driven component is segments[].isLiteral."
     }
   },
   "lifecycle": {
@@ -268,7 +301,12 @@
     {
       "name": "field-label",
       "component": "field-label",
-      "description": "The field-label component: text label that names the field, placed above or beside it."
+      "description": "The field-label component: text label that names the field, placed above or beside it.",
+      "presentWhen": {
+        "options": {
+          "label": true
+        }
+      }
     },
     {
       "name": "field",
@@ -284,11 +322,21 @@
     {
       "name": "segment",
       "description": "One editable unit of the date (month, day, year, and hour, minute or period when granularity includes time), drawn as its own rounded cell and showing a placeholder when empty. Repeated for every unit; a range (selectionMode range) shows a second set. Literal separators and the time zone are segment text.",
-      "required": true
+      "required": true,
+      "contains": ["value"]
+    },
+    {
+      "name": "value",
+      "description": "The text of a segment: its value, its format text when empty, or a literal separator."
     },
     {
       "name": "error-icon",
-      "description": "Alert icon in the end container of the field, shown when isError is true."
+      "description": "Alert icon in the end container of the field, shown when isError is true.",
+      "presentWhen": {
+        "options": {
+          "isError": true
+        }
+      }
     },
     {
       "name": "in-field-button",
@@ -299,31 +347,44 @@
     {
       "name": "focus-indicator",
       "description": "Outline drawn around the field for keyboard focus.",
-      "presentWhen": { "states": ["keyboard-focus"] }
+      "presentWhen": {
+        "states": ["keyboard-focus"]
+      }
     },
     {
       "name": "help-text",
       "component": "help-text",
-      "description": "The help-text component: description or error message shown below the field."
+      "description": "The help-text component: description or error message shown below the field.",
+      "presentWhen": {
+        "options": {
+          "description": true
+        }
+      }
     },
     {
       "name": "popover",
       "component": "popover",
       "description": "The popover component, a top-level part present only while open, with hideTip set so it draws no tip. Its content is the calendar and, when granularity includes time, a time-field (two for a range). date-picker overrides the popover margin, minimum width and height (set by visibleMonths) and padding.",
-      "presentWhen": { "states": ["open"] },
+      "presentWhen": {
+        "states": ["open"]
+      },
       "contains": ["calendar", "time-field"]
     },
     {
       "name": "calendar",
       "component": "calendar",
       "description": "The calendar component inside the popover. It draws no surface; the popover provides it.",
-      "presentWhen": { "states": ["open"] }
+      "presentWhen": {
+        "states": ["open"]
+      }
     },
     {
       "name": "time-field",
       "component": "time-field",
       "description": "The time-field component inside the popover, present when granularity includes time. One for a single date, two (start and end) for a range.",
-      "presentWhen": { "states": ["open"] }
+      "presentWhen": {
+        "states": ["open"]
+      }
     },
     {
       "name": "day",
@@ -336,12 +397,17 @@
   "anatomyReview": {
     "status": "reviewed",
     "reviewedIn": "1.0.0-draft",
-    "notes": "A9 (2026-11-21), owner decisions C2, C3, C5, C6, C8 to C10 and C16. Figma S2 Web Date picker page; RSP S2 DatePicker and DateRangePicker. date-picker keeps its own per-host copy of the field (field, segment, error-icon, in-field-button, focus-indicator), as picker and combo-box do. The popover is a top-level part like contextual-help: it draws the surface and holds the calendar (visibleMonths 1 to 3) and, with time granularity, a time-field. One repeated segment part; the renderer derives the count. Nested components are described in text: the anatomy component field and presentWhen are not built, so a part tied to an option (time-field, the second segment set) is described, not gated. Deleted: variant (replaced by visibleMonths), the nested dateField and calendarPopover option objects (flattened), the nested state enum, showTimeZone, is24Hour, timeFields (replaced by granularity, hourCycle, hideTimeZone), the draft parts value (now segment) and day (belongs to calendar; a bare legacy anchor part is kept because the frozen deprecated token strikethrough-day-thickness names it, SPEC-020), and the restated date-field and time-field minimum widths."
+    "notes": "A9 (2026-11-21), owner decisions C2, C3, C5, C6, C8 to C10 and C16. Figma S2 Web Date picker page; RSP S2 DatePicker and DateRangePicker. date-picker keeps its own per-host copy of the field (field, segment, error-icon, in-field-button, focus-indicator), as picker and combo-box do. The popover is a top-level part like contextual-help: it draws the surface and holds the calendar (visibleMonths 1 to 3) and, with time granularity, a time-field. One repeated segment part; the renderer derives the count. Nested components are named by the anatomy component field (field-label, in-field-button, help-text, popover, calendar, time-field), and parts tied to an option or state carry presentWhen: field-label (label), error-icon (isError), help-text (description), and popover, calendar and time-field (open). The second segment set of a range is a request entry of the segments collection, not a part. The value part is re-added under segment, as date-field has it: the recipe draws a segment as a box holding a text part, and the value-part relationships (type-style, content-color) bind to it. Deleted: variant (replaced by visibleMonths), the nested dateField and calendarPopover option objects (flattened), the nested state enum, showTimeZone, is24Hour, timeFields (replaced by granularity, hourCycle, hideTimeZone), the draft parts option (its day value belongs to calendar; a bare legacy anchor part is kept because the frozen deprecated token strikethrough-day-thickness names it, SPEC-020), and the restated date-field and time-field minimum widths."
   },
   "states": [
     {
       "name": "hover",
       "trigger": "interaction"
+    },
+    {
+      "name": "focus",
+      "trigger": "interaction",
+      "description": "The field is focused."
     },
     {
       "name": "focus-+-hover",
@@ -361,6 +427,14 @@
       "name": "open",
       "trigger": "prop",
       "description": "The popover is open."
+    }
+  ],
+  "slots": [
+    {
+      "name": "default",
+      "part": "segment",
+      "collection": "segments",
+      "description": "The segments of the field. Each entry of the segments option is drawn as one copy of the segment part, in order, inside the field."
     }
   ]
 }

@@ -1,4 +1,7 @@
 {
+  "SPEC-066": {
+    "date-picker": 3
+  },
   "SPEC-067": {
     "accordion": 2,
     "bar-panel": 1,
