@@ -195,74 +195,13 @@ impl ValidationRule for Rule {
                         ),
                     );
                 }
-                if let (Some(demo), Some(opt)) = (
-                    slot.get("demo").and_then(Value::as_array),
-                    slot.get("collection").and_then(Value::as_str),
-                ) {
+                if let Some(demo) = slot.get("demo").and_then(Value::as_array) {
                     let count = demo.len() as u64;
-                    {
-                        if part.is_none() {
-                            err(
-                                at("demo"),
-                                format!("Slot '{slot_name}' of '{name}' has a demo but no part"),
-                            );
-                        }
-                        if min.is_some_and(|lo| count < lo) || max.is_some_and(|hi| count > hi) {
-                            err(
-                                at("demo"),
-                                format!("Demo of slot '{slot_name}' of '{name}' has {count} entries, outside its min and max"),
-                            );
-                        }
-                        let item_props = comp
-                            .raw
-                            .pointer(&format!("/options/{opt}/items/properties"))
-                            .and_then(Value::as_object);
-                        for (j, entry) in demo.iter().enumerate() {
-                            let Some(fields) = entry.as_object() else {
-                                err(
-                                    format!("/slots/{i}/demo/{j}"),
-                                    format!("Demo entry {j} of slot '{slot_name}' of '{name}' is not an object"),
-                                );
-                                continue;
-                            };
-                            let Some(props) = item_props else { continue };
-                            for (key, value) in fields {
-                                let path = format!("/slots/{i}/demo/{j}/{key}");
-                                let Some(def) = props.get(key) else {
-                                    err(
-                                        path,
-                                        format!("Demo of slot '{slot_name}' of '{name}' sets '{key}', which items of '{opt}' do not declare"),
-                                    );
-                                    continue;
-                                };
-                                let fits = match def.get("type").and_then(Value::as_str) {
-                                    Some("string") => value.is_string(),
-                                    Some("boolean") => value.is_boolean(),
-                                    Some("number") => value.is_number(),
-                                    Some("integer") => value.is_i64() || value.is_u64(),
-                                    _ => true,
-                                };
-                                if !fits {
-                                    err(
-                                        path,
-                                        format!("Demo of slot '{slot_name}' of '{name}' sets '{key}' to a value that is not its declared type"),
-                                    );
-                                }
-                            }
-                        }
-                    }
-                }
-                if let Some(demo) = slot
-                    .get("demo")
-                    .and_then(Value::as_array)
-                    .filter(|_| slot.get("collection").is_none())
-                {
-                    let count = demo.len() as u64;
-                    let accepts: Vec<&str> = slot
-                        .get("accepts")
-                        .and_then(Value::as_array)
-                        .map(|a| a.iter().filter_map(Value::as_str).collect())
-                        .unwrap_or_default();
+                    let unit = if slot.get("collection").is_some() {
+                        "entries"
+                    } else {
+                        "fills"
+                    };
                     if part.is_none() {
                         err(
                             at("demo"),
@@ -272,9 +211,62 @@ impl ValidationRule for Rule {
                     if min.is_some_and(|lo| count < lo) || max.is_some_and(|hi| count > hi) {
                         err(
                             at("demo"),
-                            format!("Demo of slot '{slot_name}' of '{name}' has {count} fills, outside its min and max"),
+                            format!("Demo of slot '{slot_name}' of '{name}' has {count} {unit}, outside its min and max"),
                         );
                     }
+                }
+                if let (Some(demo), Some(opt)) = (
+                    slot.get("demo").and_then(Value::as_array),
+                    slot.get("collection").and_then(Value::as_str),
+                ) {
+                    let item_props = comp
+                        .raw
+                        .pointer(&format!("/options/{opt}/items/properties"))
+                        .and_then(Value::as_object);
+                    for (j, entry) in demo.iter().enumerate() {
+                        let Some(fields) = entry.as_object() else {
+                            err(
+                                format!("/slots/{i}/demo/{j}"),
+                                format!("Demo entry {j} of slot '{slot_name}' of '{name}' is not an object"),
+                            );
+                            continue;
+                        };
+                        let Some(props) = item_props else { continue };
+                        for (key, value) in fields {
+                            let path = format!("/slots/{i}/demo/{j}/{key}");
+                            let Some(def) = props.get(key) else {
+                                err(
+                                    path,
+                                    format!("Demo of slot '{slot_name}' of '{name}' sets '{key}', which items of '{opt}' do not declare"),
+                                );
+                                continue;
+                            };
+                            let fits = match def.get("type").and_then(Value::as_str) {
+                                Some("string") => value.is_string(),
+                                Some("boolean") => value.is_boolean(),
+                                Some("number") => value.is_number(),
+                                Some("integer") => value.is_i64() || value.is_u64(),
+                                _ => true,
+                            };
+                            if !fits {
+                                err(
+                                    path,
+                                    format!("Demo of slot '{slot_name}' of '{name}' sets '{key}' to a value that is not its declared type"),
+                                );
+                            }
+                        }
+                    }
+                }
+                if let Some(demo) = slot
+                    .get("demo")
+                    .and_then(Value::as_array)
+                    .filter(|_| slot.get("collection").is_none())
+                {
+                    let accepts: Vec<&str> = slot
+                        .get("accepts")
+                        .and_then(Value::as_array)
+                        .map(|a| a.iter().filter_map(Value::as_str).collect())
+                        .unwrap_or_default();
                     for (j, fill) in demo.iter().enumerate() {
                         let Some(c) = fill.get("component").and_then(Value::as_str) else {
                             continue;
@@ -509,7 +501,7 @@ mod tests {
         let with_demo = |demo: Value| {
             let mut c = list();
             c["options"]["items"] = json!({"type": "array", "items": {"type": "object", "properties": {
-                "label": {"type": "string"}, "isLiteral": {"type": "boolean"}
+                "label": {"type": "string"}, "isLiteral": {"type": "boolean"}, "count": {"type": "integer"}
             }}});
             c["slots"] = json!([{
                 "name": "default", "part": "row", "collection": "items", "min": 1, "max": 3, "demo": demo
@@ -528,6 +520,10 @@ mod tests {
         assert!(msgs(&d).contains("not its declared type"), "{}", msgs(&d));
         let d = with_demo(json!(["text"]));
         assert!(msgs(&d).contains("is not an object"), "{}", msgs(&d));
+        let d = with_demo(json!([{"count": 2}]));
+        assert!(d.is_empty(), "{}", msgs(&d));
+        let d = with_demo(json!([{"count": 2.5}]));
+        assert!(msgs(&d).contains("not its declared type"), "{}", msgs(&d));
         let four = json!([{}, {}, {}, {}]);
         assert!(msgs(&with_demo(four)).contains("outside its min and max"));
     }

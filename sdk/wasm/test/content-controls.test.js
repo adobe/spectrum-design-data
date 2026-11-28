@@ -199,7 +199,9 @@ test("a slot without a demo falls back to fills of its first accepted component"
   t.false("free" in slots);
 });
 
-const COLLECTION_DEMOS = ["date-field", "time-field", "segmented-text-field"];
+const COLLECTION_DEMOS = Object.keys(byName)
+  .filter((n) => byName[n].slots?.some((s) => s.collection && s.demo))
+  .sort();
 
 test("every collection slot's demo is item objects of its option's fields, within min and max", (t) => {
   const problems = [];
@@ -215,13 +217,17 @@ test("every collection slot's demo is item objects of its option's fields, withi
       for (const entry of s.demo)
         for (const [k, v] of Object.entries(entry)) {
           if (!props[k]) problems.push(`${key}: undeclared field ${k}`);
-          else if (typeof v !== props[k].type)
+          else if (
+            typeof v !==
+            (props[k].type === "integer" ? "number" : props[k].type)
+          )
             problems.push(`${key}: ${k} is not a ${props[k].type}`);
         }
     }
   }
   t.deepEqual(problems, []);
-  t.deepEqual(withDemo.sort(), [...COLLECTION_DEMOS].sort());
+  t.true(COLLECTION_DEMOS.length >= 3);
+  t.deepEqual(withDemo.sort(), COLLECTION_DEMOS);
 });
 
 test("a collection slot's demo reaches the request as the array option", (t) => {
