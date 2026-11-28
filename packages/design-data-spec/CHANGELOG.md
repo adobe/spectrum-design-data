@@ -1,5 +1,62 @@
 # @adobe/design-data-spec
 
+## 7.11.0
+
+### Minor Changes
+
+- [#2256](https://github.com/adobe/spectrum-design-data/pull/2256) [`b5269ab`](https://github.com/adobe/spectrum-design-data/commit/b5269ab5a98bd7d0673e0e0cb53d5c0bc5f423f8) Thanks [@GarthDB](https://github.com/GarthDB)! - Add behavior contracts for Action group, Action bar, Select box and Select box group.
+  - Action group: role `toolbar` (also set in its accessibility block), orientation, `arrowOrder`,
+    `disabled`, `selection` and `allowsEmpty` facets, and a `collection` of action buttons: choose by
+    selection mode, no wrap, skip a disabled button, roving focus, no Home or End. `aria-orientation`
+    is exposed. Overflow is left out.
+  - Action button now chooses itself with `choose` instead of `toggle`, so a group can coordinate
+    single and multiple selection. A standalone action button behaves as before.
+  - Action bar: role `toolbar` (also in its block), no state of its own.
+  - Select box: the box as an item, like Swatch (`isSelected`, `isDisabled`, `activate` chooses).
+  - Select box group: role `group`, a `collection` of select boxes chosen by `selectionMode`, empty
+    allowed, no wrap, skip a disabled box, roving focus.
+  - Role key vectors for the button item are scoped to Accordion, plus two for Action group.
+  - 67 new vectors; mutation tests fail when a flag, guard or facet is broken.
+
+- [#2244](https://github.com/adobe/spectrum-design-data/pull/2244) [`16a62d7`](https://github.com/adobe/spectrum-design-data/commit/16a62d747f2dd46fbb8b757af4a7960d20964fb6) Thanks [@GarthDB](https://github.com/GarthDB)! - Behavior contracts can name another element with `relations`.
+  - **design-data-spec**: `behavior.schema.json` gains `relations` (`from`, `kind`, `to`,
+    optional `when`) and a `relations` expectation in a vector. An end is an anatomy part or
+    an external role. `kind` is `labelledby` or `describedby`.
+  - **design-data-spec**: new rule SPEC-126 (`behavior-relations-well-formed`, warning), the
+    Relations section of the behavior contract spec, and `relation-roles.json` in the
+    registry docs.
+  - **spectrum-design-data**: new registry `relation-roles.json` (`trigger`, `owner`,
+    `label`, `description`). Tooltip declares that the trigger's `aria-describedby` refers
+    to the container while it is open.
+  - **design-data-wasm**: the embedded registries and contracts carry the new data; the
+    validator reports SPEC-126 and the behavior runner asserts relations.
+
+- [#2247](https://github.com/adobe/spectrum-design-data/pull/2247) [`f4c5ee1`](https://github.com/adobe/spectrum-design-data/commit/f4c5ee164c08f7031fa55ce07512ab0150220654) Thanks [@GarthDB](https://github.com/GarthDB)! - Let a collection slot declare a `demo`, and give date-field, time-field and
+  segmented-text-field one.
+  - **spec/component-format.md, schemas/component.schema.json**: a collection slot's `demo` is the
+    value of its collection option: item objects of the option's declared fields. A host passes
+    it as that option, not as `slots`. This relaxes the earlier ban, so existing data stays valid.
+  - **SPEC-104**: validates a collection demo (every entry an object, every key a declared item
+    field of the right type, the count within `min` and `max`). The conformance fixture covers it.
+  - **date-field, time-field, segmented-text-field**: the `segments` slot gains a demo (month, day
+    and year with separators and a placeholder; hour, minute and day period; a three-part code),
+    so the explorer shows real segments instead of one empty one.
+  - **explorer**: `demoOptions` sets a collection demo as the array option; an option the user
+    sets replaces it.
+  - **golden renders**: a `demo` golden for each of the three components.
+
+- [#2260](https://github.com/adobe/spectrum-design-data/pull/2260) [`0808628`](https://github.com/adobe/spectrum-design-data/commit/0808628bbe25253656968f41e57815c44ac00aed) Thanks [@GarthDB](https://github.com/GarthDB)! - Add `radiogroup` and `searchbox` to the canonical accessibility role vocabulary, with their web, iOS
+  and Android adapter mappings. Radio group and Search field use them.
+
+- [#2252](https://github.com/adobe/spectrum-design-data/pull/2252) [`e378708`](https://github.com/adobe/spectrum-design-data/commit/e378708c50f7bb0e3428537c9f7ddd9bb36a4331) Thanks [@GarthDB](https://github.com/GarthDB)! - Role-suite behavior vectors can be scoped to a component.
+  - A vector in a bindings (role) suite may carry `component`. The runner runs it only
+    against that component's contract.
+  - The accordion vectors of `bindings/web/button.item.json` are scoped to `accordion`, so
+    they no longer fail on Action group, whose items are Action buttons.
+
+- [#2258](https://github.com/adobe/spectrum-design-data/pull/2258) [`a45f8f2`](https://github.com/adobe/spectrum-design-data/commit/a45f8f2feb757dc8010606ca81d2f22921794164) Thanks [@GarthDB](https://github.com/GarthDB)! - Add `toolbar` to the canonical accessibility role vocabulary, with its web, iOS and Android adapter
+  mappings. Action group and Action bar use it, so they need no custom-role description.
+
 ## 7.10.0
 
 ### Minor Changes
