@@ -231,6 +231,39 @@
     "currentYear": {
       "type": "number",
       "description": "The year currently displayed in the calendar (Gregorian year number)."
+    },
+    "segments": {
+      "type": "array",
+      "description": "The segments of the field (the date, and for a range the second date too; the time when granularity includes it), in reading order. Each entry is drawn as one copy of the segment part. The request supplies them: the field does not build them from the granularity, the hour cycle or the locale. A placeholder segment shows its format text (for example mm) instead of a value, and a literal entry is a separator such as a slash or a colon.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "The text drawn in the segment, or the separator when isLiteral is true."
+          },
+          "isPlaceholder": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the segment is empty and shows its format text."
+          },
+          "isLiteral": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the entry is a separator between segments, drawn as plain text without a segment cell."
+          }
+        }
+      }
+    },
+    "isPlaceholder": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered segment is empty and shows its format text. Per-segment in a data-driven component is segments[].isPlaceholder."
+    },
+    "isLiteral": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the rendered entry is a separator. Per-segment in a data-driven component is segments[].isLiteral."
     }
   },
   "lifecycle": {
@@ -268,7 +301,12 @@
     {
       "name": "field-label",
       "component": "field-label",
-      "description": "The field-label component: text label that names the field, placed above or beside it."
+      "description": "The field-label component: text label that names the field, placed above or beside it.",
+      "presentWhen": {
+        "options": {
+          "label": true
+        }
+      }
     },
     {
       "name": "field",
@@ -284,11 +322,21 @@
     {
       "name": "segment",
       "description": "One editable unit of the date (month, day, year, and hour, minute or period when granularity includes time), drawn as its own rounded cell and showing a placeholder when empty. Repeated for every unit; a range (selectionMode range) shows a second set. Literal separators and the time zone are segment text.",
-      "required": true
+      "required": true,
+      "contains": ["value"]
+    },
+    {
+      "name": "value",
+      "description": "The text of a segment: its value, its format text when empty, or a literal separator."
     },
     {
       "name": "error-icon",
-      "description": "Alert icon in the end container of the field, shown when isError is true."
+      "description": "Alert icon in the end container of the field, shown when isError is true.",
+      "presentWhen": {
+        "options": {
+          "isError": true
+        }
+      }
     },
     {
       "name": "in-field-button",
@@ -299,31 +347,44 @@
     {
       "name": "focus-indicator",
       "description": "Outline drawn around the field for keyboard focus.",
-      "presentWhen": { "states": ["keyboard-focus"] }
+      "presentWhen": {
+        "states": ["keyboard-focus"]
+      }
     },
     {
       "name": "help-text",
       "component": "help-text",
-      "description": "The help-text component: description or error message shown below the field."
+      "description": "The help-text component: description or error message shown below the field.",
+      "presentWhen": {
+        "options": {
+          "description": true
+        }
+      }
     },
     {
       "name": "popover",
       "component": "popover",
       "description": "The popover component, a top-level part present only while open, with hideTip set so it draws no tip. Its content is the calendar and, when granularity includes time, a time-field (two for a range). date-picker overrides the popover margin, minimum width and height (set by visibleMonths) and padding.",
-      "presentWhen": { "states": ["open"] },
+      "presentWhen": {
+        "states": ["open"]
+      },
       "contains": ["calendar", "time-field"]
     },
     {
       "name": "calendar",
       "component": "calendar",
       "description": "The calendar component inside the popover. It draws no surface; the popover provides it.",
-      "presentWhen": { "states": ["open"] }
+      "presentWhen": {
+        "states": ["open"]
+      }
     },
     {
       "name": "time-field",
       "component": "time-field",
       "description": "The time-field component inside the popover, present when granularity includes time. One for a single date, two (start and end) for a range.",
-      "presentWhen": { "states": ["open"] }
+      "presentWhen": {
+        "states": ["open"]
+      }
     },
     {
       "name": "day",
@@ -344,6 +405,11 @@
       "trigger": "interaction"
     },
     {
+      "name": "focus",
+      "trigger": "interaction",
+      "description": "The field is focused."
+    },
+    {
       "name": "focus-+-hover",
       "trigger": "prop",
       "description": "The field is focused and the pointer is over it."
@@ -361,6 +427,14 @@
       "name": "open",
       "trigger": "prop",
       "description": "The popover is open."
+    }
+  ],
+  "slots": [
+    {
+      "name": "default",
+      "part": "segment",
+      "collection": "segments",
+      "description": "The segments of the field. Each entry of the segments option is drawn as one copy of the segment part, in order, inside the field."
     }
   ]
 }

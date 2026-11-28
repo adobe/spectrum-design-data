@@ -1215,7 +1215,15 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
     // scenario applies to each entry that does not. The cases cover every size, every state,
     // the error and disabled looks, text options, an all-empty field and the dark and
     // wireframe modes.
-    if matches!(name, "date-field" | "time-field" | "segmented-text-field") {
+    if matches!(
+        name,
+        "date-field" | "time-field" | "segmented-text-field" | "date-picker"
+    ) {
+        let help_option = if name == "date-picker" {
+            "description"
+        } else {
+            "helpText"
+        };
         let seg = |label: &str, placeholder: bool, literal: bool| serde_json::json!({ "label": label, "isPlaceholder": placeholder, "isLiteral": literal });
         let filled = if name == "time-field" {
             serde_json::json!([
@@ -1318,7 +1326,7 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
                     &[],
                     &[
                         ("label", "Appointment".into()),
-                        ("helpText", "Pick a day this month.".into()),
+                        (help_option, "Pick a day this month.".into()),
                         ("isRequired", true.into()),
                     ],
                     &filled,
@@ -1333,7 +1341,7 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
                     &[],
                     &[
                         ("label", "Appointment".into()),
-                        ("helpText", "Choose a later date.".into()),
+                        (help_option, "Choose a later date.".into()),
                         ("isError", true.into()),
                     ],
                     &filled,
@@ -1365,6 +1373,39 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
                 "desktop",
             ),
         ));
+        // A date picker's field also carries a range (two dates) and a date with a time.
+        if name == "date-picker" {
+            let range = serde_json::json!([
+                seg("11", false, false),
+                seg("/", false, true),
+                seg("27", false, false),
+                seg("/", false, true),
+                seg("2026", false, false),
+                seg("\u{2013}", false, true),
+                seg("12", false, false),
+                seg("/", false, true),
+                seg("03", false, false),
+                seg("/", false, true),
+                seg("2026", false, false)
+            ]);
+            out.push(("range", with(&[], &[], &range, "m", "light", "desktop")));
+            let date_time = serde_json::json!([
+                seg("11", false, false),
+                seg("/", false, true),
+                seg("27", false, false),
+                seg("/", false, true),
+                seg("2026", false, false),
+                seg(",", false, true),
+                seg("10", false, false),
+                seg(":", false, true),
+                seg("30", false, false),
+                seg("AM", false, false)
+            ]);
+            out.push((
+                "date-time-dark-mobile",
+                with(&[], &[], &date_time, "m", "dark", "mobile"),
+            ));
+        }
     }
     // Group recipes draw only their slot fills: three items at the default size, and a small
     // vertical one (compact for the action group), so the gap bindings show.
