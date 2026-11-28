@@ -74,6 +74,14 @@ if [ -n "${CARGO_TARGET_DIR:-}" ]; then
   elif [ -L sdk/target ]; then
     [ "$(readlink sdk/target)" = "$CARGO_TARGET_DIR" ] \
       || fail "sdk/target links to $(readlink sdk/target), not CARGO_TARGET_DIR=$CARGO_TARGET_DIR"
+  elif [ ! -d sdk/target/debug ] && [ ! -d sdk/target/release ]; then
+    # cargo nextest leaves sdk/target/nextest even with CARGO_TARGET_DIR set.
+    mkdir -p "$CARGO_TARGET_DIR/nextest-from-worktree" || fail "cannot create $CARGO_TARGET_DIR/nextest-from-worktree"
+    cp -R sdk/target/. "$CARGO_TARGET_DIR/nextest-from-worktree/" || fail "could not move sdk/target into $CARGO_TARGET_DIR"
+    rm -rf sdk/target
+    ln -s "$CARGO_TARGET_DIR" sdk/target
+    trap '[ -L sdk/target ] && rm -f sdk/target' EXIT
+    echo "pr-gate: moved sdk/target (no debug/ or release/) into $CARGO_TARGET_DIR/nextest-from-worktree; linked sdk/target -> $CARGO_TARGET_DIR"
   else
     fail "sdk/target is a real directory but CARGO_TARGET_DIR=$CARGO_TARGET_DIR: moon tasks would use a stale binary. Remove one of them."
   fi
@@ -94,19 +102,24 @@ free_gb=$(df -g "$check" | awk 'NR==2 {print $4}')
 [ "${free_gb:-0}" -ge 15 ] || fail "only ${free_gb} GB free on $(df "$check" | awk 'NR==2 {print $1}') (volume of $check); need 15."
 
 declare -a rows
+declare -a failed_targets
+moon_log=
 status=0
 
 if [ -n "$targets" ]; then
   start=$(date +%s)
   # shellcheck disable=SC2086
-  WASM_NO_OPT=1 moon ci $targets --base "$merge_base" --head "$head_sha"
-  moon_rc=$?
+  moon_log=$(mktemp)
+  WASM_NO_OPT=1 moon ci $targets --base "$merge_base" --head "$head_sha" 2>&1 | tee "$moon_log"
+  moon_rc=${PIPESTATUS[0]}
   mins=$(( ($(date +%s) - start) / 60 ))
   # One row per requested target, from moon's report (labels look like RunTask(a:b)).
   report=.moon/cache/ciReport.json
   if [ -f "$report" ]; then
     while IFS=$'\t' read -r t st; do
-      echo "$targets" | grep -qx "$t" && rows+=("| $t | $st |")
+      echo "$targets" | grep -qx "$t" || continue
+      rows+=("| $t | $st |")
+      case "$st" in passed|cached|skipped|"") ;; *) failed_targets+=("$t") ;; esac
     done < <(jq -r '.actions[] | select(.label | startswith("RunTask(")) | [(.label | ltrimstr("RunTask(") | rtrimstr(")")), .status] | @tsv' "$report" 2>/dev/null)
   fi
   if [ "$moon_rc" = 0 ]; then rows+=("| moon ci ($mins min) | PASS |"); else rows+=("| moon ci ($mins min) | FAIL (exit $moon_rc) |"); status=1; fi
@@ -149,5 +162,19 @@ echo "| Check | Result |"
 echo "|---|---|"
 for r in "${rows[@]+"${rows[@]}"}"; do echo "$r"; done
 echo
+for t in "${failed_targets[@]+"${failed_targets[@]}"}"; do
+  echo "#### $t: error lines (up to 20)"
+  echo
+  echo '```'
+  errs=$(grep -F "$t" "$moon_log" 2>/dev/null | grep -i 'error' | head -20)
+  [ -n "$errs" ] || errs=$(grep -i 'error' "$moon_log" 2>/dev/null | head -20)
+  echo "$errs"
+  echo '```'
+  job=Node; case "$t" in sdk:*) job=Rust ;; esac
+  echo "CI job: $job (\`moon ci $t\`); reproduce with \`moon run $t\`, full log: \`gh run view <run> --log-failed\`."
+  echo
+done
+[ -n "$moon_log" ] && rm -f "$moon_log"
+
 echo "Not covered: CLI minimum gate, release-only checks, Figma comparison, load-sensitive timeouts, changeset-lint check-data-bump, render-compare (advisory, opt-in via --render-compare)."
 exit "$status"
