@@ -40,6 +40,16 @@
       "rule_id": "SPEC-126",
       "severity": "warning",
       "message_pattern": ".*facet 'nothing'.*"
+    },
+    {
+      "rule_id": "SPEC-126",
+      "severity": "warning",
+      "message_pattern": ".*relation 8 has a `from` that is not one of `part` or `role`.*"
+    },
+    {
+      "rule_id": "SPEC-126",
+      "severity": "warning",
+      "message_pattern": ".*relation 9 has a `from` that is not one of `part` or `role`.*"
     }
   ]
 }

@@ -123,6 +123,23 @@
             "facet": "nothing",
             "is": "true"
           }
+        },
+        {
+          "from": {
+            "part": "container",
+            "role": "trigger"
+          },
+          "kind": "describedby",
+          "to": {
+            "part": "label"
+          }
+        },
+        {
+          "from": {},
+          "kind": "describedby",
+          "to": {
+            "part": "label"
+          }
         }
       ]
     }

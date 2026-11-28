@@ -2853,3 +2853,74 @@ fn an_axis_on_inline_item_semantics_is_reported() {
         "{issues:?}"
     );
 }
+
+/// Each wrong `relations` expectation must fail a vector, or the vectors prove nothing.
+#[test]
+fn a_wrong_relations_expectation_fails_a_vector() {
+    let (contract, _, patterns) = load("tooltip");
+    let describes = json!({
+        "from": { "role": "trigger" },
+        "kind": "describedby",
+        "to": { "part": "container" }
+    });
+    let run = |step: Value, relations: Value| {
+        let vector = json!({
+            "name": "relations",
+            "start": {},
+            "steps": [step],
+            "expect": [{ "after": 1, "relations": relations }]
+        });
+        run_vectors(
+            &contract,
+            &patterns,
+            &[vector],
+            RegistryData::embedded(),
+            &all_capabilities(),
+            None,
+        )
+        .iter()
+        .filter(|r| matches!(r.status, Status::Fail(_)))
+        .count()
+    };
+    let open = || json!({ "intent": "focus", "via": "keyboard" });
+    let closed = || json!({ "intent": "blur" });
+    let with = |k: &str, v: Value| {
+        let mut r = describes.clone();
+        r[k] = v;
+        json!([r])
+    };
+    assert_eq!(run(open(), json!([describes.clone()])), 0);
+    assert_eq!(
+        run(closed(), with("present", json!(false))),
+        0,
+        "a closed tooltip exposes no relation"
+    );
+    for (what, step, relations) in [
+        ("wrong to", open(), with("to", json!({ "part": "label" }))),
+        ("wrong kind", open(), with("kind", json!("labelledby"))),
+        (
+            "wrong from",
+            open(),
+            with("from", json!({ "role": "owner" })),
+        ),
+        (
+            "present: true while closed",
+            closed(),
+            json!([describes.clone()]),
+        ),
+        (
+            "present: false while open",
+            open(),
+            with("present", json!(false)),
+        ),
+        ("empty list", open(), json!([])),
+        ("not a list", open(), describes.clone()),
+        (
+            "missing to",
+            open(),
+            json!([{ "from": { "role": "trigger" }, "kind": "describedby" }]),
+        ),
+    ] {
+        assert!(run(step, relations) > 0, "{what} failed no vector");
+    }
+}
