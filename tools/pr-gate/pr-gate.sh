@@ -66,25 +66,44 @@ echo "$targets" | sed 's/^/  /'
 
 # moon tasks call ../../sdk/target/debug/design-data. When CARGO_TARGET_DIR
 # points elsewhere, link sdk/target to it, or those tasks run a missing or stale binary.
+moon_log=
+linked=0
+cleanup() {
+  [ -n "$moon_log" ] && rm -f "$moon_log"
+  [ "$linked" = 1 ] && [ -L sdk/target ] && rm -f sdk/target
+  return 0
+}
+trap cleanup EXIT
+trap 'exit 130' INT TERM
+
 if [ -n "${CARGO_TARGET_DIR:-}" ]; then
+  # Absolute, physical, no trailing slash (a relative path would dangle from sdk/).
+  mkdir -p "$CARGO_TARGET_DIR" || fail "cannot create CARGO_TARGET_DIR=$CARGO_TARGET_DIR"
+  ctd=$(cd "$CARGO_TARGET_DIR" && pwd -P) || fail "cannot resolve CARGO_TARGET_DIR=$CARGO_TARGET_DIR"
   if [ ! -e sdk/target ] && [ ! -L sdk/target ]; then
-    ln -s "$CARGO_TARGET_DIR" sdk/target
-    trap '[ -L sdk/target ] && rm -f sdk/target' EXIT
-    echo "pr-gate: linked sdk/target -> $CARGO_TARGET_DIR"
+    ln -s "$ctd" sdk/target && linked=1
+    echo "pr-gate: linked sdk/target -> $ctd"
   elif [ -L sdk/target ]; then
-    [ "$(readlink sdk/target)" = "$CARGO_TARGET_DIR" ] \
-      || fail "sdk/target links to $(readlink sdk/target), not CARGO_TARGET_DIR=$CARGO_TARGET_DIR"
+    [ "$(cd sdk/target 2>/dev/null && pwd -P)" = "$ctd" ] \
+      || fail "sdk/target links to $(readlink sdk/target), not CARGO_TARGET_DIR=$ctd"
   elif [ ! -d sdk/target/debug ] && [ ! -d sdk/target/release ]; then
     # cargo nextest leaves sdk/target/nextest even with CARGO_TARGET_DIR set.
-    mkdir -p "$CARGO_TARGET_DIR/nextest-from-worktree" || fail "cannot create $CARGO_TARGET_DIR/nextest-from-worktree"
-    cp -R sdk/target/. "$CARGO_TARGET_DIR/nextest-from-worktree/" || fail "could not move sdk/target into $CARGO_TARGET_DIR"
+    st=$(cd sdk/target && pwd -P) || fail "cannot resolve sdk/target"
+    case "$ctd/" in "$st/"*) fail "CARGO_TARGET_DIR=$ctd is sdk/target or inside it ($st): move it elsewhere." ;; esac
+    case "$st/" in "$ctd/"*) fail "sdk/target ($st) is inside CARGO_TARGET_DIR=$ctd: cannot move it into itself." ;; esac
+    dest="$ctd/nextest-from-worktree.$$"
+    [ ! -e "$dest" ] || fail "$dest already exists"
+    mkdir "$dest" && cp -R sdk/target/. "$dest/" && diff -rq sdk/target "$dest" >/dev/null \
+      || fail "could not copy sdk/target to $dest; sdk/target left in place."
     rm -rf sdk/target
-    ln -s "$CARGO_TARGET_DIR" sdk/target
-    trap '[ -L sdk/target ] && rm -f sdk/target' EXIT
-    echo "pr-gate: moved sdk/target (no debug/ or release/) into $CARGO_TARGET_DIR/nextest-from-worktree; linked sdk/target -> $CARGO_TARGET_DIR"
+    ln -s "$ctd" sdk/target && linked=1
+    [ "$(cd sdk/target 2>/dev/null && pwd -P)" = "$ctd" ] || fail "sdk/target link to $ctd does not resolve"
+    echo "pr-gate: moved sdk/target (no debug/ or release/) into $dest; linked sdk/target -> $ctd"
   else
     fail "sdk/target is a real directory but CARGO_TARGET_DIR=$CARGO_TARGET_DIR: moon tasks would use a stale binary. Remove one of them."
   fi
+  CARGO_TARGET_DIR=$ctd
+  export CARGO_TARGET_DIR
 fi
 
 if [ ! -d node_modules ]; then
@@ -103,13 +122,12 @@ free_gb=$(df -g "$check" | awk 'NR==2 {print $4}')
 
 declare -a rows
 declare -a failed_targets
-moon_log=
 status=0
 
 if [ -n "$targets" ]; then
   start=$(date +%s)
-  # shellcheck disable=SC2086
   moon_log=$(mktemp)
+  # shellcheck disable=SC2086
   WASM_NO_OPT=1 moon ci $targets --base "$merge_base" --head "$head_sha" 2>&1 | tee "$moon_log"
   moon_rc=${PIPESTATUS[0]}
   mins=$(( ($(date +%s) - start) / 60 ))
@@ -166,15 +184,19 @@ for t in "${failed_targets[@]+"${failed_targets[@]}"}"; do
   echo "#### $t: error lines (up to 20)"
   echo
   echo '```'
-  errs=$(grep -F "$t" "$moon_log" 2>/dev/null | grep -i 'error' | head -20)
-  [ -n "$errs" ] || errs=$(grep -i 'error' "$moon_log" 2>/dev/null | head -20)
+  plain=$(sed $'s/\x1b\\[[0-9;]*m//g' "$moon_log")
+  # moon prints a "▮▮▮▮ <target> (hash)" header, the task output, then a closing header.
+  block=$(awk -v t="$t" 'index($1,"▮") == 1 && $2 == t && $3 ~ /^\(/ {n++; next} n == 1 {print}' <<<"$plain")
+  errs=$(grep -iE 'error|fail|×' <<<"$block" | head -20)
+  [ -n "$errs" ] || errs=$(grep -vE '^[[:space:]]*$' <<<"$block" | tail -20)
+  [ -n "$errs" ] || errs=$(grep -E "(^|[^[:alnum:]_:-])$t([^[:alnum:]_-]|\$)" <<<"$plain" | grep -i 'error' | head -20)
+  [ -n "$errs" ] || errs=$(grep -i 'error' <<<"$plain" | head -20)
   echo "$errs"
   echo '```'
   job=Node; case "$t" in sdk:*) job=Rust ;; esac
   echo "CI job: $job (\`moon ci $t\`); reproduce with \`moon run $t\`, full log: \`gh run view <run> --log-failed\`."
   echo
 done
-[ -n "$moon_log" ] && rm -f "$moon_log"
 
 echo "Not covered: CLI minimum gate, release-only checks, Figma comparison, load-sensitive timeouts, changeset-lint check-data-bump, render-compare (advisory, opt-in via --render-compare)."
 exit "$status"
