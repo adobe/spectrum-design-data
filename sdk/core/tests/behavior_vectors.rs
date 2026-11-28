@@ -2948,7 +2948,7 @@ fn a_role_suite_vector_runs_only_on_the_component_it_names() {
     scoped["component"] = json!("button");
     // Expects nothing to be emitted, which fails wherever it runs.
     scoped["expect"] = json!([{ "after": 1, "emit": [] }]);
-    suite["vectors"].as_array_mut().unwrap().push(scoped);
+    suite["vectors"].as_array_mut().unwrap().insert(0, scoped);
     let suites = tmp.join("suites");
     std::fs::create_dir_all(suites.join("bindings/web")).unwrap();
     std::fs::write(suites.join("bindings/web/button.json"), suite.to_string()).unwrap();
@@ -2965,4 +2965,7 @@ fn a_role_suite_vector_runs_only_on_the_component_it_names() {
     assert_eq!(failed.len(), 1, "{results:?}");
     assert_eq!(failed[0].component, "button");
     assert_eq!(failed[0].name, "scoped to button");
+    assert!(of("close-button")
+        .iter()
+        .all(|r| r.name != "scoped to button"));
 }
