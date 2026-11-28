@@ -689,6 +689,19 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
             "nested-single-highlight",
             req(vec![], highlight, "light", "desktop"),
         ));
+        // A selected row keeps the gray selected fill under down and focus, and an
+        // unselected row of the highlight style takes no fill from an interaction state.
+        out.push((
+            "nested-down",
+            with(vec!["down".into()], &items, "light", "desktop"),
+        ));
+        let mut highlight_hover = HashMap::from([("items".to_string(), items.clone())]);
+        highlight_hover.insert("selectionMode".into(), "single".into());
+        highlight_hover.insert("selectionStyle".into(), "highlight".into());
+        out.push((
+            "nested-single-highlight-hover",
+            req(vec!["hover".into()], highlight_hover, "light", "desktop"),
+        ));
         for size in ["s", "l", "xl"] {
             let mut r = with(vec![], &items, "light", "desktop");
             r.size = size.into();

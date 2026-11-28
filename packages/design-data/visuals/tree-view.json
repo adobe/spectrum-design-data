@@ -528,7 +528,12 @@
           },
           {
             "when": {
-              "states": ["hover"]
+              "states": ["hover"],
+              "options": {
+                "isSelected": false,
+                "isDisabled": false,
+                "selectionStyle": "checkbox"
+              }
             },
             "relationship": {
               "property": "color",
@@ -538,7 +543,12 @@
           },
           {
             "when": {
-              "states": ["down"]
+              "states": ["down"],
+              "options": {
+                "isSelected": false,
+                "isDisabled": false,
+                "selectionStyle": "checkbox"
+              }
             },
             "relationship": {
               "property": "color",
@@ -548,12 +558,59 @@
           },
           {
             "when": {
-              "states": ["keyboard-focus"]
+              "states": ["keyboard-focus"],
+              "options": {
+                "isSelected": false,
+                "isDisabled": false,
+                "selectionStyle": "checkbox"
+              }
             },
             "relationship": {
               "property": "color",
               "part": "row",
               "attribute": "background"
+            }
+          },
+          {
+            "when": {
+              "states": ["hover"],
+              "options": {
+                "isSelected": true,
+                "selectionStyle": "checkbox"
+              }
+            },
+            "priority": 10,
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 100
+            }
+          },
+          {
+            "when": {
+              "states": ["down"],
+              "options": {
+                "isSelected": true,
+                "selectionStyle": "checkbox"
+              }
+            },
+            "priority": 10,
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 100
+            }
+          },
+          {
+            "when": {
+              "states": ["keyboard-focus"],
+              "options": {
+                "isSelected": true,
+                "selectionStyle": "checkbox"
+              }
+            },
+            "priority": 10,
+            "token": {
+              "colorFamily": "gray",
+              "scaleIndex": 100
             }
           }
         ],
@@ -783,12 +840,26 @@
             "value": 90
           }
         ],
-        "color": {
-          "relationship": {
-            "property": "content-color",
-            "part": "label"
+        "color": [
+          {
+            "relationship": {
+              "property": "content-color",
+              "part": "label"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": true
+              }
+            },
+            "priority": 10,
+            "token": {
+              "property": "content-color",
+              "state": "disabled"
+            }
           }
-        }
+        ]
       }
     },
     "icon": {
@@ -898,12 +969,26 @@
             }
           }
         ],
-        "color": {
-          "relationship": {
-            "property": "content-color",
-            "part": "label"
+        "color": [
+          {
+            "relationship": {
+              "property": "content-color",
+              "part": "label"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": true
+              }
+            },
+            "priority": 10,
+            "token": {
+              "property": "content-color",
+              "state": "disabled"
+            }
           }
-        }
+        ]
       }
     },
     "label": {
@@ -933,12 +1018,26 @@
             "part": "label"
           }
         },
-        "color": {
-          "relationship": {
-            "property": "content-color",
-            "part": "label"
+        "color": [
+          {
+            "relationship": {
+              "property": "content-color",
+              "part": "label"
+            }
+          },
+          {
+            "when": {
+              "options": {
+                "isDisabled": true
+              }
+            },
+            "priority": 10,
+            "token": {
+              "property": "content-color",
+              "state": "disabled"
+            }
           }
-        },
+        ],
         "grow": {
           "value": true
         }

@@ -15,6 +15,9 @@ Add the visual recipe for tree-view, with nested items.
 - Draws the checkbox, the disclosure chevron (right when collapsed,
   down when expanded), the icon, the label, the selected, hover and
   down background, and a focus ring per item.
+- A selected row keeps the gray fill under down and focus, an
+  unselected highlight row takes no state fill, and a disabled row
+  greys its label and icon even when selected.
 - Sizes s, l and xl use size tokens; l and xl have no minimum width.
 - Not drawn yet: drag handle, thumbnail, actions, section header,
   detached and emphasized styles.
