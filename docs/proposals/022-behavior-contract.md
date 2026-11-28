@@ -382,7 +382,7 @@ The slice that implements it adds `behavior-bindings.schema.json`, `bindings/web
 
 ## Appearance interface
 
-A recipe's `when` may reference only facets (and size and appearance options). Today a Switch recipe reads `isSelected`, `isDisabled` and the interaction states; after migration it reads `checked`, `disabled`, `hovered`, `pressed`, `focusVisible`. The renderer resolves facets from options plus the requested interaction states, so a render is unchanged. Neutrality is proved the usual way: byte-identical recipe snapshots (`recipe-snapshots.json`) before and after, per component.
+A recipe's `when` may reference only facets (and size and appearance options). Today a Switch recipe reads `isSelected`, `isDisabled` and the interaction states; after migration it reads `checked`, `disabled`, `hovered`, `pressed`, `focusVisible`. The renderer resolves facets from options plus the requested interaction states, so a render is unchanged. Neutrality is proved the usual way: byte-identical recipe snapshots (`sdk/core/tests/fixtures/components/<name>/snapshots.json`) before and after, per component.
 
 ## Comparison
 

@@ -1,0 +1,18 @@
+{
+  "isDisabled=false,stepState=\"completed default\",variant=\"default\"": "c96757765f1a26d8",
+  "isDisabled=false,stepState=\"completed default\",variant=\"emphasized\"": "33ea7af19bba29ee",
+  "isDisabled=false,stepState=\"completed hover\",variant=\"default\"": "d08945e6a5978884",
+  "isDisabled=false,stepState=\"completed hover\",variant=\"emphasized\"": "74c9e952c1159300",
+  "isDisabled=false,stepState=\"current default\",variant=\"default\"": "2d832ab13968bd3e",
+  "isDisabled=false,stepState=\"current default\",variant=\"emphasized\"": "2621454c4cf81d02",
+  "isDisabled=false,stepState=\"incomplete default\",variant=\"default\"": "a71ee9d6011ae3ee",
+  "isDisabled=false,stepState=\"incomplete default\",variant=\"emphasized\"": "f74bb94510f909e8",
+  "isDisabled=true,stepState=\"completed default\",variant=\"default\"": "f4c53de14df7a0c8",
+  "isDisabled=true,stepState=\"completed default\",variant=\"emphasized\"": "f3c97b40ecda339c",
+  "isDisabled=true,stepState=\"completed hover\",variant=\"default\"": "ee20f33e6baa23fc",
+  "isDisabled=true,stepState=\"completed hover\",variant=\"emphasized\"": "2d629a7d1361db64",
+  "isDisabled=true,stepState=\"current default\",variant=\"default\"": "fb91ed8f1905ab70",
+  "isDisabled=true,stepState=\"current default\",variant=\"emphasized\"": "cf120481ed29ec04",
+  "isDisabled=true,stepState=\"incomplete default\",variant=\"default\"": "2f0f02c5e097c2bc",
+  "isDisabled=true,stepState=\"incomplete default\",variant=\"emphasized\"": "229f960381504f62"
+}
