@@ -573,6 +573,12 @@ impl RegistryData {
         &self.registries["intents"]
     }
 
+    /// Registered relation role ids (`relation-roles.json`): the external elements a contract's
+    /// `relations` may name.
+    pub fn relation_roles(&self) -> &HashSet<String> {
+        &self.registries["relation-roles"]
+    }
+
     /// Registered capability ids (`capabilities.json`).
     pub fn capabilities(&self) -> &HashSet<String> {
         &self.registries["capabilities"]
