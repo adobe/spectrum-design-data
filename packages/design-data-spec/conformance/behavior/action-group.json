@@ -1,0 +1,1226 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
+  "component": "action-group",
+  "pins": {
+    "state": [
+      "orientation",
+      "direction",
+      "isDisabled",
+      "enableSelection",
+      "selectionMode",
+      "allowsEmptySelection"
+    ],
+    "wcag": [
+      {
+        "criterion": "2.1.1",
+        "level": "A",
+        "title": "Keyboard"
+      },
+      {
+        "criterion": "4.1.2",
+        "level": "A",
+        "title": "Name, Role, Value"
+      }
+    ],
+    "parts": {
+      "container": {
+        "role": "toolbar",
+        "focus": "none"
+      }
+    }
+  },
+  "vectors": [
+    {
+      "name": "the group raises no event of its own: focus, press and pointer steps emit nothing",
+      "start": {},
+      "steps": [
+        {
+          "intent": "focus",
+          "via": "keyboard"
+        },
+        {
+          "intent": "press-start"
+        },
+        {
+          "intent": "press-end"
+        },
+        {
+          "intent": "pointer-enter"
+        },
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "emit": []
+        },
+        {
+          "after": 2,
+          "emit": []
+        },
+        {
+          "after": 3,
+          "emit": []
+        },
+        {
+          "after": 4,
+          "emit": []
+        },
+        {
+          "after": 5,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "a horizontal group exposes aria-orientation horizontal (the default option value is the adapter's)",
+      "start": {
+        "orientation": "horizontal"
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "orientation": "horizontal",
+            "arrowOrder": "natural"
+          },
+          "aria": {
+            "aria-orientation": "horizontal"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a vertical group exposes aria-orientation vertical",
+      "start": {
+        "orientation": "vertical"
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "orientation": "vertical",
+            "arrowOrder": "natural"
+          },
+          "aria": {
+            "aria-orientation": "vertical"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a disabled group reads as disabled",
+      "start": {
+        "isDisabled": true
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "disabled": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "an enabled group reads as not disabled",
+      "start": {
+        "isDisabled": false
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "disabled": false
+          }
+        }
+      ]
+    },
+    {
+      "name": "selection off is the facet none",
+      "start": {
+        "enableSelection": false
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "selection": "none"
+          }
+        }
+      ]
+    },
+    {
+      "name": "selection on with mode single reads single",
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "single"
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "selection": "single"
+          }
+        }
+      ]
+    },
+    {
+      "name": "selection on with mode multiple reads multiple",
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "multiple"
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "selection": "multiple"
+          }
+        }
+      ]
+    },
+    {
+      "name": "allowsEmptySelection true reads allowsEmpty true",
+      "start": {
+        "allowsEmptySelection": true
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "allowsEmpty": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "allowsEmptySelection false reads allowsEmpty false",
+      "start": {
+        "allowsEmptySelection": false
+      },
+      "steps": [
+        {
+          "intent": "blur"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "facets": {
+            "allowsEmpty": false
+          }
+        }
+      ]
+    },
+    {
+      "name": "single, empty not allowed: activating another action button moves the selection",
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "single",
+        "items": [
+          {
+            "isSelected": true
+          },
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          }
+        ]
+      },
+      "steps": [
+        {
+          "item": 2,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "selected"
+            }
+          ],
+          "emit": [
+            {
+              "press": {
+                "isSelected": [2]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "single, empty not allowed: activating the selected action button keeps it",
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "single",
+        "items": [
+          {
+            "isSelected": true
+          },
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          }
+        ]
+      },
+      "steps": [
+        {
+          "item": 0,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "selected": "selected"
+            },
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "unselected"
+            }
+          ],
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "single, empty allowed: activating the selected action button clears it",
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "single",
+        "allowsEmptySelection": true,
+        "items": [
+          {
+            "isSelected": true
+          },
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          }
+        ]
+      },
+      "steps": [
+        {
+          "item": 0,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "unselected"
+            }
+          ],
+          "emit": [
+            {
+              "press": {
+                "isSelected": []
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "single with nothing selected: activating an action button selects it",
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "single",
+        "items": [
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          }
+        ]
+      },
+      "steps": [
+        {
+          "item": 1,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "selected"
+            },
+            {
+              "selected": "unselected"
+            }
+          ],
+          "emit": [
+            {
+              "press": {
+                "isSelected": [1]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "multiple: activating adds to the selection and lists every index",
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "multiple",
+        "items": [
+          {
+            "isSelected": true
+          },
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          }
+        ]
+      },
+      "steps": [
+        {
+          "item": 2,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "selected": "selected"
+            },
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "selected"
+            }
+          ],
+          "emit": [
+            {
+              "press": {
+                "isSelected": [0, 2]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "multiple: activating a selected action button turns it off while another stays on",
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "multiple",
+        "items": [
+          {
+            "isSelected": true
+          },
+          {
+            "isSelected": true
+          },
+          {
+            "isSelected": false
+          }
+        ]
+      },
+      "steps": [
+        {
+          "item": 0,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "selected"
+            },
+            {
+              "selected": "unselected"
+            }
+          ],
+          "emit": [
+            {
+              "press": {
+                "isSelected": [1]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "multiple, empty not allowed: the last selected action button stays",
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "multiple",
+        "items": [
+          {
+            "isSelected": true
+          },
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          }
+        ]
+      },
+      "steps": [
+        {
+          "item": 0,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "selected": "selected"
+            },
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "unselected"
+            }
+          ],
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "multiple, empty allowed: the last selected action button turns off",
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "multiple",
+        "allowsEmptySelection": true,
+        "items": [
+          {
+            "isSelected": true
+          },
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          }
+        ]
+      },
+      "steps": [
+        {
+          "item": 0,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "unselected"
+            }
+          ],
+          "emit": [
+            {
+              "press": {
+                "isSelected": []
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "selection off: activation selects nothing",
+      "start": {
+        "enableSelection": false,
+        "items": [
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          }
+        ]
+      },
+      "steps": [
+        {
+          "item": 1,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "unselected"
+            }
+          ],
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "selection off keeps an action button that is already on",
+      "start": {
+        "enableSelection": false,
+        "items": [
+          {
+            "isSelected": true
+          },
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          }
+        ]
+      },
+      "steps": [
+        {
+          "item": 1,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "selected": "selected"
+            },
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "unselected"
+            }
+          ],
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "a disabled action button is not chosen",
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "single",
+        "items": [
+          {
+            "isSelected": true
+          },
+          {
+            "isSelected": false,
+            "isDisabled": true
+          },
+          {
+            "isSelected": false
+          }
+        ]
+      },
+      "steps": [
+        {
+          "item": 1,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "items": [
+            {
+              "selected": "selected"
+            },
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "unselected"
+            }
+          ],
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "navigate-next moves focus by index and does not select",
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "single",
+        "items": [
+          {
+            "isSelected": true
+          },
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          }
+        ],
+        "focused": 0
+      },
+      "steps": [
+        {
+          "intent": "navigate-next"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "focused": 1,
+          "emit": [],
+          "items": [
+            {
+              "selected": "selected"
+            },
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "unselected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "navigate-previous moves back and does not select",
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "single",
+        "items": [
+          {
+            "isSelected": true
+          },
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          }
+        ],
+        "focused": 2
+      },
+      "steps": [
+        {
+          "intent": "navigate-previous"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "focused": 1,
+          "emit": [],
+          "items": [
+            {
+              "selected": "selected"
+            },
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "unselected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "navigation skips a disabled action button",
+      "start": {
+        "items": [
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false,
+            "isDisabled": true
+          },
+          {
+            "isSelected": false
+          }
+        ],
+        "focused": 0
+      },
+      "steps": [
+        {
+          "intent": "navigate-next"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "focused": 2,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "navigation skips a disabled action button going back",
+      "start": {
+        "items": [
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false,
+            "isDisabled": true
+          },
+          {
+            "isSelected": false
+          }
+        ],
+        "focused": 2
+      },
+      "steps": [
+        {
+          "intent": "navigate-previous"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "focused": 0,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "no wrap at the last action button",
+      "start": {
+        "items": [
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          }
+        ],
+        "focused": 2
+      },
+      "steps": [
+        {
+          "intent": "navigate-next"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "focused": 2,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "no wrap at the first action button",
+      "start": {
+        "items": [
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          }
+        ],
+        "focused": 0
+      },
+      "steps": [
+        {
+          "intent": "navigate-previous"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "focused": 0,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "navigate-first and navigate-last move nothing (a toolbar has no Home or End)",
+      "start": {
+        "items": [
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          }
+        ],
+        "focused": 1
+      },
+      "steps": [
+        {
+          "intent": "navigate-last"
+        },
+        {
+          "intent": "navigate-first"
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "focused": 1,
+          "emit": []
+        }
+      ]
+    },
+    {
+      "name": "navigation with selection off moves focus and selects nothing",
+      "start": {
+        "enableSelection": false,
+        "items": [
+          {
+            "isSelected": true
+          },
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          }
+        ],
+        "focused": 0
+      },
+      "steps": [
+        {
+          "intent": "navigate-next"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "focused": 1,
+          "emit": [],
+          "items": [
+            {
+              "selected": "selected"
+            },
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "unselected"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a horizontal left-to-right group keeps its arrows",
+      "start": {
+        "orientation": "horizontal",
+        "items": [
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          }
+        ],
+        "focused": 0
+      },
+      "steps": [
+        {
+          "intent": "navigate-next"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "focused": 1,
+          "emit": [],
+          "facets": {
+            "arrowOrder": "natural"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a horizontal right-to-left group mirrors Left and Right",
+      "start": {
+        "orientation": "horizontal",
+        "direction": "rtl",
+        "items": [
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          }
+        ],
+        "focused": 0
+      },
+      "steps": [
+        {
+          "intent": "navigate-next"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "focused": 1,
+          "emit": [],
+          "facets": {
+            "arrowOrder": "mirrored"
+          }
+        }
+      ]
+    },
+    {
+      "name": "a vertical right-to-left group keeps its arrows",
+      "start": {
+        "orientation": "vertical",
+        "direction": "rtl",
+        "items": [
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          }
+        ],
+        "focused": 0
+      },
+      "steps": [
+        {
+          "intent": "navigate-next"
+        }
+      ],
+      "expect": [
+        {
+          "after": 1,
+          "focused": 1,
+          "emit": [],
+          "facets": {
+            "arrowOrder": "natural"
+          }
+        }
+      ]
+    },
+    {
+      "name": "activating after moving to an action button selects it",
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "single",
+        "items": [
+          {
+            "isSelected": true
+          },
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          }
+        ],
+        "focused": 0
+      },
+      "steps": [
+        {
+          "intent": "navigate-next"
+        },
+        {
+          "item": 1,
+          "intent": "activate"
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "focused": 1,
+          "items": [
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "selected"
+            },
+            {
+              "selected": "unselected"
+            }
+          ],
+          "emit": [
+            {
+              "press": {
+                "isSelected": [1]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "a completed press on an action button chooses it",
+      "start": {
+        "enableSelection": true,
+        "selectionMode": "single",
+        "items": [
+          {
+            "isSelected": true
+          },
+          {
+            "isSelected": false
+          },
+          {
+            "isSelected": false
+          }
+        ]
+      },
+      "steps": [
+        {
+          "item": 1,
+          "intent": "press-start"
+        },
+        {
+          "item": 1,
+          "intent": "press-end"
+        }
+      ],
+      "expect": [
+        {
+          "after": 2,
+          "items": [
+            {
+              "selected": "unselected"
+            },
+            {
+              "selected": "selected"
+            },
+            {
+              "selected": "unselected"
+            }
+          ],
+          "emit": [
+            {
+              "press": {
+                "isSelected": [1]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

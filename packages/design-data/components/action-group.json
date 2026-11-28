@@ -164,6 +164,7 @@
     "introduced": "1.0.0-draft"
   },
   "accessibility": {
+    "role": "toolbar",
     "intents": ["trigger"],
     "focusable": false,
     "wcag": [

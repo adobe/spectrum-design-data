@@ -1,0 +1,11 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
+  "component": "action-bar",
+  "parts": {
+    "container": {
+      "role": "toolbar",
+      "focus": "none"
+    }
+  },
+  "wcag": [{ "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }]
+}

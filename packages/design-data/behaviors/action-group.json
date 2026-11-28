@@ -1,0 +1,76 @@
+{
+  "$schema": "https://opensource.adobe.com/spectrum-design-data/schemas/v0/behavior.schema.json",
+  "component": "action-group",
+  "state": [
+    "orientation",
+    "direction",
+    "isDisabled",
+    "enableSelection",
+    "selectionMode",
+    "allowsEmptySelection"
+  ],
+  "facets": {
+    "orientation": {
+      "from": "orientation",
+      "values": { "horizontal": "horizontal", "vertical": "vertical" }
+    },
+    "arrowOrder": {
+      "from": ["orientation", "direction"],
+      "values": {
+        "mirrored": { "orientation": "horizontal", "direction": "rtl" },
+        "natural": {}
+      },
+      "order": "first match wins"
+    },
+    "disabled": {
+      "from": "isDisabled",
+      "values": { "false": false, "true": true }
+    },
+    "selection": {
+      "from": ["enableSelection", "selectionMode"],
+      "values": {
+        "none": { "enableSelection": false },
+        "multiple": { "selectionMode": "multiple" },
+        "single": {}
+      },
+      "order": "first match wins"
+    },
+    "allowsEmpty": {
+      "from": "allowsEmptySelection",
+      "values": { "false": false, "true": true }
+    }
+  },
+  "parts": {
+    "container": {
+      "role": "toolbar",
+      "focus": "none"
+    }
+  },
+  "collection": {
+    "slot": "default",
+    "item": "action-button",
+    "choose": {
+      "mode": { "facet": "selection" },
+      "allowsEmpty": { "facet": "allowsEmpty" }
+    },
+    "traversal": {
+      "wrap": false,
+      "skip": { "facet": "disabled", "is": "true" },
+      "selectOnMove": false,
+      "mirror": { "facet": "arrowOrder", "is": "mirrored" },
+      "focus": "roving"
+    }
+  },
+  "semantics": {
+    "container": {
+      "orientation": {
+        "ariaState": "aria-orientation",
+        "map": { "horizontal": "horizontal", "vertical": "vertical" }
+      }
+    }
+  },
+  "wcag": [
+    { "criterion": "2.1.1", "level": "A", "title": "Keyboard" },
+    { "criterion": "4.1.2", "level": "A", "title": "Name, Role, Value" }
+  ]
+}

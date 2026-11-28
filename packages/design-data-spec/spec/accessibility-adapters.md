@@ -43,6 +43,9 @@ ARIA (Accessible Rich Internet Applications) is the primary web accessibility AP
 | `grid`            | `role="grid"`                                  |
 | `listitem`        | `<li>` or `role="listitem"`                    |
 | `group`           | `role="group"`                                 |
+| `toolbar`         | `role="toolbar"`                               |
+| `radiogroup`      | `role="radiogroup"`                            |
+| `searchbox`       | `role="searchbox"`                             |
 
 ### `intents`
 
@@ -121,6 +124,9 @@ iOS exposes accessibility semantics through `UIAccessibility` protocol propertie
 | `grid`            | `accessibilityContainerType = .dataTable`                                       |
 | `listitem`        | Children of an accessibility container; `.staticText` trait on leaf items       |
 | `group`           | `accessibilityContainerType = .semanticGroup`                                   |
+| `toolbar`         | `accessibilityContainerType = .semanticGroup`; children keep their own traits   |
+| `radiogroup`      | `accessibilityContainerType = .semanticGroup`; children use the `radio` mapping |
+| `searchbox`       | `.searchField` trait on the text field                                          |
 
 ### `intents`
 
@@ -182,6 +188,9 @@ Android exposes accessibility semantics via `AccessibilityNodeInfo` populated th
 | `grid`            | `setCollectionInfo` with row/column counts                               |
 | `listitem`        | Children within a `setCollectionInfo` container                          |
 | `group`           | `setRoleDescription("group")` or `CollectionInfo` without selection      |
+| `toolbar`         | `setRoleDescription("toolbar")` on the container                         |
+| `radiogroup`      | `RadioGroup` container; children use the `radio` mapping                 |
+| `searchbox`       | `setEditable(true)` + `setRoleDescription("search")` on the field        |
 
 ### `intents`
 
