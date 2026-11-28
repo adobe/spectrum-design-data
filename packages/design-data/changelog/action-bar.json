@@ -346,6 +346,23 @@
           ]
         }
       ]
+    },
+    {
+      "release": "4.12.0",
+      "version": "3.0.2",
+      "bump": "patch",
+      "date": "2026-11-28",
+      "commit": "37b1aa8b66618f5c12df0b66ddb4abec226fcde0",
+      "commits": [
+        {
+          "commit": "b5269ab5a98bd7d0673e0e0cb53d5c0bc5f423f8",
+          "date": "2026-11-28",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2256,"title":"feat(design-data): behavior contracts for action group, action bar, select box and select box group","url":"https://github.com/adobe/spectrum-design-data/pull/2256"},
+          "entries": [
+            {"id":"b5269ab5-0","kind":"component","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"action-bar/accessibility","name":"accessibility","fields":[{"path":"accessibility.role","after":"toolbar"}]}
+          ]
+        }
+      ]
     }
   ]
 }

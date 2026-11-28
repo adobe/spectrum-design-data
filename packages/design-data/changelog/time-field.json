@@ -225,6 +225,23 @@
           "metadata": {"count":1,"fields":["context","contextRole"]}
         }
       ]
+    },
+    {
+      "release": "4.12.0",
+      "version": "2.1.1",
+      "bump": "patch",
+      "date": "2026-11-28",
+      "commit": "37b1aa8b66618f5c12df0b66ddb4abec226fcde0",
+      "commits": [
+        {
+          "commit": "f4c5ee164c08f7031fa55ce07512ab0150220654",
+          "date": "2026-11-28",
+          "source": {"type":"pr","repo":"adobe/spectrum-design-data","number":2247,"title":"feat(design-data): let a collection slot declare a demo","url":"https://github.com/adobe/spectrum-design-data/pull/2247"},
+          "entries": [
+            {"id":"f4c5ee16-0","kind":"slot","change":"updated","class":"api","bump":"patch","indirect":false,"contexts":[],"record":"time-field/slots/default","name":"default","fields":[{"path":"demo","after":[{"label":"10","isPlaceholder":false,"isLiteral":false},{"label":":","isPlaceholder":false,"isLiteral":true},{"label":"mm","isPlaceholder":true,"isLiteral":false},{"label":"AM","isPlaceholder":false,"isLiteral":false}]}]}
+          ]
+        }
+      ]
     }
   ]
 }

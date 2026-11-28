@@ -1,5 +1,23 @@
 # @adobe/design-data-tui
 
+## 0.25.0
+
+### Minor Changes
+
+- [#2247](https://github.com/adobe/spectrum-design-data/pull/2247) [`f4c5ee1`](https://github.com/adobe/spectrum-design-data/commit/f4c5ee164c08f7031fa55ce07512ab0150220654) Thanks [@GarthDB](https://github.com/GarthDB)! - Let a collection slot declare a `demo`, and give date-field, time-field and
+  segmented-text-field one.
+  - **spec/component-format.md, schemas/component.schema.json**: a collection slot's `demo` is the
+    value of its collection option: item objects of the option's declared fields. A host passes
+    it as that option, not as `slots`. This relaxes the earlier ban, so existing data stays valid.
+  - **SPEC-104**: validates a collection demo (every entry an object, every key a declared item
+    field of the right type, the count within `min` and `max`). The conformance fixture covers it.
+  - **date-field, time-field, segmented-text-field**: the `segments` slot gains a demo (month, day
+    and year with separators and a placeholder; hour, minute and day period; a three-part code),
+    so the explorer shows real segments instead of one empty one.
+  - **explorer**: `demoOptions` sets a collection demo as the array option; an option the user
+    sets replaces it.
+  - **golden renders**: a `demo` golden for each of the three components.
+
 ## 0.24.0
 
 ### Minor Changes
