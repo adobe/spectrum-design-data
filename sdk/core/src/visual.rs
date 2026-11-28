@@ -5642,6 +5642,7 @@ fn solve_root(
         .filter(|(id, p)| {
             p.get("floating").is_some()
                 && id.as_str() != root_id
+                && root_id == variant.root
                 && parts
                     .get(root_id)
                     .is_some_and(|r| r.get("floating").is_none())
@@ -13795,6 +13796,36 @@ mod tests {
         );
         assert_eq!(pos_of(&s, "cell-1"), (8.0, 8.0));
         assert_eq!(pos_of(&s, "cell-3"), (34.0, 8.0));
+    }
+
+    #[test]
+    fn a_floating_part_is_drawn_once_not_once_per_repeat_subtree() {
+        let mut tip = cell(10.0, 6.0, "#00ff00");
+        tip["floating"] = serde_json::json!({ "side": "bottom", "align": "center",
+            "offset": lit_num(2.0) });
+        let parts = serde_json::json!({
+            "root": { "kind": "box", "children": ["field"],
+                "props": { "direction": { "value": "column" } } },
+            "field": { "kind": "box", "children": ["seg"],
+                "props": { "gap": lit_num(3.0) }, "repeat": { "slot": "cells" } },
+            "seg": cell(10.0, 10.0, "#ff0000"),
+            "tip": tip
+        });
+        let objs = Value::Array((0..3).map(|_| serde_json::json!({})).collect());
+        let s = subtree_scene(
+            parts,
+            serde_json::json!([{ "name": "cells", "part": "seg", "collection": "cells" }]),
+            &[("cells", objs)],
+        );
+        let tips: Vec<_> = s.nodes.iter().filter(|n| n.part.ends_with("tip")).collect();
+        assert_eq!(
+            tips.iter().map(|n| n.part.as_str()).collect::<Vec<_>>(),
+            ["tip"],
+            "{:?}",
+            s.nodes.iter().map(|n| &n.part).collect::<Vec<_>>()
+        );
+        let root = &s.nodes[0];
+        assert_eq!(tips[0].y, root.y + root.h + 2.0);
     }
 
     #[test]
