@@ -211,7 +211,34 @@
       "name": "default",
       "part": "segment",
       "collection": "segments",
-      "description": "The segments of the field. Each entry of the segments option is drawn as one copy of the segment part, in order, inside the field."
+      "description": "The segments of the field. Each entry of the segments option is drawn as one copy of the segment part, in order, inside the field.",
+      "demo": [
+        {
+          "label": "11",
+          "isPlaceholder": false,
+          "isLiteral": false
+        },
+        {
+          "label": "/",
+          "isPlaceholder": false,
+          "isLiteral": true
+        },
+        {
+          "label": "27",
+          "isPlaceholder": false,
+          "isLiteral": false
+        },
+        {
+          "label": "/",
+          "isPlaceholder": false,
+          "isLiteral": true
+        },
+        {
+          "label": "yyyy",
+          "isPlaceholder": true,
+          "isLiteral": false
+        }
+      ]
     }
   ]
 }

@@ -2,7 +2,9 @@
 
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import test from "ava";
+import { Dataset } from "../pkg/node/design_data_wasm.js";
 import {
+  demoOptions,
   demoSlots,
   iconChoices,
   isNumberOption,
@@ -195,4 +197,66 @@ test("a slot without a demo falls back to fills of its first accepted component"
   t.is(slots.footer.length, 2);
   t.regex(slots.footer[0].options.preview, /^#/);
   t.false("free" in slots);
+});
+
+const COLLECTION_DEMOS = ["date-field", "time-field", "segmented-text-field"];
+
+test("every collection slot's demo is item objects of its option's fields, within min and max", (t) => {
+  const problems = [];
+  const withDemo = [];
+  for (const [name, def] of Object.entries(byName)) {
+    for (const s of (def.slots ?? []).filter((x) => x.collection)) {
+      const key = `${name}/${s.name}`;
+      if (!s.demo) continue;
+      withDemo.push(name);
+      const props = def.options[s.collection]?.items?.properties ?? {};
+      if (s.demo.length < (s.min ?? 1) || s.demo.length > (s.max ?? Infinity))
+        problems.push(`${key}: ${s.demo.length} entries outside min and max`);
+      for (const entry of s.demo)
+        for (const [k, v] of Object.entries(entry)) {
+          if (!props[k]) problems.push(`${key}: undeclared field ${k}`);
+          else if (typeof v !== props[k].type)
+            problems.push(`${key}: ${k} is not a ${props[k].type}`);
+        }
+    }
+  }
+  t.deepEqual(problems, []);
+  t.deepEqual(withDemo.sort(), [...COLLECTION_DEMOS].sort());
+});
+
+test("a collection slot's demo reaches the request as the array option", (t) => {
+  t.deepEqual(demoSlots(byName["date-field"], byName), {});
+  for (const name of COLLECTION_DEMOS) {
+    t.is(demoOptions(byName[name]).segments, byName[name].slots[0].demo);
+  }
+  t.deepEqual(demoOptions(byName["checkbox"]), {});
+
+  const ds = Dataset.embedded();
+  try {
+    const draw = (name, options) => {
+      const recipe = readJson(`visuals/${name}.json`);
+      return JSON.parse(
+        ds.renderScene(recipe, {
+          component: name,
+          size: "m",
+          states: [],
+          options,
+          mode: { colorScheme: "light", scale: "desktop" },
+          label: "Label",
+        }),
+      );
+    };
+    for (const name of COLLECTION_DEMOS) {
+      const bare = draw(name, {});
+      const demo = draw(name, demoOptions(byName[name]));
+      t.deepEqual(demo.diagnostics, []);
+      t.true(demo.nodes.length > bare.nodes.length, name);
+    }
+    const dates = JSON.stringify(
+      draw("date-field", demoOptions(byName["date-field"])),
+    );
+    t.true(dates.includes("yyyy") && dates.includes("27"));
+  } finally {
+    ds.free();
+  }
 });
