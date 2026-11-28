@@ -1,5 +1,15 @@
 # @adobe/spectrum-design-data
 
+## 4.11.0
+
+### Minor Changes
+
+- [#2246](https://github.com/adobe/spectrum-design-data/pull/2246) [`da7c4d1`](https://github.com/adobe/spectrum-design-data/commit/da7c4d1d18da6cd357329f66363fc1166e40a8a5) Thanks [@GarthDB](https://github.com/GarthDB)! - Added the `select-box-group` component, data only.
+
+  It holds select boxes in its default slot and takes the `orientation`,
+  `selectionMode` and `isDisabled` options of React Spectrum S2
+  `SelectBoxGroup`. Its anatomy is a proposal that Design has yet to confirm.
+
 ## 4.10.0
 
 ### Minor Changes
