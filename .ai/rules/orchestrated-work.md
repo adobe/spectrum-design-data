@@ -18,7 +18,7 @@ Read this when an orchestrator assigns you a slice as an author or a reviewer. P
 * A `bd` clone on a remote host is stale: do not rely on bead ids there.
 * After `pnpm install`, run `chmod 644 tools/design-data-mcp/src/cli.js`. Never commit that mode change or `paseo.json`. Run AVA as `pnpm exec ava`.
 * Never end a turn waiting on a background job. Run long commands in the foreground, in chunks.
-* Disk: run `df -h /System/Volumes/Data` before a cold build and stop and report below 15 GB free. Delete your own `mktemp -d` scratch and scratch worktrees before you finish. Never glob-delete `/var/folders/*/T/tmp.*`: other agents' scratch lives there. Reuse an existing warm `CARGO_TARGET_DIR` for the same worktree.
+* Disk: before a cold build, run `df -h "$(dirname "${CARGO_TARGET_DIR:-$PWD/sdk/target}")"` from the repo root (the volume the build writes to; `pr-gate` checks the same) and stop and report below 15 GB free. On a host whose target dirs live on another volume, the system disk filling up does not block builds: report it, do not stop. Delete your own `mktemp -d` scratch and scratch worktrees before you finish. Never glob-delete `/var/folders/*/T/tmp.*`: other agents' scratch lives there. Reuse an existing warm `CARGO_TARGET_DIR` for the same worktree.
 * Report only commands you actually ran. A command that errored did not check anything.
 
 ## Author: CI and merge state are yours
