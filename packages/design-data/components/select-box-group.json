@@ -80,12 +80,7 @@
       "part": "items",
       "accepts": ["select-box"],
       "min": 1,
-      "description": "The select boxes of the group. Any number, at least one.",
-      "demo": [
-        { "component": "select-box", "options": { "label": "Label" } },
-        { "component": "select-box", "options": { "label": "Label" } },
-        { "component": "select-box", "options": { "label": "Label" } }
-      ]
+      "description": "The select boxes of the group. Any number, at least one."
     }
   ],
   "anatomyReview": {
