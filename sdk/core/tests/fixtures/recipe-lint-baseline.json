@@ -41,5 +41,11 @@
   "SPEC-092": {
     "body": 18,
     "heading": 34
+  },
+  "SPEC-100": {
+    "body": 13,
+    "detail": 25,
+    "heading": 33,
+    "title": 13
   }
 }

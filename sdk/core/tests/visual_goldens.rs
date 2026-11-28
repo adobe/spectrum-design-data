@@ -3503,6 +3503,28 @@ fn requests(name: &str, recipe: &Value, component: &Value) -> Vec<(&'static str,
                 ),
             ));
         }
+        out.push((
+            "script-cjk",
+            case(
+                "m",
+                vec![("script", Value::from("cjk"))],
+                "light",
+                "desktop",
+            ),
+        ));
+        out.push((
+            "script-cjk-strong-serif-dark",
+            case(
+                "m",
+                vec![
+                    ("script", Value::from("cjk")),
+                    ("emphasis", Value::from("strong")),
+                    ("family", Value::from("serif")),
+                ],
+                "dark",
+                "desktop",
+            ),
+        ));
         let mut wrapped = case("m", vec![], "light", "desktop");
         wrapped.label =
             "A longer run of text that wraps onto several lines when the block is narrow".into();
