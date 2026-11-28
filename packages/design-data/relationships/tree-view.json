@@ -341,12 +341,12 @@
       "part": "row",
       "property": "border-width",
       "options": {
-        "selectionStyle": "highlight"
+        "selectionStyle": "highlight",
+        "isSelected": true
       }
     },
-    "context": "Border width (selected)",
+    "context": "Border width",
     "contextRole": ["border"],
-    "contextQualifier": "selected",
     "$ref": "b5525080-28e7-4eb7-aee9-fb2c71a16f68",
     "uuid": "8a8d1c1a-6792-5131-8a21-513fca05b580"
   },
@@ -671,12 +671,12 @@
       "property": "content-color",
       "attribute": "border",
       "options": {
-        "selectionStyle": "highlight"
+        "selectionStyle": "highlight",
+        "isSelected": true
       }
     },
-    "context": "Border (selected)",
+    "context": "Border",
     "contextRole": ["border"],
-    "contextQualifier": "selected",
     "$ref": "9cfbf8bc-e4f3-4658-922e-9421e2ed126b",
     "uuid": "185a04cb-a1ad-54f8-887a-75a2ee8ba194"
   },

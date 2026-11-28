@@ -13,7 +13,9 @@
     "isDetached",
     "isEmphasized",
     "showDragIcon",
-    "selectionBehavior"
+    "selectionBehavior",
+    "selected-default",
+    "selected-hover"
   ],
   "parts": {
     "container": {
@@ -101,7 +103,7 @@
     },
     "row-level-1": {
       "kind": "box",
-      "children": ["row-content", "row-level-2", "focus-indicator-level-1"],
+      "children": ["row-content", "row-level-2", "outline-level-1"],
       "props": {
         "direction": {
           "value": "column"
@@ -174,7 +176,7 @@
     },
     "row-level-2": {
       "kind": "box",
-      "children": ["row-content", "row-level-3", "focus-indicator-level-2"],
+      "children": ["row-content", "row-level-3", "outline-level-2"],
       "props": {
         "direction": {
           "value": "column"
@@ -247,7 +249,7 @@
     },
     "row-level-3": {
       "kind": "box",
-      "children": ["row-content", "row-level-4", "focus-indicator-level-3"],
+      "children": ["row-content", "row-level-4", "outline-level-3"],
       "props": {
         "direction": {
           "value": "column"
@@ -320,7 +322,7 @@
     },
     "row-level-4": {
       "kind": "box",
-      "children": ["row-content", "row-level-5", "focus-indicator-level-4"],
+      "children": ["row-content", "row-level-5", "outline-level-4"],
       "props": {
         "direction": {
           "value": "column"
@@ -393,7 +395,7 @@
     },
     "row-level-5": {
       "kind": "box",
-      "children": ["row-content", "focus-indicator-level-5"],
+      "children": ["row-content", "outline-level-5"],
       "props": {
         "direction": {
           "value": "column"
@@ -784,7 +786,7 @@
         "color": {
           "relationship": {
             "property": "content-color",
-            "part": "row"
+            "context": "Label and icon"
           }
         }
       }
@@ -899,7 +901,7 @@
         "color": {
           "relationship": {
             "property": "content-color",
-            "part": "row"
+            "context": "Label and icon"
           }
         }
       }
@@ -934,7 +936,7 @@
         "color": {
           "relationship": {
             "property": "content-color",
-            "part": "row"
+            "context": "Label and icon"
           }
         },
         "grow": {
@@ -966,7 +968,7 @@
         }
       }
     },
-    "focus-indicator-level-1": {
+    "outline-level-1": {
       "kind": "ring",
       "around": "row-content",
       "props": {
@@ -990,7 +992,7 @@
         }
       }
     },
-    "focus-indicator-level-2": {
+    "outline-level-2": {
       "kind": "ring",
       "around": "row-content",
       "props": {
@@ -1014,7 +1016,7 @@
         }
       }
     },
-    "focus-indicator-level-3": {
+    "outline-level-3": {
       "kind": "ring",
       "around": "row-content",
       "props": {
@@ -1038,7 +1040,7 @@
         }
       }
     },
-    "focus-indicator-level-4": {
+    "outline-level-4": {
       "kind": "ring",
       "around": "row-content",
       "props": {
@@ -1062,7 +1064,7 @@
         }
       }
     },
-    "focus-indicator-level-5": {
+    "outline-level-5": {
       "kind": "ring",
       "around": "row-content",
       "props": {

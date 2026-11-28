@@ -342,27 +342,27 @@
     {
       "name": "row-level-1",
       "description": "One tree view item at level 1, indented by one level increment from its parent. Repeated once per entry of the parent's children field.",
-      "contains": ["row-content", "row-level-2", "focus-indicator-level-1"]
+      "contains": ["row-content", "row-level-2", "outline-level-1"]
     },
     {
       "name": "row-level-2",
       "description": "One tree view item at level 2, indented by one level increment from its parent. Repeated once per entry of the parent's children field.",
-      "contains": ["row-content", "row-level-3", "focus-indicator-level-2"]
+      "contains": ["row-content", "row-level-3", "outline-level-2"]
     },
     {
       "name": "row-level-3",
       "description": "One tree view item at level 3, indented by one level increment from its parent. Repeated once per entry of the parent's children field.",
-      "contains": ["row-content", "row-level-4", "focus-indicator-level-3"]
+      "contains": ["row-content", "row-level-4", "outline-level-3"]
     },
     {
       "name": "row-level-4",
       "description": "One tree view item at level 4, indented by one level increment from its parent. Repeated once per entry of the parent's children field.",
-      "contains": ["row-content", "row-level-5", "focus-indicator-level-4"]
+      "contains": ["row-content", "row-level-5", "outline-level-4"]
     },
     {
       "name": "row-level-5",
       "description": "One tree view item at level 5, indented by one level increment from its parent. Repeated once per entry of the parent's children field.",
-      "contains": ["row-content", "focus-indicator-level-5"]
+      "contains": ["row-content", "outline-level-5"]
     },
     {
       "name": "drag-handle",
@@ -415,8 +415,8 @@
       }
     },
     {
-      "name": "focus-indicator-level-1",
-      "description": "Outline drawn around the focused item at level 1.",
+      "name": "outline-level-1",
+      "description": "Outline drawn around the focused item (the focus ring) at level 1.",
       "presentWhen": {
         "options": {
           "isFocusVisible": true
@@ -424,8 +424,8 @@
       }
     },
     {
-      "name": "focus-indicator-level-2",
-      "description": "Outline drawn around the focused item at level 2.",
+      "name": "outline-level-2",
+      "description": "Outline drawn around the focused item (the focus ring) at level 2.",
       "presentWhen": {
         "options": {
           "isFocusVisible": true
@@ -433,8 +433,8 @@
       }
     },
     {
-      "name": "focus-indicator-level-3",
-      "description": "Outline drawn around the focused item at level 3.",
+      "name": "outline-level-3",
+      "description": "Outline drawn around the focused item (the focus ring) at level 3.",
       "presentWhen": {
         "options": {
           "isFocusVisible": true
@@ -442,8 +442,8 @@
       }
     },
     {
-      "name": "focus-indicator-level-4",
-      "description": "Outline drawn around the focused item at level 4.",
+      "name": "outline-level-4",
+      "description": "Outline drawn around the focused item (the focus ring) at level 4.",
       "presentWhen": {
         "options": {
           "isFocusVisible": true
@@ -451,8 +451,8 @@
       }
     },
     {
-      "name": "focus-indicator-level-5",
-      "description": "Outline drawn around the focused item at level 5.",
+      "name": "outline-level-5",
+      "description": "Outline drawn around the focused item (the focus ring) at level 5.",
       "presentWhen": {
         "options": {
           "isFocusVisible": true
