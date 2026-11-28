@@ -38,5 +38,9 @@
     "select-box": 2,
     "table": 8,
     "toast": 2
+  },
+  "SPEC-092": {
+    "body": 18,
+    "heading": 34
   }
 }
