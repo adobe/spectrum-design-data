@@ -179,7 +179,12 @@
     {
       "name": "help-text",
       "component": "help-text",
-      "description": "Description or error message shown below the field."
+      "description": "Description or error message shown below the field.",
+      "presentWhen": {
+        "options": {
+          "helpText": true
+        }
+      }
     },
     {
       "name": "focus-indicator",
